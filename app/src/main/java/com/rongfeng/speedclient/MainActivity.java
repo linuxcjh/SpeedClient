@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.iflytek.cloud.ErrorCode;
@@ -27,6 +28,8 @@ import com.iflytek.cloud.SpeechUtility;
 import com.iflytek.cloud.ui.RecognizerDialog;
 import com.iflytek.cloud.ui.RecognizerDialogListener;
 import com.iflytek.cloud.util.ContactManager;
+import com.rongfeng.speedclient.datanalysis.DBManager;
+import com.rongfeng.speedclient.datanalysis.Person;
 import com.rongfeng.speedclient.utils.ApkInstaller;
 import com.rongfeng.speedclient.utils.FucUtil;
 import com.rongfeng.speedclient.utils.JsonParser;
@@ -36,6 +39,7 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -68,6 +72,8 @@ public class MainActivity extends AppCompatActivity {
     Button iatUploadContacts;
     @Bind(R.id.iat_upload_userwords)
     Button iatUploadUserwords;
+    @Bind(R.id.result_tv)
+    TextView resultTv;
 
     // 语音听写对象
     private SpeechRecognizer mIat;
@@ -82,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
     // 引擎类型
     private String mEngineType = SpeechConstant.TYPE_CLOUD;
     // 语记安装助手类
-    ApkInstaller mInstaller;
+    private ApkInstaller mInstaller;
 
 
     @Override
@@ -90,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-
+        initData();
         initLayout();
         // 初始化识别无UI识别对象
         // 使用SpeechRecognizer对象，可根据回调消息自定义界面；
@@ -106,6 +112,35 @@ public class MainActivity extends AppCompatActivity {
         mResultText = ((EditText) findViewById(R.id.iat_text));
         mInstaller = new ApkInstaller(this);
 
+
+    }
+
+    /**
+     * 初始化数据
+     */
+    private void initData() {
+
+        long time = System.currentTimeMillis();
+        DBManager dbManager = new DBManager(this);
+        List<Person> persons = dbManager.query();
+
+        if (persons.size() == 0) {
+            for (int i = 0; i < 5000; i++) {
+                persons.add(new Person((i + 1) + "", "陈建辉" + i, (i + 2) + "", "王璐璐" + i, "18710428556"));
+            }
+            dbManager.add(persons);
+            Toast.makeText(this, persons.size() + "", Toast.LENGTH_SHORT).show();
+
+        }
+//        persons.add(new Person((10003) + "", "张治", (10004) + "", "王璐璐" , "18710428556"));
+//        persons.add(new Person((10004) + "", "李昊泽", (10005) + "", "王璐璐" , "18710428556"));
+//
+//        dbManager.add(persons);
+
+        dbManager.closeDB();
+        long result = System.currentTimeMillis() - time;
+
+        Toast.makeText(this, result + "", Toast.LENGTH_LONG).show();
 
     }
 
@@ -191,6 +226,7 @@ public class MainActivity extends AppCompatActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.image_iat_set:
+                resultTv.setText("");
                 break;
             case R.id.iat_recognize:// 开始听写 如何判断一次听写结束：OnResult isLast=true 或者 onError
                 mResultText.setText(null);// 清空显示内容
@@ -371,6 +407,44 @@ public class MainActivity extends AppCompatActivity {
 
         mResultText.setText(resultBuffer.toString());
         mResultText.setSelection(mResultText.length());
+        analysisData();
+    }
+
+    /**
+     * 解析数据
+     */
+    private void analysisData() {
+        DBManager dbManager = new DBManager(this);
+        long time = System.currentTimeMillis();
+        String resultStr = mResultText.getText().toString();
+        if (!TextUtils.isEmpty(resultStr)) {
+            List<Person> persons = dbManager.query();
+
+            if (persons.size() != 0) {
+                for (int i = 0; i < persons.size(); i++) {
+
+                    String name = persons.get(i).client_name;
+
+                    if (resultStr.indexOf(name) != -1) {
+                        resultTv.setText(name);
+                    }
+
+                }
+            }
+
+            if (resultStr.indexOf("拜访") != -1) {
+                resultTv.setText("拜访客户");
+            }
+            if (resultStr.indexOf("日志") != -1) {
+                resultTv.setText("  工作日志");
+            }
+            dbManager.closeDB();
+            long result = System.currentTimeMillis() - time;
+
+            Toast.makeText(this, result + " 毫秒", Toast.LENGTH_LONG).show();
+        }
+
+
     }
 
     /**
@@ -390,7 +464,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
 
-            mIat.setParameter(SpeechConstant.ENGINE_TYPE,SpeechConstant.TYPE_CLOUD);
+            mIat.setParameter(SpeechConstant.ENGINE_TYPE, SpeechConstant.TYPE_CLOUD);
             mIat.setParameter(SpeechConstant.TEXT_ENCODING, "utf-8");
             ret = mIat.updateLexicon("contact", contactInfos, mLexiconListener);
             if (ret != ErrorCode.SUCCESS) {
@@ -412,6 +486,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     };
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
