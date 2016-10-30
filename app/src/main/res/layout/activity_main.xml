@@ -23,20 +23,20 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp">
+            android:layout_marginBottom="10dp">
 
             <TextView
                 android:id="@+id/result_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:text="讯飞听写示例"
+                android:text="Demo"
                 android:textSize="30sp" />
 
             <ImageButton
                 android:id="@+id/image_iat_set"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:background="@mipmap/ic_launcher" />
@@ -97,7 +97,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="开始"
-                android:textSize="20sp" />
+                android:textSize="16sp" />
 
             <Button
                 android:id="@+id/iat_stop"
@@ -105,7 +105,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="停止"
-                android:textSize="20sp" />
+                android:textSize="16sp" />
 
             <Button
                 android:id="@+id/iat_cancel"
@@ -113,7 +113,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="取消"
-                android:textSize="20sp" />
+                android:textSize="16sp" />
         </LinearLayout>
 
         <Button
@@ -123,14 +123,26 @@
             android:layout_marginTop="10dp"
             android:text="音频流识别"
             android:textSize="20sp"
-            android:visibility="invisible"/>
+            android:visibility="gone" />
+
+        <com.rongfeng.speedclient.utils.FlowLayout
+            android:id="@+id/detail_flowLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="40dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="10dp">
+
+        </com.rongfeng.speedclient.utils.FlowLayout>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="上传联系人、词表，可以使云端识别联系人和词表更加准确，这里上传的内容对语义理解同样有效。"
-            android:textSize="14sp" />
+            android:text="上传联系人、词表，可以使云端识别联系人和词表更加准确"
+            android:textSize="12sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -146,7 +158,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="上传联系人"
-                android:textSize="17sp" />
+                android:textSize="15sp" />
 
             <Button
                 android:id="@+id/iat_upload_userwords"
@@ -154,7 +166,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="上传词表"
-                android:textSize="17sp" />
+                android:textSize="15sp" />
         </LinearLayout>
 
     </LinearLayout>

@@ -1,13 +1,17 @@
 package com.rongfeng.speedclient;
 
+import android.app.ActionBar;
 import android.app.Activity;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -30,13 +34,17 @@ import com.iflytek.cloud.ui.RecognizerDialogListener;
 import com.iflytek.cloud.util.ContactManager;
 import com.rongfeng.speedclient.datanalysis.DBManager;
 import com.rongfeng.speedclient.datanalysis.Person;
+import com.rongfeng.speedclient.entity.BaseDataModel;
 import com.rongfeng.speedclient.utils.ApkInstaller;
+import com.rongfeng.speedclient.utils.DensityUtil;
+import com.rongfeng.speedclient.utils.FlowLayout;
 import com.rongfeng.speedclient.utils.FucUtil;
 import com.rongfeng.speedclient.utils.JsonParser;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -74,6 +82,8 @@ public class MainActivity extends AppCompatActivity {
     Button iatUploadUserwords;
     @Bind(R.id.result_tv)
     TextView resultTv;
+    @Bind(R.id.detail_flowLayout)
+    FlowLayout detailFlowLayout;
 
     // 语音听写对象
     private SpeechRecognizer mIat;
@@ -132,10 +142,18 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, persons.size() + "", Toast.LENGTH_SHORT).show();
 
         }
-//        persons.add(new Person((10003) + "", "张治", (10004) + "", "王璐璐" , "18710428556"));
-//        persons.add(new Person((10004) + "", "李昊泽", (10005) + "", "王璐璐" , "18710428556"));
+
+//        List<Person> tempPersons = new ArrayList<>();
+
+//        tempPersons.add(new Person((10003) + "", "张治", (10004) + "", "王璐璐" , "18710428556"));
+//        tempPersons.add(new Person((10004) + "", "李昊泽", (10005) + "", "王璐璐" , "18710428556"));
 //
-//        dbManager.add(persons);
+//        tempPersons.add(new Person((10003) + "", "张广强", (10004) + "", "王璐璐" , "18710428556"));
+//        tempPersons.add(new Person((10003) + "", "马锐", (10004) + "", "王璐璐" , "18710428556"));
+//        tempPersons.add(new Person((10003) + "", "肖秋峰", (10004) + "", "王璐璐" , "18710428556"));
+//        tempPersons.add(new Person((10003) + "", "董世龙", (10004) + "", "王璐璐" , "18710428556"));
+
+//        dbManager.add(tempPersons);
 
         dbManager.closeDB();
         long result = System.currentTimeMillis() - time;
@@ -307,7 +325,7 @@ public class MainActivity extends AppCompatActivity {
         mIat.setParameter(SpeechConstant.VAD_BOS, mSharedPreferences.getString("iat_vadbos_preference", "4000"));
 
         // 设置语音后端点:后端点静音检测时间，即用户停止说话多长时间内即认为不再输入， 自动停止录音
-        mIat.setParameter(SpeechConstant.VAD_EOS, mSharedPreferences.getString("iat_vadeos_preference", "1000"));
+        mIat.setParameter(SpeechConstant.VAD_EOS, mSharedPreferences.getString("iat_vadeos_preference", "2000"));
 
         // 设置标点符号,设置为"0"返回结果无标点,设置为"1"返回结果有标点
         mIat.setParameter(SpeechConstant.ASR_PTT, mSharedPreferences.getString("iat_punc_preference", "1"));
@@ -415,6 +433,8 @@ public class MainActivity extends AppCompatActivity {
      */
     private void analysisData() {
         DBManager dbManager = new DBManager(this);
+        List<BaseDataModel> data = new ArrayList<>();
+
         long time = System.currentTimeMillis();
         String resultStr = mResultText.getText().toString();
         if (!TextUtils.isEmpty(resultStr)) {
@@ -426,18 +446,22 @@ public class MainActivity extends AppCompatActivity {
                     String name = persons.get(i).client_name;
 
                     if (resultStr.indexOf(name) != -1) {
-                        resultTv.setText(name);
+                        data.add(new BaseDataModel(i + "", name));
                     }
 
                 }
             }
 
             if (resultStr.indexOf("拜访") != -1) {
-                resultTv.setText("拜访客户");
+                data.add(new BaseDataModel("", "拜访客户"));
+
             }
             if (resultStr.indexOf("日志") != -1) {
-                resultTv.setText("  工作日志");
+                data.add(new BaseDataModel("", "工作日志"));
+
             }
+
+            generationLabels(this, data, detailFlowLayout);
             dbManager.closeDB();
             long result = System.currentTimeMillis() - time;
 
@@ -494,4 +518,31 @@ public class MainActivity extends AppCompatActivity {
         mIat.cancel();
         mIat.destroy();
     }
+
+    /**
+     * label
+     *
+     * @param context
+     * @param datas
+     * @param flowLayout
+     */
+    public void generationLabels(final Context context, List<BaseDataModel> datas, final FlowLayout flowLayout) {
+        ViewGroup.MarginLayoutParams lp = new ViewGroup.MarginLayoutParams(ActionBar.LayoutParams.WRAP_CONTENT, ActionBar.LayoutParams.WRAP_CONTENT);
+        lp.height = DensityUtil.dip2px(context, 40);
+        flowLayout.removeAllViews();
+
+        for (int i = 0; i < datas.size(); i++) {
+            final View view = LayoutInflater.from(context).inflate(R.layout.main_lable_edit_view, null);
+
+            TextView textView = (TextView) view.findViewById(R.id.label_tv);
+            textView.setText(datas.get(i).getDictionaryName());
+
+
+            view.setLayoutParams(lp);
+            flowLayout.addView(view);
+        }
+
+    }
+
+
 }
