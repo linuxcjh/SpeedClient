@@ -9,7 +9,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/mine_label_bg"
-        android:maxEms="8"
+        android:maxEms="15"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="10dp"
         android:layout_centerInParent="true"
@@ -18,9 +18,9 @@
         android:paddingRight="8dp"
         android:paddingTop="4dp"
         android:singleLine="true"
-        android:text="红俄方师傅的说法是酒"
+        android:text="红俄方师傅的说法是酒水电费水电费"
         android:textColor="@android:color/white"
-        android:textSize="12sp" />
+        android:textSize="14sp" />
 
 </RelativeLayout>
 

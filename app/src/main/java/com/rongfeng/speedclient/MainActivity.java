@@ -3,6 +3,7 @@ package com.rongfeng.speedclient;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Environment;
@@ -15,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -82,8 +84,18 @@ public class MainActivity extends AppCompatActivity {
     Button iatUploadUserwords;
     @Bind(R.id.result_tv)
     TextView resultTv;
-    @Bind(R.id.detail_flowLayout)
-    FlowLayout detailFlowLayout;
+    @Bind(R.id.flowLayout_client)
+    FlowLayout flowLayoutClient;
+    @Bind(R.id.flowLayout_client_layout)
+    LinearLayout flowLayoutClientLayout;
+    @Bind(R.id.flowLayout_analysis)
+    FlowLayout flowLayoutAnalysis;
+    @Bind(R.id.fflowLayout_analysis_layout)
+    LinearLayout fflowLayoutAnalysisLayout;
+    @Bind(R.id.flowLayout_function)
+    FlowLayout flowLayoutFunction;
+    @Bind(R.id.flowLayout_function_layout)
+    LinearLayout flowLayoutFunctionLayout;
 
     // 语音听写对象
     private SpeechRecognizer mIat;
@@ -99,6 +111,8 @@ public class MainActivity extends AppCompatActivity {
     private String mEngineType = SpeechConstant.TYPE_CLOUD;
     // 语记安装助手类
     private ApkInstaller mInstaller;
+
+    private List<Person> persons;
 
 
     @Override
@@ -132,33 +146,36 @@ public class MainActivity extends AppCompatActivity {
 
         long time = System.currentTimeMillis();
         DBManager dbManager = new DBManager(this);
-        List<Person> persons = dbManager.query();
+        persons = dbManager.query();
 
         if (persons.size() == 0) {
             for (int i = 0; i < 5000; i++) {
                 persons.add(new Person((i + 1) + "", "陈建辉" + i, (i + 2) + "", "王璐璐" + i, "18710428556"));
             }
+            persons.add(new Person((10003) + "", "张治", (10004) + "", "王璐璐", "18710428556"));
+            persons.add(new Person((10004) + "", "李昊泽", (10005) + "", "王璐璐", "18710428556"));
+
+            persons.add(new Person((10003) + "", "张广强", (10004) + "", "王璐璐", "18710428556"));
+            persons.add(new Person((10003) + "", "马锐", (10004) + "", "王璐璐", "18710428556"));
+            persons.add(new Person((10003) + "", "肖秋峰", (10004) + "", "王璐璐", "18710428556"));
+            persons.add(new Person((10003) + "", "董世龙", (10004) + "", "王璐璐", "18710428556"));
+            persons.add(new Person((10003) + "", "三一重工", (10004) + "", "王璐璐", "18710428556"));
+
+            persons.add(new Person((10003) + "", "中国移动", (10004) + "", "王璐璐", "18710428556"));
+            persons.add(new Person((10003) + "", "中国联通", (10004) + "", "王璐璐", "18710428556"));
+            persons.add(new Person((10003) + "", "荣峰软件科技有限公司", (10004) + "", "王璐璐", "18710428556"));
+            persons.add(new Person((10003) + "", "陈建辉", (10004) + "", "王璐璐", "18710428556"));
+
             dbManager.add(persons);
             Toast.makeText(this, persons.size() + "", Toast.LENGTH_SHORT).show();
 
         }
 
-//        List<Person> tempPersons = new ArrayList<>();
-
-//        tempPersons.add(new Person((10003) + "", "张治", (10004) + "", "王璐璐" , "18710428556"));
-//        tempPersons.add(new Person((10004) + "", "李昊泽", (10005) + "", "王璐璐" , "18710428556"));
-//
-//        tempPersons.add(new Person((10003) + "", "张广强", (10004) + "", "王璐璐" , "18710428556"));
-//        tempPersons.add(new Person((10003) + "", "马锐", (10004) + "", "王璐璐" , "18710428556"));
-//        tempPersons.add(new Person((10003) + "", "肖秋峰", (10004) + "", "王璐璐" , "18710428556"));
-//        tempPersons.add(new Person((10003) + "", "董世龙", (10004) + "", "王璐璐" , "18710428556"));
-
-//        dbManager.add(tempPersons);
 
         dbManager.closeDB();
-        long result = System.currentTimeMillis() - time;
+//        long result = System.currentTimeMillis() - time;
 
-        Toast.makeText(this, result + "", Toast.LENGTH_LONG).show();
+//        Toast.makeText(this, result + "", Toast.LENGTH_LONG).show();
 
     }
 
@@ -288,7 +305,10 @@ public class MainActivity extends AppCompatActivity {
 
                 break;
             case R.id.iat_upload_userwords:
-                showTip("暂无……");
+//                showTip("暂无……");
+
+                startActivity(new Intent(this,WordsActivity.class));
+//                analysisData();
 
                 break;
         }
@@ -325,7 +345,7 @@ public class MainActivity extends AppCompatActivity {
         mIat.setParameter(SpeechConstant.VAD_BOS, mSharedPreferences.getString("iat_vadbos_preference", "4000"));
 
         // 设置语音后端点:后端点静音检测时间，即用户停止说话多长时间内即认为不再输入， 自动停止录音
-        mIat.setParameter(SpeechConstant.VAD_EOS, mSharedPreferences.getString("iat_vadeos_preference", "2000"));
+        mIat.setParameter(SpeechConstant.VAD_EOS, mSharedPreferences.getString("iat_vadeos_preference", "1000"));
 
         // 设置标点符号,设置为"0"返回结果无标点,设置为"1"返回结果有标点
         mIat.setParameter(SpeechConstant.ASR_PTT, mSharedPreferences.getString("iat_punc_preference", "1"));
@@ -433,39 +453,114 @@ public class MainActivity extends AppCompatActivity {
      */
     private void analysisData() {
         DBManager dbManager = new DBManager(this);
-        List<BaseDataModel> data = new ArrayList<>();
+        List<BaseDataModel> clientData = new ArrayList<>();
+        List<BaseDataModel> analysisData = new ArrayList<>();
+        List<BaseDataModel> functionData = new ArrayList<>();
+
 
         long time = System.currentTimeMillis();
         String resultStr = mResultText.getText().toString();
         if (!TextUtils.isEmpty(resultStr)) {
-            List<Person> persons = dbManager.query();
+//            List<Person> persons = dbManager.query();
 
             if (persons.size() != 0) {
                 for (int i = 0; i < persons.size(); i++) {
 
                     String name = persons.get(i).client_name;
 
-                    if (resultStr.indexOf(name) != -1) {
-                        data.add(new BaseDataModel(i + "", name));
+                    if (resultStr.indexOf(name) != -1) {//全名匹配
+                        clientData.add(new BaseDataModel(i + "", name));
+                    } else if (name.length() > 3 && resultStr.contains(name.substring(0, 2))) {//模糊匹配，开始2个字
+                        clientData.add(new BaseDataModel(i + "", name));
                     }
 
                 }
             }
 
+            //添加拜访记录
             if (resultStr.indexOf("拜访") != -1) {
-                data.add(new BaseDataModel("", "拜访客户"));
-
-            }
-            if (resultStr.indexOf("日志") != -1) {
-                data.add(new BaseDataModel("", "工作日志"));
-
+                analysisData.add(new BaseDataModel("", "添加拜访记录"));
             }
 
-            generationLabels(this, data, detailFlowLayout);
+            //添加工作日志
+            if (resultStr.indexOf("日志") != -1
+                    || resultStr.indexOf("今天") != -1
+                    || resultStr.indexOf("完成") != -1
+                    || resultStr.indexOf("昨天") != -1
+                    || resultStr.indexOf("约") != -1) {
+                analysisData.add(new BaseDataModel("", "添加工作日志"));
+
+            }
+
+            //添加日程提醒
+            if (resultStr.indexOf("明天") != -1
+                    || resultStr.indexOf("后天") != -1
+                    || resultStr.indexOf("约") != -1
+                    || resultStr.indexOf("参加") != -1) {
+                analysisData.add(new BaseDataModel("", "添加日程提醒"));
+
+            }
+
+            //功能全局搜索
+            if (resultStr.indexOf("签到") != -1
+                    ) {
+                functionData.add(new BaseDataModel("", "考勤签到"));
+                functionData.add(new BaseDataModel("", "外勤签到"));
+            }
+
+            //出差
+            if (resultStr.indexOf("出差") != -1) {
+                functionData.add(new BaseDataModel("", "出差审批"));
+                functionData.add(new BaseDataModel("", "费用报销"));
+            }
+
+            //添加标签
+            addLabels(clientData, analysisData, functionData);
+
+            //关闭数据库
             dbManager.closeDB();
+
             long result = System.currentTimeMillis() - time;
 
-            Toast.makeText(this, result + " 毫秒", Toast.LENGTH_LONG).show();
+//            Toast.makeText(this, result + " 毫秒", Toast.LENGTH_LONG).show();
+        }
+
+
+    }
+
+
+    /**
+     * 添加标签
+     *
+     * @param clientData
+     * @param analysisData
+     * @param functionData
+     */
+    private void addLabels(List<BaseDataModel> clientData,
+                           List<BaseDataModel> analysisData,
+                           List<BaseDataModel> functionData) {
+
+
+        if (clientData.size() == 0) {
+            flowLayoutClientLayout.setVisibility(View.GONE);
+        } else {
+            flowLayoutClientLayout.setVisibility(View.VISIBLE);
+            generationLabels(this, clientData, flowLayoutClient);
+        }
+
+        if (analysisData.size() == 0) {
+            fflowLayoutAnalysisLayout.setVisibility(View.GONE);
+        } else {
+            fflowLayoutAnalysisLayout.setVisibility(View.VISIBLE);
+            generationLabels(this, analysisData, flowLayoutAnalysis);
+        }
+
+        if (functionData.size() == 0) {
+            flowLayoutFunctionLayout.setVisibility(View.GONE);
+        } else {
+            flowLayoutFunctionLayout.setVisibility(View.VISIBLE);
+            generationLabels(this, functionData, flowLayoutFunction);
+
         }
 
 
@@ -534,9 +629,14 @@ public class MainActivity extends AppCompatActivity {
         for (int i = 0; i < datas.size(); i++) {
             final View view = LayoutInflater.from(context).inflate(R.layout.main_lable_edit_view, null);
 
-            TextView textView = (TextView) view.findViewById(R.id.label_tv);
+            final TextView textView = (TextView) view.findViewById(R.id.label_tv);
             textView.setText(datas.get(i).getDictionaryName());
-
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(MainActivity.this, textView.getText().toString(), Toast.LENGTH_SHORT).show();
+                }
+            });
 
             view.setLayoutParams(lp);
             flowLayout.addView(view);
