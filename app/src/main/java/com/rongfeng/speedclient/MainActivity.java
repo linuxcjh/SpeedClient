@@ -38,6 +38,7 @@ import com.rongfeng.speedclient.datanalysis.DBManager;
 import com.rongfeng.speedclient.datanalysis.Person;
 import com.rongfeng.speedclient.entity.BaseDataModel;
 import com.rongfeng.speedclient.utils.ApkInstaller;
+import com.rongfeng.speedclient.utils.AppTools;
 import com.rongfeng.speedclient.utils.DensityUtil;
 import com.rongfeng.speedclient.utils.FlowLayout;
 import com.rongfeng.speedclient.utils.FucUtil;
@@ -157,8 +158,8 @@ public class MainActivity extends AppCompatActivity {
 
             persons.add(new Person((10003) + "", "张广强", (10004) + "", "王璐璐", "18710428556"));
             persons.add(new Person((10003) + "", "马锐", (10004) + "", "王璐璐", "18710428556"));
-            persons.add(new Person((10003) + "", "肖秋峰", (10004) + "", "王璐璐", "18710428556"));
-            persons.add(new Person((10003) + "", "董世龙", (10004) + "", "王璐璐", "18710428556"));
+            persons.add(new Person((10003) + "", "张志", (10004) + "", "王璐璐", "18710428556"));
+            persons.add(new Person((10003) + "", "张制", (10004) + "", "王璐璐", "18710428556"));
             persons.add(new Person((10003) + "", "三一重工", (10004) + "", "王璐璐", "18710428556"));
 
             persons.add(new Person((10003) + "", "中国移动", (10004) + "", "王璐璐", "18710428556"));
@@ -307,7 +308,7 @@ public class MainActivity extends AppCompatActivity {
             case R.id.iat_upload_userwords:
 //                showTip("暂无……");
 
-                startActivity(new Intent(this,WordsActivity.class));
+                startActivity(new Intent(this, WordsActivity.class));
 //                analysisData();
 
                 break;
@@ -445,6 +446,7 @@ public class MainActivity extends AppCompatActivity {
 
         mResultText.setText(resultBuffer.toString());
         mResultText.setSelection(mResultText.length());
+
         analysisData();
     }
 
@@ -460,17 +462,22 @@ public class MainActivity extends AppCompatActivity {
 
         long time = System.currentTimeMillis();
         String resultStr = mResultText.getText().toString();
+        String pinYinStr = AppTools.convertPinYin(resultStr);
+
+        mResultText.setText(resultStr + "\n" + pinYinStr.substring(0,pinYinStr.length()));
+        mResultText.setSelection(mResultText.length());
         if (!TextUtils.isEmpty(resultStr)) {
-//            List<Person> persons = dbManager.query();
 
             if (persons.size() != 0) {
                 for (int i = 0; i < persons.size(); i++) {
 
                     String name = persons.get(i).client_name;
+                    String namePY = AppTools.convertPinYin(name);
 
-                    if (resultStr.indexOf(name) != -1) {//全名匹配
+
+                    if (resultStr.indexOf(name) != -1 || pinYinStr.indexOf(namePY) != -1) {//全名匹配
                         clientData.add(new BaseDataModel(i + "", name));
-                    } else if (name.length() > 3 && resultStr.contains(name.substring(0, 2))) {//模糊匹配，开始2个字
+                    } else if (name.length() > 2 && (resultStr.contains(name.substring(0, 2)) || pinYinStr.contains(AppTools.convertPinYin(name.substring(0, 2))))) {//模糊匹配，开始2个字
                         clientData.add(new BaseDataModel(i + "", name));
                     }
 
