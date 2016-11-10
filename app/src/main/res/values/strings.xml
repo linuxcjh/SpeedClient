@@ -12,4 +12,9 @@
     <string name="pref_title_iat_show">显示听写界面</string>
     <string name="pref_title_iat_dwa">结果动态修正</string>
 
+    <string name="tab_bottom_client">客户</string>
+    <string name="tab_bottom_workstation">动态</string>
+    <string name="tab_bottom_app">管理</string>
+    <string name="tab_bottom_mine">我的</string>
+
 </resources>

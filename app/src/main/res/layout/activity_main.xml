@@ -1,18 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
     tools:context="com.rongfeng.speedclient.MainActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/top_title_height"
+        android:background="@color/colorBlue">
+
+        <TextView
+            android:id="@+id/cancel_tv"
+            style="@style/title_side_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
+            android:text="" />
+
+        <TextView
+            android:id="@+id/title_tv"
+            style="@style/title_mid_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="语音" />
+
+        <TextView
+            android:id="@+id/commit_tv"
+            style="@style/title_side_text"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:text="词表" />
+    </RelativeLayout>
+
 
     <com.rongfeng.speedclient.utils.SpringView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_weight="1">
 
 
         <LinearLayout
@@ -52,11 +87,14 @@
                 android:id="@+id/iat_text"
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
+                android:layout_marginTop="14dp"
                 android:background="@drawable/mine_content_bg"
                 android:gravity="top|left"
+                android:hint="点击语音按钮"
                 android:padding="16dp"
                 android:text=""
-                android:textSize="18sp" />
+                android:textColorHint="@color/colorAssistLight"
+                android:textSize="17sp" />
 
             <RadioGroup
                 android:id="@+id/radioGroup"
@@ -94,9 +132,19 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="60dp"
                 android:layout_weight="1"
                 android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/hint_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="30dp"
+                    android:hint="1、尽可能提到客户或联系人名称\n\n2、智能查找分析\n\n3、自动保存输入记录"
+                    android:textColorHint="@color/colorAssistLight" />
+
 
                 <LinearLayout
                     android:id="@+id/flowLayout_client_layout"
@@ -135,7 +183,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingTop="8dp"
-                        android:text="建议："
+                        android:text="推荐："
                         android:textSize="16sp" />
 
                     <com.rongfeng.speedclient.utils.FlowLayout
@@ -174,6 +222,18 @@
                     </com.rongfeng.speedclient.utils.FlowLayout>
 
                 </LinearLayout>
+
+
+                <com.rongfeng.speedclient.utils.FlowLayout
+                    android:id="@+id/flowLayout_other"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:layout_gravity="center"
+                    android:layout_weight="1">
+
+                </com.rongfeng.speedclient.utils.FlowLayout>
+
             </LinearLayout>
 
             <LinearLayout
@@ -182,7 +242,8 @@
                 android:layout_marginBottom="2dp"
                 android:layout_marginTop="14dp"
                 android:gravity="center_horizontal"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="gone">
 
                 <Button
                     android:id="@+id/iat_recognize"
@@ -198,7 +259,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="停止"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"
+                    android:visibility="gone" />
 
                 <Button
                     android:id="@+id/iat_cancel"
@@ -206,7 +268,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="取消"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"
+                    android:visibility="gone" />
             </LinearLayout>
 
             <Button
@@ -233,7 +296,8 @@
                 android:layout_marginBottom="2dp"
                 android:layout_marginTop="10dp"
                 android:gravity="center_horizontal"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="gone">
 
                 <Button
                     android:id="@+id/iat_upload_contacts"
@@ -241,7 +305,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="上传联系人"
-                    android:textSize="15sp" />
+                    android:textSize="15sp"
+                    android:visibility="gone" />
 
                 <Button
                     android:id="@+id/iat_upload_userwords"
@@ -254,4 +319,155 @@
 
         </LinearLayout>
     </com.rongfeng.speedclient.utils.SpringView>
-</RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="51dp"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorDividerLine" />
+
+        <LinearLayout
+            android:id="@+id/bottom_layout"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@android:color/white"
+            android:orientation="horizontal">
+
+
+            <LinearLayout
+                android:id="@+id/tab_ws_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/tab_ws_iv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/tabbar_workbench" />
+
+                <TextView
+                    android:id="@+id/tab_ws_tv"
+                    style="@style/option_menu_txt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="@string/tab_bottom_workstation" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/tab_client_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/tab_client_iv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/tabbar_client" />
+
+                <TextView
+                    android:id="@+id/tab_client_tv"
+                    style="@style/option_menu_txt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="@string/tab_bottom_client" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/tab_plus_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+
+                <ImageView
+                    android:id="@+id/tab_plus_iv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/tabbar_add" />
+
+
+            </LinearLayout>
+
+
+            <RelativeLayout
+                android:id="@+id/tab_app_new_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <LinearLayout
+                    android:id="@+id/app_layout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/tab_app_iv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/tabbar_application" />
+
+                    <TextView
+                        android:id="@+id/tab_app_tv"
+                        style="@style/option_menu_txt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="@string/tab_bottom_app" />
+                </LinearLayout>
+
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/tab_mine_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/tab_mine_iv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/tabbar_me" />
+
+                <TextView
+                    android:id="@+id/tab_mine_tv"
+                    style="@style/option_menu_txt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="@string/tab_bottom_mine" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -7,7 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Environment;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,9 +16,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -56,7 +58,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
 
     private static String TAG = MainActivity.class.getSimpleName();
 
@@ -97,6 +99,42 @@ public class MainActivity extends AppCompatActivity {
     FlowLayout flowLayoutFunction;
     @Bind(R.id.flowLayout_function_layout)
     LinearLayout flowLayoutFunctionLayout;
+    @Bind(R.id.tab_ws_iv)
+    ImageView tabWsIv;
+    @Bind(R.id.tab_ws_tv)
+    TextView tabWsTv;
+    @Bind(R.id.tab_ws_layout)
+    LinearLayout tabWsLayout;
+    @Bind(R.id.tab_client_iv)
+    ImageView tabClientIv;
+    @Bind(R.id.tab_client_tv)
+    TextView tabClientTv;
+    @Bind(R.id.tab_client_layout)
+    LinearLayout tabClientLayout;
+    @Bind(R.id.tab_plus_iv)
+    ImageView tabPlusIv;
+    @Bind(R.id.tab_plus_layout)
+    LinearLayout tabPlusLayout;
+    @Bind(R.id.tab_app_iv)
+    ImageView tabAppIv;
+    @Bind(R.id.tab_app_tv)
+    TextView tabAppTv;
+    @Bind(R.id.app_layout)
+    LinearLayout appLayout;
+    @Bind(R.id.tab_app_new_layout)
+    RelativeLayout tabAppNewLayout;
+    @Bind(R.id.tab_mine_iv)
+    ImageView tabMineIv;
+    @Bind(R.id.tab_mine_tv)
+    TextView tabMineTv;
+    @Bind(R.id.tab_mine_layout)
+    LinearLayout tabMineLayout;
+    @Bind(R.id.commit_tv)
+    TextView commitTv;
+    @Bind(R.id.hint_tv)
+    TextView hintTv;
+    @Bind(R.id.flowLayout_other)
+    FlowLayout flowLayoutOther;
 
     // 语音听写对象
     private SpeechRecognizer mIat;
@@ -151,21 +189,18 @@ public class MainActivity extends AppCompatActivity {
 
         if (persons.size() == 0) {
             for (int i = 0; i < 5000; i++) {
-                persons.add(new Person((i + 1) + "", "陈建辉" + i, (i + 2) + "", "王璐璐" + i, "18710428556"));
+                persons.add(new Person((i + 1) + "", "董世龙" + i, (i + 2) + "", i + "陈建辉", "18710428556"));
             }
-            persons.add(new Person((10003) + "", "张治", (10004) + "", "王璐璐", "18710428556"));
-            persons.add(new Person((10004) + "", "李昊泽", (10005) + "", "王璐璐", "18710428556"));
+            persons.add(new Person((10003) + "", "张治", (10004) + "", "魏萌", "18710428556"));
+            persons.add(new Person((10004) + "", "李昊泽", (10005) + "", "常征", "18710428556"));
 
-            persons.add(new Person((10003) + "", "张广强", (10004) + "", "王璐璐", "18710428556"));
-            persons.add(new Person((10003) + "", "马锐", (10004) + "", "王璐璐", "18710428556"));
-            persons.add(new Person((10003) + "", "张志", (10004) + "", "王璐璐", "18710428556"));
-            persons.add(new Person((10003) + "", "张制", (10004) + "", "王璐璐", "18710428556"));
-            persons.add(new Person((10003) + "", "三一重工", (10004) + "", "王璐璐", "18710428556"));
+            persons.add(new Person((10003) + "", "张志", (10004) + "", "陈建辉", "18710428556"));
+            persons.add(new Person((10003) + "", "张制", (10004) + "", "董世龙", "18710428556"));
+            persons.add(new Person((10003) + "", "三一重工", (10004) + "", "马锐", "18710428556"));
 
-            persons.add(new Person((10003) + "", "中国移动", (10004) + "", "王璐璐", "18710428556"));
-            persons.add(new Person((10003) + "", "中国联通", (10004) + "", "王璐璐", "18710428556"));
-            persons.add(new Person((10003) + "", "荣峰软件科技有限公司", (10004) + "", "王璐璐", "18710428556"));
-            persons.add(new Person((10003) + "", "陈建辉", (10004) + "", "王璐璐", "18710428556"));
+            persons.add(new Person((10003) + "", "中国移动", (10004) + "", "肖秋风", "18710428556"));
+            persons.add(new Person((10003) + "", "中国联通", (10004) + "", "董世龙", "18710428556"));
+            persons.add(new Person((10003) + "", "荣峰软件科技有限公司", (10004) + "", "陈建辉", "18710428556"));
 
             dbManager.add(persons);
             Toast.makeText(this, persons.size() + "", Toast.LENGTH_SHORT).show();
@@ -249,7 +284,7 @@ public class MainActivity extends AppCompatActivity {
         public void onInit(int code) {
             Log.d(TAG, "SpeechRecognizer init() code = " + code);
             if (code != ErrorCode.SUCCESS) {
-                showTip("初始化失败，错误码：" + code);
+//                showTip("初始化失败，错误码：" + code);
             }
         }
     };
@@ -258,12 +293,14 @@ public class MainActivity extends AppCompatActivity {
     int ret = 0; // 函数调用返回值
 
 
-    @OnClick({R.id.image_iat_set, R.id.iat_recognize, R.id.iat_stop, R.id.iat_cancel, R.id.iat_recognize_stream, R.id.iat_upload_contacts, R.id.iat_upload_userwords})
+    @OnClick({R.id.image_iat_set, R.id.commit_tv, R.id.tab_app_new_layout, R.id.iat_recognize, R.id.iat_stop, R.id.iat_cancel, R.id.iat_recognize_stream, R.id.iat_upload_contacts, R.id.iat_upload_userwords, R.id.tab_ws_layout, R.id.tab_client_layout, R.id.tab_plus_layout, R.id.tab_mine_layout})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.image_iat_set:
                 resultTv.setText("");
                 break;
+            case R.id.tab_plus_layout:
+                resetStatus();
             case R.id.iat_recognize:// 开始听写 如何判断一次听写结束：OnResult isLast=true 或者 onError
                 mResultText.setText(null);// 清空显示内容
                 mIatResults.clear();
@@ -275,14 +312,14 @@ public class MainActivity extends AppCompatActivity {
                     // 显示听写对话框
                     mIatDialog.setListener(mRecognizerDialogListener);
                     mIatDialog.show();
-                    showTip(getString(R.string.text_begin));
+//                    showTip(getString(R.string.text_begin));
                 } else {
                     // 不显示听写对话框
                     ret = mIat.startListening(mRecognizerListener);
                     if (ret != ErrorCode.SUCCESS) {
-                        showTip("听写失败,错误码：" + ret);
+//                        showTip("听写失败,错误码：" + ret);
                     } else {
-                        showTip(getString(R.string.text_begin));
+//                        showTip(getString(R.string.text_begin));
                     }
                 }
                 break;
@@ -305,12 +342,38 @@ public class MainActivity extends AppCompatActivity {
                 mgr.asyncQueryAllContactsName();
 
                 break;
+
             case R.id.iat_upload_userwords:
 //                showTip("暂无……");
 
                 startActivity(new Intent(this, WordsActivity.class));
 //                analysisData();
 
+                break;
+            case R.id.tab_ws_layout:
+                Toast.makeText(getApplicationContext(),"动态",Toast.LENGTH_SHORT).show();
+                changeStatus(view.getId());
+
+                break;
+            case R.id.tab_client_layout:
+                Toast.makeText(getApplicationContext(),"客户",Toast.LENGTH_SHORT).show();
+
+                changeStatus(view.getId());
+
+                break;
+            case R.id.tab_mine_layout:
+                Toast.makeText(getApplicationContext(),"我的",Toast.LENGTH_SHORT).show();
+
+                changeStatus(view.getId());
+
+                break;
+            case R.id.tab_app_new_layout:
+                Toast.makeText(getApplicationContext(),"管理",Toast.LENGTH_SHORT).show();
+
+                changeStatus(view.getId());
+                break;
+            case R.id.commit_tv:
+                startActivity(new Intent(this, WordsActivity.class));
                 break;
         }
     }
@@ -381,7 +444,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onBeginOfSpeech() {
             // 此回调表示：sdk内部录音机已经准备好了，用户可以开始语音输入
-            showTip("开始说话");
+//            showTip("开始说话");
         }
 
         @Override
@@ -389,13 +452,13 @@ public class MainActivity extends AppCompatActivity {
             // Tips：
             // 错误码：10118(您没有说话)，可能是录音机权限被禁，需要提示用户打开应用的录音权限。
             // 如果使用本地功能（语记）需要提示用户开启语记的录音权限。
-            showTip(error.getPlainDescription(true));
+//            showTip(error.getPlainDescription(true));
         }
 
         @Override
         public void onEndOfSpeech() {
             // 此回调表示：检测到了语音的尾端点，已经进入识别过程，不再接受语音输入
-            showTip("结束说话");
+//            showTip("结束说话");
         }
 
         @Override
@@ -464,10 +527,10 @@ public class MainActivity extends AppCompatActivity {
         String resultStr = mResultText.getText().toString();
         String pinYinStr = AppTools.convertPinYin(resultStr);
 
-        mResultText.setText(resultStr + "\n" + pinYinStr.substring(0,pinYinStr.length()));
+        mResultText.setText(resultStr);
         mResultText.setSelection(mResultText.length());
         if (!TextUtils.isEmpty(resultStr)) {
-
+            hintTv.setVisibility(View.GONE);
             if (persons.size() != 0) {
                 for (int i = 0; i < persons.size(); i++) {
 
@@ -530,6 +593,8 @@ public class MainActivity extends AppCompatActivity {
             long result = System.currentTimeMillis() - time;
 
 //            Toast.makeText(this, result + " 毫秒", Toast.LENGTH_LONG).show();
+        } else {
+            hintTv.setVisibility(View.VISIBLE);
         }
 
 
@@ -570,6 +635,19 @@ public class MainActivity extends AppCompatActivity {
 
         }
 
+        if (clientData.size() == 0) {
+            List<BaseDataModel> data = new ArrayList<>();
+            data.add(new BaseDataModel("", "新增客户"));
+            data.add(new BaseDataModel("", "查找客户"));
+            data.add(new BaseDataModel("", "新增工作日志"));
+
+            flowLayoutOther.setVisibility(View.VISIBLE);
+            generationLabels(this, data, flowLayoutOther);
+
+        } else {
+            flowLayoutOther.setVisibility(View.GONE);
+
+        }
 
     }
 
@@ -641,7 +719,7 @@ public class MainActivity extends AppCompatActivity {
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(MainActivity.this, textView.getText().toString(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplication().getApplicationContext(), textView.getText().toString(), Toast.LENGTH_SHORT).show();
                 }
             });
 
@@ -650,6 +728,65 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
+/**
+ *
+ */
 
+    /**
+     * Change navigation status
+     *
+     * @param resId
+     */
+    private void changeStatus(int resId) {
+
+        resetStatus();
+        switch (resId) {
+            case R.id.tab_ws_layout:
+                setStatus(tabWsIv, tabWsTv, R.drawable.tabbar_workbench_select);
+                break;
+            case R.id.tab_client_layout:
+                setStatus(tabClientIv, tabClientTv, R.drawable.tabbar_client_select);
+                break;
+            case R.id.tab_plus_layout:
+
+                break;
+            case R.id.tab_app_new_layout:
+                setStatus(tabAppIv, tabAppTv, R.drawable.tabbar_application_select);
+                break;
+            case R.id.tab_mine_layout:
+                setStatus(tabMineIv, tabMineTv, R.drawable.tabbar_me_select);
+                break;
+        }
+    }
+
+
+    /**
+     * Set navigation status
+     *
+     * @param imageView
+     * @param textView
+     * @param resId
+     */
+    private void setStatus(ImageView imageView, TextView textView, int resId) {
+
+
+        imageView.setImageResource(resId);
+        textView.setTextColor(getResources().getColor(R.color.colorBlueLight));
+
+    }
+
+    /**
+     * Reset navigation status
+     */
+    private void resetStatus() {
+        tabWsIv.setImageResource(R.drawable.tabbar_workbench);
+        tabWsTv.setTextColor(ContextCompat.getColor(this, R.color.colorAssist));
+        tabClientIv.setImageResource(R.drawable.tabbar_client);
+        tabClientTv.setTextColor(ContextCompat.getColor(this, R.color.colorAssist));
+        tabAppIv.setImageResource(R.drawable.tabbar_application);
+        tabAppTv.setTextColor(ContextCompat.getColor(this, R.color.colorAssist));
+        tabMineIv.setImageResource(R.drawable.tabbar_me);
+        tabMineTv.setTextColor(ContextCompat.getColor(this, R.color.colorAssist));
+    }
 
 }
