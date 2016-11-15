@@ -12,6 +12,8 @@
     <color name="colorListName">#666666</color>
     <color name="colorAssistLight">#CCCCCC</color>
     <color name="colorBlueLight">#82C1F6</color>
+    <color name="colorWhite">#FFFFFF</color>
+    <color name="colorBg">#F4F4F4</color>
 
 
 </resources>

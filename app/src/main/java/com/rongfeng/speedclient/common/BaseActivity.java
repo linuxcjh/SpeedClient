@@ -1,4 +1,4 @@
-package com.rongfeng.speedclient;
+package com.rongfeng.speedclient.common;
 
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
@@ -10,6 +10,8 @@ import android.support.v4.content.ContextCompat;
 import android.view.WindowManager;
 
 import com.readystatesoftware.systembartint.SystemBarTintManager;
+import com.rongfeng.speedclient.R;
+import com.rongfeng.speedclient.common.utils.AppTools;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,6 +68,19 @@ public class BaseActivity extends FragmentActivity  {
         super.onDestroy();
         activityList.remove(this);
     }
+
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (AppTools.isAppOnForeground(BaseActivity.this)) {
+            isActive = true;
+        } else {
+            isActive = false;
+            AppTools.stopLbsLocation();//位于后台时停止定位
+        }
+    }
+
 
 
 

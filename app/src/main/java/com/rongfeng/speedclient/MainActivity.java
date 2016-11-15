@@ -36,11 +36,12 @@ import com.iflytek.cloud.SpeechUtility;
 import com.iflytek.cloud.ui.RecognizerDialog;
 import com.iflytek.cloud.ui.RecognizerDialogListener;
 import com.iflytek.cloud.util.ContactManager;
+import com.rongfeng.speedclient.common.BaseActivity;
 import com.rongfeng.speedclient.datanalysis.DBManager;
 import com.rongfeng.speedclient.datanalysis.Person;
 import com.rongfeng.speedclient.entity.BaseDataModel;
+import com.rongfeng.speedclient.common.utils.AppTools;
 import com.rongfeng.speedclient.utils.ApkInstaller;
-import com.rongfeng.speedclient.utils.AppTools;
 import com.rongfeng.speedclient.utils.DensityUtil;
 import com.rongfeng.speedclient.utils.FlowLayout;
 import com.rongfeng.speedclient.utils.FucUtil;
@@ -189,7 +190,7 @@ public class MainActivity extends BaseActivity {
 
         if (persons.size() == 0) {
             for (int i = 0; i < 5000; i++) {
-                persons.add(new Person((i + 1) + "", "董世龙" + i, (i + 2) + "", i + "陈建辉", "18710428556"));
+                persons.add(new Person((i + 1) + "", "董龙" + i, (i + 2) + "", i + "陈建辉", "18710428556"));
             }
             persons.add(new Person((10003) + "", "张治", (10004) + "", "魏萌", "18710428556"));
             persons.add(new Person((10004) + "", "李昊泽", (10005) + "", "常征", "18710428556"));
@@ -566,7 +567,8 @@ public class MainActivity extends BaseActivity {
             if (resultStr.indexOf("明天") != -1
                     || resultStr.indexOf("后天") != -1
                     || resultStr.indexOf("约") != -1
-                    || resultStr.indexOf("参加") != -1) {
+                    || resultStr.indexOf("参加") != -1
+                    || resultStr.indexOf("跟进") != -1) {
                 analysisData.add(new BaseDataModel("", "添加日程提醒"));
 
             }

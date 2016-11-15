@@ -17,4 +17,9 @@
     <string name="tab_bottom_app">管理</string>
     <string name="tab_bottom_mine">我的</string>
 
+    <string name="settings">设置</string>
+    <string name="help">帮助</string>
+    <string name="string_help_text">当前操作缺少必要权限。\n\n请点击\"设置\"-\"权限\"-打开所需权限。\n\n最后点击两次后退按钮，即可返回。</string>
+    <string name="quit">取消</string>
+
 </resources>
