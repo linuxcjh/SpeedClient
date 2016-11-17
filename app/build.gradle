@@ -11,11 +11,52 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
+
+    signingConfigs {
+        release {
+            storeFile file("rongfeng.keystore")
+            storePassword "rongfeng"
+            keyAlias "rongfeng"
+            keyPassword "rongfeng"
+        }
+        debug {
+            storeFile file("rongfeng.keystore")
+            storePassword "rongfeng"
+            keyAlias "rongfeng"
+            keyPassword "rongfeng"
+        }
+    }
+
     buildTypes {
         release {
+            signingConfig signingConfigs.release
             minifyEnabled false
+            //Zipalign优化
+            zipAlignEnabled true
+            // 移除无用的resource文件
+            shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+        debug {
+            signingConfig signingConfigs.release
+        }
+    }
+    productFlavors {
+    }
+
+    lintOptions {
+
+        abortOnError false
+    }
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['src/jniLibs']
+        }
+    }
+    dexOptions {
+        javaMaxHeapSize "4g"
+        incremental true
+        maxProcessCount 4
     }
 }
 

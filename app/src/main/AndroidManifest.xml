@@ -67,6 +67,17 @@
         <activity android:name=".client.ClientRegisterActivity" />
         <activity android:name=".client.ClientAddContactActivity" />
         <activity android:name=".voice.VoiceNoteActivity" />
+        <activity android:name=".client.ClientDotOverlayMapNewActivity" />
+        <activity android:name=".client.ClientDotOverlayMapNewSearchActivity" />
+
+
+
+        <!--高德定位-->
+        <meta-data
+            android:name="com.amap.api.v2.apikey"
+            android:value="35fb209956d21e4d5d694af8c4992376" />
+        <!-- 定位需要的服务 -->
+        <service android:name="com.amap.api.location.APSService"></service>
     </application>
 
 </manifest>

@@ -225,5 +225,10 @@ public interface Constant {
      */
     String IS_CHANGE_TENEMENT = "is_change_tenement";
 
+    /**
+     * 选择位置requestCode
+     */
+    public static final int SELECT_POSITION_CLIENT_REQUEST_CODE = 0x13;
+
 
 }
