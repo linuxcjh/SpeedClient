@@ -18,6 +18,15 @@
             android:layout_centerInParent="true"
             android:text="语音" />
 
+        <TextView
+            android:id="@+id/note_tv"
+            style="@style/title_side_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:paddingRight="20dp"
+            android:text="笔记" />
 
     </RelativeLayout>
 

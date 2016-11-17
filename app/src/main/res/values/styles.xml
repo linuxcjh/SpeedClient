@@ -27,6 +27,19 @@
         <item name="android:textColor">@android:color/white</item>
         <item name="android:textSize">15sp</item>
     </style>
+    <style name="root_style">
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:background">@color/colorBg</item>
+    </style>
 
-
+    <style name="top_title_layout_style">
+        <item name="android:layout_height">@dimen/top_title_height</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:background">@color/colorBlue</item>
+    </style>
+    <style name="register_client_tip_style">
+        <item name="android:textColor">@color/colorAssist</item>
+        <item name="android:textSize">14sp</item>
+    </style>
 </resources>
