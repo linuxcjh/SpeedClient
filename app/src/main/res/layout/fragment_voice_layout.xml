@@ -43,6 +43,11 @@
             android:layout_marginTop="15dp"
             android:text="长按下方语音按钮识别语音" />
 
+        <EditText
+            android:id="@+id/content_et"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
     </LinearLayout>
 
     <RelativeLayout

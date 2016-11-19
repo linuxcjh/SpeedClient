@@ -1,28 +1,48 @@
 package com.rongfeng.speedclient.voice;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.iflytek.cloud.ErrorCode;
+import com.iflytek.cloud.InitListener;
+import com.iflytek.cloud.RecognizerListener;
+import com.iflytek.cloud.RecognizerResult;
+import com.iflytek.cloud.SpeechConstant;
+import com.iflytek.cloud.SpeechError;
+import com.iflytek.cloud.SpeechRecognizer;
 import com.rongfeng.speedclient.MainActivity;
 import com.rongfeng.speedclient.R;
 import com.rongfeng.speedclient.common.BaseFragment;
 import com.rongfeng.speedclient.common.utils.AppTools;
+import com.rongfeng.speedclient.utils.JsonParser;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * 语音
@@ -39,9 +59,12 @@ public class VoiceFragment extends BaseFragment {
     TextView hTimeTv;
     @Bind(R.id.voice_status_tv)
     TextView voiceStatusTv;
+    @Bind(R.id.content_et)
+    EditText contentEt;
 
 
     private int timeNum = 0;//录音时长
+
 
     Handler mHandler = new Handler() {
         @Override
@@ -63,13 +86,34 @@ public class VoiceFragment extends BaseFragment {
 
     private TimerTask timerTask;
 
+    // 语音听写对象
+    private SpeechRecognizer mIat;
+    // 用HashMap存储听写结果
+    private HashMap<String, String> mIatResults = new LinkedHashMap<>();
+    private SharedPreferences mSharedPreferences;
+    int ret = 0; // 函数调用返回值
+
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_voice_layout, null);
         ButterKnife.bind(this, view);
         init();
+        initVoice();
         return view;
+    }
+
+    /**
+     * 初始化语音
+     */
+    private void initVoice() {
+        // 初始化识别无UI识别对象
+        // 使用SpeechRecognizer对象，可根据回调消息自定义界面；
+        mIat = SpeechRecognizer.createRecognizer(getActivity(), mInitListener);
+        mSharedPreferences = getActivity().getSharedPreferences("SPEED",
+                Activity.MODE_PRIVATE);
+
     }
 
 
@@ -90,6 +134,15 @@ public class VoiceFragment extends BaseFragment {
                         };
                         timer.schedule(timerTask, 0, 1000);
                         voiceStatusTv.setText("聆听中……");
+                        // 设置参数
+                        setParam();
+                        // 不显示听写对话框
+                        ret = mIat.startListening(mRecognizerListener);
+                        if (ret != ErrorCode.SUCCESS) {
+                            AppTools.getToast("听写失败,错误码：" + ret);
+                        } else {
+                            AppTools.getToast(getString(R.string.text_begin));
+                        }
 
                         break;
                     case MotionEvent.ACTION_MOVE:
@@ -145,4 +198,225 @@ public class VoiceFragment extends BaseFragment {
         super.onDestroyView();
         ButterKnife.unbind(this);
     }
+
+    /**
+     * 初始化监听器。
+     */
+    private InitListener mInitListener = new InitListener() {
+
+        @Override
+        public void onInit(int code) {
+            Log.d(TAG, "SpeechRecognizer init() code = " + code);
+            if (code != ErrorCode.SUCCESS) {
+                AppTools.getToast("初始化失败，错误码：" + code);
+            }
+        }
+    };
+
+    /**
+     * 参数设置
+     *
+     * @param
+     * @return
+     */
+    public void setParam() {
+        // 清空参数
+        mIat.setParameter(SpeechConstant.PARAMS, null);
+
+        // 设置听写引擎云端
+        mIat.setParameter(SpeechConstant.ENGINE_TYPE, SpeechConstant.TYPE_CLOUD);
+        // 设置返回结果格式
+        mIat.setParameter(SpeechConstant.RESULT_TYPE, "json");
+
+        String lag = mSharedPreferences.getString("iat_language_preference",
+                "mandarin");
+        if (lag.equals("en_us")) {
+            // 设置语言
+            mIat.setParameter(SpeechConstant.LANGUAGE, "en_us");
+        } else {
+            // 设置语言
+            mIat.setParameter(SpeechConstant.LANGUAGE, "zh_cn");
+            // 设置语言区域
+            mIat.setParameter(SpeechConstant.ACCENT, lag);
+        }
+
+        // 设置语音前端点:静音超时时间，即用户多长时间不说话则当做超时处理
+        mIat.setParameter(SpeechConstant.VAD_BOS, mSharedPreferences.getString("iat_vadbos_preference", "4000"));
+
+        // 设置语音后端点:后端点静音检测时间，即用户停止说话多长时间内即认为不再输入， 自动停止录音
+        mIat.setParameter(SpeechConstant.VAD_EOS, mSharedPreferences.getString("iat_vadeos_preference", "1000"));
+
+        // 设置标点符号,设置为"0"返回结果无标点,设置为"1"返回结果有标点
+        mIat.setParameter(SpeechConstant.ASR_PTT, mSharedPreferences.getString("iat_punc_preference", "1"));
+
+        // 设置音频保存路径，保存音频格式支持pcm、wav，设置路径为sd卡请注意WRITE_EXTERNAL_STORAGE权限
+        // 注：AUDIO_FORMAT参数语记需要更新版本才能生效
+        mIat.setParameter(SpeechConstant.AUDIO_FORMAT, "wav");
+        mIat.setParameter(SpeechConstant.ASR_AUDIO_PATH, Environment.getExternalStorageDirectory() + "/msc/iat.wav");
+    }
+
+    /**
+     * 听写监听器。
+     */
+    private RecognizerListener mRecognizerListener = new RecognizerListener() {
+
+        @Override
+        public void onBeginOfSpeech() {
+            // 此回调表示：sdk内部录音机已经准备好了，用户可以开始语音输入
+            AppTools.getToast("开始说话");
+        }
+
+        @Override
+        public void onError(SpeechError error) {
+            // Tips：
+            // 错误码：10118(您没有说话)，可能是录音机权限被禁，需要提示用户打开应用的录音权限。
+            // 如果使用本地功能（语记）需要提示用户开启语记的录音权限。
+//            AppTools.getToast(error.getPlainDescription(true));
+        }
+
+        @Override
+        public void onEndOfSpeech() {
+            // 此回调表示：检测到了语音的尾端点，已经进入识别过程，不再接受语音输入
+            AppTools.getToast("结束说话");
+        }
+
+        @Override
+        public void onResult(RecognizerResult results, boolean isLast) {
+            Log.d(TAG, results.getResultString());
+            printResult(results);
+
+            if (isLast) {
+                // TODO 最后的结果
+            }
+        }
+
+        @Override
+        public void onVolumeChanged(int volume, byte[] data) {
+//            showTip("当前正在说话，音量大小：" + volume);
+            Log.d(TAG, "返回音频数据：" + data.length);
+        }
+
+        @Override
+        public void onEvent(int eventType, int arg1, int arg2, Bundle obj) {
+            // 以下代码用于获取与云端的会话id，当业务出错时将会话id提供给技术支持人员，可用于查询会话日志，定位出错原因
+            // 若使用本地能力，会话id为null
+            //	if (SpeechEvent.EVENT_SESSION_ID == eventType) {
+            //		String sid = obj.getString(SpeechEvent.KEY_EVENT_SESSION_ID);
+            //		Log.d(TAG, "session id =" + sid);
+            //	}
+        }
+    };
+
+    private void printResult(RecognizerResult results) {
+        String text = JsonParser.parseIatResult(results.getResultString());
+
+        String sn = null;
+        // 读取json结果中的sn字段
+        try {
+            JSONObject resultJson = new JSONObject(results.getResultString());
+            sn = resultJson.optString("sn");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        mIatResults.put(sn, text);
+
+        StringBuffer resultBuffer = new StringBuffer();
+        for (String key : mIatResults.keySet()) {
+            resultBuffer.append(mIatResults.get(key));
+        }
+
+        contentEt.setText(resultBuffer.toString());
+        contentEt.setSelection(contentEt.length());
+
+//        analysisData();
+    }
+
+    /**
+     * 解析数据
+     */
+//    private void analysisData() {
+//        DBManager dbManager = new DBManager(this);
+//        List<BaseDataModel> clientData = new ArrayList<>();
+//        List<BaseDataModel> analysisData = new ArrayList<>();
+//        List<BaseDataModel> functionData = new ArrayList<>();
+//
+//
+//        long time = System.currentTimeMillis();
+//        String resultStr = mResultText.getText().toString();
+//        String pinYinStr = AppTools.convertPinYin(resultStr);
+//
+//        mResultText.setText(resultStr);
+//        mResultText.setSelection(mResultText.length());
+//        if (!TextUtils.isEmpty(resultStr)) {
+//            hintTv.setVisibility(View.GONE);
+//            if (persons.size() != 0) {
+//                for (int i = 0; i < persons.size(); i++) {
+//
+//                    String name = persons.get(i).client_name;
+//                    String namePY = AppTools.convertPinYin(name);
+//
+//
+//                    if (resultStr.indexOf(name) != -1 || pinYinStr.indexOf(namePY) != -1) {//全名匹配
+//                        clientData.add(new BaseDataModel(i + "", name));
+//                    } else if (name.length() > 2 && (resultStr.contains(name.substring(0, 2)) || pinYinStr.contains(AppTools.convertPinYin(name.substring(0, 2))))) {//模糊匹配，开始2个字
+//                        clientData.add(new BaseDataModel(i + "", name));
+//                    }
+//
+//                }
+//            }
+//
+//            //添加拜访记录
+//            if (resultStr.indexOf("拜访") != -1) {
+//                analysisData.add(new BaseDataModel("", "添加拜访记录"));
+//            }
+//
+//            //添加工作日志
+//            if (resultStr.indexOf("日志") != -1
+//                    || resultStr.indexOf("今天") != -1
+//                    || resultStr.indexOf("完成") != -1
+//                    || resultStr.indexOf("昨天") != -1
+//                    || resultStr.indexOf("约") != -1) {
+//                analysisData.add(new BaseDataModel("", "添加工作日志"));
+//
+//            }
+//
+//            //添加日程提醒
+//            if (resultStr.indexOf("明天") != -1
+//                    || resultStr.indexOf("后天") != -1
+//                    || resultStr.indexOf("约") != -1
+//                    || resultStr.indexOf("参加") != -1
+//                    || resultStr.indexOf("跟进") != -1) {
+//                analysisData.add(new BaseDataModel("", "添加日程提醒"));
+//
+//            }
+//
+//            //功能全局搜索
+//            if (resultStr.indexOf("签到") != -1
+//                    ) {
+//                functionData.add(new BaseDataModel("", "考勤签到"));
+//                functionData.add(new BaseDataModel("", "外勤签到"));
+//            }
+//
+//            //出差
+//            if (resultStr.indexOf("出差") != -1) {
+//                functionData.add(new BaseDataModel("", "出差审批"));
+//                functionData.add(new BaseDataModel("", "费用报销"));
+//            }
+//
+//            //添加标签
+//            addLabels(clientData, analysisData, functionData);
+//
+//            //关闭数据库
+//            dbManager.closeDB();
+//
+//            long result = System.currentTimeMillis() - time;
+//
+////            Toast.makeText(this, result + " 毫秒", Toast.LENGTH_LONG).show();
+//        } else {
+//            hintTv.setVisibility(View.VISIBLE);
+//        }
+//
+//
+//    }
 }

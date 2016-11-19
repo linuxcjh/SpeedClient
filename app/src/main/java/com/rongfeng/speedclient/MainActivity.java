@@ -220,9 +220,9 @@ public class MainActivity extends BaseActivity {
      * 初始化Layout。
      */
     private void initLayout() {
-        mEngineType = SpeechConstant.TYPE_CLOUD;
-        findViewById(R.id.iat_upload_contacts).setEnabled(true);
-        findViewById(R.id.iat_upload_userwords).setEnabled(true);
+//        mEngineType = SpeechConstant.TYPE_CLOUD;
+//        findViewById(R.id.iat_upload_contacts).setEnabled(true);
+//        findViewById(R.id.iat_upload_userwords).setEnabled(true);
         // 选择云端or本地
 //        RadioGroup group = (RadioGroup) findViewById(R.id.radioGroup);
 //        group.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
