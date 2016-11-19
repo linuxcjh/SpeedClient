@@ -64,7 +64,7 @@ public class ParseResult {
             if (model != null) {
                 if ("1".equals(model.getResult())) {
                     result = true;
-                } else if("0".equals(model.getResult())){
+                } else if ("0".equals(model.getResult())) {
                     Toast.makeText(AppConfig.getContext(), model.getErrorMsg(), Toast.LENGTH_SHORT).show();
                 }
             }

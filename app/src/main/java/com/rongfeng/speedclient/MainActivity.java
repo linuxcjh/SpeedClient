@@ -220,55 +220,58 @@ public class MainActivity extends BaseActivity {
      * 初始化Layout。
      */
     private void initLayout() {
+        mEngineType = SpeechConstant.TYPE_CLOUD;
+        findViewById(R.id.iat_upload_contacts).setEnabled(true);
+        findViewById(R.id.iat_upload_userwords).setEnabled(true);
         // 选择云端or本地
-        RadioGroup group = (RadioGroup) findViewById(R.id.radioGroup);
-        group.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                switch (checkedId) {
-                    case R.id.iatRadioCloud:
-                        mEngineType = SpeechConstant.TYPE_CLOUD;
-                        findViewById(R.id.iat_upload_contacts).setEnabled(true);
-                        findViewById(R.id.iat_upload_userwords).setEnabled(true);
-                        break;
-                    case R.id.iatRadioLocal:
-                        mEngineType = SpeechConstant.TYPE_LOCAL;
-                        findViewById(R.id.iat_upload_contacts).setEnabled(false);
-                        findViewById(R.id.iat_upload_userwords).setEnabled(false);
-                        /**
-                         * 选择本地听写 判断是否安装语记,未安装则跳转到提示安装页面
-                         */
-                        if (!SpeechUtility.getUtility().checkServiceInstalled()) {
-                            mInstaller.install();
-                        } else {
-                            String result = FucUtil.checkLocalResource();
-                            if (!TextUtils.isEmpty(result)) {
-                                showTip(result);
-                            }
-                        }
-                        break;
-                    case R.id.iatRadioMix:
-                        mEngineType = SpeechConstant.TYPE_MIX;
-                        findViewById(R.id.iat_upload_contacts).setEnabled(false);
-                        findViewById(R.id.iat_upload_userwords).setEnabled(false);
-                        /**
-                         * 选择本地听写 判断是否安装语记,未安装则跳转到提示安装页面
-                         */
-                        if (!SpeechUtility.getUtility().checkServiceInstalled()) {
-                            mInstaller.install();
-                        } else {
-                            String result = FucUtil.checkLocalResource();
-                            if (!TextUtils.isEmpty(result)) {
-                                showTip(result);
-                            }
-                        }
-                        break;
-                    default:
-                        break;
-                }
-            }
-        });
+//        RadioGroup group = (RadioGroup) findViewById(R.id.radioGroup);
+//        group.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+//
+//            @Override
+//            public void onCheckedChanged(RadioGroup group, int checkedId) {
+//                switch (checkedId) {
+//                    case R.id.iatRadioCloud:
+//                        mEngineType = SpeechConstant.TYPE_CLOUD;
+//                        findViewById(R.id.iat_upload_contacts).setEnabled(true);
+//                        findViewById(R.id.iat_upload_userwords).setEnabled(true);
+//                        break;
+//                    case R.id.iatRadioLocal:
+//                        mEngineType = SpeechConstant.TYPE_LOCAL;
+//                        findViewById(R.id.iat_upload_contacts).setEnabled(false);
+//                        findViewById(R.id.iat_upload_userwords).setEnabled(false);
+//                        /**
+//                         * 选择本地听写 判断是否安装语记,未安装则跳转到提示安装页面
+//                         */
+//                        if (!SpeechUtility.getUtility().checkServiceInstalled()) {
+//                            mInstaller.install();
+//                        } else {
+//                            String result = FucUtil.checkLocalResource();
+//                            if (!TextUtils.isEmpty(result)) {
+//                                showTip(result);
+//                            }
+//                        }
+//                        break;
+//                    case R.id.iatRadioMix:
+//                        mEngineType = SpeechConstant.TYPE_MIX;
+//                        findViewById(R.id.iat_upload_contacts).setEnabled(false);
+//                        findViewById(R.id.iat_upload_userwords).setEnabled(false);
+//                        /**
+//                         * 选择本地听写 判断是否安装语记,未安装则跳转到提示安装页面
+//                         */
+//                        if (!SpeechUtility.getUtility().checkServiceInstalled()) {
+//                            mInstaller.install();
+//                        } else {
+//                            String result = FucUtil.checkLocalResource();
+//                            if (!TextUtils.isEmpty(result)) {
+//                                showTip(result);
+//                            }
+//                        }
+//                        break;
+//                    default:
+//                        break;
+//                }
+//            }
+//        });
     }
 
     private void showTip(final String str) {
