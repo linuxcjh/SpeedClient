@@ -32,19 +32,17 @@ import com.iflytek.cloud.RecognizerResult;
 import com.iflytek.cloud.SpeechConstant;
 import com.iflytek.cloud.SpeechError;
 import com.iflytek.cloud.SpeechRecognizer;
-import com.iflytek.cloud.SpeechUtility;
 import com.iflytek.cloud.ui.RecognizerDialog;
 import com.iflytek.cloud.ui.RecognizerDialogListener;
 import com.iflytek.cloud.util.ContactManager;
 import com.rongfeng.speedclient.common.BaseActivity;
 import com.rongfeng.speedclient.datanalysis.DBManager;
-import com.rongfeng.speedclient.datanalysis.Person;
+import com.rongfeng.speedclient.datanalysis.ClientModel;
 import com.rongfeng.speedclient.entity.BaseDataModel;
 import com.rongfeng.speedclient.common.utils.AppTools;
 import com.rongfeng.speedclient.utils.ApkInstaller;
 import com.rongfeng.speedclient.utils.DensityUtil;
 import com.rongfeng.speedclient.utils.FlowLayout;
-import com.rongfeng.speedclient.utils.FucUtil;
 import com.rongfeng.speedclient.utils.JsonParser;
 
 import org.json.JSONException;
@@ -152,7 +150,7 @@ public class MainActivity extends BaseActivity {
     // 语记安装助手类
     private ApkInstaller mInstaller;
 
-    private List<Person> persons;
+    private List<ClientModel> persons;
 
 
     @Override
@@ -190,18 +188,18 @@ public class MainActivity extends BaseActivity {
 
         if (persons.size() == 0) {
             for (int i = 0; i < 5000; i++) {
-                persons.add(new Person((i + 1) + "", "董龙" + i, (i + 2) + "", i + "陈建辉", "18710428556"));
+                persons.add(new ClientModel((i + 1) + "", "董龙" + i, (i + 2) + "", i + "陈建辉", "18710428556"));
             }
-            persons.add(new Person((10003) + "", "张治", (10004) + "", "魏萌", "18710428556"));
-            persons.add(new Person((10004) + "", "李昊泽", (10005) + "", "常征", "18710428556"));
+            persons.add(new ClientModel((10003) + "", "张治", (10004) + "", "魏萌", "18710428556"));
+            persons.add(new ClientModel((10004) + "", "李昊泽", (10005) + "", "常征", "18710428556"));
 
-            persons.add(new Person((10003) + "", "张志", (10004) + "", "陈建辉", "18710428556"));
-            persons.add(new Person((10003) + "", "张制", (10004) + "", "董世龙", "18710428556"));
-            persons.add(new Person((10003) + "", "三一重工", (10004) + "", "马锐", "18710428556"));
+            persons.add(new ClientModel((10003) + "", "张志", (10004) + "", "陈建辉", "18710428556"));
+            persons.add(new ClientModel((10003) + "", "张制", (10004) + "", "董世龙", "18710428556"));
+            persons.add(new ClientModel((10003) + "", "三一重工", (10004) + "", "马锐", "18710428556"));
 
-            persons.add(new Person((10003) + "", "中国移动", (10004) + "", "肖秋风", "18710428556"));
-            persons.add(new Person((10003) + "", "中国联通", (10004) + "", "董世龙", "18710428556"));
-            persons.add(new Person((10003) + "", "荣峰软件科技有限公司", (10004) + "", "陈建辉", "18710428556"));
+            persons.add(new ClientModel((10003) + "", "中国移动", (10004) + "", "肖秋风", "18710428556"));
+            persons.add(new ClientModel((10003) + "", "中国联通", (10004) + "", "董世龙", "18710428556"));
+            persons.add(new ClientModel((10003) + "", "荣峰软件科技有限公司", (10004) + "", "陈建辉", "18710428556"));
 
             dbManager.add(persons);
             Toast.makeText(this, persons.size() + "", Toast.LENGTH_SHORT).show();
@@ -294,7 +292,7 @@ public class MainActivity extends BaseActivity {
     };
 
 
-    int ret = 0; // 函数调用返回值
+    int ret = 0; // 函数调用返回值d
 
 
     @OnClick({R.id.image_iat_set, R.id.commit_tv, R.id.tab_app_new_layout, R.id.iat_recognize, R.id.iat_stop, R.id.iat_cancel, R.id.iat_recognize_stream, R.id.iat_upload_contacts, R.id.iat_upload_userwords, R.id.tab_ws_layout, R.id.tab_client_layout, R.id.tab_plus_layout, R.id.tab_mine_layout})

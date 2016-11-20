@@ -58,4 +58,32 @@
         <item name="android:textColor">@color/colorAssist</item>
         <item name="android:textSize">14sp</item>
     </style>
+
+    <!-- 选择对话框-->
+    <style name="selection_dialog_theme" parent="android:Theme.Dialog">
+        <item name="android:windowFrame">@null</item>
+        <!--边框-->
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowIsFloating">true</item>
+        <!--是否浮现在activity之上-->
+        <item name="android:windowIsTranslucent">true</item>
+        <!--半透明-->
+        <item name="android:windowNoTitle">true</item>
+        <!--无标题-->
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <!--背景透明-->
+        <item name="android:backgroundDimEnabled">true</item>
+        <!--模糊-->
+        <item name="android:windowCloseOnTouchOutside">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
+
+
+    <!--选择对话框动画样式-->
+    <style name="selection_dialog_anim" parent="android:Animation">
+        <item name="@android:windowEnterAnimation">@anim/selection_dialog_enter</item>
+        //进入时的动画
+        <item name="@android:windowExitAnimation">@anim/selection_dialog_exit</item>
+        //退出时的动画
+    </style>
 </resources>

@@ -46,6 +46,8 @@ import com.rongfeng.speedclient.common.AmapLbsLocationManager;
 import com.rongfeng.speedclient.common.Constant;
 import com.rongfeng.speedclient.common.GlideRoundTransform;
 import com.rongfeng.speedclient.common.RoundedCornersTransformation;
+import com.rongfeng.speedclient.components.SelectionDialog;
+import com.rongfeng.speedclient.components.SelectionDialogListAdapter;
 import com.rongfeng.speedclient.entity.BaseDataModel;
 import com.rongfeng.speedclient.login.BaseTransModel;
 import com.rongfeng.speedclient.login.User;
@@ -1397,6 +1399,34 @@ public class AppTools {
         }
         String key = stringBuffer.toString();
         return key;
+    }
+
+
+    /**
+     * 选择框
+     *
+     * @param activity
+     * @param data
+     * @param handler
+     */
+    public static void selectDialog(String title, Activity activity, List<BaseDataModel> data, Handler handler, int selectSign) {
+        AppTools.selectHeightDialog(title, activity, data, handler, selectSign, 0);
+    }
+
+
+    /**
+     * 动态设置高度的选择框
+     *
+     * @param activity
+     * @param data
+     * @param handler
+     * @param selectSign
+     */
+    public static void selectHeightDialog(String title, Activity activity, List<BaseDataModel> data, Handler handler, int selectSign, int height) {
+        SelectionDialogListAdapter adapter = new SelectionDialogListAdapter(activity, R.layout.selection_dialog_listview_item, data);
+        SelectionDialog dialog = new SelectionDialog(activity, R.layout.selection_dialog_listview_layout, handler, selectSign, height);
+
+        dialog.buildDialog().setAdapter(adapter).setTitle(title);
     }
 
 }

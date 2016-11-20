@@ -1,6 +1,6 @@
 package com.rongfeng.speedclient.datanalysis;
 
-public class Person {
+public class ClientModel {
 
 
     public String client_name;
@@ -11,11 +11,11 @@ public class Person {
     public String contact_id;
 
 
-    public Person() {
+    public ClientModel() {
     }
 
 
-    public Person(String client_id, String client_name, String contact_id, String contact_name, String contact_phone) {
+    public ClientModel(String client_id, String client_name, String contact_id, String contact_name, String contact_phone) {
         this.client_name = client_name;
         this.client_id = client_id;
         this.contact_name = contact_name;

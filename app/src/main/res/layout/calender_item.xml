@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/grid_item_layout"
+    android:layout_width="match_parent"
+    android:layout_height="45dp"
+    android:background="@color/colorWhite"
+    android:fadingEdge="none"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:id="@+id/day_layout"
+        android:layout_width="34dp"
+        android:layout_height="34dp"
+        android:layout_centerHorizontal="true"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/solar_calendar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text=""
+            android:textColor="@color/colorTitleText" />
+
+        <TextView
+            android:id="@+id/unar_calendar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text=""
+            android:textColor="@color/colorTitleText"
+            android:textSize="9sp" />
+
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/identifier_image"
+        android:layout_width="5dp"
+        android:layout_height="5dp"
+        android:layout_below="@id/day_layout"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="3dp"
+        android:layout_marginTop="3dp"
+        android:visibility="invisible" />
+</LinearLayout>

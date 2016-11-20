@@ -29,10 +29,10 @@ public class DBManager {
      *
      * @param persons
      */
-    public void add(List<Person> persons) {
+    public void add(List<ClientModel> persons) {
         db.beginTransaction();  //开始事务
         try {
-            for (Person person : persons) {
+            for (ClientModel person : persons) {
                 db.execSQL("INSERT INTO notes VALUES(null,?,?,?,?,?)", new Object[]{person.client_id, person.client_name, person.contact_id, person.contact_name, person.contact_phone});
             }
             db.setTransactionSuccessful();  //设置事务成功完成
@@ -59,7 +59,7 @@ public class DBManager {
      *
      * @param person
      */
-    public void updateAge(Person person) {
+    public void updateAge(ClientModel person) {
         ContentValues cv = new ContentValues();
 //        cv.put("age", person.age);
 //        db.update("person", cv, "name = ?", new String[]{person.name});
@@ -70,7 +70,7 @@ public class DBManager {
      *
      * @param person
      */
-    public void deleteOldPerson(Person person) {
+    public void deleteOldPerson(ClientModel person) {
 //        db.delete("person", "age >= ?", new String[]{String.valueOf(person.age)});
     }
 
@@ -79,11 +79,11 @@ public class DBManager {
      *
      * @return List<Person>
      */
-    public List<Person> query() {
-        ArrayList<Person> persons = new ArrayList<>();
+    public List<ClientModel> query() {
+        ArrayList<ClientModel> persons = new ArrayList<>();
         Cursor c = queryTheCursor();
         while (c.moveToNext()) {
-            Person person = new Person();
+            ClientModel person = new ClientModel();
             person.client_id = c.getString(c.getColumnIndex("client_id"));
             person.client_name = c.getString(c.getColumnIndex("client_name"));
             person.contact_id = c.getString(c.getColumnIndex("contact_id"));

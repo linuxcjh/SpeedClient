@@ -1,90 +1,99 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorBg"
-    android:orientation="vertical">
+    android:background="@color/colorBg">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@color/colorBlue">
-
-
-        <TextView
-            style="@style/title_mid_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="语音输入" />
-
-        <TextView
-            android:id="@+id/note_tv"
-            style="@style/title_side_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:paddingRight="20dp"
-            android:text="笔记" />
-
-    </RelativeLayout>
 
     <LinearLayout
+        android:id="@+id/root_layout"
         android:layout_width="match_parent"
-        android:layout_height="220dp"
-        android:layout_margin="20dp"
-        android:background="@drawable/radar_bg"
+        android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="15dp"
-            android:text="长按下方语音按钮识别语音" />
 
-        <EditText
-            android:id="@+id/content_et"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@color/colorBlue">
+
+
+            <TextView
+                style="@style/title_mid_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="语音输入" />
+
+            <TextView
+                android:id="@+id/note_tv"
+                style="@style/title_side_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:paddingRight="20dp"
+                android:text="笔记" />
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="220dp"
+            android:layout_margin="20dp"
+            android:background="@drawable/radar_bg"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="15dp"
+                android:text="长按下方语音按钮识别语音" />
+
+            <EditText
+                android:id="@+id/content_et"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="160dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/radar_bg">
+
+            <TextView
+                android:id="@+id/h_time_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                android:text="剩余60s" />
+
+            <ImageButton
+                android:id="@+id/voice_bt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="40dp"
+                android:background="@null"
+                android:src="@drawable/camera_btn" />
+
+            <TextView
+                android:id="@+id/voice_status_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/voice_bt"
+                android:layout_centerInParent="true"
+                android:layout_marginTop="20dp"
+                android:text="长按语音输入" />
+
+
+        </RelativeLayout>
+
 
     </LinearLayout>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="160dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:background="@drawable/radar_bg">
-
-        <TextView
-            android:id="@+id/h_time_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="10dp"
-            android:text="剩余60s" />
-
-        <ImageButton
-            android:id="@+id/voice_bt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="40dp"
-            android:background="@null"
-            android:src="@drawable/camera_btn" />
-
-        <TextView
-            android:id="@+id/voice_status_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/voice_bt"
-            android:layout_centerInParent="true"
-            android:layout_marginTop="20dp"
-            android:text="长按语音输入" />
-
-
-    </RelativeLayout>
-
-
-</LinearLayout>
+</RelativeLayout>

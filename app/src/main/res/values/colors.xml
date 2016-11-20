@@ -14,6 +14,9 @@
     <color name="colorBlueLight">#82C1F6</color>
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorBg">#F4F4F4</color>
+    <color name="colorTitleText">#333333</color>
+    <!-- 半透明-->
+    <color name="colorTranBg">#CC000000</color>
 
 
 </resources>
