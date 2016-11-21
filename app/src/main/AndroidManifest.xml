@@ -69,9 +69,10 @@
         <activity android:name=".voice.VoiceNoteActivity" />
         <activity android:name=".client.ClientDotOverlayMapNewActivity" />
         <activity android:name=".client.ClientDotOverlayMapNewSearchActivity" />
-        <activity android:name=".MainActivity"/>
-        <activity android:name=".schedule.ScheduleActivity"/>
-
+        <activity android:name=".MainActivity" />
+        <activity android:name=".schedule.ScheduleActivity" />
+        <activity android:name=".common.CameraWaterMarkActivity" />
+        <activity android:name=".schedule.ScheduleAddEditActivity" />
 
 
         <!--高德定位-->

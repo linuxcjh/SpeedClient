@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     style="@style/root_style"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
     android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="@color/colorBlue">
+        android:background="@drawable/nav_bg">
 
         <TextView
             android:id="@+id/cancel_tv"
@@ -21,6 +19,7 @@
             android:textSize="17sp" />
 
         <TextView
+            android:id="@+id/title_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
@@ -41,4 +40,11 @@
             android:textSize="17sp" />
     </RelativeLayout>
 
+    <com.rongfeng.speedclient.utils.SpringView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+
+        <include layout="@layout/client_register_contact_layout" />
+    </com.rongfeng.speedclient.utils.SpringView>
 </LinearLayout>

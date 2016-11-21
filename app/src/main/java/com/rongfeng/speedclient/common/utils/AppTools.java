@@ -3,11 +3,14 @@ package com.rongfeng.speedclient.common.utils;
 import android.Manifest;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.ActivityManager;
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -29,6 +32,7 @@ import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.DatePicker;
 import android.widget.ImageView;
@@ -43,7 +47,10 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.rongfeng.speedclient.R;
 import com.rongfeng.speedclient.common.AmapLbsLocationManager;
+import com.rongfeng.speedclient.common.CameraNoMarkActivity;
+import com.rongfeng.speedclient.common.CameraWaterMarkActivity;
 import com.rongfeng.speedclient.common.Constant;
+import com.rongfeng.speedclient.common.ConstantPermission;
 import com.rongfeng.speedclient.common.GlideRoundTransform;
 import com.rongfeng.speedclient.common.RoundedCornersTransformation;
 import com.rongfeng.speedclient.components.SelectionDialog;
@@ -51,7 +58,9 @@ import com.rongfeng.speedclient.components.SelectionDialogListAdapter;
 import com.rongfeng.speedclient.entity.BaseDataModel;
 import com.rongfeng.speedclient.login.BaseTransModel;
 import com.rongfeng.speedclient.login.User;
+import com.rongfeng.speedclient.permisson.PermissionsChecker;
 import com.rongfeng.speedclient.utils.DensityUtil;
+import com.rongfeng.speedclient.utils.FlowLayout;
 
 import net.sourceforge.pinyin4j.PinyinHelper;
 import net.sourceforge.pinyin4j.format.HanyuPinyinCaseType;
@@ -384,23 +393,23 @@ public class AppTools {
      * @param handler
      */
 
-//    public static void selectPhotoShow(Activity activity, Handler handler, int selectSign) {
-//
-//        if (PermissionsChecker.getPermissionsChecker().lacksPermissions(ConstantPermission.PERMISSIONS_PICTURE)) {
-//            PermissionsChecker.getPermissionsChecker().startPermissionsActivity(activity, ConstantPermission.PERMISSIONS_PICTURE);
-//        } else {
-//            List<BaseDataModel> data = new ArrayList<>();
-//            BaseDataModel model = new BaseDataModel();
-//            model.setDictionaryName(activity.getString(R.string.camera_picture));
-//            BaseDataModel modelT = new BaseDataModel();
-//            modelT.setDictionaryName(activity.getString(R.string.photo_picture));
-//
-//            data.add(model);
-//            data.add(modelT);
-//            selectDialog("请选择", activity, data, handler, selectSign);
-//        }
-//
-//    }
+    public static void selectPhotoShow(Activity activity, Handler handler, int selectSign) {
+
+        if (PermissionsChecker.getPermissionsChecker().lacksPermissions(ConstantPermission.PERMISSIONS_PICTURE)) {
+            PermissionsChecker.getPermissionsChecker().startPermissionsActivity(activity, ConstantPermission.PERMISSIONS_PICTURE);
+        } else {
+            List<BaseDataModel> data = new ArrayList<>();
+            BaseDataModel model = new BaseDataModel();
+            model.setDictionaryName(activity.getString(R.string.camera_picture));
+            BaseDataModel modelT = new BaseDataModel();
+            modelT.setDictionaryName(activity.getString(R.string.photo_picture));
+
+            data.add(model);
+            data.add(modelT);
+            selectDialog("请选择", activity, data, handler, selectSign);
+        }
+
+    }
 
 
 
@@ -435,74 +444,74 @@ public class AppTools {
      *
      * @param activity
      */
-//    public static void getCapturePath(Activity activity) {
-//
-//        if (PermissionsChecker.getPermissionsChecker().lacksPermissions(ConstantPermission.PERMISSIONS_PICTURE)) {
-//            PermissionsChecker.getPermissionsChecker().startPermissionsActivity(activity, ConstantPermission.PERMISSIONS_PICTURE);
-//        } else {
-//            AppTools.getCapturePath(activity, null);
-//        }
-//    }
+    public static void getCapturePath(Activity activity) {
+
+        if (PermissionsChecker.getPermissionsChecker().lacksPermissions(ConstantPermission.PERMISSIONS_PICTURE)) {
+            PermissionsChecker.getPermissionsChecker().startPermissionsActivity(activity, ConstantPermission.PERMISSIONS_PICTURE);
+        } else {
+            AppTools.getCapturePath(activity, null);
+        }
+    }
 
     /**
      * 水印相机
      *
      * @param activity fragment
      */
-//    public static void getCapturePath(Activity activity, Fragment fragment) {
-//        if (PermissionsChecker.getPermissionsChecker().lacksPermissions(ConstantPermission.PERMISSIONS_PICTURE)) {
-//            PermissionsChecker.getPermissionsChecker().startPermissionsActivity(activity, ConstantPermission.PERMISSIONS_PICTURE);
-//        } else {
-//            String path = getImageSavePath(activity) + "/"
-//                    + DateUtil.getTime(DateUtil.yyyyMMddHHmmss) + ".jpg";
-//            String permission = "android.permission.CAMERA";
-//            if (!AppTools.isOpenPermissions(activity, permission)) {
-//                AppTools.showNoSetDlg(activity, "您好，摄像头权限未开启！");
-//                return;
-//            }
-//            AppConfig.setStringConfig("cameraPath", path);
-//            Intent cameraIntent = new Intent(activity, CameraWaterMarkActivity.class);
-//            cameraIntent.putExtra("path", path);
-//            if (fragment != null) {
-//                fragment.startActivityForResult(cameraIntent,
-//                        Constant.CAMERA_REQUEST_CODE);
-//            } else {
-//                activity.startActivityForResult(cameraIntent,
-//                        Constant.CAMERA_REQUEST_CODE);
-//
-//            }
-//        }
-//
-//
-//    }
+    public static void getCapturePath(Activity activity, Fragment fragment) {
+        if (PermissionsChecker.getPermissionsChecker().lacksPermissions(ConstantPermission.PERMISSIONS_PICTURE)) {
+            PermissionsChecker.getPermissionsChecker().startPermissionsActivity(activity, ConstantPermission.PERMISSIONS_PICTURE);
+        } else {
+            String path = getImageSavePath(activity) + "/"
+                    + DateUtil.getTime(DateUtil.yyyyMMddHHmmss) + ".jpg";
+            String permission = "android.permission.CAMERA";
+            if (!AppTools.isOpenPermissions(activity, permission)) {
+                AppTools.showNoSetDlg(activity, "您好，摄像头权限未开启！");
+                return;
+            }
+            AppConfig.setStringConfig("cameraPath", path);
+            Intent cameraIntent = new Intent(activity, CameraWaterMarkActivity.class);
+            cameraIntent.putExtra("path", path);
+            if (fragment != null) {
+                fragment.startActivityForResult(cameraIntent,
+                        Constant.CAMERA_REQUEST_CODE);
+            } else {
+                activity.startActivityForResult(cameraIntent,
+                        Constant.CAMERA_REQUEST_CODE);
+
+            }
+        }
+
+
+    }
 
     /**
      * 无水印相机
      *
      * @param activity fragment
      */
-//    public static void getCapturePathNoWater(Activity activity, Fragment fragment) {
-//
-//        String path = getImageSavePath(activity) + "/"
-//                + DateUtil.getTime(DateUtil.yyyyMMddHHmmss) + ".jpg";
-//        String permission = "android.permission.CAMERA";
-//        if (!AppTools.isOpenPermissions(activity, permission)) {
-//            AppTools.showNoSetDlg(activity, "您好，摄像头权限未开启！");
-//            return;
-//        }
-//        AppConfig.setStringConfig("cameraPath", path);
-//        Intent cameraIntent = new Intent(activity, CameraNoMarkActivity.class);
-//        cameraIntent.putExtra("path", path);
-//        if (fragment != null) {
-//            fragment.startActivityForResult(cameraIntent,
-//                    Constant.CAMERA_REQUEST_CODE);
-//        } else {
-//            activity.startActivityForResult(cameraIntent,
-//                    Constant.CAMERA_REQUEST_CODE);
-//
-//        }
-//
-//    }
+    public static void getCapturePathNoWater(Activity activity, Fragment fragment) {
+
+        String path = getImageSavePath(activity) + "/"
+                + DateUtil.getTime(DateUtil.yyyyMMddHHmmss) + ".jpg";
+        String permission = "android.permission.CAMERA";
+        if (!AppTools.isOpenPermissions(activity, permission)) {
+            AppTools.showNoSetDlg(activity, "您好，摄像头权限未开启！");
+            return;
+        }
+        AppConfig.setStringConfig("cameraPath", path);
+        Intent cameraIntent = new Intent(activity, CameraNoMarkActivity.class);
+        cameraIntent.putExtra("path", path);
+        if (fragment != null) {
+            fragment.startActivityForResult(cameraIntent,
+                    Constant.CAMERA_REQUEST_CODE);
+        } else {
+            activity.startActivityForResult(cameraIntent,
+                    Constant.CAMERA_REQUEST_CODE);
+
+        }
+
+    }
 
 
     /**
@@ -708,30 +717,30 @@ public class AppTools {
      *
      * @param context
      */
-//    public static void showNoSetDlg(final Context context, String message) {
-//        AlertDialog.Builder builder = new android.app.AlertDialog.Builder(context);
-//        builder.setIcon(R.mipmap.ic_launcher) //
-//                .setTitle(R.string.app_name) //
-//                .setMessage(message).setPositiveButton("设置", new DialogInterface.OnClickListener() {
-//
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//
-//                // 跳转到系统的网络设置界面
-//                Intent intent = null;
-//                // 先判断当前系统版本
-//                if (android.os.Build.VERSION.SDK_INT > 10) { // 3.0以上
-//                    intent = new Intent(android.provider.Settings.ACTION_SETTINGS);
-//
-//                } else {
-//                    intent = new Intent();
-//                    intent.setClassName("com.android.settings", "com.android.settings");
-//                }
-//                context.startActivity(intent);
-//
-//            }
-//        }).setNegativeButton("知道了", null).show();
-//    }
+    public static void showNoSetDlg(final Context context, String message) {
+        AlertDialog.Builder builder = new android.app.AlertDialog.Builder(context);
+        builder.setIcon(R.mipmap.ic_launcher) //
+                .setTitle(R.string.app_name) //
+                .setMessage(message).setPositiveButton("设置", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                // 跳转到系统的网络设置界面
+                Intent intent = null;
+                // 先判断当前系统版本
+                if (android.os.Build.VERSION.SDK_INT > 10) { // 3.0以上
+                    intent = new Intent(android.provider.Settings.ACTION_SETTINGS);
+
+                } else {
+                    intent = new Intent();
+                    intent.setClassName("com.android.settings", "com.android.settings");
+                }
+                context.startActivity(intent);
+
+            }
+        }).setNegativeButton("知道了", null).show();
+    }
 
     /**
      * 转换布尔值
@@ -1428,5 +1437,39 @@ public class AppTools {
 
         dialog.buildDialog().setAdapter(adapter).setTitle(title);
     }
+
+
+    /**
+     * label
+     *
+     * @param context
+     * @param datas
+     * @param flowLayout
+     */
+    public static void generationLabels(final Context context, List<BaseDataModel> datas, final FlowLayout flowLayout) {
+        ViewGroup.MarginLayoutParams lp = new ViewGroup.MarginLayoutParams(ActionBar.LayoutParams.WRAP_CONTENT, ActionBar.LayoutParams.WRAP_CONTENT);
+        lp.height = DensityUtil.dip2px(context, 40);
+        flowLayout.removeAllViews();
+
+        for (int i = 0; i < datas.size(); i++) {
+            final View view = LayoutInflater.from(context).inflate(R.layout.main_lable_edit_view, null);
+
+            final TextView textView = (TextView) view.findViewById(R.id.label_tv);
+            textView.setText(datas.get(i).getDictionaryName());
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(AppConfig.getContext(), textView.getText().toString(), Toast.LENGTH_SHORT).show();
+                }
+            });
+
+            view.setLayoutParams(lp);
+            flowLayout.addView(view);
+        }
+
+    }
+
+
+
 
 }

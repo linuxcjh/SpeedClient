@@ -19,7 +19,7 @@ import java.util.List;
 /**
  * AUTHOR: Alex
  * DATE: 21/10/2015 18:55
- * TODO:【Parent Activity】
+ *
  */
 public class BaseActivity extends FragmentActivity  {
 

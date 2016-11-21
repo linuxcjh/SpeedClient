@@ -230,5 +230,7 @@ public interface Constant {
      */
     public static final int SELECT_POSITION_CLIENT_REQUEST_CODE = 0x13;
 
+    int ADD_OR_EDIT_CONTRACT = 0x11;
+
 
 }

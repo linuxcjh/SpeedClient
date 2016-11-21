@@ -22,4 +22,10 @@
     <string name="string_help_text">当前操作缺少必要权限。\n\n请点击\"设置\"-\"权限\"-打开所需权限。\n\n最后点击两次后退按钮，即可返回。</string>
     <string name="quit">取消</string>
 
+    <string name="camera_picture">拍照</string>
+    <string name="photo_picture">相册</string>
+    <string name="cancel">取消</string>
+    <string name="save">保存</string>
+    <string name="complete">完成</string>
+
 </resources>

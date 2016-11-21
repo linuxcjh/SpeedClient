@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/root_style"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
+    android:background="@color/colorBg"
     android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="@color/colorBlue">
+        android:background="@drawable/nav_bg">
 
         <TextView
             android:id="@+id/cancel_tv"
@@ -41,230 +41,248 @@
             android:textSize="17sp" />
     </RelativeLayout>
 
-    <LinearLayout
+    <com.rongfeng.speedclient.utils.SpringView
         android:layout_width="match_parent"
-        android:layout_height="120dp"
-        android:background="@color/colorWhite"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
-
-        <TextView
-            style="@style/register_client_tip_style"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
-            android:text="客户类型：" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:background="@android:color/white"
-            android:orientation="horizontal">
-
-            <RelativeLayout
-                android:id="@+id/res_business_client_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1">
-
-                <TextView
-                    android:id="@+id/res_business_client_tv"
-                    android:layout_width="match_parent"
-                    android:layout_height="22dp"
-                    android:gravity="center"
-                    android:text="个人客户"
-                    android:textColor="@color/colorBlue"
-                    android:textSize="14sp" />
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:layout_below="@+id/res_business_client_tv"
-                    android:layout_marginTop="2dp">
-
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="2dp"
-                        android:layout_centerVertical="true"
-                        android:background="#F7F7F7" />
-
-                    <ImageView
-                        android:id="@+id/res_business_client_iv"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_gravity="center_vertical"
-                        android:src="@drawable/addcustomer_type_select" />
-
-
-                </RelativeLayout>
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/res_personal_client_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1">
-
-                <TextView
-                    android:id="@+id/res_personal_client_tv"
-                    android:layout_width="match_parent"
-                    android:layout_height="22dp"
-                    android:gravity="center"
-                    android:text="企业客户"
-                    android:textColor="@color/colorAssistLight"
-                    android:textSize="12sp" />
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:layout_below="@+id/res_personal_client_tv"
-                    android:layout_marginTop="2dp">
-
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="2dp"
-                        android:layout_centerVertical="true"
-                        android:background="#F7F7F7" />
-
-                    <ImageView
-                        android:id="@+id/res_personal_client_iv"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_gravity="center_vertical"
-                        android:src="@drawable/addcustomer_type" />
-
-
-                </RelativeLayout>
-            </RelativeLayout>
-        </LinearLayout>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:background="@android:color/white"
-        android:orientation="vertical">
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/examine_approve_item"
-            android:gravity="center_vertical"
-            android:paddingRight="16dp">
-
-            <TextView
-                style="@style/register_client_left_text_style"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/examine_approve_margin_left_right"
-                android:text="客户名称：" />
-
-            <EditText
-                android:id="@+id/res_company_name_tv"
-                style="@style/register_edit_view_style"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center_vertical|right"
-                android:hint="输入公司名称" />
-
-
-        </LinearLayout>
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
-            android:background="#F7F7F7" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/examine_approve_item"
-            android:gravity="center_vertical"
-            android:paddingRight="16dp">
-
-            <TextView
-                style="@style/register_client_left_text_style"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/examine_approve_margin_left_right"
-                android:text="电话：" />
-
-            <EditText
-                android:id="@+id/res_phone_tv"
-                style="@style/register_edit_view_style"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center_vertical|right"
-                android:hint="输入客户电话" />
-
-
-        </LinearLayout>
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
-            android:background="#F7F7F7" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/examine_approve_item"
-            android:gravity="center_vertical">
-
-            <TextView
-                style="@style/register_client_left_text_style"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/examine_approve_margin_left_right"
-                android:text="详细地址：" />
-
-            <TextView
-                android:id="@+id/res_company_addr_detail_tv"
-                style="@style/register_edit_view_style"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center_vertical|right"
-                android:hint="输入详细地址"
-                android:singleLine="false" />
-
-            <ImageView
-                android:id="@+id/res_map_iv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="@dimen/examine_approve_margin_left_right"
-                android:paddingRight="16dp"
-                android:src="@drawable/list_locate" />
-
-        </LinearLayout>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/contacts_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-
-    </LinearLayout>
-
-    <com.rongfeng.speedclient.utils.FlowLayout
-        android:id="@+id/flowLayout_layout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_weight="1">
 
-    </com.rongfeng.speedclient.utils.FlowLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:background="@color/colorWhite"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/register_client_tip_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:text="客户类型：" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:background="@android:color/white"
+                    android:orientation="horizontal">
+
+                    <RelativeLayout
+                        android:id="@+id/res_business_client_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1">
+
+                        <TextView
+                            android:id="@+id/res_business_client_tv"
+                            android:layout_width="match_parent"
+                            android:layout_height="22dp"
+                            android:gravity="center"
+                            android:text="个人客户"
+                            android:textColor="@color/colorBlue"
+                            android:textSize="14sp" />
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="30dp"
+                            android:layout_below="@+id/res_business_client_tv"
+                            android:layout_marginTop="2dp">
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="2dp"
+                                android:layout_centerVertical="true"
+                                android:background="#F7F7F7" />
+
+                            <ImageView
+                                android:id="@+id/res_business_client_iv"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_gravity="center_vertical"
+                                android:src="@drawable/addcustomer_type_select" />
+
+
+                        </RelativeLayout>
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/res_personal_client_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1">
+
+                        <TextView
+                            android:id="@+id/res_personal_client_tv"
+                            android:layout_width="match_parent"
+                            android:layout_height="22dp"
+                            android:gravity="center"
+                            android:text="企业客户"
+                            android:textColor="@color/colorAssistLight"
+                            android:textSize="12sp" />
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="30dp"
+                            android:layout_below="@+id/res_personal_client_tv"
+                            android:layout_marginTop="2dp">
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="2dp"
+                                android:layout_centerVertical="true"
+                                android:background="#F7F7F7" />
+
+                            <ImageView
+                                android:id="@+id/res_personal_client_iv"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_gravity="center_vertical"
+                                android:src="@drawable/addcustomer_type" />
+
+
+                        </RelativeLayout>
+                    </RelativeLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:background="@android:color/white"
+                android:orientation="vertical">
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/examine_approve_item"
+                    android:gravity="center_vertical"
+                    android:paddingRight="16dp">
+
+                    <TextView
+                        style="@style/register_client_left_text_style"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/examine_approve_margin_left_right"
+                        android:text="客户名称：" />
+
+                    <EditText
+                        android:id="@+id/res_company_name_tv"
+                        style="@style/register_edit_view_style"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical|right"
+                        android:hint="输入公司名称" />
+
+
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:background="#F7F7F7" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/examine_approve_item"
+                    android:gravity="center_vertical"
+                    android:paddingRight="16dp">
+
+                    <TextView
+                        style="@style/register_client_left_text_style"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/examine_approve_margin_left_right"
+                        android:text="电话：" />
+
+                    <EditText
+                        android:id="@+id/res_phone_tv"
+                        style="@style/register_edit_view_style"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical|right"
+                        android:hint="输入客户电话" />
+
+
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:background="#F7F7F7" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/examine_approve_item"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        style="@style/register_client_left_text_style"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/examine_approve_margin_left_right"
+                        android:text="详细地址：" />
+
+                    <TextView
+                        android:id="@+id/res_company_addr_detail_tv"
+                        style="@style/register_edit_view_style"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical|right"
+                        android:hint="输入详细地址"
+                        android:singleLine="false" />
+
+                    <ImageView
+                        android:id="@+id/res_map_iv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="@dimen/examine_approve_margin_left_right"
+                        android:paddingRight="16dp"
+                        android:src="@drawable/list_locate" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <GridLayout
+                android:id="@+id/contacts_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical">
+
+
+            </GridLayout>
+
+
+            <com.rongfeng.speedclient.utils.FlowLayout
+                android:id="@+id/flowLayout_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="20dp">
+
+            </com.rongfeng.speedclient.utils.FlowLayout>
+
+        </LinearLayout>
+    </com.rongfeng.speedclient.utils.SpringView>
 </LinearLayout>
