@@ -13,10 +13,17 @@
     <color name="colorAssistLight">#CCCCCC</color>
     <color name="colorBlueLight">#82C1F6</color>
     <color name="colorWhite">#FFFFFF</color>
-    <color name="colorBg">#F4F4F4</color>
+    <color name="colorBg">#F0F0F0</color>
     <color name="colorTitleText">#333333</color>
     <!-- 半透明-->
     <color name="colorTranBg">#CC000000</color>
+
+    <color name="colorClientText">#323232</color>
+    <color name="colorClientRadar">#505050</color>
+    <color name="colorUnComplete">#D5E0E8</color>
+
+
+
 
 
 </resources>

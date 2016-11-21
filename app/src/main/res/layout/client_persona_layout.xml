@@ -1,0 +1,365 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBg">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/nav_bg">
+
+            <TextView
+                android:id="@+id/cancel_tv"
+                style="@style/title_side_text"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_centerVertical="true"
+                android:gravity="center_vertical"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:text="退出" />
+
+
+            <TextView
+                style="@style/title_mid_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="客户画像" />
+
+            <TextView
+                android:id="@+id/add_client_tv"
+                style="@style/title_side_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:paddingRight="20dp"
+                android:text="编辑" />
+
+
+        </RelativeLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:background="@drawable/nav_bg_down" />
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="170dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="6dp"
+                android:background="@drawable/radar_bg">
+
+
+                <ImageView
+                    android:id="@+id/client_image_view"
+                    android:layout_width="75dp"
+                    android:layout_height="75dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="32dp"
+                    android:src="@drawable/custshow_company" />
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/client_image_view"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="15sp"
+                    android:text="西安荣峰软件可以有限公司"
+                    android:textColor="#707070"
+                    android:textSize="14sp" />
+
+                <LinearLayout
+                    android:id="@+id/contact_layout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@+id/client_image_view"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="45dp"
+                    android:layout_marginTop="14dp"
+                    android:layout_toLeftOf="@+id/client_image_view"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:src="@drawable/custshow_contacts" />
+
+                    <TextView
+
+                        android:id="@+id/contact_num_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="联系人(6)"
+                        android:textColor="@color/colorAssist"
+                        android:textSize="10sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/client_record__layout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@+id/client_image_view"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="45dp"
+                    android:layout_marginTop="14dp"
+                    android:layout_toRightOf="@+id/client_image_view"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:src="@drawable/cust_plus_visit" />
+
+                    <TextView
+                        android:id="@+id/client_record_num_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="跟进(6)"
+                        android:textColor="@color/colorAssist"
+                        android:textSize="10sp" />
+
+                </LinearLayout>
+
+            </RelativeLayout>
+        </FrameLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/radar_bg"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:drawableLeft="@drawable/custshow_tab_client"
+                    android:drawablePadding="3dp"
+                    android:gravity="center"
+                    android:text="标签"
+                    android:textColor="@color/colorAssist"
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="7dp"
+                    android:text="16个"
+                    android:textColor="@color/colorAssist"
+                    android:textSize="10sp" />
+
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="@color/colorBg" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:drawableLeft="@drawable/custshow_tab_opportunity"
+                    android:drawablePadding="3dp"
+                    android:gravity="center"
+                    android:text="商机"
+                    android:textColor="@color/colorAssist"
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="7dp"
+                    android:text="￥200,000"
+                    android:textColor="@color/colorAssist"
+                    android:textSize="10sp" />
+
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="@color/colorBg" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:drawableLeft="@drawable/custshow_tab_deal"
+                    android:drawablePadding="3dp"
+                    android:gravity="center"
+                    android:text="成交"
+                    android:textColor="@color/colorAssist"
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="7dp"
+                    android:text="￥100,000"
+                    android:textColor="@color/colorAssist"
+                    android:textSize="10sp" />
+
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="@color/colorBg" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:drawableLeft="@drawable/custshow_tab_debt"
+                    android:drawablePadding="3dp"
+                    android:gravity="center"
+                    android:text="欠款"
+                    android:textColor="@color/colorAssist"
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="7dp"
+                    android:text="￥400,000"
+                    android:textColor="@color/colorAssist"
+                    android:textSize="10sp" />
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+        <com.rongfeng.speedclient.components.MyGridView
+            android:id="@+id/grid_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="20dp"
+            android:horizontalSpacing="15dp"
+            android:numColumns="3"
+            android:verticalSpacing="10dp" />
+
+    </LinearLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/shortcut_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#DDF0F0F0"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/shortcut_contract_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="26dp"
+            android:layout_marginRight="90dp"
+            android:drawablePadding="10dp"
+            android:drawableRight="@drawable/cust_plus_deal"
+            android:gravity="center_vertical"
+            android:text="添加合同"
+            android:textColor="@color/colorClientRadar"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/shortcut_bus_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/shortcut_contract_tv"
+            android:layout_alignRight="@+id/shortcut_contract_tv"
+            android:layout_marginBottom="25dp"
+            android:drawablePadding="10dp"
+            android:drawableRight="@drawable/cust_plus_opportunity"
+            android:gravity="center_vertical"
+            android:text="添加商机"
+            android:textColor="@color/colorClientRadar"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/shortcut_record_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/shortcut_bus_tv"
+            android:layout_alignRight="@+id/shortcut_bus_tv"
+            android:layout_marginBottom="25dp"
+            android:drawablePadding="10dp"
+            android:drawableRight="@drawable/cust_plus_visit"
+            android:gravity="center_vertical"
+            android:text="添加跟进记录"
+            android:textColor="@color/colorClientRadar"
+            android:textSize="14sp" />
+    </RelativeLayout>
+
+    <ImageButton
+        android:id="@+id/plus_ib"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/cust_plus" />
+</RelativeLayout>

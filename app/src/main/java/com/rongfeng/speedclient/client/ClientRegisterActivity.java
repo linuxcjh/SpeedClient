@@ -90,10 +90,9 @@ public class ClientRegisterActivity extends BaseActivity {
     private void initViews() {
 
 
-        dataLabel.add(new BaseDataModel("0", "+联系人"));
-        dataLabel.add(new BaseDataModel("1", "+区域"));
-        dataLabel.add(new BaseDataModel("2", "+客户级别"));
-
+        dataLabel.add(new BaseDataModel("0", "+ 联系人"));
+        dataLabel.add(new BaseDataModel("1", "+ 区域"));
+        dataLabel.add(new BaseDataModel("2", "+ 客户级别"));
 
         generationLabels(this, dataLabel, flowLayoutLayout);
     }
@@ -254,7 +253,7 @@ public class ClientRegisterActivity extends BaseActivity {
     }
 
     /**
-     * 设置审批流程列表
+     * 联系人列表
      *
      * @param rModel
      */

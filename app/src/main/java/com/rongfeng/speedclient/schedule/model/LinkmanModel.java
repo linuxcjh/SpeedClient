@@ -45,6 +45,13 @@ public class LinkmanModel  implements Serializable{
     private String remark;//	备注
     private String customerId;
 
+
+    public LinkmanModel(String name, String iconUrl) {
+        this.name = name;
+        this.iconUrl = iconUrl;
+    }
+    public LinkmanModel() {
+    }
     public String getCustomerId() {
         return customerId;
     }

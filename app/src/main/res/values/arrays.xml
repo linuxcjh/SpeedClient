@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+
+
+
+
+
+    <!-- 选择联系人-->
+    <string-array name="select_contact">
+        <item>从联系人导入</item>
+        <item>新建联系人</item>
+    </string-array>
+
+    <!-- 审批选项-->
+    <string-array name="approval_item">
+
+        <item>请假</item>
+        <item>出差</item>
+        <item>报销</item>
+        <item>采购</item>
+        <item>加班</item>
+        <item>借款</item>
+        <!--<item>入职</item>-->
+        <item>调休</item>
+        <item>费用</item>
+        <item>会签</item>
+        <item>用车</item>
+        <item>其他申请</item>
+    </string-array>
+
+
+    <string-array name="repeat_date">
+        <item>每周一</item>
+        <item>每周二</item>
+        <item>每周三</item>
+        <item>每周四</item>
+        <item>每周五</item>
+        <item>每周六</item>
+        <item>每周日</item>
+
+
+    </string-array>
+
+    <string-array name="crm_date">
+        <item>本月</item>
+        <item>本季度</item>
+        <item>本年</item>
+
+    </string-array>
+
+</resources>

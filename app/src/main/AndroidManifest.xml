@@ -73,6 +73,9 @@
         <activity android:name=".schedule.ScheduleActivity" />
         <activity android:name=".common.CameraWaterMarkActivity" />
         <activity android:name=".schedule.ScheduleAddEditActivity" />
+        <activity android:name=".client.ClientPersonaActivity" />
+        <activity android:name=".client.ClientContactsActivity" />
+        <activity android:name=".client.ClientRecordsActivity" />
 
 
         <!--高德定位-->

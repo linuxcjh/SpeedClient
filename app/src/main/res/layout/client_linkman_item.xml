@@ -1,0 +1,59 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+     >
+    <LinearLayout
+        android:id="@+id/grid_item_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <RelativeLayout
+            android:id="@+id/avatarlayout"
+            android:layout_width="47dp"
+            android:layout_height="47dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+             >
+            <com.rongfeng.speedclient.components.AvatarImageView xmlns:img="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/clue_avatar_no_url_iv"
+                android:layout_width="42dp"
+                android:layout_height="42dp"
+                android:visibility="gone"
+                img:contentBackColor="@color/colorUnComplete"
+                img:radius="42dp"
+                img:textColor="@android:color/white"
+                img:textSize="22sp" />
+            <ImageView
+                android:id="@+id/tavatar"
+                android:layout_width="42dp"
+                android:layout_height="42dp"
+                android:layout_centerInParent="true"
+                />
+
+            <ImageView
+                android:id="@+id/remind"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:background="@drawable/clientcontacts_delete"
+                android:visibility="gone"
+                />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/link_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="5dp"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text="李国强"
+            android:textSize="13sp"
+            android:textColor="@color/colorListName"
+            />
+    </LinearLayout>
+</FrameLayout>

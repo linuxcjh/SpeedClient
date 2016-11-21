@@ -25,7 +25,6 @@ public class RadarChartView extends View {
     private Paint mainPaint;
     //网格区画笔
     private Paint valuePaint;               //数据区画笔
-    private Paint textPaint;                //文本画笔\
     private Paint innerCirclePaint;//内圆
 
     private float circleRadius = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 3, getResources().getDisplayMetrics());
@@ -41,14 +40,14 @@ public class RadarChartView extends View {
     public RadarChartView(Context context, AttributeSet attrs) {
         super(context, attrs);
         mainPaint = new Paint();
-        mainPaint.setColor(Color.parseColor("#b5b5b5"));
-        mainPaint.setStrokeWidth(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1, getResources().getDisplayMetrics()));
+        mainPaint.setColor(Color.parseColor("#CCCCCC"));
+        mainPaint.setStrokeWidth(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 0.8f, getResources().getDisplayMetrics()));
         mainPaint.setAntiAlias(true);
         mainPaint.setStyle(Paint.Style.STROKE);
 
 
         valuePaint = new Paint();
-        valuePaint.setColor(Color.parseColor("#f39700"));
+        valuePaint.setColor(Color.parseColor("#2E86F1"));
         valuePaint.setStrokeWidth(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1, getResources().getDisplayMetrics()));
         valuePaint.setAntiAlias(true);
         valuePaint.setStyle(Paint.Style.FILL_AND_STROKE);
@@ -59,10 +58,6 @@ public class RadarChartView extends View {
         innerCirclePaint.setStyle(Paint.Style.FILL);
 
 
-        textPaint = new Paint();
-        textPaint.setTextSize(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 13, getResources().getDisplayMetrics()));
-        textPaint.setStyle(Paint.Style.FILL);
-        textPaint.setColor(Color.BLACK);
     }
 
     /**
@@ -217,7 +212,7 @@ public class RadarChartView extends View {
      */
     private void drawRegion(Canvas canvas) {
         Path path = new Path();
-        valuePaint.setAlpha(255);
+        valuePaint.setAlpha(230);
         float r = radius / (count - 1);//r是蜘蛛丝之间的间距
         double percent1;
         if (data[0] != maxValue) {
@@ -279,12 +274,12 @@ public class RadarChartView extends View {
         path.close();
         valuePaint.setStyle(Paint.Style.STROKE);
         canvas.drawPath(path, valuePaint);
-        valuePaint.setAlpha(90);
+        valuePaint.setAlpha(66);
 //绘制填充区域
         valuePaint.setStyle(Paint.Style.FILL_AND_STROKE);
         canvas.drawPath(path, valuePaint);
 
-        valuePaint.setAlpha(255);
+        valuePaint.setAlpha(230);
 
         canvas.drawCircle(x1, y1, circleRadius, valuePaint);
         canvas.drawCircle(x1, y1, innerCircleRadius, innerCirclePaint);
