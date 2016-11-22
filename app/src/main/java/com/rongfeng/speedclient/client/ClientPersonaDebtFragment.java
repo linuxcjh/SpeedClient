@@ -5,11 +5,11 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.GridView;
 
 import com.rongfeng.speedclient.R;
-import com.rongfeng.speedclient.client.adapter.ClientPersonaAdapter;
+import com.rongfeng.speedclient.client.adapter.ClientPersonaBargainAdapter;
 import com.rongfeng.speedclient.common.BaseFragment;
-import com.rongfeng.speedclient.components.MyGridView;
 import com.rongfeng.speedclient.entity.BaseDataModel;
 
 import java.util.ArrayList;
@@ -26,9 +26,9 @@ public class ClientPersonaDebtFragment extends BaseFragment{
 
 
     @Bind(R.id.grid_view)
-    MyGridView gridView;
+    GridView gridView;
 
-    private ClientPersonaAdapter adapter;
+    private ClientPersonaBargainAdapter adapter;
     List<BaseDataModel> models = new ArrayList<>();
 
     @Nullable
@@ -49,7 +49,7 @@ public class ClientPersonaDebtFragment extends BaseFragment{
         models.add(new BaseDataModel("欠款客户", "300个"));
         models.add(new BaseDataModel("客户总数", "300个"));
         models.add(new BaseDataModel("关注客户", "300个"));
-        adapter = new ClientPersonaAdapter(getActivity(), R.layout.client_persona_item, models);
+        adapter = new ClientPersonaBargainAdapter(getActivity(), R.layout.client_persona_bargain_item, models);
         gridView.setAdapter(adapter);
 
     }

@@ -18,7 +18,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.rongfeng.speedclient.R;
-import com.rongfeng.speedclient.client.adapter.ClientPersonaAdapter;
+import com.rongfeng.speedclient.client.adapter.ClientPersonaLabelAdapter;
 import com.rongfeng.speedclient.common.BaseActivity;
 import com.rongfeng.speedclient.entity.BaseDataModel;
 
@@ -102,7 +102,7 @@ public class ClientPersonaActivity extends BaseActivity  {
     @Bind(R.id.content_viewPager)
     ViewPager contentViewPager;
 
-    private ClientPersonaAdapter adapter;
+    private ClientPersonaLabelAdapter adapter;
     private List<BaseDataModel> models = new ArrayList<>();
 
     private ClientPersonaLabelFragment labelFragment = new ClientPersonaLabelFragment();

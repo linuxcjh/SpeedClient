@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.rongfeng.speedclient.R;
-import com.rongfeng.speedclient.client.adapter.ClientPersonaAdapter;
+import com.rongfeng.speedclient.client.adapter.ClientPersonaLabelAdapter;
 import com.rongfeng.speedclient.common.BaseFragment;
 import com.rongfeng.speedclient.components.MyGridView;
 import com.rongfeng.speedclient.entity.BaseDataModel;
@@ -27,7 +27,7 @@ public class ClientPersonaBusinessFragment extends BaseFragment  {
     @Bind(R.id.grid_view)
     MyGridView gridView;
 
-    private ClientPersonaAdapter adapter;
+    private ClientPersonaLabelAdapter adapter;
     List<BaseDataModel> models = new ArrayList<>();
 
     @Nullable
@@ -48,7 +48,7 @@ public class ClientPersonaBusinessFragment extends BaseFragment  {
         models.add(new BaseDataModel("欠款客户", "300个"));
         models.add(new BaseDataModel("客户总数", "300个"));
         models.add(new BaseDataModel("关注客户", "300个"));
-        adapter = new ClientPersonaAdapter(getActivity(), R.layout.client_persona_item, models);
+        adapter = new ClientPersonaLabelAdapter(getActivity(), R.layout.client_persona_item, models);
         gridView.setAdapter(adapter);
 
     }

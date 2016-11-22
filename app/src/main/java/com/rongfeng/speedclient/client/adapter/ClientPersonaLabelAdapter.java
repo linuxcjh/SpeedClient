@@ -13,10 +13,10 @@ import java.util.List;
 /**
  * Created by Administrator on 2015/10/27.
  */
-public class ClientPersonaAdapter extends QuickAdapter<BaseDataModel> {
+public class ClientPersonaLabelAdapter extends QuickAdapter<BaseDataModel> {
 
 
-    public ClientPersonaAdapter(Context context, int layoutResId, List<BaseDataModel> data) {
+    public ClientPersonaLabelAdapter(Context context, int layoutResId, List<BaseDataModel> data) {
         super(context, layoutResId, data);
     }
 
