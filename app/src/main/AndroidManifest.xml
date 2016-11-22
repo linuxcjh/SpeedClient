@@ -62,7 +62,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".WordsActivity" />
-
         <activity android:name=".home.MainTableActivity" />
         <activity android:name=".client.ClientRegisterActivity" />
         <activity android:name=".client.ClientAddContactActivity" />
@@ -76,6 +75,11 @@
         <activity android:name=".client.ClientPersonaActivity" />
         <activity android:name=".client.ClientContactsActivity" />
         <activity android:name=".client.ClientRecordsActivity" />
+        <activity android:name=".common.displayimage.ShowWebImageActivity" />
+        <activity android:name=".client.ClientVisitActivity" />
+        <activity android:name=".client.ClientAddBusinessActivity" />
+        <activity android:name=".client.ClientAddRebackMoneyActivity" />
+        <activity android:name=".client.ClientAddContractActivity" />
 
 
         <!--高德定位-->

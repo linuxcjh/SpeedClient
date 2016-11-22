@@ -57,6 +57,7 @@ import com.rongfeng.speedclient.components.SelectionDialog;
 import com.rongfeng.speedclient.components.SelectionDialogListAdapter;
 import com.rongfeng.speedclient.entity.BaseDataModel;
 import com.rongfeng.speedclient.login.BaseTransModel;
+import com.rongfeng.speedclient.login.Enterprise;
 import com.rongfeng.speedclient.login.User;
 import com.rongfeng.speedclient.permisson.PermissionsChecker;
 import com.rongfeng.speedclient.utils.DensityUtil;
@@ -641,15 +642,15 @@ public class AppTools {
         *  获取登录信息
         * @return
         */
-//    public static Enterprise getEnterPrise() {
-//        Enterprise enterprise = new Enterprise();
-//        String str = AppConfig.getStringConfig("enterPrise", null);
-//        if (!TextUtils.isEmpty(str)) {
-//            enterprise = new GsonBuilder().create().fromJson(str, new TypeToken<Enterprise>() {
-//            }.getType());
-//        }
-//        return enterprise;
-//    }
+    public static Enterprise getEnterPrise() {
+        Enterprise enterprise = new Enterprise();
+        String str = AppConfig.getStringConfig("enterPrise", null);
+        if (!TextUtils.isEmpty(str)) {
+            enterprise = new GsonBuilder().create().fromJson(str, new TypeToken<Enterprise>() {
+            }.getType());
+        }
+        return enterprise;
+    }
 
 
     /**
@@ -657,10 +658,10 @@ public class AppTools {
      *
 //     * @param enterprise
      */
-//    public static void saveEnterpriseModel(Enterprise enterprise) {
-//        String userModelString = new GsonBuilder().create().toJson(enterprise);
-//        AppConfig.setStringConfig("enterPrise", userModelString);
-//    }
+    public static void saveEnterpriseModel(Enterprise enterprise) {
+        String userModelString = new GsonBuilder().create().toJson(enterprise);
+        AppConfig.setStringConfig("enterPrise", userModelString);
+    }
 
     /*
      *  获取登录人对象

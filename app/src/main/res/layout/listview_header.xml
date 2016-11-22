@@ -56,7 +56,7 @@
             android:layout_toLeftOf="@id/listview_header_text"
             android:src="@drawable/shp_arrow_down" />
 
-        <com.rongfeng.xxb.xrecyclerview.SimpleViewSwithcer
+        <com.rongfeng.speedclient.xrecyclerview.SimpleViewSwithcer
             android:id="@+id/listview_header_progressbar"
             android:layout_width="30dip"
             android:layout_height="30dip"

@@ -39,7 +39,7 @@
         <item name="android:background">@color/colorBlue</item>
     </style>
     <style name="register_client_tip_style">
-        <item name="android:textColor">@color/colorAssist</item>
+        <item name="android:textColor">@color/colorListName</item>
         <item name="android:textSize">14sp</item>
     </style>
 

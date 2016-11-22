@@ -14,16 +14,16 @@
             android:layout_height="50dp"
             android:background="@drawable/nav_bg">
 
-            <TextView
+            <ImageView
                 android:id="@+id/cancel_tv"
                 style="@style/title_side_text"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_centerVertical="true"
                 android:gravity="center_vertical"
-                android:paddingLeft="20dp"
+                android:paddingLeft="16dp"
                 android:paddingRight="20dp"
-                android:text="退出" />
+                android:src="@drawable/nav_back" />
 
 
             <TextView
@@ -81,7 +81,7 @@
                     android:layout_below="@+id/client_image_view"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="15sp"
-                    android:text="西安荣峰软件可以有限公司"
+                    android:text="西安荣峰软件科技有限公司"
                     android:textColor="#707070"
                     android:textSize="14sp" />
 
@@ -115,7 +115,7 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/client_record__layout"
+                    android:id="@+id/client_record_layout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignTop="@+id/client_image_view"
@@ -145,148 +145,220 @@
             </RelativeLayout>
         </FrameLayout>
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="15dp"
-            android:background="@drawable/radar_bg"
-            android:orientation="horizontal">
+            android:layout_height="67dp"
+            android:layout_marginTop="15dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:background="@drawable/radar_bg"
+                android:orientation="horizontal">
+
+
+                <LinearLayout
+                    android:id="@+id/label_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/label_layout_text_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:drawableLeft="@drawable/custshow_tab_client"
+                        android:drawablePadding="3dp"
+                        android:gravity="center"
+                        android:text="标签"
+                        android:textColor="@color/colorBlue"
+                        android:textSize="10sp" />
+
+                    <TextView
+                        android:id="@+id/label_layout_value_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="7dp"
+                        android:text="16个"
+                        android:textColor="@color/colorBlue"
+                        android:textSize="10sp" />
+
+                </LinearLayout>
+
+
+                <ImageView
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/colorBg" />
+
+                <LinearLayout
+                    android:id="@+id/bus_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/bus_layout_text_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:drawableLeft="@drawable/custshow_tab_opportunity"
+                        android:drawablePadding="3dp"
+                        android:gravity="center"
+                        android:text="商机"
+                        android:textColor="@color/colorAssist"
+                        android:textSize="10sp" />
+
+                    <TextView
+                        android:id="@+id/bus_layout_value_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="7dp"
+                        android:text="￥200,000"
+                        android:textColor="@color/colorAssist"
+                        android:textSize="10sp" />
+
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/colorBg" />
+
+                <LinearLayout
+                    android:id="@+id/bargain_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/bargain_layout_text_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:drawableLeft="@drawable/custshow_tab_deal"
+                        android:drawablePadding="3dp"
+                        android:gravity="center"
+                        android:text="成交"
+                        android:textColor="@color/colorAssist"
+                        android:textSize="10sp" />
+
+                    <TextView
+                        android:id="@+id/bargain_layout_value_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="7dp"
+                        android:text="￥100,000"
+                        android:textColor="@color/colorAssist"
+                        android:textSize="10sp" />
+
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/colorBg" />
+
+                <LinearLayout
+                    android:id="@+id/debt_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/debt_layout_text_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:drawableLeft="@drawable/custshow_tab_debt"
+                        android:drawablePadding="3dp"
+                        android:gravity="center"
+                        android:text="欠款"
+                        android:textColor="@color/colorAssist"
+                        android:textSize="10sp" />
+
+                    <TextView
+                        android:id="@+id/debt_layout_value_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="7dp"
+                        android:text="￥400,000"
+                        android:textColor="@color/colorAssist"
+                        android:textSize="10sp" />
+
+                </LinearLayout>
+
+
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:orientation="vertical">
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:orientation="horizontal">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:drawableLeft="@drawable/custshow_tab_client"
-                    android:drawablePadding="3dp"
-                    android:gravity="center"
-                    android:text="标签"
-                    android:textColor="@color/colorAssist"
-                    android:textSize="10sp" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="7dp"
-                    android:text="16个"
-                    android:textColor="@color/colorAssist"
-                    android:textSize="10sp" />
+                <ImageView
+                    android:id="@+id/label_iv"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/custshow_tab_h" />
+
+
+                <ImageView
+                    android:id="@+id/bus_iv"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/custshow_tab_h"
+                    android:visibility="invisible" />
+
+
+                <ImageView
+                    android:id="@+id/bargain_iv"
+
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/custshow_tab_h"
+                    android:visibility="invisible" />
+
+
+                <ImageView
+                    android:id="@+id/debt_iv"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/custshow_tab_h"
+                    android:visibility="invisible" />
+
 
             </LinearLayout>
 
-            <ImageView
-                android:layout_width="1dp"
-                android:layout_height="match_parent"
-                android:background="@color/colorBg" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:drawableLeft="@drawable/custshow_tab_opportunity"
-                    android:drawablePadding="3dp"
-                    android:gravity="center"
-                    android:text="商机"
-                    android:textColor="@color/colorAssist"
-                    android:textSize="10sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="7dp"
-                    android:text="￥200,000"
-                    android:textColor="@color/colorAssist"
-                    android:textSize="10sp" />
-
-            </LinearLayout>
-
-            <ImageView
-                android:layout_width="1dp"
-                android:layout_height="match_parent"
-                android:background="@color/colorBg" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:drawableLeft="@drawable/custshow_tab_deal"
-                    android:drawablePadding="3dp"
-                    android:gravity="center"
-                    android:text="成交"
-                    android:textColor="@color/colorAssist"
-                    android:textSize="10sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="7dp"
-                    android:text="￥100,000"
-                    android:textColor="@color/colorAssist"
-                    android:textSize="10sp" />
-
-            </LinearLayout>
-
-            <ImageView
-                android:layout_width="1dp"
-                android:layout_height="match_parent"
-                android:background="@color/colorBg" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:drawableLeft="@drawable/custshow_tab_debt"
-                    android:drawablePadding="3dp"
-                    android:gravity="center"
-                    android:text="欠款"
-                    android:textColor="@color/colorAssist"
-                    android:textSize="10sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="7dp"
-                    android:text="￥400,000"
-                    android:textColor="@color/colorAssist"
-                    android:textSize="10sp" />
-
-            </LinearLayout>
-
-
-        </LinearLayout>
+        </RelativeLayout>
 
         <com.rongfeng.speedclient.components.MyGridView
             android:id="@+id/grid_view"

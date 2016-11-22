@@ -14,16 +14,16 @@
             android:layout_height="50dp"
             android:background="@drawable/nav_bg">
 
-            <TextView
+            <ImageView
                 android:id="@+id/cancel_tv"
                 style="@style/title_side_text"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_centerVertical="true"
+                android:src="@drawable/nav_back"
                 android:gravity="center_vertical"
-                android:paddingLeft="20dp"
-                android:paddingRight="20dp"
-                android:text="退出" />
+                android:paddingLeft="16dp"
+                android:paddingRight="20dp" />
 
 
             <TextView
@@ -32,6 +32,18 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:text="跟进记录" />
+
+            <TextView
+                android:id="@+id/total_tv"
+                style="@style/title_side_text"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:gravity="center_vertical"
+                android:paddingLeft="16dp"
+                android:paddingRight="20dp"
+                android:text="共30条" />
 
 
         </RelativeLayout>
@@ -45,12 +57,19 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/nav_bg_down" />
 
+            <ImageView
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="32.5dp"
+                android:layout_marginTop="20dp"
+                android:background="#D8D8D8" />
+
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
                 android:layout_marginTop="12dp"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
@@ -61,7 +80,7 @@
                     android:layout_width="36dp"
                     android:layout_height="36dp"
                     android:layout_centerHorizontal="true"
-                    android:src="@drawable/custshow_company" />
+                    android:src="@drawable/cust_vist_head" />
 
 
                 <TextView
@@ -75,6 +94,44 @@
 
 
             </LinearLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="60dp">
+
+                <com.rongfeng.speedclient.xrecyclerview.XRecyclerView
+                    android:id="@+id/client_listView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scrollbars="vertical" />
+
+                <LinearLayout
+                    android:id="@+id/no_data_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/colorBg"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="85dp"
+                        android:background="@drawable/baoshu_nodata" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="25dp"
+                        android:text="目前还没有跟进记录"
+                        android:textColor="@color/colorListName" />
+
+                </LinearLayout>
+
+            </FrameLayout>
+
         </FrameLayout>
     </LinearLayout>
 </RelativeLayout>

@@ -23,16 +23,28 @@
             android:layout_weight="1"
             android:text="联系人:  " />
 
+
         <TextView
             android:id="@+id/contact_info_tv"
             style="@style/register_client_left_text_style"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:drawablePadding="10dp"
-            android:drawableRight="@drawable/list_arrow"
             android:gravity="center_vertical|right"
-            android:text=""
-            />
+            android:text="" />
+
+        <ImageView
+            android:id="@+id/delete_iv"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/public_clear" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/list_arrow" />
 
     </LinearLayout>
 
