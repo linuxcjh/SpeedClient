@@ -2,12 +2,15 @@ package com.rongfeng.speedclient.client;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.ViewPager;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LinearInterpolator;
-import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -17,7 +20,6 @@ import android.widget.TextView;
 import com.rongfeng.speedclient.R;
 import com.rongfeng.speedclient.client.adapter.ClientPersonaAdapter;
 import com.rongfeng.speedclient.common.BaseActivity;
-import com.rongfeng.speedclient.components.MyGridView;
 import com.rongfeng.speedclient.entity.BaseDataModel;
 
 import java.util.ArrayList;
@@ -33,8 +35,13 @@ import static com.rongfeng.speedclient.R.id.shortcut_layout;
 /**
  * 客户画像
  */
-public class ClientPersonaActivity extends BaseActivity implements AdapterView.OnItemClickListener {
+public class ClientPersonaActivity extends BaseActivity  {
 
+    public static final int CLIENT_LABEL_INDEX = 0;
+    public static final int CLIENT_BUSINESS_INDEX = 1;
+    public static final int CLIENT_BARGAIN_INDEX = 2;
+    public static final int CLIENT_DEBT_INDEX = 3;
+    public static final int CLIENT_SLIDE_ALL_COUNT = 4;//Total page count
 
     @Bind(R.id.cancel_tv)
     ImageView cancelTv;
@@ -42,8 +49,6 @@ public class ClientPersonaActivity extends BaseActivity implements AdapterView.O
     TextView contactNumTv;
     @Bind(R.id.contact_layout)
     LinearLayout contactLayout;
-    @Bind(R.id.grid_view)
-    MyGridView gridView;
     @Bind(R.id.shortcut_contract_tv)
     TextView shortcutContractTv;
     @Bind(R.id.shortcut_bus_tv)
@@ -94,34 +99,102 @@ public class ClientPersonaActivity extends BaseActivity implements AdapterView.O
     ImageView bargainIv;
     @Bind(R.id.debt_iv)
     ImageView debtIv;
+    @Bind(R.id.content_viewPager)
+    ViewPager contentViewPager;
+
     private ClientPersonaAdapter adapter;
-    List<BaseDataModel> models = new ArrayList<>();
+    private List<BaseDataModel> models = new ArrayList<>();
+
+    private ClientPersonaLabelFragment labelFragment = new ClientPersonaLabelFragment();
+    private ClientPersonaBusinessFragment businessFragment = new ClientPersonaBusinessFragment();
+    private ClientPersonaBargainFragment bargainFragment = new ClientPersonaBargainFragment();
+    private ClientPersonaDebtFragment debtFragment = new ClientPersonaDebtFragment();
+
+    private List<Fragment> fragments = new ArrayList<>();
+    private FragmentPagerAdapter mAdapter;
+    //当前页
+    public int changeStatus = -1;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.client_persona_layout);
         ButterKnife.bind(this);
-
         initViews();
+        initViewPage();
     }
 
     private void initViews() {
-        models.add(new BaseDataModel("新客户", "300个"));
-        models.add(new BaseDataModel("老客户", "300个"));
-        models.add(new BaseDataModel("商机客户", "300个"));
-        models.add(new BaseDataModel("欠款客户", "300个"));
-        models.add(new BaseDataModel("客户总数", "300个"));
-        models.add(new BaseDataModel("关注客户", "300个"));
-        adapter = new ClientPersonaAdapter(this, R.layout.client_persona_item, models);
-        gridView.setAdapter(adapter);
-        gridView.setOnItemClickListener(this);
     }
 
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+    private void initViewPage() {
 
+        fragments.add(labelFragment);
+        fragments.add(businessFragment);
+        fragments.add(bargainFragment);
+        fragments.add(debtFragment);
+        contentViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                switch (position) {
+                    case CLIENT_LABEL_INDEX:
+                        changeStatus = CLIENT_LABEL_INDEX;
+                        setLayoutStatus(labelIv, labelLayoutTextTv, labelLayoutValueTv);
+
+                        break;
+                    case CLIENT_BUSINESS_INDEX:
+                        changeStatus = CLIENT_BUSINESS_INDEX;
+                        setLayoutStatus(busIv, busLayoutTextTv, busLayoutValueTv);
+
+                        break;
+                    case CLIENT_BARGAIN_INDEX:
+                        changeStatus = CLIENT_BARGAIN_INDEX;
+                        setLayoutStatus(bargainIv, bargainLayoutTextTv, bargainLayoutValueTv);
+
+                        break;
+                    case CLIENT_DEBT_INDEX:
+                        changeStatus = CLIENT_DEBT_INDEX;
+                        setLayoutStatus(debtIv, debtLayoutTextTv, debtLayoutValueTv);
+
+                        break;
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+
+        mAdapter = new FragmentPagerAdapter(getSupportFragmentManager()) {
+
+            @Override
+            public Object instantiateItem(ViewGroup container, int position) {
+                return super.instantiateItem(container, position);
+            }
+
+            @Override
+            public Fragment getItem(int position) {
+
+                return fragments.get(position);
+            }
+
+            @Override
+            public int getCount() {
+                return CLIENT_SLIDE_ALL_COUNT;
+            }
+        };
+
+        contentViewPager.setOffscreenPageLimit(3);
+        contentViewPager.setAdapter(mAdapter);
     }
+
 
     @OnClick({R.id.cancel_tv, R.id.contact_layout, R.id.shortcut_contract_tv, R.id.shortcut_bus_tv, R.id.shortcut_record_tv, shortcut_layout, R.id.plus_ib, R.id.client_record_layout, R.id.label_layout, R.id.bus_layout, R.id.bargain_layout, R.id.debt_layout})
     public void onClick(View view) {
@@ -156,19 +229,18 @@ public class ClientPersonaActivity extends BaseActivity implements AdapterView.O
                 startActivity(new Intent(this, ClientRecordsActivity.class));
                 break;
             case R.id.label_layout:
-
-                setLayoutStatus(labelIv, labelLayoutTextTv, labelLayoutValueTv);
+                contentViewPager.setCurrentItem(CLIENT_LABEL_INDEX, true);
                 break;
             case R.id.bus_layout:
-                setLayoutStatus(busIv, busLayoutTextTv, busLayoutValueTv);
+                contentViewPager.setCurrentItem(CLIENT_BUSINESS_INDEX, true);
 
                 break;
             case R.id.bargain_layout:
-                setLayoutStatus(bargainIv, bargainLayoutTextTv, bargainLayoutValueTv);
+                contentViewPager.setCurrentItem(CLIENT_BARGAIN_INDEX, true);
 
                 break;
             case R.id.debt_layout:
-                setLayoutStatus(debtIv, debtLayoutTextTv, debtLayoutValueTv);
+                contentViewPager.setCurrentItem(CLIENT_DEBT_INDEX, true);
 
                 break;
         }
