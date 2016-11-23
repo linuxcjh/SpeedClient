@@ -9,10 +9,13 @@ import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 
 import com.rongfeng.speedclient.R;
-import com.rongfeng.speedclient.voice.VoiceNoteActivity;
+import com.rongfeng.speedclient.client.ClientPersonaActivity;
+import com.rongfeng.speedclient.client.ClientRecordsActivity;
+import com.rongfeng.speedclient.voice.AddScheduleActivity;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -27,6 +30,12 @@ public class SearchPopupWindow {
 
     @Bind(R.id.cancel_iv)
     ImageView cancelIv;
+    @Bind(R.id.client_persona_layout)
+    LinearLayout clientPersonaLayout;
+    @Bind(R.id.client_record_layout)
+    LinearLayout clientRecordLayout;
+    @Bind(R.id.client_remind_layout)
+    LinearLayout clientRemindLayout;
     private View view;
     public PopupWindow mPopupWindow;
     private Context mContext;
@@ -49,8 +58,6 @@ public class SearchPopupWindow {
         ButterKnife.bind(this, view);
 
         mPopupWindow = new PopupWindow(view, ((Activity) mContext).getWindowManager().getDefaultDisplay().getWidth(), mDisplayHeight);
-//        mPopupWindow = new PopupWindow(view);
-
         mPopupWindow.setContentView(view);
         mPopupWindow.setFocusable(true);
         mPopupWindow.setOutsideTouchable(true);
@@ -60,11 +67,31 @@ public class SearchPopupWindow {
     }
 
 
-    @OnClick(R.id.cancel_iv)
-    public void onClick() {
-//        mPopupWindow.dismiss();
-        mContext.startActivity(new Intent(mContext, VoiceNoteActivity.class));
+//    @OnClick(R.id.cancel_iv)
+//    public void onClick() {
+////        mPopupWindow.dismiss();
+//        mContext.startActivity(new Intent(mContext, VoiceNoteActivity.class));
+//
+//    }
 
+    @OnClick({R.id.cancel_iv, R.id.client_persona_layout, R.id.client_record_layout, R.id.client_remind_layout})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.cancel_iv:
+                mPopupWindow.dismiss();
+                break;
+            case R.id.client_persona_layout:
+                mContext.startActivity(new Intent(mContext, ClientPersonaActivity.class));
+
+                break;
+            case R.id.client_record_layout:
+                mContext.startActivity(new Intent(mContext, ClientRecordsActivity.class));
+
+                break;
+            case R.id.client_remind_layout:
+                mContext.startActivity(new Intent(mContext, AddScheduleActivity.class));
+                break;
+        }
     }
 }
 

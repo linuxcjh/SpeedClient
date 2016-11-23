@@ -80,6 +80,7 @@
         <activity android:name=".client.ClientAddBusinessActivity" />
         <activity android:name=".client.ClientAddRebackMoneyActivity" />
         <activity android:name=".client.ClientAddContractActivity" />
+        <activity android:name=".voice.AddScheduleActivity"/>
 
 
         <!--高德定位-->

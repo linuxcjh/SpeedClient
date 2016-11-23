@@ -413,7 +413,6 @@ public class AppTools {
     }
 
 
-
     /**
      * 调用系统相册
      *
@@ -608,8 +607,6 @@ public class AppTools {
     }
 
 
-
-
     /**
      * 日期转换 .  / -
      *
@@ -655,8 +652,8 @@ public class AppTools {
 
     /**
      * 保存登录信息
-     *
-//     * @param enterprise
+     * <p>
+     * //     * @param enterprise
      */
     public static void saveEnterpriseModel(Enterprise enterprise) {
         String userModelString = new GsonBuilder().create().toJson(enterprise);
@@ -1329,6 +1326,29 @@ public class AppTools {
         }
     }
 
+    //显示虚拟键盘
+    public static void showKeyboard(View v) {
+        InputMethodManager imm = (InputMethodManager) v.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+
+        imm.showSoftInput(v, InputMethodManager.SHOW_FORCED);
+
+    }
+
+    /**
+     * 弹出键盘
+     *
+     * @param mHandler
+     * @param s
+     */
+    public static void openKeyboard(final Context mContext, Handler mHandler, int s) {
+        mHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+            }
+        }, s);
+    }
 
     /**
      * 校验登陆信息
@@ -1378,9 +1398,6 @@ public class AppTools {
 
         return result;
     }
-
-
-
 
 
     public static String convertPinYin(String content) {
@@ -1469,8 +1486,6 @@ public class AppTools {
         }
 
     }
-
-
 
 
 }

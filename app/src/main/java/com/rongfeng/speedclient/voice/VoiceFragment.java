@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.iflytek.cloud.ErrorCode;
@@ -37,7 +38,6 @@ import com.rongfeng.speedclient.components.SearchPopupWindow;
 import com.rongfeng.speedclient.datanalysis.ClientModel;
 import com.rongfeng.speedclient.datanalysis.DBManager;
 import com.rongfeng.speedclient.entity.BaseDataModel;
-import com.rongfeng.speedclient.schedule.ScheduleActivity;
 import com.rongfeng.speedclient.utils.JsonParser;
 
 import org.json.JSONException;
@@ -60,7 +60,7 @@ import static android.content.ContentValues.TAG;
  * 语音
  * 2016/1/13
  */
-public class VoiceFragment extends BaseFragment {
+public class VoiceFragment extends BaseFragment implements View.OnTouchListener {
 
 
     @Bind(R.id.note_tv)
@@ -75,26 +75,22 @@ public class VoiceFragment extends BaseFragment {
     EditText contentEt;
     @Bind(R.id.root_layout)
     LinearLayout rootLayout;
+    @Bind(R.id.voice_hint_layout)
+    LinearLayout voiceHintLayout;
+    @Bind(R.id.click_input_tv)
+    TextView clickInputTv;
+    @Bind(R.id.input_count_tv)
+    TextView inputCountTv;
+    @Bind(R.id.input_cancel_tv)
+    TextView inputCancelTv;
+    @Bind(R.id.input_confirm_tv)
+    TextView inputConfirmTv;
+    @Bind(R.id.voice_input_layout)
+    RelativeLayout voiceInputLayout;
 
-
+    private SearchPopupWindow searchPopupWindow;
     private int timeNum = 0;//录音时长
 
-
-    Handler mHandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            switch (msg.what) {
-                case 0:
-                    hTimeTv.setText("剩余 " + timeNum++ + " s");
-                    break;
-                case 1:
-                    timeNum = 0;
-                    break;
-            }
-
-        }
-    };
 
     private Timer timer = new Timer();
 
@@ -135,69 +131,11 @@ public class VoiceFragment extends BaseFragment {
 
     }
 
+
     private void init() {
-
-        voiceBt.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-
-
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        timerTask = new TimerTask() {
-                            @Override
-                            public void run() {
-                                mHandler.sendEmptyMessage(0);
-                            }
-                        };
-                        timer.schedule(timerTask, 0, 1000);
-                        voiceStatusTv.setText("聆听中……");
-                        // 设置参数
-                        setParam();
-                        boolean isShowDialog = mSharedPreferences.getBoolean(
-                                getString(R.string.pref_key_iat_show), true);
-                        if (isShowDialog) {
-                            // 显示听写对话框
-                            mIatDialog.setListener(mRecognizerDialogListener);
-                            mIatDialog.show();
-//                    showTip(getString(R.string.text_begin));
-                        } else {
-                            // 不显示听写对话框
-                            ret = mIat.startListening(mRecognizerListener);
-                            if (ret != ErrorCode.SUCCESS) {
-//                        showTip("听写失败,错误码：" + ret);
-                            } else {
-//                        showTip(getString(R.string.text_begin));
-                            }
-                        }
-                        break;
-                    case MotionEvent.ACTION_MOVE:
-
-                        break;
-                    case MotionEvent.ACTION_UP:
-
-                        if (timerTask != null) {
-                            timerTask.cancel();
-                        }
-                        mHandler.sendEmptyMessage(1);
-
-                        if (timeNum > 1) { //录音时长大于1秒开始解析
-                            analysisVoice();
-
-                        } else {
-//                            AppTools.getToast("时间太短");
-                            voiceStatusTv.setText("长按语音输入");
-
-                        }
-
-
-                        break;
-                }
-
-
-                return true;
-            }
-        });
+        voiceBt.setOnTouchListener(this);
+        searchPopupWindow = new SearchPopupWindow(getActivity(), Utils.getDeviceHeightPixels(getActivity()), mHandler);
+        searchPopupWindow.getPopupWindow();
     }
 
 
@@ -210,18 +148,26 @@ public class VoiceFragment extends BaseFragment {
 
     }
 
-    @OnClick(R.id.note_tv)
-    public void onClick(View v) {
-        switch (v.getId()) {
+    @OnClick({R.id.note_tv, R.id.click_input_tv, R.id.input_cancel_tv, R.id.input_confirm_tv})
+    public void onClick(View view) {
+        switch (view.getId()) {
             case R.id.note_tv:
-//                startActivity(new Intent(getActivity(), VoiceNoteActivity.class));
-//                startActivity(new Intent(getActivity(), MainActivity.class));
-
+                startActivity(new Intent(getActivity(), VoiceNoteActivity.class));
 //                AppTools.selectDialog("选择客户", this, clientAddPresenter.generationClientOrigin(), mHandler, clientAddPresenter.SELECT_TYPE_CLIENT_ORIGIN);
-
 //                showPop();
+//                startActivity(new Intent(getActivity(), ScheduleActivity.class));
+                break;
+            case R.id.click_input_tv:
+                setEditLayoutStatus(true);
 
-                startActivity(new Intent(getActivity(), ScheduleActivity.class));
+                break;
+            case R.id.input_cancel_tv:
+                contentEt.setText("");
+                break;
+            case R.id.input_confirm_tv:
+
+                analysisData();
+                AppTools.hideKeyboard(contentEt);
                 break;
         }
     }
@@ -230,16 +176,28 @@ public class VoiceFragment extends BaseFragment {
      * 显示搜索框
      */
     public void showPop() {
-        SearchPopupWindow searchPopupWindow = new SearchPopupWindow(getActivity(), Utils.getDeviceHeightPixels(getActivity()), mHandler);
-        searchPopupWindow.getPopupWindow().showAtLocation(rootLayout, Gravity.TOP, 0, 0);
-
+        if (!searchPopupWindow.mPopupWindow.isShowing()) {
+            searchPopupWindow.mPopupWindow.showAtLocation(rootLayout, Gravity.TOP, 0, 0);
+        }
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        ButterKnife.unbind(this);
-    }
+
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case 0:
+                    hTimeTv.setText("剩余 " + timeNum++ + " s");
+                    break;
+                case 1:
+                    timeNum = 0;
+                    break;
+            }
+
+        }
+    };
+
 
     /**
      * 初始化监听器。
@@ -300,6 +258,7 @@ public class VoiceFragment extends BaseFragment {
         mIat.setParameter(SpeechConstant.AUDIO_FORMAT, "wav");
         mIat.setParameter(SpeechConstant.ASR_AUDIO_PATH, Environment.getExternalStorageDirectory() + "/msc/iat.wav");
     }
+
     /**
      * 听写UI监听器
      */
@@ -393,25 +352,25 @@ public class VoiceFragment extends BaseFragment {
         analysisData();
     }
 
-
     /**
      * 解析数据
      */
     private void analysisData() {
-        DBManager dbManager = new DBManager(getActivity());
-        clientModels = dbManager.query();
-
-        List<BaseDataModel> clientData = new ArrayList<>();
-        List<BaseDataModel> analysisData = new ArrayList<>();
-        List<BaseDataModel> functionData = new ArrayList<>();
-
-
         String resultStr = contentEt.getText().toString();
         String pinYinStr = AppTools.convertPinYin(resultStr);
-
         contentEt.setText(resultStr);
         contentEt.setSelection(contentEt.length());
         if (!TextUtils.isEmpty(resultStr)) {
+            setEditLayoutStatus(false);
+
+            DBManager dbManager = new DBManager(getActivity());
+            clientModels = dbManager.query();
+
+            List<BaseDataModel> clientData = new ArrayList<>();
+            List<BaseDataModel> analysisData = new ArrayList<>();
+            List<BaseDataModel> functionData = new ArrayList<>();
+
+
             if (clientModels.size() != 0) {
                 for (int i = 0; i < clientModels.size(); i++) {
 
@@ -475,8 +434,93 @@ public class VoiceFragment extends BaseFragment {
             showPop();
 
         } else {
+            AppTools.getToast("请输入内容");
         }
 
 
     }
+
+
+    /**
+     * 设置编辑layout
+     */
+    private void setEditLayoutStatus(boolean isShowKeyBoard){
+        contentEt.setVisibility(View.VISIBLE);
+        contentEt.setFocusable(true);
+        contentEt.setFocusableInTouchMode(true);
+        contentEt.requestFocus();//获取焦点 光标出现
+        if(isShowKeyBoard){
+            AppTools.openKeyboard(getActivity(), mHandler, 200);
+        }
+        voiceInputLayout.setVisibility(View.VISIBLE);
+        voiceHintLayout.setVisibility(View.GONE);
+        clickInputTv.setVisibility(View.GONE);
+    }
+
+    @Override
+    public boolean onTouch(View view, MotionEvent event) {
+
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                timerTask = new TimerTask() {
+                    @Override
+                    public void run() {
+                        mHandler.sendEmptyMessage(0);
+                    }
+                };
+                timer.schedule(timerTask, 0, 1000);
+                voiceStatusTv.setText("聆听中……");
+                // 设置参数
+                setParam();
+                boolean isShowDialog = mSharedPreferences.getBoolean(
+                        getString(R.string.pref_key_iat_show), true);
+//                        if (isShowDialog) {
+//                            // 显示听写对话框
+//                            mIatDialog.setListener(mRecognizerDialogListener);
+//                            mIatDialog.show();
+////                    showTip(getString(R.string.text_begin));
+//                        } else {
+                // 不显示听写对话框
+                ret = mIat.startListening(mRecognizerListener);
+                if (ret != ErrorCode.SUCCESS) {
+//                        showTip("听写失败,错误码：" + ret);
+//                            } else {
+//                        showTip(getString(R.string.text_begin));
+//                            }
+                }
+                break;
+            case MotionEvent.ACTION_MOVE:
+
+                break;
+            case MotionEvent.ACTION_UP:
+
+                if (timerTask != null) {
+                    timerTask.cancel();
+                }
+                mHandler.sendEmptyMessage(1);
+
+                if (timeNum > 1) { //录音时长大于1秒开始解析
+                    analysisVoice();
+
+                } else {
+//                            AppTools.getToast("时间太短");
+                    voiceStatusTv.setText("长按语音输入");
+
+                }
+
+
+                break;
+        }
+
+
+        return true;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.unbind(this);
+    }
+
+
 }

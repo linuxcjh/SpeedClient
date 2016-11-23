@@ -140,24 +140,24 @@ public class EffectsCalendarView extends FrameLayout implements View.OnClickList
                     }
                     break;
                 case 1:
-                    if( by<=1){
-                        by=1;
+                    if (by <= 1) {
+                        by = 1;
                     }
                     if (isTop) {
-                       if(childView1.getScrollY()==-calendarViewTopHeight) break;
+                        if (childView1.getScrollY() == -calendarViewTopHeight) break;
                         childView1.scrollBy(0, by);
                     } else {
-                        if(childView1.getScrollY()==-calendarHeight - vh + lineHeight){
-                            final String str= calendarView.getCalendart().getAdapter().getDateString();
-                            if(!TextUtils.isEmpty(str)){
-                                weekView.setDateString(str,false);
+                        if (childView1.getScrollY() == -calendarHeight - vh + lineHeight) {
+                            final String str = calendarView.getCalendart().getAdapter().getDateString();
+                            if (!TextUtils.isEmpty(str)) {
+                                weekView.setDateString(str, false);
                             }
                             break;
                         }
                         childView1.scrollBy(0, -by);
                     }
                     by--;
-                    sendEmptyMessageDelayed(1,5);
+                    sendEmptyMessageDelayed(1, 5);
                     break;
             }
         }
@@ -167,6 +167,7 @@ public class EffectsCalendarView extends FrameLayout implements View.OnClickList
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
+
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 sY = event.getRawY();
@@ -174,6 +175,7 @@ public class EffectsCalendarView extends FrameLayout implements View.OnClickList
                 fetch();
                 break;
             case MotionEvent.ACTION_MOVE:
+
                 float mY = event.getRawY();
                 float mX = event.getRawX();
 
@@ -187,6 +189,9 @@ public class EffectsCalendarView extends FrameLayout implements View.OnClickList
 
                 /* 上下滑动距离大于左右滑动的距离， 并且最小大于10 */
                 if (Math.abs(msY) > Math.abs(msX) && Math.abs(msY) > 10/*&&((ViewGroup)childView1.getChildAt(1)).getChildCount()>0*/) {
+                    if (isDisableWeekView) {
+                         break;
+                    }
                     //上拉
                     if (msY < 0 && isBottom) {
                         isIntercept = true;
@@ -219,13 +224,13 @@ public class EffectsCalendarView extends FrameLayout implements View.OnClickList
                 isIntercept = false;
 
                 if (y > 0) {
-                    isPullUp=false;
+                    isPullUp = false;
                     if ((y >= checkedLineTB[0])) {//移动位置超过已选日历行的底边缘
 //                        childView1.scrollTo(0, -calendarHeight - vh + lineHeight);
                         int scrollY = childView1.getScrollY();
-                        int sn=scrollY+calendarHeight + vh - lineHeight;
+                        int sn = scrollY + calendarHeight + vh - lineHeight;
                         /* 求等差数列末项 ， 首相1 末项为by 公差为1 等差数列和 sn*/
-                        by= (int) ((Math.sqrt(8* Math.abs(sn)+1)-1)/2);
+                        by = (int) ((Math.sqrt(8 * Math.abs(sn) + 1) - 1) / 2);
                         handler.sendEmptyMessage(1);
                         weekView.setVisibility(INVISIBLE);
                         isBottom = true;
@@ -235,9 +240,9 @@ public class EffectsCalendarView extends FrameLayout implements View.OnClickList
                     } else if (y < checkedLineTB[0]) {//移动位置未越过已选日历行的底边缘
 //                        childView1.scrollTo(0, -calendarViewTopHeight);
                         int scrollY = childView1.getScrollY();
-                        int sn=-calendarViewTopHeight-scrollY;
+                        int sn = -calendarViewTopHeight - scrollY;
                         /* 求等差数列末项 ， 首相1 末项为by 公差为1 等差数列和 sn*/
-                        by= (int) ((Math.sqrt(8* Math.abs(sn)+1)-1)/2);
+                        by = (int) ((Math.sqrt(8 * Math.abs(sn) + 1) - 1) / 2);
                         handler.sendEmptyMessage(1);
                         weekView.setVisibility(VISIBLE);
                         isBottom = false;
@@ -251,8 +256,8 @@ public class EffectsCalendarView extends FrameLayout implements View.OnClickList
                 } else if (weekView.getVisibility() == INVISIBLE) {
                     isShrink = false;
                 }
-                if (y == 0&&isPullUp) {
-                    isPullUp=false;
+                if (y == 0 && isPullUp) {
+                    isPullUp = false;
                     return true;
                 }
 
@@ -300,10 +305,10 @@ public class EffectsCalendarView extends FrameLayout implements View.OnClickList
         if (Math.abs(calendarHeight + vh + moveY) > calendarViewTopHeight + lineHeight) {
             childView1.scrollTo(0, -calendarHeight + lineHeight - vh - moveY);
             y = Math.abs(-calendarHeight + lineHeight - vh - moveY);
-            isPullUp=true;
+            isPullUp = true;
             if (-childView1.getScrollY() <= checkedLineTB[0]) {
                 weekView.setVisibility(VISIBLE);
-            }else  weekView.setVisibility(INVISIBLE);
+            } else weekView.setVisibility(INVISIBLE);
         } else {
             childView1.scrollTo(0, -calendarViewTopHeight);
             weekView.setVisibility(VISIBLE);
@@ -325,7 +330,7 @@ public class EffectsCalendarView extends FrameLayout implements View.OnClickList
 
         } else {
             childView1.scrollTo(0, -calendarHeight - vh + lineHeight);
-            if(weekView.getVisibility()==VISIBLE){
+            if (weekView.getVisibility() == VISIBLE) {
                 weekView.setVisibility(INVISIBLE);
             }
             isBottom = true;
@@ -346,7 +351,9 @@ public class EffectsCalendarView extends FrameLayout implements View.OnClickList
         return weekView;
     }
 
-    public ViewGroup getChildView1() {return childView1;}
+    public ViewGroup getChildView1() {
+        return childView1;
+    }
 
 
     public void setIsShrink(boolean isShrink) {
@@ -423,5 +430,22 @@ public class EffectsCalendarView extends FrameLayout implements View.OnClickList
                     calendarView.flingToNext();
                 break;
         }
+    }
+
+
+    boolean isDisableWeekView;
+
+    /**
+     * 是否禁用weekView
+     *
+     * @param isDisable
+     */
+
+    public void isDisableWeekView(boolean isDisable) {
+        this.isDisableWeekView = isDisable;
+        if (isDisableWeekView) {
+            weekView.setVisibility(INVISIBLE);
+        }
+
     }
 }
