@@ -206,9 +206,12 @@ public class ClientPersonaActivity extends BaseActivity  {
                 startActivity(new Intent(this, ClientContactsActivity.class));
                 break;
             case R.id.shortcut_contract_tv:
+                startActivity(new Intent(this, ClientAddContractActivity.class));
 
                 break;
             case R.id.shortcut_bus_tv:
+                startActivity(new Intent(this, ClientAddBusinessActivity.class));
+
                 break;
             case R.id.shortcut_record_tv:
                 startActivity(new Intent(this, ClientVisitActivity.class));

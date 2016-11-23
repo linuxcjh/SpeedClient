@@ -5,6 +5,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 
 import com.rongfeng.speedclient.R;
 import com.rongfeng.speedclient.client.adapter.ClientLinkmanAdapter;
@@ -17,6 +18,7 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 
 /**
@@ -27,6 +29,10 @@ public class ClientContactsActivity extends BaseActivity implements AdapterView.
 
     @Bind(R.id.grid_view)
     MyGridView gridView;
+    @Bind(R.id.cancel_tv)
+    ImageView cancelTv;
+    @Bind(R.id.client_image_view)
+    ImageView clientImageView;
     private ClientLinkmanAdapter adapter;
     List<LinkmanModel> models = new ArrayList<>();
 
@@ -61,5 +67,10 @@ public class ClientContactsActivity extends BaseActivity implements AdapterView.
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
+    }
+
+    @OnClick(R.id.cancel_tv)
+    public void onClick() {
+        finish();
     }
 }

@@ -23,7 +23,7 @@ public class ClientAddBusinessActivity extends BaseActivity {
 
 
     @Bind(R.id.cancel_tv)
-    ImageView cancelTv;
+    TextView cancelTv;
     @Bind(R.id.commit_tv)
     SingleClickBt commitTv;
     @Bind(R.id.res_bus_name_tv)
@@ -32,6 +32,8 @@ public class ClientAddBusinessActivity extends BaseActivity {
     EditText resValueTv;
     @Bind(R.id.res_bargain_time_tv)
     TextView resBargainTimeTv;
+    @Bind(R.id.res_map_iv)
+    ImageView resMapIv;
     @Bind(R.id.flowLayout_layout)
     FlowLayout flowLayoutLayout;
 
