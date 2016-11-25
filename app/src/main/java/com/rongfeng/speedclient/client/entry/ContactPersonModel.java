@@ -13,12 +13,22 @@ public class ContactPersonModel implements Serializable{
     private String position;//	职位
     private String phone;//	电话
     private String gender;//	性别	1男 0女
+    private String isPolicymaker;// 是否决策人（0不是决策 人1是决策 人）
     private String birthday;//	生日	格式【yyyy-MM-dd】
     private String constellation;//	`星座
     private String carType;//	车型
     private String email;//	邮箱
     private String qq;//	QQ
     private String remark;
+
+
+    public String getIsPolicymaker() {
+        return isPolicymaker;
+    }
+
+    public void setIsPolicymaker(String isPolicymaker) {
+        this.isPolicymaker = isPolicymaker;
+    }
 
     public String getRemark() {
         return remark;

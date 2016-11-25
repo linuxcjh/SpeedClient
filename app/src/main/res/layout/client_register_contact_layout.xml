@@ -212,8 +212,7 @@
         android:background="@color/colorWhite"
         android:orientation="vertical"
         android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        android:visibility="gone">
+        android:paddingRight="20dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -225,18 +224,21 @@
                 style="@style/register_client_left_text_style"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:text="是否决策人" />
 
-            <TextView
-                android:id="@+id/reg_confirm_tv"
-                style="@style/register_edit_view_style"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="right|center_vertical"
-                android:hint="选择性别"
-                android:textColorHint="@color/colorAssistLight" />
+            <ToggleButton
+                android:id="@+id/reg_confirm_tb"
+                android:layout_width="45dp"
+                android:layout_height="28dp"
+                android:background="@drawable/decide_check"
+                android:checked="true"
+                android:textOff=""
+                android:textOn="" />
+
 
         </LinearLayout>
+
 
         <ImageView
             android:layout_width="match_parent"
@@ -253,16 +255,18 @@
                 style="@style/register_client_left_text_style"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:text="性别：" />
 
-            <TextView
+            <ToggleButton
                 android:id="@+id/reg_sex_et"
-                style="@style/register_edit_view_style"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="right|center_vertical"
-                android:hint="选择性别"
-                android:textColorHint="@color/colorAssistLight" />
+                android:layout_width="144dp"
+                android:layout_height="28dp"
+                android:background="@drawable/sex_check"
+                android:checked="true"
+                android:textOff=""
+                android:textOn="" />
+
 
         </LinearLayout>
 

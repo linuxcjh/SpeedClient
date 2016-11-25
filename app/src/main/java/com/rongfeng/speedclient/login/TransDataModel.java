@@ -1,5 +1,7 @@
 package com.rongfeng.speedclient.login;
 
+import com.rongfeng.speedclient.common.BaseTransModel;
+
 /**
  * AUTHOR: Alex
  * DATE: 10/11/2015 17:02

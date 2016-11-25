@@ -67,7 +67,10 @@
         </activity>
         <activity android:name=".WordsActivity" />
         <activity android:name=".home.MainTableActivity" />
-        <activity android:name=".client.ClientRegisterActivity" />
+        <activity
+            android:name=".client.ClientRegisterActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity android:name=".client.ClientAddContactActivity" />
         <activity android:name=".voice.VoiceNoteActivity" />
         <activity android:name=".client.ClientDotOverlayMapNewActivity" />
@@ -87,8 +90,8 @@
         <activity android:name=".voice.AddScheduleActivity" />
         <activity
             android:name=".call.AlertActivity"
-            android:theme="@android:style/Theme.Translucent"
             android:launchMode="singleInstance"
+            android:theme="@android:style/Theme.Translucent"
 
             />
 

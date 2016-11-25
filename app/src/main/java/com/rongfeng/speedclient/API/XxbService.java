@@ -654,7 +654,8 @@ public interface XxbService {
     String SEARCHCRMPERFORMANCEPERSONLIST = "searchCRMPerformancePersonList";
 
 
-
-
     String SEARCHCATEGORYLIST="searchCategoryList";
+
+    String INSERTCSR="insertCsr";
+
 }

@@ -7,10 +7,12 @@ import android.os.Message;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import com.rongfeng.speedclient.R;
 import com.rongfeng.speedclient.client.entry.ContactPersonModel;
@@ -25,7 +27,6 @@ import com.rongfeng.speedclient.entity.BaseDataModel;
 import com.rongfeng.speedclient.entity.ContactDetail;
 import com.rongfeng.speedclient.permisson.PermissionsActivity;
 import com.rongfeng.speedclient.permisson.PermissionsChecker;
-import com.rongfeng.speedclient.schedule.model.LinkmanModel;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -58,10 +59,6 @@ public class ClientAddContactActivity extends BaseActivity {
     TextView expandTv;
     @Bind(R.id.res_contact_op_layout)
     LinearLayout resContactOpLayout;
-    @Bind(R.id.reg_confirm_tv)
-    TextView regConfirmTv;
-    @Bind(R.id.reg_sex_et)
-    TextView regSexEt;
     @Bind(R.id.reg_email_et)
     EditText regEmailEt;
     @Bind(R.id.reg_qq_et)
@@ -73,26 +70,78 @@ public class ClientAddContactActivity extends BaseActivity {
     @Bind(R.id.title_tv)
     TextView titleTv;
 
-    LinkmanModel model = new LinkmanModel();
+    @Bind(R.id.reg_confirm_tb)
+    ToggleButton regConfirmTb;
+    @Bind(R.id.reg_sex_et)
+    ToggleButton regSexEt;
+
+    ContactPersonModel model = new ContactPersonModel();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_client_add_contact_layout);
         ButterKnife.bind(this);
-
         initViews();
+
+        setData();
+
+    }
+
+
+    private void setData() {
+        if (getIntent().getSerializableExtra("model") != null) {
+            model = (ContactPersonModel) getIntent().getSerializableExtra("model");
+            titleTv.setText("编辑联系人");
+            resNameEt.setText(model.getName());
+            resPhoneEt.setText(model.getPhone());
+            resPositionEt.setText(model.getPosition());
+            regEmailEt.setText(model.getEmail());
+            regRemarkEt.setText(model.getRemark());
+            if (model.getIsPolicymaker().equals("1")) {
+                regConfirmTb.setChecked(true);
+            } else {
+                regConfirmTb.setChecked(false);
+            }
+            if (model.getGender().equals("1")) {
+                regSexEt.setChecked(true);
+            } else {
+                regSexEt.setChecked(false);
+            }
+
+        }
     }
 
     private void initViews() {
 
-        if (getIntent().getSerializableExtra("model") != null) {
-            model = (LinkmanModel) getIntent().getSerializableExtra("model");
-            titleTv.setText("编辑联系人");
-            resNameEt.setText(model.getName());
-            resPhoneEt.setText(model.getPhone());
-        }
+        model.setIsPolicymaker("1");
+        model.setGender("1");
 
+        regConfirmTb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (b) {
+                    model.setIsPolicymaker("1");
+                    ;//isPolicymaker;// 是否决策人（0不是决策 人1是决策 人）
+                } else {
+                    model.setIsPolicymaker("0");
+                }
+            }
+        });
+
+        regSexEt.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (b) {
+                    model.setGender("1");
+                    //gender;// 性别【0女 1男】
+
+                } else {
+                    model.setGender("0");
+                }
+            }
+        });
     }
 
 
@@ -103,9 +152,12 @@ public class ClientAddContactActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.commit_tv:
-                LinkmanModel model = new LinkmanModel();
                 model.setName(resNameEt.getText().toString());
                 model.setPhone(resPhoneEt.getText().toString());
+                model.setPosition(resPositionEt.getText().toString());
+                model.setEmail(regEmailEt.getText().toString());
+                model.setQq(regQqEt.getText().toString());
+                model.setRemark(regRemarkEt.getText().toString());
                 setResult(RESULT_OK, new Intent().putExtra("model", model));
                 finish();
                 break;
@@ -130,7 +182,6 @@ public class ClientAddContactActivity extends BaseActivity {
                             ContactsContract.Contacts.CONTENT_URI);
                     startActivityForResult(intent, Constant.CONTACT_SELECT_RESULT);
                 }
-
 
                 break;
         }

@@ -20,12 +20,7 @@ import retrofit.http.Path;
  */
 public interface XxbAPI {
 
-    //    String URL = "http://crm.xxb001.com/restful/xxbService/";//Schema外网服务地址
-//    String URL = "http://xxb5pro.xxb001.com/restful/xxbService/";//外网测试
-//   String URL = "http://xxb5pro.3swin.net/restful/xxbService/";//测试
-//   String URL = "http://192.168.2.118:85/restful/xxbService/";
-//   String URL = "http://192.168.2.93:8489/restful/xxbService/";
-//   String URL = "http://192.168.2.95:8082/restful/xxbService/";
+//   String URL = "http://192.168.2.86:8082/restful/xxbService/";
     String URL = "http://59.110.52.231:8108/restful/xxbService/";
 
     /**
