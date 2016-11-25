@@ -9,10 +9,13 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.reflect.TypeToken;
+import com.rongfeng.speedclient.API.XxbService;
 import com.rongfeng.speedclient.R;
 import com.rongfeng.speedclient.common.BaseActivity;
 import com.rongfeng.speedclient.common.CommonPresenter;
 import com.rongfeng.speedclient.common.ICommonAction;
+import com.rongfeng.speedclient.common.MD5;
 import com.rongfeng.speedclient.common.utils.AppConfig;
 import com.rongfeng.speedclient.common.utils.AppTools;
 import com.rongfeng.speedclient.home.MainTableActivity;
@@ -108,14 +111,14 @@ public class LoginActivity extends BaseActivity implements ICommonAction {
 
     @OnClick(R.id.login)
     public void onClick() {
-//        if (verificationLogin()) {
-//            transModel.setUserAccount(userName.getText().toString());
-//            transModel.setPassword(new MD5().GetMD5Code(userPwd.getText().toString()));
-//            commonPresenter.invokeInterfaceObtainData(XxbService.LOGINPHONE, transModel, new TypeToken<User>() {
-//            });
-//        }
-        startActivity(new Intent(this, MainTableActivity.class));
-        finish();
+        if (verificationLogin()) {
+            transModel.setUserAccount(userName.getText().toString());
+            transModel.setPassword(new MD5().GetMD5Code(userPwd.getText().toString()));
+            commonPresenter.invokeInterfaceObtainData(XxbService.LOGINPHONE, transModel, new TypeToken<Enterprise>() {
+            });
+        }
+//        startActivity(new Intent(this, MainTableActivity.class));
+//        finish();
 
 
     }

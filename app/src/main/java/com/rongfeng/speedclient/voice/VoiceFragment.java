@@ -159,6 +159,7 @@ public class VoiceFragment extends BaseFragment implements View.OnTouchListener 
                 break;
             case R.id.click_input_tv:
                 setEditLayoutStatus(true);
+//                AppTools.dialogShow(getActivity());
 
                 break;
             case R.id.input_cancel_tv:
@@ -167,10 +168,11 @@ public class VoiceFragment extends BaseFragment implements View.OnTouchListener 
             case R.id.input_confirm_tv:
 
                 analysisData();
-                AppTools.hideKeyboard(contentEt);
+//                AppTools.hideKeyboard(contentEt);
                 break;
         }
     }
+
 
     /**
      * 显示搜索框
@@ -444,12 +446,12 @@ public class VoiceFragment extends BaseFragment implements View.OnTouchListener 
     /**
      * 设置编辑layout
      */
-    private void setEditLayoutStatus(boolean isShowKeyBoard){
+    private void setEditLayoutStatus(boolean isShowKeyBoard) {
         contentEt.setVisibility(View.VISIBLE);
         contentEt.setFocusable(true);
         contentEt.setFocusableInTouchMode(true);
         contentEt.requestFocus();//获取焦点 光标出现
-        if(isShowKeyBoard){
+        if (isShowKeyBoard) {
             AppTools.openKeyboard(getActivity(), mHandler, 200);
         }
         voiceInputLayout.setVisibility(View.VISIBLE);

@@ -26,7 +26,7 @@ public interface XxbAPI {
 //   String URL = "http://192.168.2.118:85/restful/xxbService/";
 //   String URL = "http://192.168.2.93:8489/restful/xxbService/";
 //   String URL = "http://192.168.2.95:8082/restful/xxbService/";
-    String URL = "http://192.168.2.86:8082/restful/xxbService/";
+    String URL = "http://59.110.52.231:8108/restful/xxbService/";
 
     /**
      * 通用接口调用

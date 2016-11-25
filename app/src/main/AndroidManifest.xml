@@ -47,6 +47,10 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
 
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"></uses-permission>
+    <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"></uses-permission>
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+
     <application
         android:name=".MineApplication"
         android:allowBackup="true"
@@ -80,7 +84,13 @@
         <activity android:name=".client.ClientAddBusinessActivity" />
         <activity android:name=".client.ClientAddRebackMoneyActivity" />
         <activity android:name=".client.ClientAddContractActivity" />
-        <activity android:name=".voice.AddScheduleActivity"/>
+        <activity android:name=".voice.AddScheduleActivity" />
+        <activity
+            android:name=".call.AlertActivity"
+            android:theme="@android:style/Theme.Translucent"
+            android:launchMode="singleInstance"
+
+            />
 
 
         <!--高德定位-->
@@ -89,6 +99,16 @@
             android:value="35fb209956d21e4d5d694af8c4992376" />
         <!-- 定位需要的服务 -->
         <service android:name="com.amap.api.location.APSService"></service>
+
+
+        <receiver android:name="com.rongfeng.speedclient.call.PhoneStatReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.PHONE_STATE" />
+                <action android:name="android.intent.action.NEW_OUTGOING_CALL" />
+            </intent-filter>
+        </receiver>
+
+
     </application>
 
 </manifest>

@@ -655,4 +655,6 @@ public interface XxbService {
 
 
 
+
+    String SEARCHCATEGORYLIST="searchCategoryList";
 }

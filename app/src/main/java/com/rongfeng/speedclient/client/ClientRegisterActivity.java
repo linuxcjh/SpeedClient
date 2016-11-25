@@ -20,7 +20,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.amap.api.services.core.PoiItem;
+import com.google.gson.reflect.TypeToken;
+import com.rongfeng.speedclient.API.XxbService;
 import com.rongfeng.speedclient.R;
+import com.rongfeng.speedclient.client.entry.DictionaryModel;
 import com.rongfeng.speedclient.common.BaseActivity;
 import com.rongfeng.speedclient.common.Constant;
 import com.rongfeng.speedclient.common.utils.AppConfig;
@@ -36,6 +39,8 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+
+import static com.rongfeng.speedclient.API.XxbService.SEARCHCATEGORYLIST;
 
 
 /**
@@ -74,9 +79,8 @@ public class ClientRegisterActivity extends BaseActivity {
     FlowLayout flowLayoutLayout;
 
     private List<LinkmanModel> linkmanModels = new ArrayList<>();
-
-
     private List<BaseDataModel> dataLabel = new ArrayList<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +89,7 @@ public class ClientRegisterActivity extends BaseActivity {
         ButterKnife.bind(this);
 
         initViews();
+        invoke();
     }
 
     private void initViews() {
@@ -97,6 +102,13 @@ public class ClientRegisterActivity extends BaseActivity {
         generationLabels(this, dataLabel, flowLayoutLayout);
     }
 
+
+    private void invoke() {
+        transDataModel.setFlg("1");
+        commonPresenter.invokeInterfaceObtainData(SEARCHCATEGORYLIST, transDataModel,
+                new TypeToken<List<DictionaryModel>>() {
+                });
+    }
 
     /**
      * 切换客户类型
@@ -118,7 +130,7 @@ public class ClientRegisterActivity extends BaseActivity {
     }
 
     /**
-     * 切换动画效果
+     * 切换动画效果j
      *
      * @param view
      * @param alpha
@@ -138,6 +150,15 @@ public class ClientRegisterActivity extends BaseActivity {
         animatorSet.start();
     }
 
+
+    @Override
+    public void obtainData(Object data, String methodIndex, int status) {
+        switch (methodIndex) {
+            case XxbService.SEARCHCATEGORYLIST:
+
+                break;
+        }
+    }
 
     @OnClick({R.id.cancel_tv, R.id.commit_tv, R.id.res_map_iv, R.id.res_business_client_layout, R.id.res_personal_client_layout, R.id.res_company_addr_detail_tv})
     public void onClick(View view) {

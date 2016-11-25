@@ -12,6 +12,7 @@ import android.view.WindowManager;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 import com.rongfeng.speedclient.R;
 import com.rongfeng.speedclient.common.utils.AppTools;
+import com.rongfeng.speedclient.login.TransDataModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,14 +20,15 @@ import java.util.List;
 /**
  * AUTHOR: Alex
  * DATE: 21/10/2015 18:55
- *
  */
-public class BaseActivity extends FragmentActivity  {
+public class BaseActivity extends FragmentActivity implements ICommonAction {
 
     public static List<Activity> activityList = new ArrayList<>();
     public SystemBarTintManager tintManager;
 
     public boolean isActive = true;//是否处于前台运行
+    public CommonPresenter commonPresenter = new CommonPresenter(this);
+    public TransDataModel transDataModel = new TransDataModel();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,7 +83,9 @@ public class BaseActivity extends FragmentActivity  {
         }
     }
 
-
+    @Override
+    public void obtainData(Object data, String methodIndex, int status) {
+    }
 
 
 }
