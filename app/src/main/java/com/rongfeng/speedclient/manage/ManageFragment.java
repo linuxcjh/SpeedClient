@@ -21,7 +21,7 @@ public class ManageFragment extends BaseFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_manage_layout, null);
+        View view = inflater.inflate(R.layout.fragment_crm_layout, null);
         ButterKnife.bind(this, view);
 
         return view;

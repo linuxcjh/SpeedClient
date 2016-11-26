@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBg"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/top_layout"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@drawable/nav_bg">
+
+        <TextView
+            android:id="@+id/client_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:gravity="center_vertical"
+            android:paddingLeft="20dp"
+            android:paddingRight="10dp"
+            android:text="客户"
+            android:textColor="@color/colorWhite"
+            android:textSize="16sp"
+            android:visibility="gone" />
+
+        <TextView
+            style="@style/title_mid_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="客户管理" />
+
+        <TextView
+            android:id="@+id/check_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:gravity="center_vertical"
+            android:paddingLeft="10dp"
+            android:paddingRight="20dp"
+            android:text="下属"
+            android:textColor="@color/colorWhite"
+            android:textSize="16sp"
+            android:visibility="gone" />
+    </RelativeLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/nav_bg_down" />
+        <LinearLayout
+            android:id="@+id/date_layout"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp">
+
+            <Button
+                android:layout_width="50dp"
+                android:layout_height="24dp"
+                android:layout_weight="1"
+                android:background="@drawable/manage_top_bg"
+                android:text="今日"
+                android:textColor="@color/colorAssist"
+                android:textSize="12sp" />
+
+            <View
+                android:layout_width="15dp"
+                android:layout_height="match_parent" />
+
+            <Button
+                android:layout_width="50dp"
+                android:layout_height="24dp"
+                android:layout_weight="1"
+                android:background="@drawable/manage_top_bg"
+                android:text="本月"
+                android:textColor="@color/colorAssist"
+                android:textSize="12sp" />
+
+            <View
+                android:layout_width="15dp"
+                android:layout_height="match_parent" />
+
+            <Button
+                android:layout_width="50dp"
+                android:layout_height="24dp"
+                android:layout_weight="1"
+                android:background="@drawable/manage_top_bg"
+                android:text="本季"
+                android:textColor="@color/colorAssist"
+                android:textSize="12sp" />
+
+            <View
+                android:layout_width="15dp"
+                android:layout_height="match_parent" />
+
+            <Button
+                android:layout_width="50dp"
+                android:layout_height="24dp"
+                android:layout_weight="1"
+                android:background="@drawable/manage_top_bg"
+                android:text="本年"
+                android:textColor="@color/colorAssist"
+                android:textSize="12sp" />
+
+            <View
+                android:layout_width="15dp"
+                android:layout_height="match_parent" />
+
+            <Button
+                android:layout_width="50dp"
+                android:layout_height="24dp"
+                android:layout_weight="1"
+                android:background="@drawable/manage_top_bg"
+                android:text="自定义"
+                android:textColor="@color/colorAssist"
+                android:textSize="12sp" />
+
+
+        </LinearLayout>
+
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/swipe_refresh_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="40dp">
+
+
+            <ScrollView
+                android:id="@+id/scroll_sv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:paddingBottom="70dp">
+
+
+
+                    <include layout="@layout/fragment_crm_salesper_layout" />
+
+                    <include layout="@layout/fragment_crm_bulletin_layout" />
+
+                </LinearLayout>
+            </ScrollView>
+        </android.support.v4.widget.SwipeRefreshLayout>
+    </FrameLayout>
+
+</LinearLayout>
+
+

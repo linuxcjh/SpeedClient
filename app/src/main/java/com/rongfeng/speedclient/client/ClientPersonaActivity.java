@@ -236,17 +236,26 @@ public class ClientPersonaActivity extends BaseActivity {
                 break;
             case R.id.contact_layout:
                 startActivity(new Intent(this, ClientContactsActivity.class).putExtra("customerId", transDataModel.getCsrId()).putExtra("customerName", clientNameTv.getText().toString()));
+                shortcutLayout.setVisibility(View.GONE);
+                endAnimation();
+
                 break;
             case R.id.shortcut_contract_tv:
                 startActivity(new Intent(this, ClientAddContractActivity.class));
+                shortcutLayout.setVisibility(View.GONE);
+                endAnimation();
 
                 break;
             case R.id.shortcut_bus_tv:
                 startActivity(new Intent(this, ClientAddBusinessActivity.class));
+                shortcutLayout.setVisibility(View.GONE);
+                endAnimation();
 
                 break;
             case R.id.shortcut_record_tv:
                 startActivity(new Intent(this, ClientVisitActivity.class).putExtra("customerId", transDataModel.getCsrId()).putExtra("customerName", clientNameTv.getText().toString()));
+                shortcutLayout.setVisibility(View.GONE);
+                endAnimation();
 
                 break;
             case shortcut_layout:
