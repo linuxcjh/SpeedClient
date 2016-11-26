@@ -149,9 +149,13 @@ public class ClientPersonaActivity extends BaseActivity {
 
         switch (methodIndex) {
             case XxbService.GETCSRBYID:
-                AddClientTransModel m = (AddClientTransModel) data;
-                contactNumTv.setText("联系人(" + m.getContactCount() + ")");
-                clientRecordNumTv.setText("跟进(" + m.getFollowUpCount() + ")");
+                if (status == 1) {
+                    AddClientTransModel m = (AddClientTransModel) data;
+                    contactNumTv.setText("联系人(" + m.getContactCount() + ")");
+                    clientRecordNumTv.setText("跟进(" + m.getFollowUpCount() + ")");
+//                    contactNumTv.setText("联系人(" + m.getContactCount() != null ? m.getContactCount() : "0" + ")");
+//                    clientRecordNumTv.setText("跟进(" + m.getFollowUpCount() != null ? m.getFollowUpCount() : "0" + ")");
+                }
                 break;
         }
     }

@@ -672,5 +672,7 @@ public interface XxbService {
 
     String INSERTCSRGATHERING="insertCsrGathering";
 
+    String SEARCHNOTE="searchNote";
+
 
 }

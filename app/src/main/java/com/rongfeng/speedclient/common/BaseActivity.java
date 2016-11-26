@@ -85,9 +85,6 @@ public class BaseActivity extends FragmentActivity implements ICommonAction {
 
     @Override
     public void obtainData(Object data, String methodIndex, int status) {
-        if (data == null && status == 0) {
-            return;
-        }
     }
 
 

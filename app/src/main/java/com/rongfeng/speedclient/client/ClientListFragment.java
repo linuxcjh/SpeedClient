@@ -99,7 +99,7 @@ public class ClientListFragment extends BaseFragment implements ICommonPaginatio
 
     @Override
     public void onRefresh() {
-        commonPaginationPresenter.isRefresh = false;
+        commonPaginationPresenter.isShowProgressDialog = false;
         commonPaginationPresenter.isRefresh = true;
         commonPaginationPresenter.page = 0;
         invoke();

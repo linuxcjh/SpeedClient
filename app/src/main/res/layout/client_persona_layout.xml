@@ -111,7 +111,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:text="联系人(6)"
+                        android:text="联系人(0)"
                         android:textColor="@color/colorAssist"
                         android:textSize="10sp" />
 
@@ -139,7 +139,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:text="跟进(6)"
+                        android:text="跟进(0)"
                         android:textColor="@color/colorAssist"
                         android:textSize="10sp" />
 
@@ -188,7 +188,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginTop="7dp"
-                        android:text="16个"
+                        android:text="0个"
                         android:textColor="@color/colorBlue"
                         android:textSize="10sp" />
 
@@ -228,7 +228,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginTop="7dp"
-                        android:text="￥200,000"
+                        android:text="￥0"
                         android:textColor="@color/colorAssist"
                         android:textSize="10sp" />
 
@@ -267,7 +267,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginTop="7dp"
-                        android:text="￥100,000"
+                        android:text="￥0"
                         android:textColor="@color/colorAssist"
                         android:textSize="10sp" />
 
@@ -306,7 +306,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginTop="7dp"
-                        android:text="￥400,000"
+                        android:text="￥0"
                         android:textColor="@color/colorAssist"
                         android:textSize="10sp" />
 

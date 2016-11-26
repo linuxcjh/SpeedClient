@@ -14,7 +14,15 @@ public class TransDataModel extends BaseTransModel {
 
     private String csrId;
 
+    private String searchNote;//笔记日期
 
+    public String getSearchNote() {
+        return searchNote;
+    }
+
+    public void setSearchNote(String searchNote) {
+        this.searchNote = searchNote;
+    }
 
     public String getCsrId() {
         return csrId;
