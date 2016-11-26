@@ -17,16 +17,17 @@
             android:layout_centerInParent="true"
             android:text="客户" />
 
-        <TextView
+        <ImageView
             android:id="@+id/add_client_tv"
             style="@style/title_side_text"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
+            android:layout_height="match_parent"
             android:layout_centerVertical="true"
-            android:paddingRight="20dp"
-            android:text="添加" />
-
+            android:layout_alignParentRight="true"
+            android:gravity="center_vertical"
+            android:paddingLeft="20dp"
+            android:paddingRight="16dp"
+            android:src="@drawable/nav_add" />
 
     </RelativeLayout>
 

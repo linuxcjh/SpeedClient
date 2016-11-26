@@ -23,6 +23,96 @@ public class AddClientTransModel {
 //    private List<TeamUserModel> csrTeamJsonArray;//   协作人 teamUserName ，teamUserId
 //    private List<ContactModel> csrContactJsonArray;//
 
+    /**
+     * 客户列表
+     */
+    private String csrId;//客户ID
+    private String lastVisitTime;//	上次拜访时间	yyyy.MM.dd
+    private String visitCount;//	拜访次数
+    private String bizOppsCount;//	商机数
+    private String ownerName;//归属人
+    private String createTime;//创建时间
+
+    /**
+     * 客户画像
+     *
+     * @return
+     */
+    private String contactCount;//联系人数量
+    private String followUpCount;//根进数量
+
+
+//    private String fixationJsonArray;// josnArray
+//    tagCount 标签数量
+//    businessMoney 商机金额
+//    turnoverMoney 成交金额
+//    arrearsMoney 欠款金额
+
+
+    public String getContactCount() {
+        return contactCount;
+    }
+
+    public void setContactCount(String contactCount) {
+        this.contactCount = contactCount;
+    }
+
+    public String getFollowUpCount() {
+        return followUpCount;
+    }
+
+    public void setFollowUpCount(String followUpCount) {
+        this.followUpCount = followUpCount;
+    }
+
+    public String getCsrId() {
+        return csrId;
+    }
+
+    public void setCsrId(String csrId) {
+        this.csrId = csrId;
+    }
+
+    public String getLastVisitTime() {
+        return lastVisitTime;
+    }
+
+    public void setLastVisitTime(String lastVisitTime) {
+        this.lastVisitTime = lastVisitTime;
+    }
+
+    public String getVisitCount() {
+        return visitCount;
+    }
+
+    public void setVisitCount(String visitCount) {
+        this.visitCount = visitCount;
+    }
+
+    public String getBizOppsCount() {
+        return bizOppsCount;
+    }
+
+    public void setBizOppsCount(String bizOppsCount) {
+        this.bizOppsCount = bizOppsCount;
+    }
+
+    public String getOwnerName() {
+        return ownerName;
+    }
+
+    public void setOwnerName(String ownerName) {
+        this.ownerName = ownerName;
+    }
+
+    public String getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(String createTime) {
+        this.createTime = createTime;
+    }
+
     public String getCustomerType() {
         return customerType;
     }

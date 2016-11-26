@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.rongfeng.speedclient.R;
@@ -30,7 +31,7 @@ public class ClientFragment extends BaseFragment implements AdapterView.OnItemCl
 
 
     @Bind(R.id.add_client_tv)
-    TextView addClientTv;
+    ImageView addClientTv;
     @Bind(R.id.grid_view)
     MyGridView gridView;
     @Bind(R.id.old_client_tv)
@@ -87,7 +88,7 @@ public class ClientFragment extends BaseFragment implements AdapterView.OnItemCl
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         switch (position) {
             case 0:
-                startActivity(new Intent(getActivity(), ClientPersonaActivity.class));
+                startActivity(new Intent(getActivity(), ClientListActivity.class));
                 break;
         }
     }

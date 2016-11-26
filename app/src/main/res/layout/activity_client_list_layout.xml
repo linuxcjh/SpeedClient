@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBg"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@drawable/nav_bg">
+
+        <ImageView
+            android:id="@+id/cancel_tv"
+            style="@style/title_side_text"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:gravity="center_vertical"
+            android:paddingLeft="16dp"
+            android:paddingRight="20dp"
+            android:src="@drawable/nav_back" />
+
+
+        <TextView
+            style="@style/title_mid_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="客户" />
+
+        <TextView
+            android:id="@+id/total_tv"
+            style="@style/title_side_text"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:gravity="center_vertical"
+            android:paddingLeft="16dp"
+            android:paddingRight="20dp"
+            android:text="共30条"
+            android:visibility="gone" />
+
+
+    </RelativeLayout>
+
+    <FrameLayout
+        android:id="@+id/container_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1" />
+
+
+</LinearLayout>

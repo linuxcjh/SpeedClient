@@ -232,5 +232,18 @@ public interface Constant {
 
     int ADD_OR_EDIT_CONTRACT = 0x11;
 
+    /**
+     * 解绑联系人
+     */
+    public static final int UNBIND_CONTACT_SIGN = 0x01;
+    /**
+     * 绑定联系人
+     */
+    public static final int BIND_CONTACT_SIGN = 0x02;
+    /**
+     * 新增联系人
+     */
+    public static final int ADD_CONTACT_REQUEST_CODE = 0x03;
+
 
 }

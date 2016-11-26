@@ -13,9 +13,10 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.rongfeng.speedclient.R;
+import com.rongfeng.speedclient.client.entry.ContactPersonModel;
+import com.rongfeng.speedclient.common.Constant;
 import com.rongfeng.speedclient.common.utils.AppTools;
 import com.rongfeng.speedclient.components.AvatarImageView;
-import com.rongfeng.speedclient.schedule.model.LinkmanModel;
 
 import java.util.List;
 
@@ -27,19 +28,19 @@ public class ClientLinkmanAdapter extends BaseAdapter implements View.OnClickLis
     private boolean isShow = false;
     private Context context;
     private Handler handler;
-    private List<LinkmanModel> data;
+    private List<ContactPersonModel> data;
 
     public ClientLinkmanAdapter(Context context, int layoutResId, Handler handler) {
         this(context, null, handler);
     }
 
-    public ClientLinkmanAdapter(Context context, List<LinkmanModel> data, Handler handler) {
+    public ClientLinkmanAdapter(Context context, List<ContactPersonModel> data, Handler handler) {
         this.context = context;
         this.handler = handler;
         this.data = data;
     }
 
-    public void setData(List<LinkmanModel> data) {
+    public void setData(List<ContactPersonModel> data) {
         this.data = data;
         notifyDataSetChanged();
     }
@@ -77,7 +78,7 @@ public class ClientLinkmanAdapter extends BaseAdapter implements View.OnClickLis
         }
 
         if (data != null && position < data.size()) {
-            final LinkmanModel item = data.get(position);
+            final ContactPersonModel item = data.get(position);
             viewHolder.avatar.setClickable(false);
             viewHolder.grid_item_layout.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -155,11 +156,13 @@ public class ClientLinkmanAdapter extends BaseAdapter implements View.OnClickLis
         int position = (int) v.getTag(R.id.remind);
         switch (v.getId()) {
             case R.id.remind:
-//                handler.sendMessage(handler.obtainMessage(ClientLinkmanPresenter.UNBIND_CONTACT_SIGN, position));
+                handler.sendMessage(handler.obtainMessage(Constant.UNBIND_CONTACT_SIGN, position));
                 break;
             case R.id.tavatar:
                 if ((data != null && data.size() == position) || data == null && position == 0) {//删除
-//                    AppTools.selectDialog("添加联系人", (Activity) context, AppTools.generationDictionary(context.getResources().getStringArray(R.array.select_contact)), handler, ClientLinkmanPresenter.BIND_CONTACT_SIGN);
+                    handler.sendMessage(handler.obtainMessage(Constant.BIND_CONTACT_SIGN, position));
+
+//                    AppTools.selectDialog("添加联系人", (Activity) context, AppTools.generationDictionary(context.getResources().getStringArray(R.array.select_contact)), handler, Constant.BIND_CONTACT_SIGN);
                 } else if ((data != null && data.size() + 1 == position) || data == null && position == 1) {//添加
                     isShow = isShow ? false : true;
                     notifyDataSetChanged();

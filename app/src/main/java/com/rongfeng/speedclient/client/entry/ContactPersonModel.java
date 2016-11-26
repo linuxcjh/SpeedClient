@@ -20,7 +20,15 @@ public class ContactPersonModel implements Serializable{
     private String email;//	邮箱
     private String qq;//	QQ
     private String remark;
+    private String iconUrl;//	联系人头像
 
+    public String getIconUrl() {
+        return iconUrl;
+    }
+
+    public void setIconUrl(String iconUrl) {
+        this.iconUrl = iconUrl;
+    }
 
     public String getIsPolicymaker() {
         return isPolicymaker;

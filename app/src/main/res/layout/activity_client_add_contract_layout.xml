@@ -56,8 +56,12 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:animateLayoutChanges="true"
                 android:background="@android:color/white"
-                android:orientation="vertical">
+                android:divider="@drawable/divider"
+                android:dividerPadding="15dp"
+                android:orientation="vertical"
+                android:showDividers="middle">
 
 
                 <LinearLayout
@@ -85,12 +89,6 @@
 
                 </LinearLayout>
 
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginRight="15dp"
-                    android:background="#F2F2F2" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -124,12 +122,6 @@
 
                 </LinearLayout>
 
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginRight="15dp"
-                    android:background="#F2F2F2" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -156,18 +148,46 @@
 
                 </LinearLayout>
 
-                <ImageView
+                <LinearLayout
+                    android:id="@+id/contact_bargain_time_layout"
                     android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginRight="15dp"
-                    android:background="#F2F2F2" />
+                    android:layout_height="@dimen/examine_approve_item"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        style="@style/register_client_left_text_style"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/examine_approve_margin_left_right"
+                        android:text="成交日期" />
+
+                    <TextView
+                        android:id="@+id/contact_bargain_time_tv"
+                        style="@style/register_edit_view_style"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical|right"
+                        android:hint="选择成交日期"
+                        android:singleLine="false" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="@dimen/examine_approve_margin_left_right"
+                        android:src="@drawable/list_arrow" />
+
+                </LinearLayout>
+
 
                 <LinearLayout
+                    android:id="@+id/contact_reback_layout"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/examine_approve_item"
                     android:gravity="center_vertical"
-                    android:paddingRight="16dp">
+                    android:paddingRight="16dp"
+                    android:visibility="gone">
 
                     <TextView
                         style="@style/register_client_left_text_style"
@@ -188,18 +208,14 @@
 
                 </LinearLayout>
 
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginRight="15dp"
-                    android:background="#F2F2F2" />
 
                 <LinearLayout
+                    android:id="@+id/contract_debt_layout"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/examine_approve_item"
                     android:gravity="center_vertical"
-                    android:paddingRight="16dp">
+                    android:paddingRight="16dp"
+                    android:visibility="gone">
 
                     <TextView
                         style="@style/register_client_left_text_style"
@@ -221,6 +237,16 @@
                 </LinearLayout>
             </LinearLayout>
 
+            <com.rongfeng.speedclient.utils.FlowLayout
+                android:id="@+id/flowLayout_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:animateLayoutChanges="true">
+
+            </com.rongfeng.speedclient.utils.FlowLayout>
 
         </LinearLayout>
     </com.rongfeng.speedclient.utils.SpringView>

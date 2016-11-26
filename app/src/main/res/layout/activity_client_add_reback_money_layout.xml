@@ -127,7 +127,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/examine_approve_margin_left_right"
-                    android:text="收款金额(元)" />
+                    android:text="收款金额(元)"
+                    android:textColor="@android:color/holo_red_light"/>
 
                 <EditText
                     android:id="@+id/contract_back_tv"

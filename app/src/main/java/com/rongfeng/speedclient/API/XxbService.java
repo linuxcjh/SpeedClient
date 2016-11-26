@@ -658,4 +658,19 @@ public interface XxbService {
 
     String INSERTCSR="insertCsr";
 
+    String SEARCHCSR="searchCsr";
+
+    String GETCSRBYID="getCsrById";
+
+    String SEARCHCSRCONTACTBYCSRID="searchCsrContactByCsrId";
+
+    String INSERTFOLLOWUP="insertFollowup";
+
+    String INSERTCSRBUSINESS="insertCsrBusiness";
+
+    String INSERTCSRCON="insertCsrCon";
+
+    String INSERTCSRGATHERING="insertCsrGathering";
+
+
 }

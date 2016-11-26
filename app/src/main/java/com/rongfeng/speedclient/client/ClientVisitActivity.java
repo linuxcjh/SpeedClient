@@ -7,9 +7,15 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.gson.reflect.TypeToken;
+import com.rongfeng.speedclient.API.XxbService;
 import com.rongfeng.speedclient.R;
+import com.rongfeng.speedclient.client.entry.AddVisitRecordModel;
 import com.rongfeng.speedclient.common.BaseActivity;
+import com.rongfeng.speedclient.common.utils.AppTools;
+import com.rongfeng.speedclient.common.utils.DateUtil;
 import com.rongfeng.speedclient.components.AddVisitGridLayoutDisplayView;
+import com.rongfeng.speedclient.entity.BaseDataModel;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -39,6 +45,9 @@ public class ClientVisitActivity extends BaseActivity {
     @Bind(R.id.remark_et)
     EditText remarkEt;
 
+
+    private AddVisitRecordModel visitRecordModel = new AddVisitRecordModel();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,9 +58,32 @@ public class ClientVisitActivity extends BaseActivity {
     }
 
     private void initViews() {
-
+        clientNameTv.setText(getIntent().getStringExtra("customerName"));
+        timeTv.setText(DateUtil.getTime(DateUtil.yyyy_MM_dd_HH_mm));
     }
 
+
+    private void invoke() {
+        visitRecordModel.setCsrId(getIntent().getStringExtra("customerId"));
+        visitRecordModel.setContent(remarkEt.getText().toString());
+        commonPresenter.invokeInterfaceObtainData(XxbService.INSERTFOLLOWUP, visitRecordModel, new TypeToken<BaseDataModel>() {
+        });
+    }
+
+    @Override
+    public void obtainData(Object data, String methodIndex, int status) {
+        super.obtainData(data, methodIndex, status);
+
+        switch (methodIndex) {
+            case XxbService.INSERTFOLLOWUP:
+                if (status == 1) {
+                    AppTools.getToast("添加成功");
+                    finish();
+                }
+
+                break;
+        }
+    }
 
     @OnClick({R.id.back_bt, R.id.save_bt, R.id.time_tv})
     public void onClick(View view) {
@@ -60,6 +92,9 @@ public class ClientVisitActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.save_bt:
+
+                invoke();
+
                 break;
             case R.id.time_tv:
                 break;

@@ -17,8 +17,11 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.gson.reflect.TypeToken;
+import com.rongfeng.speedclient.API.XxbService;
 import com.rongfeng.speedclient.R;
 import com.rongfeng.speedclient.client.adapter.ClientPersonaLabelAdapter;
+import com.rongfeng.speedclient.client.entry.AddClientTransModel;
 import com.rongfeng.speedclient.common.BaseActivity;
 import com.rongfeng.speedclient.entity.BaseDataModel;
 
@@ -35,7 +38,7 @@ import static com.rongfeng.speedclient.R.id.shortcut_layout;
 /**
  * 客户画像
  */
-public class ClientPersonaActivity extends BaseActivity  {
+public class ClientPersonaActivity extends BaseActivity {
 
     public static final int CLIENT_LABEL_INDEX = 0;
     public static final int CLIENT_BUSINESS_INDEX = 1;
@@ -62,7 +65,7 @@ public class ClientPersonaActivity extends BaseActivity  {
     @Bind(R.id.client_record_layout)
     LinearLayout clientRecordLayout;
     @Bind(R.id.add_client_tv)
-    TextView addClientTv;
+    ImageView addClientTv;
     @Bind(R.id.client_image_view)
     ImageView clientImageView;
     @Bind(R.id.client_record_num_tv)
@@ -101,6 +104,8 @@ public class ClientPersonaActivity extends BaseActivity  {
     ImageView debtIv;
     @Bind(R.id.content_viewPager)
     ViewPager contentViewPager;
+    @Bind(R.id.client_name_tv)
+    TextView clientNameTv;
 
     private ClientPersonaLabelAdapter adapter;
     private List<BaseDataModel> models = new ArrayList<>();
@@ -123,9 +128,32 @@ public class ClientPersonaActivity extends BaseActivity  {
         ButterKnife.bind(this);
         initViews();
         initViewPage();
+        invoke();
     }
 
     private void initViews() {
+        clientNameTv.setText(getIntent().getStringExtra("customerName"));
+    }
+
+
+    private void invoke() {
+        transDataModel.setCsrId(getIntent().getStringExtra("customerId"));
+        commonPresenter.invokeInterfaceObtainData(XxbService.GETCSRBYID, transDataModel, new TypeToken<AddClientTransModel>() {
+        });
+    }
+
+
+    @Override
+    public void obtainData(Object data, String methodIndex, int status) {
+        super.obtainData(data, methodIndex, status);
+
+        switch (methodIndex) {
+            case XxbService.GETCSRBYID:
+                AddClientTransModel m = (AddClientTransModel) data;
+                contactNumTv.setText("联系人(" + m.getContactCount() + ")");
+                clientRecordNumTv.setText("跟进(" + m.getFollowUpCount() + ")");
+                break;
+        }
     }
 
     private void initViewPage() {
@@ -203,7 +231,7 @@ public class ClientPersonaActivity extends BaseActivity  {
                 finish();
                 break;
             case R.id.contact_layout:
-                startActivity(new Intent(this, ClientContactsActivity.class));
+                startActivity(new Intent(this, ClientContactsActivity.class).putExtra("customerId", transDataModel.getCsrId()).putExtra("customerName", clientNameTv.getText().toString()));
                 break;
             case R.id.shortcut_contract_tv:
                 startActivity(new Intent(this, ClientAddContractActivity.class));
@@ -214,7 +242,7 @@ public class ClientPersonaActivity extends BaseActivity  {
 
                 break;
             case R.id.shortcut_record_tv:
-                startActivity(new Intent(this, ClientVisitActivity.class));
+                startActivity(new Intent(this, ClientVisitActivity.class).putExtra("customerId", transDataModel.getCsrId()).putExtra("customerName", clientNameTv.getText().toString()));
 
                 break;
             case shortcut_layout:
