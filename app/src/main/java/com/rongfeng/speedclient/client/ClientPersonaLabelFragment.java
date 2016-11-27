@@ -32,7 +32,14 @@ public class ClientPersonaLabelFragment extends BaseFragment implements AdapterV
 
     private ClientPersonaLabelAdapter adapter;
     List<BaseDataModel> models = new ArrayList<>();
+    public static ClientPersonaLabelFragment newInstance(String customerId) {
 
+        Bundle args = new Bundle();
+        args.putString("customerId", customerId);
+        ClientPersonaLabelFragment fragment = new ClientPersonaLabelFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

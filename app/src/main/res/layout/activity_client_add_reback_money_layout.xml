@@ -107,7 +107,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="center_vertical|right"
-                    android:hint="输入客户电话" />
+                    android:hint="" />
 
 
             </LinearLayout>
@@ -169,7 +169,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="center_vertical|right"
-                    android:hint="请输入收款金额"
+                    android:hint="￥0"
                     android:singleLine="false" />
 
 

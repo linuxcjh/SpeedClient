@@ -2,7 +2,10 @@ package com.rongfeng.speedclient.client;
 
 import android.app.ActionBar;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +19,7 @@ import com.rongfeng.speedclient.API.XxbService;
 import com.rongfeng.speedclient.R;
 import com.rongfeng.speedclient.client.entry.AddContractTransModel;
 import com.rongfeng.speedclient.common.BaseActivity;
+import com.rongfeng.speedclient.common.Constant;
 import com.rongfeng.speedclient.common.utils.AppTools;
 import com.rongfeng.speedclient.common.utils.SingleClickBt;
 import com.rongfeng.speedclient.entity.BaseDataModel;
@@ -28,6 +32,9 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+
+import static com.rongfeng.speedclient.R.id.res_value_tv;
+import static com.rongfeng.speedclient.client.ClientAddBusinessActivity.SELECT_PRODUCT_INDEX;
 
 
 /**
@@ -46,7 +53,7 @@ public class ClientAddContractActivity extends BaseActivity {
     TextView contractProductTv;
     @Bind(R.id.res_map_iv)
     ImageView resMapIv;
-    @Bind(R.id.res_value_tv)
+    @Bind(res_value_tv)
     EditText resValueTv;
     @Bind(R.id.contact_reback_tv)
     EditText contactRebackTv;
@@ -60,6 +67,10 @@ public class ClientAddContractActivity extends BaseActivity {
     LinearLayout contractDebtLayout;
     @Bind(R.id.flowLayout_layout)
     FlowLayout flowLayoutLayout;
+    @Bind(R.id.product_layout)
+    LinearLayout productLayout;
+    @Bind(R.id.contact_bargain_time_layout)
+    LinearLayout contactBargainTimeLayout;
 
     private List<BaseDataModel> dataLabel = new ArrayList<>();
 
@@ -74,18 +85,31 @@ public class ClientAddContractActivity extends BaseActivity {
     }
 
     private void initViews() {
-        dataLabel.add(new BaseDataModel("0", "+ 已回款"));
+        dataLabel.add(new BaseDataModel("0", "+ 添加回款"));
         generationLabels(this, dataLabel, flowLayoutLayout);
     }
 
     private void invoke() {
         transModel.setCsrId(getIntent().getStringExtra("customerId"));
-        transModel.setProductId("");//TODO
         transModel.setConName(contractNameTv.getText().toString());
-        transModel.setConRental(contactRebackTv.getText().toString());
+        transModel.setReturnedMoney(contactRebackTv.getText().toString());
+        transModel.setConRental(resValueTv.getText().toString());
         transModel.setRemainingBalance(contractDebtTv.getText().toString());
         commonPresenter.invokeInterfaceObtainData(XxbService.INSERTCSRCON, transModel, new TypeToken<BaseDataModel>() {
         });
+    }
+
+    /**
+     * 获取类型
+     *
+     * @param flag
+     */
+    private void invoke(String flag) {
+        transDataModel.setFlg(flag);
+        commonPresenter.invokeInterfaceObtainData(XxbService.SEARCHCATEGORYLIST, transDataModel,
+                new TypeToken<List<BaseDataModel>>() {
+                });
+
     }
 
     @Override
@@ -95,13 +119,18 @@ public class ClientAddContractActivity extends BaseActivity {
             case XxbService.INSERTCSRCON:
                 if (status == 1) {
                     AppTools.getToast("添加成功");
+                    sendBroadcast(new Intent(Constant.CLIENT_REFRESH_PERSONA));
                     finish();
                 }
+                break;
+            case XxbService.SEARCHCATEGORYLIST:
+                AppTools.selectDialog("请选择产品", this, (List<BaseDataModel>) data, mHandler, SELECT_PRODUCT_INDEX);
+
                 break;
         }
     }
 
-    @OnClick({R.id.cancel_tv, R.id.commit_tv})
+    @OnClick({R.id.cancel_tv, R.id.commit_tv, R.id.product_layout, R.id.contact_bargain_time_layout})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.cancel_tv:
@@ -110,8 +139,31 @@ public class ClientAddContractActivity extends BaseActivity {
             case R.id.commit_tv:
                 invoke();
                 break;
+            case R.id.product_layout:
+                invoke("6");
+                break;
+            case R.id.contact_bargain_time_layout:
+                AppTools.obtainData(this, contactBargainTimeTv);
+                break;
         }
     }
+
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+
+            switch (msg.what) {
+                case SELECT_PRODUCT_INDEX:
+                    BaseDataModel modelLevel = (BaseDataModel) msg.obj;
+                    contractProductTv.setText(modelLevel.getDictionaryName());
+                    transModel.setProductId(modelLevel.getDictionaryId());
+                    break;
+
+
+            }
+        }
+    };
 
     /**
      * label

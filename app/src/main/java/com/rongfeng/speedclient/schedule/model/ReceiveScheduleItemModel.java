@@ -10,6 +10,34 @@ public class ReceiveScheduleItemModel {
     private String endTime;//	日程结束时间
     private String customerName;//	关联客户名称
     private String scheduleState;
+    private String remindContent;
+    private String remindId;
+    private String remindTypeName;
+
+    public String getRemindContent() {
+        return remindContent;
+    }
+
+    public void setRemindContent(String remindContent) {
+        this.remindContent = remindContent;
+    }
+
+    public String getRemindId() {
+        return remindId;
+    }
+
+    public void setRemindId(String remindId) {
+        this.remindId = remindId;
+    }
+
+    public String getRemindTypeName() {
+        return remindTypeName;
+    }
+
+    public void setRemindTypeName(String remindTypeName) {
+        this.remindTypeName = remindTypeName;
+    }
+
 
     public String getScheduleState() {return scheduleState;}
 

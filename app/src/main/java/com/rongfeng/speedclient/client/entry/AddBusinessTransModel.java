@@ -14,6 +14,24 @@ public class AddBusinessTransModel {
     private String businessStage;//商机阶段    （意向，洽谈，商务，成交）
     private String productId;//商机产品Id
     private String remark;//
+    private String businessStageId;
+    private String businessStageName;
+
+    public String getBusinessStageId() {
+        return businessStageId;
+    }
+
+    public void setBusinessStageId(String businessStageId) {
+        this.businessStageId = businessStageId;
+    }
+
+    public String getBusinessStageName() {
+        return businessStageName;
+    }
+
+    public void setBusinessStageName(String businessStageName) {
+        this.businessStageName = businessStageName;
+    }
 
     public String getCsrId() {
         return csrId;

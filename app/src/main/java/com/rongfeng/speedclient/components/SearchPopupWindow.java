@@ -41,6 +41,8 @@ public class SearchPopupWindow {
     private Context mContext;
     private int mDisplayHeight;
 
+    private String voiceConent;
+
 
     public SearchPopupWindow(Context context, int displayHeight) {
         this(context, displayHeight, null);
@@ -66,6 +68,10 @@ public class SearchPopupWindow {
         return mPopupWindow;
     }
 
+    public void setContent(String content) {
+        this.voiceConent = content;
+    }
+
 
 //    @OnClick(R.id.cancel_iv)
 //    public void onClick() {
@@ -89,7 +95,7 @@ public class SearchPopupWindow {
 
                 break;
             case R.id.client_remind_layout:
-                mContext.startActivity(new Intent(mContext, AddScheduleActivity.class));
+                mContext.startActivity(new Intent(mContext, AddScheduleActivity.class).putExtra("content", voiceConent));
                 break;
         }
     }

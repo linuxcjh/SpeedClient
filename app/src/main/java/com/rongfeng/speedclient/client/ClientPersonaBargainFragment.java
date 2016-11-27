@@ -7,10 +7,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
 
+import com.google.gson.reflect.TypeToken;
+import com.rongfeng.speedclient.API.XxbService;
 import com.rongfeng.speedclient.R;
 import com.rongfeng.speedclient.client.adapter.ClientPersonaBargainAdapter;
+import com.rongfeng.speedclient.client.entry.AddContractTransModel;
 import com.rongfeng.speedclient.common.BaseFragment;
-import com.rongfeng.speedclient.entity.BaseDataModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +31,16 @@ public class ClientPersonaBargainFragment extends BaseFragment  {
     GridView gridView;
 
     private ClientPersonaBargainAdapter adapter;
-    List<BaseDataModel> models = new ArrayList<>();
+    List<AddContractTransModel> models = new ArrayList<>();
+
+    public static ClientPersonaBargainFragment newInstance(String customerId) {
+
+        Bundle args = new Bundle();
+        args.putString("customerId", customerId);
+        ClientPersonaBargainFragment fragment = new ClientPersonaBargainFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Nullable
     @Override
@@ -38,20 +49,39 @@ public class ClientPersonaBargainFragment extends BaseFragment  {
         ButterKnife.bind(this, view);
 
         init();
+        invoke();
+
         return view;
     }
 
 
     private void init() {
-        models.add(new BaseDataModel("新客户", "300元"));
-        models.add(new BaseDataModel("老客户", "300元"));
-        models.add(new BaseDataModel("商机客户", "300元"));
-        models.add(new BaseDataModel("欠款客户", "300元"));
-        models.add(new BaseDataModel("客户总数", "300元"));
-        models.add(new BaseDataModel("关注客户", "300元"));
-        adapter = new ClientPersonaBargainAdapter(getActivity(), R.layout.client_persona_bargain_item, models);
+        adapter = new ClientPersonaBargainAdapter(getActivity(), R.layout.client_persona_bargain_item, models,getArguments().getString("customerId", ""));
         gridView.setAdapter(adapter);
 
+    }
+
+
+
+    public void invoke() {
+        transDataModel.setCsrId(getArguments().getString("customerId", ""));
+        transDataModel.setIsArrears("0");//1查询有欠款0查询所有
+        commonPresenter.invokeInterfaceObtainData(XxbService.SEARCHCSRCON, transDataModel, new TypeToken<List<AddContractTransModel>>() {
+        });
+    }
+
+    @Override
+    public void obtainData(Object data, String methodIndex, int status) {
+        super.obtainData(data, methodIndex, status);
+        switch (methodIndex) {
+            case XxbService.SEARCHCSRCON:
+                if (data != null) {
+                    models = (List<AddContractTransModel>) data;
+                    adapter.setData(models);
+                }
+
+                break;
+        }
     }
 
     @Override

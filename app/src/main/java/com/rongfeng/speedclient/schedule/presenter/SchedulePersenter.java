@@ -28,10 +28,10 @@ public class SchedulePersenter extends BasePresenter {
 
         if(status==1){
             switch (methodName) {
-            		case XxbService.SEARCHCALENDARWITHMONTH:
+            		case XxbService.SEARCHSKREMINDBYMONTH:
                         iScheduleAction.callBackCalendarMonth((List<CalendarModel>) object);
             			break;
-            		case XxbService.SEARCHSCHEDULELISTWITHDATE:
+            		case XxbService.SEARCHSKREMIND:
                         iScheduleAction.callBackScheduleList((List<ReceiveScheduleItemModel>) object);
             			break;
                 case XxbService.DELETESCHEDULEWITHID:
@@ -45,7 +45,7 @@ public class SchedulePersenter extends BasePresenter {
      *根据月份查询某月日程的日历信息
      */
     public void searchCalendarWithMonth(RequestScheduleMonthModel model){
-        commonApi(XxbService.SEARCHCALENDARWITHMONTH, AppTools.toMap(model),new TypeToken<List<CalendarModel>>(){});
+        commonApi(XxbService.SEARCHSKREMINDBYMONTH, AppTools.toMap(model),new TypeToken<List<CalendarModel>>(){});
 
     }
 
@@ -53,7 +53,7 @@ public class SchedulePersenter extends BasePresenter {
      *根据条件查询日程列表信息
      */
     public void searchScheduleListWithDate(RequestScheduleMonthModel model){
-        commonApi(XxbService.SEARCHSCHEDULELISTWITHDATE, AppTools.toMap(model),new TypeToken<List<ReceiveScheduleItemModel>>(){});
+        commonApi(XxbService.SEARCHSKREMIND, AppTools.toMap(model),new TypeToken<List<ReceiveScheduleItemModel>>(){});
     }
 
     public void deleteScheduleWithId(String scheduleId){

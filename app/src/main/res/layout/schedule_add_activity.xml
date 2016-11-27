@@ -7,8 +7,7 @@
 
     <RelativeLayout
         style="@style/top_title_layout_style"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp">
+        android:paddingLeft="20dp">
 
 
         <TextView
@@ -29,36 +28,244 @@
             android:layout_centerInParent="true"
             android:text="添加日程" />
 
-        <TextView
-            android:id="@+id/complete"
-            style="@style/title_side_text"
+        <com.rongfeng.speedclient.common.utils.SingleClickBt
+            android:id="@+id/commit_tv"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:gravity="center"
-            android:text="完成" />
+            android:background="@android:color/transparent"
+            android:gravity="center_vertical|right"
+            android:paddingRight="16dp"
+            android:text="完成"
+            android:textColor="@color/colorWhite"
+            android:textSize="15sp" />
     </RelativeLayout>
 
-    <ScrollView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:background="@color/colorWhite"
+        android:divider="@drawable/divider"
+        android:dividerPadding="15dp"
+        android:orientation="vertical"
+        android:animateLayoutChanges="true"
+        android:showDividers="middle">
+
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
+            android:layout_height="80dp"
+            android:background="@color/colorWhite"
+            android:orientation="horizontal"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingBottom="10dp"
-                android:paddingLeft="20dp"
-                android:paddingTop="15dp"
-                android:text="备注"
-                android:textColor="@color/colorAssist" />
+                android:layout_gravity="center_vertical"
+                android:text="提醒时间："
+                android:textColor="@color/colorListName"
+                android:textSize="15sp" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:id="@+id/one_tv"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="提前1天"
+                        android:textColor="@color/colorAssist"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/one_select_tv"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/remide_top_item_bg"
+                        android:gravity="center"
+                        android:text="提前1天"
+                        android:textColor="@color/colorListName"
+                        android:textSize="14sp" />
+
+                </RelativeLayout>
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:id="@+id/two_tv"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="提前3天"
+                        android:textColor="@color/colorAssist"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/two_select_tv"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/remide_top_item_bg"
+                        android:gravity="center"
+                        android:text="提前3天"
+                        android:textColor="@color/colorListName"
+                        android:textSize="14sp"
+                        android:visibility="gone" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:id="@+id/three_tv"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="提前7天"
+                        android:textColor="@color/colorAssist"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/three_select_tv"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/remide_top_item_bg"
+                        android:gravity="center"
+                        android:text="提前7天"
+                        android:textColor="@color/colorListName"
+                        android:textSize="14sp"
+                        android:visibility="gone" />
+
+                </RelativeLayout>
+            </LinearLayout>
+
 
         </LinearLayout>
-    </ScrollView>
+
+        <LinearLayout
+            android:id="@+id/start_time_layout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/examine_approve_item"
+            android:gravity="center_vertical"
+            android:visibility="gone">
+
+            <TextView
+                style="@style/register_client_left_text_style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/examine_approve_margin_left_right"
+                android:text="起始时间" />
+
+            <TextView
+                android:id="@+id/start_time_tv"
+                style="@style/register_edit_view_style"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center_vertical|right"
+                android:hint="选择起始时间"
+                android:singleLine="false" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="@dimen/examine_approve_margin_left_right"
+                android:src="@drawable/list_arrow" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/end_time_layout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/examine_approve_item"
+            android:gravity="center_vertical"
+            android:visibility="gone">
+
+            <TextView
+                style="@style/register_client_left_text_style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/examine_approve_margin_left_right"
+                android:text="截止时间" />
+
+            <TextView
+                android:id="@+id/end_time_tv"
+                style="@style/register_edit_view_style"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center_vertical|right"
+                android:hint="选择成交日期"
+                android:singleLine="false" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="@dimen/examine_approve_margin_left_right"
+                android:src="@drawable/list_arrow" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:minHeight="200dp"
+            android:orientation="horizontal"
+            android:paddingLeft="15dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="提醒内容："
+                android:textColor="@color/colorListName"
+                android:textSize="15sp" />
+
+            <EditText
+                android:id="@+id/content_et"
+                style="@style/register_edit_view_style"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="top|left"
+                android:hint="请输入提醒内容"
+                android:singleLine="false"
+                android:text=""
+                android:textSize="15sp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <com.rongfeng.speedclient.utils.FlowLayout
+        android:id="@+id/flowLayout_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:animateLayoutChanges="true">
+
+    </com.rongfeng.speedclient.utils.FlowLayout>
+
 </LinearLayout>

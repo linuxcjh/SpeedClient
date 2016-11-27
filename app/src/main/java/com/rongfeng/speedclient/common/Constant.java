@@ -245,5 +245,11 @@ public interface Constant {
      */
     public static final int ADD_CONTACT_REQUEST_CODE = 0x03;
 
+    /**
+     * 刷新客户
+     */
+    public static final String  CLIENT_REFRESH_PERSONA = "client_refresh_persona";
+
+
 
 }

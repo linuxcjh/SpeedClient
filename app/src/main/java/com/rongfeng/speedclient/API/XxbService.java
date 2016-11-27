@@ -654,25 +654,35 @@ public interface XxbService {
     String SEARCHCRMPERFORMANCEPERSONLIST = "searchCRMPerformancePersonList";
 
 
-    String SEARCHCATEGORYLIST="searchCategoryList";
+    String SEARCHCATEGORYLIST = "searchCategoryList";
 
-    String INSERTCSR="insertCsr";
+    String INSERTCSR = "insertCsr";
 
-    String SEARCHCSR="searchCsr";
+    String SEARCHCSR = "searchCsr";
 
-    String GETCSRBYID="getCsrById";
+    String GETCSRBYID = "getCsrById";
 
-    String SEARCHCSRCONTACTBYCSRID="searchCsrContactByCsrId";
+    String SEARCHCSRCONTACTBYCSRID = "searchCsrContactByCsrId";
 
-    String INSERTFOLLOWUP="insertFollowup";
+    String INSERTFOLLOWUP = "insertFollowup";
 
-    String INSERTCSRBUSINESS="insertCsrBusiness";
+    String INSERTCSRBUSINESS = "insertCsrBusiness";
 
-    String INSERTCSRCON="insertCsrCon";
+    String INSERTCSRCON = "insertCsrCon";
 
-    String INSERTCSRGATHERING="insertCsrGathering";
+    String INSERTCSRGATHERING = "insertCsrGathering";
 
-    String SEARCHNOTE="searchNote";
+    String SEARCHNOTE = "searchNote";
 
+    String SEARCHSKREMINDBYMONTH = "searchSkRemindByMonth";
 
+    String SEARCHSKREMIND = "searchSkRemind";
+
+    String INSERTSKREMIND = "insertSkRemind";
+
+    String SEARCHCSRBUSINESS = "searchCsrBusiness";
+
+    String SEARCHCSRCON = "searchCsrCon";
+
+    String INSERTNOTE = "insertNote";
 }

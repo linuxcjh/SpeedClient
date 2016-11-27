@@ -7,11 +7,15 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.gson.reflect.TypeToken;
+import com.rongfeng.speedclient.API.XxbService;
 import com.rongfeng.speedclient.R;
 import com.rongfeng.speedclient.common.BaseActivity;
-import com.rongfeng.speedclient.schedule.ScheduleAddEditActivity;
+import com.rongfeng.speedclient.common.utils.AppTools;
+import com.rongfeng.speedclient.entity.BaseDataModel;
 import com.rongfeng.speedclient.schedule.action.IScheduleAction;
 import com.rongfeng.speedclient.schedule.model.ReceiveScheduleItemModel;
 import com.rongfeng.speedclient.schedule.model.RequestScheduleMonthModel;
@@ -21,6 +25,7 @@ import com.rongfeng.speedclient.utils.calendar.CalendarModel;
 import com.rongfeng.speedclient.utils.calendar.CalendarView;
 import com.rongfeng.speedclient.utils.calendar.EffectsCalendarView;
 import com.rongfeng.speedclient.utils.calendar.WeekListener;
+import com.rongfeng.speedclient.voice.model.AddRemindModel;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -43,9 +48,23 @@ public class AddScheduleActivity extends BaseActivity implements CalendarListene
     TextView cancelIv;
     @Bind(R.id.add_iv)
     TextView addIv;
+    @Bind(R.id.one_tv)
+    TextView oneTv;
+    @Bind(R.id.one_select_tv)
+    TextView oneSelectTv;
+    @Bind(R.id.two_tv)
+    TextView twoTv;
+    @Bind(R.id.two_select_tv)
+    TextView twoSelectTv;
+    @Bind(R.id.three_tv)
+    TextView threeTv;
+    @Bind(R.id.three_select_tv)
+    TextView threeSelectTv;
+    @Bind(R.id.root_layout)
+    RelativeLayout rootLayout;
     private CalendarBroadCastReceiver broadCastReceiver;
     private String dateString;
-//    private WeekView weekView;
+    //    private WeekView weekView;
     private ListView listView;
     private CalendarView calendarView;
     private Map<String, List<CalendarModel>> mapMonth = new HashMap<>();//缓存日历
@@ -56,6 +75,9 @@ public class AddScheduleActivity extends BaseActivity implements CalendarListene
     private RequestScheduleMonthModel requestModel = new RequestScheduleMonthModel();
     private int deteltPosition;
 
+
+    private AddRemindModel addRemindModel = new AddRemindModel();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,6 +87,7 @@ public class AddScheduleActivity extends BaseActivity implements CalendarListene
     }
 
     private void init() {
+        addRemindModel.setRemindType("1");
         effectsCalendarView.isDisableWeekView(true);
         calendarView = effectsCalendarView.getCalendarView();
         effectsCalendarView.setIsShrink(false);
@@ -76,9 +99,27 @@ public class AddScheduleActivity extends BaseActivity implements CalendarListene
         persenter = new SchedulePersenter(this);
         month = calendarView.getYear() + "-" + (calendarView.getMonth() < 10 ? "0" + calendarView.getMonth() : calendarView.getMonth());
         requestModel.setMonth(month);
+
     }
 
-    @OnClick({R.id.cancel_iv, R.id.add_iv})
+
+    private void invoke() {
+        addRemindModel.setRemindContent(getIntent().getStringExtra("content"));
+        commonPresenter.invokeInterfaceObtainData(XxbService.INSERTSKREMIND, addRemindModel, new TypeToken<List<BaseDataModel>>() {
+        });
+    }
+
+    @Override
+    public void obtainData(Object data, String methodIndex, int status) {
+        super.obtainData(data, methodIndex, status);
+
+        if (status == 1) {
+            AppTools.getToast("添加成功");
+            finish();
+        }
+    }
+
+    @OnClick({R.id.cancel_iv, R.id.add_iv, R.id.one_tv, R.id.two_tv, R.id.three_tv})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.cancel_iv:
@@ -86,11 +127,37 @@ public class AddScheduleActivity extends BaseActivity implements CalendarListene
                 finish();
                 break;
             case R.id.add_iv:
-                Intent intent = new Intent(this, ScheduleAddEditActivity.class);
-                intent.putExtra("dateString", dateString);
-                startActivityForResult(intent, 1001);
+                invoke();
+//                Intent intent = new Intent(this, ScheduleAddEditActivity.class);
+//                intent.putExtra("dateString", dateString);
+//                startActivityForResult(intent, 1001);
+                break;
+            case R.id.one_tv:
+                resetTopView();
+                oneSelectTv.setVisibility(View.VISIBLE);
+                addRemindModel.setRemindType("1");
+
+                break;
+            case R.id.two_tv:
+                resetTopView();
+                twoSelectTv.setVisibility(View.VISIBLE);
+                addRemindModel.setRemindType("3");
+
+                break;
+            case R.id.three_tv:
+                resetTopView();
+                threeSelectTv.setVisibility(View.VISIBLE);
+                addRemindModel.setRemindType("7");
+
                 break;
         }
+    }
+
+    private void resetTopView() {
+        oneSelectTv.setVisibility(View.GONE);
+        twoSelectTv.setVisibility(View.GONE);
+        threeSelectTv.setVisibility(View.GONE);
+
     }
 
 
@@ -166,33 +233,11 @@ public class AddScheduleActivity extends BaseActivity implements CalendarListene
         @Override
         public void onReceive(Context context, Intent intent) {
             dateString = intent.getStringExtra("dateString");
-//            weekView.setDateString(dateString, false);
+            addRemindModel.setRemindDate(dateString);
             requestModel.setDate(dateString);
-            int i = intent.getIntExtra("flag", 0);
-            switch (i) {
-                case 0://有日程
-                    persenter.searchScheduleListWithDate(requestModel);
-                    break;
-                case 1:// 无日程
-                    data.clear();
-                    callBackScheduleList(data);
-                    break;
-            }
         }
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == RESULT_OK) {
-            switch (requestCode) {
-                case 1001:
-                    persenter.searchScheduleListWithDate(requestModel);
-                    persenter.searchCalendarWithMonth(requestModel);
-                    break;
-            }
-
-        }
-    }
 
     @Override
     public void callBackDeteleItem() {

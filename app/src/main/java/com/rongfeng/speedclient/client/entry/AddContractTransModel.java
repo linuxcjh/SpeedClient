@@ -1,23 +1,42 @@
 package com.rongfeng.speedclient.client.entry;
 
+import java.io.Serializable;
+
 /**
  * AUTHOR: Alex
  * DATE: 26/11/2016 15:04
  */
 
-public class AddContractTransModel {
+public class AddContractTransModel implements Serializable{
 
 
     private String csrId;//客户ID
     private String conName;//合同名称
     private String conNumber;//合同编号
     private String productId;//产品ID
-    private String conRental;//已回款
+    private String returnedMoney;//已回款
+    private String conRental;//合同金额
     private String remainingBalance;//剩余欠款
     private String businessId;//商机ID
     private String remark;//备注
     private String transactionDate;//成交日期
+    private String conId;
 
+    public String getReturnedMoney() {
+        return returnedMoney;
+    }
+
+    public void setReturnedMoney(String returnedMoney) {
+        this.returnedMoney = returnedMoney;
+    }
+
+    public String getConId() {
+        return conId;
+    }
+
+    public void setConId(String conId) {
+        this.conId = conId;
+    }
 
     public String getCsrId() {
         return csrId;

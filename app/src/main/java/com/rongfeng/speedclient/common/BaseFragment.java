@@ -2,13 +2,16 @@ package com.rongfeng.speedclient.common;
 
 import android.support.v4.app.Fragment;
 
+import com.rongfeng.speedclient.login.TransDataModel;
+
 /**
  * AUTHOR: Alex
  * DATE: 21/10/2015 18:55
  * 【Parent Fragment】
  */
-public class BaseFragment extends Fragment {
-
+public class BaseFragment extends Fragment implements ICommonAction{
+    public CommonPresenter commonPresenter = new CommonPresenter(this);
+    public TransDataModel transDataModel = new TransDataModel();
     @Override
     public void onPause() {
         super.onPause();
@@ -21,6 +24,9 @@ public class BaseFragment extends Fragment {
         super.onResume();
         // 页面埋点
 //        AppTools.baiDuOnPageEnd(getActivity(),getClass().getSimpleName());
+    }
+    @Override
+    public void obtainData(Object data, String methodIndex, int status) {
     }
 
 

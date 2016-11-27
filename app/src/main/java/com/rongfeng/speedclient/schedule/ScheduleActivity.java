@@ -97,7 +97,7 @@ public class ScheduleActivity extends BaseActivity implements CalendarListener, 
         persenter = new SchedulePersenter(this);
         month = calendarView.getYear() + "-" + (calendarView.getMonth() < 10 ? "0" + calendarView.getMonth() : calendarView.getMonth());
         requestModel.setMonth(month);
-//        persenter.searchCalendarWithMonth(requestModel);
+        persenter.searchCalendarWithMonth(requestModel);
     }
 
     @OnClick({R.id.back_bt, R.id.add_bt})

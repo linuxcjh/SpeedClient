@@ -40,6 +40,97 @@
                 android:textColor="@color/colorListName"
                 android:textSize="15sp" />
 
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:id="@+id/one_tv"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="提前1天"
+                        android:textColor="@color/colorAssist"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/one_select_tv"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/remide_top_item_bg"
+                        android:gravity="center"
+                        android:text="提前1天"
+                        android:textColor="@color/colorListName"
+                        android:textSize="14sp"
+                        />
+
+                </RelativeLayout>
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:id="@+id/two_tv"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="提前3天"
+                        android:textColor="@color/colorAssist"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/two_select_tv"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/remide_top_item_bg"
+                        android:gravity="center"
+                        android:text="提前3天"
+                        android:textColor="@color/colorListName"
+                        android:textSize="14sp"
+                        android:visibility="gone" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:id="@+id/three_tv"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="提前7天"
+                        android:textColor="@color/colorAssist"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/three_select_tv"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/remide_top_item_bg"
+                        android:gravity="center"
+                        android:text="提前7天"
+                        android:textColor="@color/colorListName"
+                        android:textSize="14sp"
+                        android:visibility="gone" />
+
+                </RelativeLayout>
+            </LinearLayout>
+
+
         </LinearLayout>
 
         <LinearLayout

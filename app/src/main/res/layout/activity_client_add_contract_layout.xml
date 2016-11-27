@@ -91,6 +91,7 @@
 
 
                 <LinearLayout
+                    android:id="@+id/product_layout"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/examine_approve_item"
                     android:gravity="center_vertical">

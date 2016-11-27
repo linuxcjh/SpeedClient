@@ -5,12 +5,14 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.GridView;
 
+import com.google.gson.reflect.TypeToken;
+import com.rongfeng.speedclient.API.XxbService;
 import com.rongfeng.speedclient.R;
 import com.rongfeng.speedclient.client.adapter.ClientPersonaBusinessAdapter;
+import com.rongfeng.speedclient.client.entry.AddBusinessTransModel;
 import com.rongfeng.speedclient.common.BaseFragment;
-import com.rongfeng.speedclient.components.MyGridView;
-import com.rongfeng.speedclient.entity.BaseDataModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,35 +24,57 @@ import butterknife.ButterKnife;
  * Client标签
  * 2016/1/13
  */
-public class ClientPersonaBusinessFragment extends BaseFragment  {
+public class ClientPersonaBusinessFragment extends BaseFragment {
 
     @Bind(R.id.grid_view)
-    MyGridView gridView;
+    GridView gridView;
 
     private ClientPersonaBusinessAdapter adapter;
-    List<BaseDataModel> models = new ArrayList<>();
+    List<AddBusinessTransModel> models = new ArrayList<>();
+
+    public static ClientPersonaBusinessFragment newInstance(String customerId) {
+
+        Bundle args = new Bundle();
+        args.putString("customerId", customerId);
+        ClientPersonaBusinessFragment fragment = new ClientPersonaBusinessFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.client_persona_business_fragment_layout, null);
         ButterKnife.bind(this, view);
-
         init();
+        invoke();
         return view;
     }
 
 
     private void init() {
-        models.add(new BaseDataModel("新客户", "300个"));
-        models.add(new BaseDataModel("老客户", "300个"));
-        models.add(new BaseDataModel("商机客户", "300个"));
-        models.add(new BaseDataModel("欠款客户", "300个"));
-        models.add(new BaseDataModel("客户总数", "300个"));
-        models.add(new BaseDataModel("关注客户", "300个"));
         adapter = new ClientPersonaBusinessAdapter(getActivity(), R.layout.client_persona_business_item, models);
         gridView.setAdapter(adapter);
 
     }
 
+    public void invoke() {
+        transDataModel.setCsrId(getArguments().getString("customerId", ""));
+        commonPresenter.invokeInterfaceObtainData(XxbService.SEARCHCSRBUSINESS, transDataModel, new TypeToken<List<AddBusinessTransModel>>() {
+        });
+    }
+
+    @Override
+    public void obtainData(Object data, String methodIndex, int status) {
+        super.obtainData(data, methodIndex, status);
+        switch (methodIndex) {
+            case XxbService.SEARCHCSRBUSINESS:
+                if (data != null) {
+                    models = (List<AddBusinessTransModel>) data;
+                    adapter.setData(models);
+                }
+
+                break;
+        }
+    }
 }

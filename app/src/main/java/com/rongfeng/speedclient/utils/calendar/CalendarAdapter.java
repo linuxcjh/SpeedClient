@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -66,7 +67,12 @@ public class CalendarAdapter extends BaseAdapter implements OnClickListener {
         hashMap.clear();
         try {
             for (CalendarModel model : list) {
-                hashMap.put(Integer.valueOf(model.getDate()), model.getState());
+//                hashMap.put(Integer.valueOf(model.getRemindTime()), model.getState());
+                if(!TextUtils.isEmpty(model.getRemindTime())){
+                    hashMap.put(Integer.valueOf(model.getRemindTime()), "1");
+
+                }
+
             }
             notifyDataSetChanged();
         } catch (Exception e) {
@@ -152,6 +158,10 @@ public class CalendarAdapter extends BaseAdapter implements OnClickListener {
                     case "3"://请假
                         identifierImage.setBackgroundResource(R.drawable.calendar_p_purple);
                         break;
+                    default:
+                        identifierImage.setBackgroundResource(R.drawable.calendar_p_orange);
+                        break;
+
                 }
                 identifierImage.setVisibility(View.VISIBLE);
             } else {

@@ -1,6 +1,9 @@
 package com.rongfeng.speedclient.client;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -23,6 +26,7 @@ import com.rongfeng.speedclient.R;
 import com.rongfeng.speedclient.client.adapter.ClientPersonaLabelAdapter;
 import com.rongfeng.speedclient.client.entry.AddClientTransModel;
 import com.rongfeng.speedclient.common.BaseActivity;
+import com.rongfeng.speedclient.common.Constant;
 import com.rongfeng.speedclient.entity.BaseDataModel;
 
 import java.util.ArrayList;
@@ -46,6 +50,9 @@ public class ClientPersonaActivity extends BaseActivity {
     public static final int CLIENT_DEBT_INDEX = 3;
     public static final int CLIENT_SLIDE_ALL_COUNT = 4;//Total page count
 
+
+    private RefreshBroadCastReceiver refreshBroadCastReceiver;
+
     @Bind(R.id.cancel_tv)
     ImageView cancelTv;
     @Bind(R.id.contact_num_tv)
@@ -58,7 +65,7 @@ public class ClientPersonaActivity extends BaseActivity {
     TextView shortcutBusTv;
     @Bind(R.id.shortcut_record_tv)
     TextView shortcutRecordTv;
-    @Bind(shortcut_layout)
+    @Bind(R.id.shortcut_layout)
     RelativeLayout shortcutLayout;
     @Bind(R.id.plus_ib)
     ImageButton plusIb;
@@ -110,10 +117,10 @@ public class ClientPersonaActivity extends BaseActivity {
     private ClientPersonaLabelAdapter adapter;
     private List<BaseDataModel> models = new ArrayList<>();
 
-    private ClientPersonaLabelFragment labelFragment = new ClientPersonaLabelFragment();
-    private ClientPersonaBusinessFragment businessFragment = new ClientPersonaBusinessFragment();
-    private ClientPersonaBargainFragment bargainFragment = new ClientPersonaBargainFragment();
-    private ClientPersonaDebtFragment debtFragment = new ClientPersonaDebtFragment();
+    private ClientPersonaLabelFragment labelFragment;
+    private ClientPersonaBusinessFragment businessFragment;
+    private ClientPersonaBargainFragment bargainFragment;
+    private ClientPersonaDebtFragment debtFragment;
 
     private List<Fragment> fragments = new ArrayList<>();
     private FragmentPagerAdapter mAdapter;
@@ -133,10 +140,15 @@ public class ClientPersonaActivity extends BaseActivity {
 
     private void initViews() {
         clientNameTv.setText(getIntent().getStringExtra("customerName"));
+        refreshBroadCastReceiver = new RefreshBroadCastReceiver();
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(Constant.CLIENT_REFRESH_PERSONA);
+        registerReceiver(refreshBroadCastReceiver, filter);
     }
 
 
     private void invoke() {
+        commonPresenter.isShowProgressDialog = false;
         transDataModel.setCsrId(getIntent().getStringExtra("customerId"));
         commonPresenter.invokeInterfaceObtainData(XxbService.GETCSRBYID, transDataModel, new TypeToken<AddClientTransModel>() {
         });
@@ -161,6 +173,11 @@ public class ClientPersonaActivity extends BaseActivity {
     }
 
     private void initViewPage() {
+        String customerId = getIntent().getStringExtra("customerId");
+        labelFragment = ClientPersonaLabelFragment.newInstance(customerId);
+        businessFragment = ClientPersonaBusinessFragment.newInstance(customerId);
+        bargainFragment = ClientPersonaBargainFragment.newInstance(customerId);
+        debtFragment = ClientPersonaDebtFragment.newInstance(customerId);
 
         fragments.add(labelFragment);
         fragments.add(businessFragment);
@@ -236,29 +253,27 @@ public class ClientPersonaActivity extends BaseActivity {
                 break;
             case R.id.contact_layout:
                 startActivity(new Intent(this, ClientContactsActivity.class).putExtra("customerId", transDataModel.getCsrId()).putExtra("customerName", clientNameTv.getText().toString()));
-                shortcutLayout.setVisibility(View.GONE);
                 endAnimation();
 
                 break;
             case R.id.shortcut_contract_tv:
-                startActivity(new Intent(this, ClientAddContractActivity.class));
-                shortcutLayout.setVisibility(View.GONE);
+                startActivity(new Intent(this, ClientAddContractActivity.class).putExtra("customerId", transDataModel.getCsrId()).putExtra("customerName", clientNameTv.getText().toString()));
                 endAnimation();
 
                 break;
             case R.id.shortcut_bus_tv:
-                startActivity(new Intent(this, ClientAddBusinessActivity.class));
-                shortcutLayout.setVisibility(View.GONE);
+                startActivity(new Intent(this, ClientAddBusinessActivity.class).putExtra("customerId", transDataModel.getCsrId()).putExtra("customerName", clientNameTv.getText().toString()));
                 endAnimation();
 
                 break;
             case R.id.shortcut_record_tv:
                 startActivity(new Intent(this, ClientVisitActivity.class).putExtra("customerId", transDataModel.getCsrId()).putExtra("customerName", clientNameTv.getText().toString()));
-                shortcutLayout.setVisibility(View.GONE);
                 endAnimation();
 
                 break;
             case shortcut_layout:
+                shortcutLayout.setVisibility(View.GONE);
+                endAnimation();
                 break;
             case R.id.plus_ib:
                 if (shortcutLayout.getVisibility() == View.GONE) {
@@ -345,6 +360,22 @@ public class ClientPersonaActivity extends BaseActivity {
         LinearInterpolator interpolator = new LinearInterpolator();
         animation.setInterpolator(interpolator);
         plusIb.startAnimation(animation);
+        animation.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                shortcutLayout.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
 
     }
 
@@ -357,5 +388,27 @@ public class ClientPersonaActivity extends BaseActivity {
             finish();
         }
 
+    }
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(refreshBroadCastReceiver);
+    }
+
+    class RefreshBroadCastReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+            if (intent.getAction().equals(Constant.CLIENT_REFRESH_PERSONA)) {
+                invoke();
+                businessFragment.invoke();
+                bargainFragment.invoke();
+                debtFragment.invoke();
+            }
+
+        }
     }
 }

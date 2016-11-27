@@ -7,6 +7,15 @@ public class CalendarModel {
 
     private String date;
     private String state;
+    private String remindTime;
+
+    public String getRemindTime() {
+        return remindTime;
+    }
+
+    public void setRemindTime(String remindTime) {
+        this.remindTime = remindTime;
+    }
 
     public String getDate() {
         return date;

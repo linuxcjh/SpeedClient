@@ -1,17 +1,12 @@
 package com.rongfeng.speedclient.schedule.adapter;
 
 import android.content.Context;
-import android.content.Intent;
-import android.graphics.BitmapFactory;
 import android.view.View;
-import android.widget.ImageView;
 
 import com.rongfeng.speedclient.R;
 import com.rongfeng.speedclient.common.BaseAdapterHelper;
 import com.rongfeng.speedclient.common.QuickAdapter;
 import com.rongfeng.speedclient.components.SwipeView;
-import com.rongfeng.speedclient.schedule.ScheduleActivity;
-import com.rongfeng.speedclient.schedule.ScheduleDetailsActivity;
 import com.rongfeng.speedclient.schedule.model.ReceiveScheduleItemModel;
 
 import java.util.ArrayList;
@@ -33,11 +28,8 @@ public class ScheduleListAdapter extends QuickAdapter<ReceiveScheduleItemModel> 
 
     @Override
     protected void convert(BaseAdapterHelper helper, final ReceiveScheduleItemModel item, final int position) {
-        helper.setText(R.id.content, item.getContent());
-        helper.setText(R.id.startTime, item.getStartTime());
-        helper.setText(R.id.endTime, item.getEndTime());
-        helper.setText(R.id.customerName, item.getCustomerName());
-        ImageView imageView=  helper.getView(R.id.flag1);
+        helper.setText(R.id.content_tv, item.getRemindContent());
+        helper.setText(R.id.remind_type, item.getRemindTypeName());
 
         SwipeView swipeView = helper.getView(R.id.swipeview);
         swipeView.setOnSwipeStatusChangeListener(this);
@@ -47,10 +39,10 @@ public class ScheduleListAdapter extends QuickAdapter<ReceiveScheduleItemModel> 
                 if (isExistUnClosed()) {
                     closeAllSwipeView();
                 }
-                Intent intent = new Intent(context, ScheduleDetailsActivity.class);
-                intent.putExtra("dateString", dateString);
-                intent.putExtra("scheduleId", item.getScheduleId());
-                ((ScheduleActivity)context).startActivityForResult(intent,1001);
+//                Intent intent = new Intent(context, ScheduleDetailsActivity.class);
+//                intent.putExtra("dateString", dateString);
+//                intent.putExtra("scheduleId", item.getScheduleId());
+//                ((ScheduleActivity)context).startActivityForResult(intent,1001);
             }
         });
 
@@ -61,11 +53,6 @@ public class ScheduleListAdapter extends QuickAdapter<ReceiveScheduleItemModel> 
             }
         });
 
-        if("1".equals(item.getScheduleState())){
-            imageView.setImageBitmap(BitmapFactory.decodeResource(context.getResources(),R.drawable.schedule_mark_finished));
-        }else{
-            imageView.setImageBitmap(BitmapFactory.decodeResource(context.getResources(),R.drawable.schedule_default));
-        }
     }
 
     public ArrayList<SwipeView> unClosedSwipeViews = new ArrayList<SwipeView>();

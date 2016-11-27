@@ -331,7 +331,7 @@ public class AppTools {
         if (dayOfMonth < 10) {
             tempDay = "0" + String.valueOf((dayOfMonth));
         }
-        String dateString = year + "." + tempMonth + "." + tempDay;
+        String dateString = year + "-" + tempMonth + "-" + tempDay;
 
         return dateString;
 

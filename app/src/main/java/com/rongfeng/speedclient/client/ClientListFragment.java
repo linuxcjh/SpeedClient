@@ -115,6 +115,7 @@ public class ClientListFragment extends BaseFragment implements ICommonPaginatio
     }
 
     private void invoke() {
+        transDataModel.setRows("10000");
         transDataModel.setPage(String.valueOf(commonPaginationPresenter.page));
         commonPaginationPresenter.invokeInterfaceObtainData(XxbService.SEARCHCSR, transDataModel, new TypeToken<List<AddClientTransModel>>() {
         });

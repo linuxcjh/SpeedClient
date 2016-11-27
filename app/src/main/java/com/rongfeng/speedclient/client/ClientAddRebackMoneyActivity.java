@@ -1,5 +1,6 @@
 package com.rongfeng.speedclient.client;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -8,8 +9,10 @@ import android.widget.TextView;
 import com.google.gson.reflect.TypeToken;
 import com.rongfeng.speedclient.API.XxbService;
 import com.rongfeng.speedclient.R;
+import com.rongfeng.speedclient.client.entry.AddContractTransModel;
 import com.rongfeng.speedclient.client.entry.AddRebackMoneyModel;
 import com.rongfeng.speedclient.common.BaseActivity;
+import com.rongfeng.speedclient.common.Constant;
 import com.rongfeng.speedclient.common.utils.AppTools;
 import com.rongfeng.speedclient.common.utils.SingleClickBt;
 import com.rongfeng.speedclient.entity.BaseDataModel;
@@ -49,16 +52,18 @@ public class ClientAddRebackMoneyActivity extends BaseActivity {
     }
 
     private void initViews() {
-
+        AddContractTransModel m = (AddContractTransModel) getIntent().getSerializableExtra("model");
+        transModel.setCsrId(getIntent().getStringExtra("customerId"));
+        transModel.setConId(m.getConId());
+        contractNameTv.setText(m.getConName());
+        resValueTv.setText(m.getConRental());
     }
 
 
     private void invoke() {
-        transModel.setCsrId(getIntent().getStringExtra("customerId"));
-        transModel.setConId(getIntent().getStringExtra("contractId"));
+
         transModel.setGatheringMoney(contractBackTv.getText().toString());
         transModel.setResidueMoney(contractSurplusTv.getText().toString());
-
         commonPresenter.invokeInterfaceObtainData(XxbService.INSERTCSRGATHERING, transModel, new TypeToken<BaseDataModel>() {
         });
     }
@@ -70,6 +75,7 @@ public class ClientAddRebackMoneyActivity extends BaseActivity {
             case XxbService.INSERTCSRGATHERING:
                 if (status == 1) {
                     AppTools.getToast("添加成功");
+                    sendBroadcast(new Intent(Constant.CLIENT_REFRESH_PERSONA));
                     finish();
                 }
                 break;
