@@ -68,6 +68,7 @@ public class VoiceNoteActivity extends BaseActivity implements ICommonPagination
     }
 
     private void invoke() {
+        transDataModel.setRows("20");
         transDataModel.setPage(String.valueOf(commonPaginationPresenter.page));
         commonPaginationPresenter.invokeInterfaceObtainData(XxbService.SEARCHNOTE, transDataModel, new TypeToken<List<VoiceNoteModel>>() {
         });

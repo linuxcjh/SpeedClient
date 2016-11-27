@@ -11,7 +11,7 @@ public class TransDataModel extends BaseTransModel {
 
     private String flg;
     private String page;//	当前页
-    private String rows;
+    private String rows = "20";
 
     private String csrId;
 
@@ -19,6 +19,26 @@ public class TransDataModel extends BaseTransModel {
     private String noteContent;
 
     private String isArrears;//1查询有欠款0查询所有
+
+    private String radarType;//0过去7天跟进    1.未来7天跟进
+
+    private String clientType;
+
+    public String getClientType() {
+        return clientType;
+    }
+
+    public void setClientType(String clientType) {
+        this.clientType = clientType;
+    }
+
+    public String getRadarType() {
+        return radarType;
+    }
+
+    public void setRadarType(String radarType) {
+        this.radarType = radarType;
+    }
 
     public String getNoteContent() {
         return noteContent;

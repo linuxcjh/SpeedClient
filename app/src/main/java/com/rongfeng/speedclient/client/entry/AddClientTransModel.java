@@ -31,7 +31,7 @@ public class AddClientTransModel {
     private String visitCount;//	拜访次数
     private String bizOppsCount;//	商机数
     private String ownerName;//归属人
-    private String createTime;//创建时间
+//    private String createTime;//创建时间
 
     /**
      * 客户画像
@@ -105,13 +105,13 @@ public class AddClientTransModel {
         this.ownerName = ownerName;
     }
 
-    public String getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(String createTime) {
-        this.createTime = createTime;
-    }
+//    public String getCreateTime() {
+//        return createTime;
+//    }
+//
+//    public void setCreateTime(String createTime) {
+//        this.createTime = createTime;
+//    }
 
     public String getCustomerType() {
         return customerType;

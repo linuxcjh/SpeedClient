@@ -3,6 +3,7 @@ package com.rongfeng.speedclient.client.adapter;
 import android.content.Context;
 import android.view.View;
 
+import com.rongfeng.speedclient.R;
 import com.rongfeng.speedclient.client.entry.ClientRecordModel;
 import com.rongfeng.speedclient.xrecyclerview.BaseRecyclerAdapter;
 import com.rongfeng.speedclient.xrecyclerview.ViewHolder;
@@ -21,6 +22,8 @@ public class ClientRecordAdapter extends BaseRecyclerAdapter<ClientRecordModel> 
     @Override
     protected void convert(ViewHolder helper, ClientRecordModel item, int position) {
 
+        helper.setText(R.id.time_tv,item.getFollowUpTime());
+        helper.setText(R.id.content_tv,item.getContent());
     }
 
     @Override

@@ -685,4 +685,10 @@ public interface XxbService {
     String SEARCHCSRCON = "searchCsrCon";
 
     String INSERTNOTE = "insertNote";
+
+    String SEARCHFOLLOWUP="searchFollowup";
+
+    String SEARCHCSRCOUNTSTATISTICSDOWN="searchCsrCountStatisticsDown";
+
+    String SEARCHCSRCOUNTSTATISTICSTOP="searchCsrCountStatisticsTop";
 }

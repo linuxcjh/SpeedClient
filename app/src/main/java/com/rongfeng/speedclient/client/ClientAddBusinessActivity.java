@@ -6,11 +6,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.content.ContextCompat;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.gson.reflect.TypeToken;
@@ -57,9 +61,33 @@ public class ClientAddBusinessActivity extends BaseActivity {
     TextView contractProductTv;
     @Bind(R.id.product_layout)
     LinearLayout productLayout;
+    @Bind(R.id.stage_one_image)
+    ImageView stageOneImage;
+    @Bind(R.id.stage_two_image)
+    ImageView stageTwoImage;
+    @Bind(R.id.stage_three_image)
+    ImageView stageThreeImage;
+    @Bind(R.id.stage_four_image)
+    ImageView stageFourImage;
+    @Bind(R.id.circle_layout)
+    LinearLayout circleLayout;
+    @Bind(R.id.middle_layout)
+    RelativeLayout middleLayout;
+    @Bind(R.id.stage_one_tv)
+    TextView stageOneTv;
+    @Bind(R.id.stage_two_tv)
+    TextView stageTwoTv;
+    @Bind(R.id.stage_three_tv)
+    TextView stageThreeTv;
+    @Bind(R.id.stage_four_tv)
+    TextView stageFourTv;
     private List<BaseDataModel> dataLabel = new ArrayList<>();
 
+    private List<BaseDataModel> stageModels = new ArrayList<>();
+
     private AddBusinessTransModel transModel = new AddBusinessTransModel();
+
+    private boolean flag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +95,7 @@ public class ClientAddBusinessActivity extends BaseActivity {
         setContentView(R.layout.activity_client_add_business_layout);
         ButterKnife.bind(this);
         initViews();
+        invoke("5");
     }
 
     private void initViews() {
@@ -79,7 +108,6 @@ public class ClientAddBusinessActivity extends BaseActivity {
     private void invoke() {
         transModel.setCsrId(getIntent().getStringExtra("customerId"));
         transModel.setBusinessName(resBusNameTv.getText().toString());
-        transModel.setBusinessStage("意向");//TODO
         transModel.setPredictMoney(resValueTv.getText().toString());
         transModel.setPredictTime(resBargainTimeTv.getText().toString());
         commonPresenter.invokeInterfaceObtainData(XxbService.INSERTCSRBUSINESS, transModel, new TypeToken<BaseDataModel>() {
@@ -111,8 +139,15 @@ public class ClientAddBusinessActivity extends BaseActivity {
                 }
                 break;
             case XxbService.SEARCHCATEGORYLIST:
-                AppTools.selectDialog("请选择产品", this, (List<BaseDataModel>) data, mHandler, SELECT_PRODUCT_INDEX);
 
+                if (flag) {
+                    AppTools.selectDialog("请选择产品", this, (List<BaseDataModel>) data, mHandler, SELECT_PRODUCT_INDEX);
+                } else {
+                    stageModels = (List<BaseDataModel>) data;
+                    if (stageModels != null && stageModels.size() > 0) {
+                        transModel.setBusinessStage(stageModels.get(0).getDictionaryId());
+                    }
+                }
                 break;
         }
 
@@ -135,7 +170,7 @@ public class ClientAddBusinessActivity extends BaseActivity {
         }
     };
 
-    @OnClick({R.id.cancel_tv, R.id.commit_tv, R.id.res_bargain_time_tv, R.id.product_layout})
+    @OnClick({R.id.cancel_tv, R.id.commit_tv, R.id.res_bargain_time_tv, R.id.product_layout, R.id.stage_one_image, R.id.stage_two_image, R.id.stage_three_image, R.id.stage_four_image, R.id.stage_one_tv, R.id.stage_two_tv, R.id.stage_three_tv, R.id.stage_four_tv})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.cancel_tv:
@@ -148,9 +183,64 @@ public class ClientAddBusinessActivity extends BaseActivity {
                 AppTools.obtainData(this, resBargainTimeTv);
                 break;
             case R.id.product_layout:
+                flag = true;
                 invoke("6");
                 break;
+            case R.id.stage_one_image:
+            case R.id.stage_one_tv:
+                setFocusStatus(stageOneTv, stageOneImage);
+                transModel.setBusinessStage(stageModels.get(0).getDictionaryId());
+
+                break;
+            case R.id.stage_two_image:
+            case R.id.stage_two_tv:
+                setFocusStatus(stageTwoTv, stageTwoImage);
+                transModel.setBusinessStage(stageModels.get(1).getDictionaryId());
+
+                break;
+            case R.id.stage_three_image:
+            case R.id.stage_three_tv:
+                setFocusStatus(stageThreeTv, stageThreeImage);
+                transModel.setBusinessStage(stageModels.get(2).getDictionaryId());
+
+                break;
+            case R.id.stage_four_image:
+            case R.id.stage_four_tv:
+
+                setFocusStatus(stageFourTv, stageFourImage);
+                transModel.setBusinessStage(stageModels.get(3).getDictionaryId());
+
+                break;
         }
+    }
+
+    public void setFocusStatus(TextView textView, ImageView imageView) {
+        setReset();
+        textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15);
+        textView.setTextColor(ContextCompat.getColor(this, R.color.colorBlue));
+        imageView.setImageResource(R.drawable.addcustomer_type_select);
+
+    }
+
+    public void setReset() {
+
+        stageOneTv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
+        stageTwoTv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
+        stageThreeTv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
+        stageFourTv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
+
+
+        stageOneTv.setTextColor(ContextCompat.getColor(this, R.color.colorAssist));
+        stageTwoTv.setTextColor(ContextCompat.getColor(this, R.color.colorAssist));
+        stageThreeTv.setTextColor(ContextCompat.getColor(this, R.color.colorAssist));
+        stageFourTv.setTextColor(ContextCompat.getColor(this, R.color.colorAssist));
+
+        stageOneImage.setImageResource(R.drawable.business_item_progress_bg);
+        stageTwoImage.setImageResource(R.drawable.business_item_progress_bg);
+        stageThreeImage.setImageResource(R.drawable.business_item_progress_bg);
+        stageFourImage.setImageResource(R.drawable.business_item_progress_bg);
+
+
     }
 
     /**
@@ -179,6 +269,7 @@ public class ClientAddBusinessActivity extends BaseActivity {
                         case "0":
                             productLayout.setVisibility(View.VISIBLE);
                             upLabel(m.getDictionaryId());
+                            flag = true;
                             invoke("6");
                             break;
 

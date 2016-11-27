@@ -31,7 +31,7 @@ public class ClientAdapter extends BaseRecyclerAdapter<AddClientTransModel> {
         holder.setText(R.id.client_visited_count_tv, "拜访过" + model.getVisitCount() == null ? model.getVisitCount() : 0 + "次");
         holder.setText(R.id.client_visit_time_tv, "上次拜访" + model.getLastVisitTime() == null ? model.getLastVisitTime() : "");
         holder.setText(R.id.client_owner_tv, "归属人:" + model.getOwnerName() == null ? model.getOwnerName() : "");
-        holder.setText(R.id.client_tel_reback_tv, "创建时间:" + model.getCreateTime() == null ? model.getCreateTime() : "");
+//        holder.setText(R.id.client_tel_reback_tv, "创建时间:" + model.getCreateTime() == null ? model.getCreateTime() : "");
     }
 
 }

@@ -45,8 +45,6 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-import static com.loc.e.m;
-
 
 /**
  * 客户注册
@@ -263,7 +261,7 @@ public class ClientRegisterActivity extends BaseActivity {
                     transModel.setCustomerTel(resPhoneTv.getText().toString());
                     transModel.setCsrContactJsonArray(BasePresenter.gson.toJson(linkmanModels));
 
-                    commonPresenter.invokeInterfaceObtainData(XxbService.INSERTCSR, m,
+                    commonPresenter.invokeInterfaceObtainData(XxbService.INSERTCSR, transModel,
                             new TypeToken<BaseDataModel>() {
                             });
                 } else {

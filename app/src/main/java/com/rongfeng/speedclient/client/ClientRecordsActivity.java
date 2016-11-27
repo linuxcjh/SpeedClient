@@ -2,14 +2,18 @@ package com.rongfeng.speedclient.client;
 
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.gson.reflect.TypeToken;
+import com.rongfeng.speedclient.API.XxbService;
 import com.rongfeng.speedclient.R;
 import com.rongfeng.speedclient.client.adapter.ClientRecordAdapter;
 import com.rongfeng.speedclient.client.entry.ClientRecordModel;
 import com.rongfeng.speedclient.common.BaseActivity;
+import com.rongfeng.speedclient.common.CommonPaginationPresenter;
 import com.rongfeng.speedclient.common.ICommonPaginationAction;
 import com.rongfeng.speedclient.xrecyclerview.OnItemClickViewListener;
 import com.rongfeng.speedclient.xrecyclerview.ProgressStyle;
@@ -40,6 +44,7 @@ public class ClientRecordsActivity extends BaseActivity implements ICommonPagina
 
     private ClientRecordAdapter mAdapter;
     private List<ClientRecordModel> data = new ArrayList<>();
+    private CommonPaginationPresenter commonPaginationPresenter = new CommonPaginationPresenter(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,16 +55,6 @@ public class ClientRecordsActivity extends BaseActivity implements ICommonPagina
     }
 
     private void initViews() {
-        data.add(new ClientRecordModel());
-        data.add(new ClientRecordModel());
-        data.add(new ClientRecordModel());
-        data.add(new ClientRecordModel());
-        data.add(new ClientRecordModel());
-        data.add(new ClientRecordModel());
-        data.add(new ClientRecordModel());
-        data.add(new ClientRecordModel());
-        data.add(new ClientRecordModel());
-
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -73,38 +68,66 @@ public class ClientRecordsActivity extends BaseActivity implements ICommonPagina
         mRecyclerView.setAdapter(mAdapter);
     }
 
+
+
+
     @Override
-    public void onItemClick(int position, Object object) {
+    public void obtainData(Object data, String methodIndex, int status) {
+
+        if(data!=null){
+            mAdapter.setData((List<ClientRecordModel>) data);
+            if (commonPaginationPresenter.data != null && commonPaginationPresenter.data.size() == 0) {
+                noDataLayout.setVisibility(View.VISIBLE);
+
+            } else {
+                noDataLayout.setVisibility(View.GONE);
+            }
+        }
 
     }
 
     @Override
     public void onRefresh() {
+        commonPaginationPresenter.isShowProgressDialog = false;
+        commonPaginationPresenter.isRefresh = true;
+        commonPaginationPresenter.page = 0;
+        invoke();
 
     }
 
     @Override
     public void onLoadMore() {
+        commonPaginationPresenter.isRefresh = false;
+        commonPaginationPresenter.page++;
+        invoke();
 
+    }
+
+    private void invoke() {
+        transDataModel.setCsrId(getIntent().getStringExtra("customerId"));
+        transDataModel.setPage(String.valueOf(commonPaginationPresenter.page));
+        commonPaginationPresenter.invokeInterfaceObtainData(XxbService.SEARCHFOLLOWUP, transDataModel, new TypeToken<List<ClientRecordModel>>() {
+        });
     }
 
     @Override
     public void noMoreData() {
-
+        mRecyclerView.noMoreLoading();
     }
+
 
     @Override
     public void refreshComplete() {
-
+        mRecyclerView.refreshComplete();
     }
 
     @Override
     public void onLoadComplete() {
-
+        mRecyclerView.loadMoreComplete();
     }
 
     @Override
-    public void obtainData(Object data, String methodIndex, int status) {
+    public void onItemClick(int position, Object object) {
 
     }
 

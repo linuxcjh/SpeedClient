@@ -18,6 +18,7 @@
             android:src="@drawable/client_record_item_circle" />
 
         <TextView
+            android:id="@+id/time_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
@@ -63,14 +64,15 @@
             android:background="@drawable/client_record_item_addr_bg"
             android:drawableLeft="@drawable/cust_visit_position"
             android:drawablePadding="4dp"
+            android:gravity="center_vertical"
             android:paddingBottom="3dp"
             android:paddingLeft="10dp"
             android:paddingRight="15dp"
             android:paddingTop="3dp"
-            android:gravity="center_vertical"
             android:text="陕西省西安市雁塔区"
             android:textColor="@color/colorAssist"
-            android:textSize="10sp" />
+            android:textSize="10sp"
+            android:visibility="gone" />
 
     </LinearLayout>
 

@@ -22,8 +22,8 @@
             style="@style/title_side_text"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
             android:gravity="center_vertical"
             android:paddingLeft="20dp"
             android:paddingRight="16dp"
@@ -59,6 +59,7 @@
                 android:orientation="horizontal">
 
                 <Button
+                    android:id="@+id/pass_record"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -69,6 +70,7 @@
                     android:textSize="14sp" />
 
                 <Button
+                    android:id="@+id/future_record"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -84,7 +86,6 @@
                 android:layout_width="145dp"
                 android:layout_height="140dp"
                 android:layout_below="@+id/top_layout"
-
                 android:layout_centerHorizontal="true"
                 android:layout_marginBottom="40dp"
                 android:layout_marginTop="65dp" />
@@ -115,7 +116,7 @@
                     android:id="@+id/bus_client_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="8"
+                    android:text="0"
                     android:textColor="@color/colorAssist"
                     android:textSize="11sp" />
             </LinearLayout>
@@ -146,7 +147,7 @@
                     android:id="@+id/focus_client_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="8"
+                    android:text="0"
                     android:textColor="@color/colorAssist"
                     android:textSize="11sp" />
             </LinearLayout>
@@ -176,7 +177,7 @@
                     android:id="@+id/new_client_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="8"
+                    android:text="0"
                     android:textColor="@color/colorAssist"
                     android:textSize="11sp" />
             </LinearLayout>
@@ -207,7 +208,7 @@
                     android:id="@+id/debt_client_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="8"
+                    android:text="0"
                     android:textColor="@color/colorAssist"
                     android:textSize="11sp" />
             </LinearLayout>
@@ -238,7 +239,7 @@
                     android:id="@+id/old_client_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="8"
+                    android:text="0"
                     android:textColor="@color/colorAssist"
                     android:textSize="11sp" />
             </LinearLayout>
