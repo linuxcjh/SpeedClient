@@ -132,8 +132,7 @@ public class VoiceFragment extends BaseFragment implements View.OnTouchListener 
         switch (methodIndex) {
             case XxbService.INSERTNOTE:
                 if (status == 1) {
-
-                    AppTools.getToast("Success");
+//                    AppTools.getToast("Success");
                 }
                 break;
         }
@@ -164,7 +163,7 @@ public class VoiceFragment extends BaseFragment implements View.OnTouchListener 
      * 语音解析
      */
     private void analysisVoice() {
-        voiceStatusTv.setText("正在解析……");
+        voiceStatusTv.setText("说完了");
 
 
     }
@@ -212,7 +211,7 @@ public class VoiceFragment extends BaseFragment implements View.OnTouchListener 
             super.handleMessage(msg);
             switch (msg.what) {
                 case 0:
-                    hTimeTv.setText("剩余 " + timeNum++ + " s");
+                    hTimeTv.setText( timeNum++ + " s");
                     break;
                 case 1:
                     timeNum = 0;

@@ -24,9 +24,10 @@ import com.google.gson.reflect.TypeToken;
 import com.rongfeng.speedclient.API.XxbService;
 import com.rongfeng.speedclient.R;
 import com.rongfeng.speedclient.client.adapter.ClientPersonaLabelAdapter;
-import com.rongfeng.speedclient.client.entry.AddClientTransModel;
+import com.rongfeng.speedclient.client.entry.RecievedClientTransModel;
 import com.rongfeng.speedclient.common.BaseActivity;
 import com.rongfeng.speedclient.common.Constant;
+import com.rongfeng.speedclient.common.utils.AppTools;
 import com.rongfeng.speedclient.entity.BaseDataModel;
 
 import java.util.ArrayList;
@@ -36,6 +37,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static com.rongfeng.speedclient.R.id.label_layout_value_tv;
 import static com.rongfeng.speedclient.R.id.shortcut_layout;
 
 
@@ -79,7 +81,7 @@ public class ClientPersonaActivity extends BaseActivity {
     TextView clientRecordNumTv;
     @Bind(R.id.label_layout_text_tv)
     TextView labelLayoutTextTv;
-    @Bind(R.id.label_layout_value_tv)
+    @Bind(label_layout_value_tv)
     TextView labelLayoutValueTv;
     @Bind(R.id.label_layout)
     LinearLayout labelLayout;
@@ -127,6 +129,8 @@ public class ClientPersonaActivity extends BaseActivity {
     //当前页
     public int changeStatus = -1;
 
+    private RecievedClientTransModel recievedClientTransModel=new RecievedClientTransModel();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -143,6 +147,7 @@ public class ClientPersonaActivity extends BaseActivity {
         refreshBroadCastReceiver = new RefreshBroadCastReceiver();
         IntentFilter filter = new IntentFilter();
         filter.addAction(Constant.CLIENT_REFRESH_PERSONA);
+        filter.addAction(Constant.CLIENT_REFRESH_PERSONA_LABEL);
         registerReceiver(refreshBroadCastReceiver, filter);
     }
 
@@ -150,7 +155,7 @@ public class ClientPersonaActivity extends BaseActivity {
     private void invoke() {
         commonPresenter.isShowProgressDialog = false;
         transDataModel.setCsrId(getIntent().getStringExtra("customerId"));
-        commonPresenter.invokeInterfaceObtainData(XxbService.GETCSRBYID, transDataModel, new TypeToken<AddClientTransModel>() {
+        commonPresenter.invokeInterfaceObtainData(XxbService.GETCSRBYID, transDataModel, new TypeToken<RecievedClientTransModel>() {
         });
     }
 
@@ -162,11 +167,17 @@ public class ClientPersonaActivity extends BaseActivity {
         switch (methodIndex) {
             case XxbService.GETCSRBYID:
                 if (status == 1) {
-                    AddClientTransModel m = (AddClientTransModel) data;
-                    contactNumTv.setText("联系人(" + m.getContactCount() + ")");
-                    clientRecordNumTv.setText("跟进(" + m.getFollowUpCount() + ")");
-//                    contactNumTv.setText("联系人(" + m.getContactCount() != null ? m.getContactCount() : "0" + ")");
-//                    clientRecordNumTv.setText("跟进(" + m.getFollowUpCount() != null ? m.getFollowUpCount() : "0" + ")");
+                    recievedClientTransModel = (RecievedClientTransModel) data;
+                    clientNameTv.setText(recievedClientTransModel.getCustomerName());
+                    contactNumTv.setText("联系人(" + recievedClientTransModel.getContactCount() + ")");
+                    clientRecordNumTv.setText("跟进(" + recievedClientTransModel.getFollowUpCount() + ")");
+                    labelFragment.setData(recievedClientTransModel.getFixationJsonArray());
+
+                    labelLayoutValueTv.setText(recievedClientTransModel.getTagCount()+" 个");
+                    busLayoutValueTv.setText("￥ "+ AppTools.getNumKbDot(recievedClientTransModel.getBusinessMoney()));
+                    bargainLayoutValueTv.setText("￥ "+ AppTools.getNumKbDot(recievedClientTransModel.getTurnoverMoney()));
+                    debtLayoutValueTv.setText("￥ "+ AppTools.getNumKbDot(recievedClientTransModel.getArrearsMoney()));
+
                 }
                 break;
         }
@@ -245,11 +256,15 @@ public class ClientPersonaActivity extends BaseActivity {
     }
 
 
-    @OnClick({R.id.cancel_tv, R.id.contact_layout, R.id.shortcut_contract_tv, R.id.shortcut_bus_tv, R.id.shortcut_record_tv, shortcut_layout, R.id.plus_ib, R.id.client_record_layout, R.id.label_layout, R.id.bus_layout, R.id.bargain_layout, R.id.debt_layout})
+    @OnClick({R.id.cancel_tv, R.id.add_client_tv,R.id.contact_layout, R.id.shortcut_contract_tv, R.id.shortcut_bus_tv, R.id.shortcut_record_tv, shortcut_layout, R.id.plus_ib, R.id.client_record_layout, R.id.label_layout, R.id.bus_layout, R.id.bargain_layout, R.id.debt_layout})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.cancel_tv:
                 finish();
+                break;
+            case R.id.add_client_tv:
+                startActivity(new Intent(this, ClientEditActivity.class).putExtra("model",recievedClientTransModel ));
+
                 break;
             case R.id.contact_layout:
                 startActivity(new Intent(this, ClientContactsActivity.class).putExtra("customerId", transDataModel.getCsrId()).putExtra("customerName", clientNameTv.getText().toString()));
@@ -407,6 +422,8 @@ public class ClientPersonaActivity extends BaseActivity {
                 businessFragment.invoke();
                 bargainFragment.invoke();
                 debtFragment.invoke();
+            }else if(intent.getAction().equals(Constant.CLIENT_REFRESH_PERSONA_LABEL)){
+                invoke();
             }
 
         }

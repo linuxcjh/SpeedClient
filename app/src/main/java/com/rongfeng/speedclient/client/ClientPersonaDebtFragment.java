@@ -1,10 +1,12 @@
 package com.rongfeng.speedclient.client;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.GridView;
 
 import com.google.gson.reflect.TypeToken;
@@ -24,7 +26,7 @@ import butterknife.ButterKnife;
  * Client标签
  * 2016/1/13
  */
-public class ClientPersonaDebtFragment extends BaseFragment  {
+public class ClientPersonaDebtFragment extends BaseFragment implements AdapterView.OnItemClickListener {
 
 
     @Bind(R.id.grid_view)
@@ -55,14 +57,16 @@ public class ClientPersonaDebtFragment extends BaseFragment  {
     }
 
 
-    public  void init() {
+    private void init() {
+        gridView.setOnItemClickListener(this);
         adapter = new ClientPersonaBargainAdapter(getActivity(), R.layout.client_persona_bargain_item, models,getArguments().getString("customerId", ""));
         gridView.setAdapter(adapter);
 
     }
 
 
-    public  void invoke() {
+
+    public void invoke() {
         transDataModel.setCsrId(getArguments().getString("customerId", ""));
         transDataModel.setIsArrears("1");//1查询有欠款0查询所有
         commonPresenter.invokeInterfaceObtainData(XxbService.SEARCHCSRCON, transDataModel, new TypeToken<List<AddContractTransModel>>() {
@@ -81,6 +85,11 @@ public class ClientPersonaDebtFragment extends BaseFragment  {
 
                 break;
         }
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+        startActivity(new Intent(getActivity(),ClientDetailsContractActivity.class).putExtra("model",models.get(i)).putExtra("customerId",getArguments().getString("customerId", "")));
     }
 
     @Override

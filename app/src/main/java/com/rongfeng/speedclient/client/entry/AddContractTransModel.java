@@ -14,6 +14,7 @@ public class AddContractTransModel implements Serializable{
     private String conName;//合同名称
     private String conNumber;//合同编号
     private String productId;//产品ID
+    private String productName;//产品ID
     private String returnedMoney;//已回款
     private String conRental;//合同金额
     private String remainingBalance;//剩余欠款
@@ -21,6 +22,15 @@ public class AddContractTransModel implements Serializable{
     private String remark;//备注
     private String transactionDate;//成交日期
     private String conId;
+
+
+    public String getProductName() {
+        return productName;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
 
     public String getReturnedMoney() {
         return returnedMoney;

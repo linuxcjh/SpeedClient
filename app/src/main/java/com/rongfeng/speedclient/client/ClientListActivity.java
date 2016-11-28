@@ -37,7 +37,7 @@ public class ClientListActivity extends BaseActivity {
 
     private void initViews() {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.add(R.id.container_layout, new ClientListFragment());
+        transaction.add(R.id.container_layout, ClientListFragment.newInstance(getIntent().getStringExtra("clientType")));
         transaction.commit();
     }
 

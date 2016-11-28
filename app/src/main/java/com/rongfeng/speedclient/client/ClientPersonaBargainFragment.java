@@ -1,10 +1,12 @@
 package com.rongfeng.speedclient.client;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.GridView;
 
 import com.google.gson.reflect.TypeToken;
@@ -24,7 +26,7 @@ import butterknife.ButterKnife;
  * Client标签
  * 2016/1/13
  */
-public class ClientPersonaBargainFragment extends BaseFragment  {
+public class ClientPersonaBargainFragment extends BaseFragment implements AdapterView.OnItemClickListener {
 
 
     @Bind(R.id.grid_view)
@@ -56,6 +58,7 @@ public class ClientPersonaBargainFragment extends BaseFragment  {
 
 
     private void init() {
+        gridView.setOnItemClickListener(this);
         adapter = new ClientPersonaBargainAdapter(getActivity(), R.layout.client_persona_bargain_item, models,getArguments().getString("customerId", ""));
         gridView.setAdapter(adapter);
 
@@ -82,6 +85,11 @@ public class ClientPersonaBargainFragment extends BaseFragment  {
 
                 break;
         }
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+        startActivity(new Intent(getActivity(),ClientDetailsContractActivity.class).putExtra("model",models.get(i)).putExtra("customerId",getArguments().getString("customerId", "")));
     }
 
     @Override

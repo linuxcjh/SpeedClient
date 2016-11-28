@@ -61,12 +61,12 @@
                     android:layout_height="match_parent"
                     android:layout_margin="20dp"
                     android:background="@null"
+                    android:gravity="top|left"
                     android:hint="长按下方语音按钮或手动输入"
                     android:textColor="@color/colorListName"
                     android:textColorHint="@color/colorAssist"
                     android:textSize="15sp"
-                    android:gravity="top|left"
-                    android:visibility="gone"/>
+                    android:visibility="gone" />
 
                 <LinearLayout
                     android:id="@+id/voice_hint_layout"
@@ -170,7 +170,8 @@
                             android:layout_centerVertical="true"
                             android:layout_marginLeft="16dp"
                             android:gravity="center_vertical"
-                            android:text="41字" />
+                            android:text="41字"
+                            android:visibility="gone" />
 
                         <TextView
                             android:id="@+id/input_cancel_tv"

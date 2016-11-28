@@ -17,14 +17,14 @@ public class BaseDataModel implements Serializable {
 
     private String dictionaryId;
     private String dictionaryName;
-    private String is_select;//1 选中 0为选中
+    private boolean isSelect;//1 选中 0为选中
 
-    public String getIs_select() {
-        return is_select;
+    public boolean isSelect() {
+        return isSelect;
     }
 
-    public void setIs_select(String is_select) {
-        this.is_select = is_select;
+    public void setSelect(boolean select) {
+        isSelect = select;
     }
 
     public BaseDataModel(){

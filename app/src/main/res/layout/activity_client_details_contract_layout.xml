@@ -28,7 +28,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="添加合同"
+            android:text="合同详情"
             android:textColor="@color/colorWhite" />
 
         <com.rongfeng.speedclient.common.utils.SingleClickBt
@@ -40,7 +40,8 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="20dp"
             android:background="@android:color/transparent"
-            android:text="完成" />
+            android:text="完成"
+            android:visibility="gone" />
     </RelativeLayout>
 
     <com.rongfeng.speedclient.utils.SpringView
@@ -84,8 +85,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:gravity="center_vertical|right"
-                        android:hint="输入合同名称" />
+                        android:gravity="center_vertical|right" />
 
 
                 </LinearLayout>
@@ -109,9 +109,9 @@
                         style="@style/register_edit_view_style"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
+                        android:layout_marginRight="@dimen/examine_approve_margin_left_right"
                         android:layout_weight="1"
                         android:gravity="center_vertical|right"
-                        android:hint="请选择产品"
                         android:singleLine="false" />
 
                     <ImageView
@@ -119,8 +119,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
-                        android:layout_marginRight="@dimen/examine_approve_margin_left_right"
-                        android:src="@drawable/list_arrow" />
+
+                        android:src="@drawable/list_arrow"
+                        android:visibility="gone" />
 
                 </LinearLayout>
 
@@ -144,8 +145,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:gravity="center_vertical|right"
-                        android:hint="输入合同总额" />
+                        android:gravity="center_vertical|right" />
 
 
                 </LinearLayout>
@@ -170,7 +170,6 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:gravity="center_vertical|right"
-                        android:hint="选择成交日期"
                         android:singleLine="false" />
 
                     <ImageView
@@ -179,7 +178,8 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:layout_marginRight="@dimen/examine_approve_margin_left_right"
-                        android:src="@drawable/list_arrow" />
+                        android:src="@drawable/list_arrow"
+                        android:visibility="gone" />
 
                 </LinearLayout>
 
@@ -189,8 +189,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/examine_approve_item"
                     android:gravity="center_vertical"
-                    android:paddingRight="16dp"
-                    android:visibility="gone">
+                    android:paddingRight="16dp">
 
                     <TextView
                         style="@style/register_client_left_text_style"
@@ -205,8 +204,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:gravity="center_vertical|right"
-                        android:hint="输入已回款金额" />
+                        android:gravity="center_vertical|right" />
 
 
                 </LinearLayout>
@@ -217,8 +215,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/examine_approve_item"
                     android:gravity="center_vertical"
-                    android:paddingRight="16dp"
-                    android:visibility="gone">
+                    android:paddingRight="16dp">
 
                     <TextView
                         style="@style/register_client_left_text_style"

@@ -21,6 +21,8 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:text="新客户"
+            android:ellipsize="end"
+            android:singleLine="true"
             android:textColor="@color/colorTitleText"
             android:textSize="14sp" />
 
@@ -31,6 +33,7 @@
             android:layout_centerVertical="true"
             android:layout_marginTop="10dp"
             android:text="300个"
+            android:singleLine="true"
             android:textColor="@color/colorAssist"
             android:textSize="10sp" />
 

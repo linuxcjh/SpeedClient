@@ -28,6 +28,7 @@ import com.rongfeng.speedclient.API.XxbService;
 import com.rongfeng.speedclient.R;
 import com.rongfeng.speedclient.client.entry.AddClientTransModel;
 import com.rongfeng.speedclient.client.entry.ContactPersonModel;
+import com.rongfeng.speedclient.client.entry.RecievedClientTransModel;
 import com.rongfeng.speedclient.common.BaseActivity;
 import com.rongfeng.speedclient.common.BasePresenter;
 import com.rongfeng.speedclient.common.Constant;
@@ -49,7 +50,7 @@ import butterknife.OnClick;
 /**
  * 客户注册
  */
-public class ClientRegisterActivity extends BaseActivity {
+public class ClientEditActivity extends BaseActivity {
 
     public static final String CLIENT_CONTACT_INDEX = "client_contact_index";
     public static final String CLIENT_VOCATION_INDEX = "client_vocation_index";
@@ -138,6 +139,7 @@ public class ClientRegisterActivity extends BaseActivity {
 
     private String selectType;
 
+    private RecievedClientTransModel recievedClientTransModel = new RecievedClientTransModel();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -150,14 +152,54 @@ public class ClientRegisterActivity extends BaseActivity {
 
     private void initViews() {
 
-        transModel.setCustomerType("2");//客户类型【1企业客户；2个人客户】
-        resPhoneTv.clearFocus();
+        recievedClientTransModel = (RecievedClientTransModel) getIntent().getSerializableExtra("model");
+        transModel.setCustomerType(recievedClientTransModel.getCustomerType());//客户类型【1企业客户；2个人客户】
 
-        dataLabel.add(new BaseDataModel(CLIENT_CONTACT_INDEX, "+ 联系人"));
-        dataLabel.add(new BaseDataModel(CLIENT_VOCATION_INDEX, "+ 客户行业"));
-        dataLabel.add(new BaseDataModel(CLIENT_LEVEL_INDEX, "+ 客户级别"));
-        dataLabel.add(new BaseDataModel(CLIENT_SOURCE_INDEX, "+ 客户来源"));
+        transModel.setCsrId(recievedClientTransModel.getCsrId());
+
+        if (recievedClientTransModel.getCustomerType().equals("2")) {
+            resPersonalClientLayout.performClick();
+        } else {
+            resBusinessClientLayout.performClick();
+
+        }
+
+        if (TextUtils.isEmpty(recievedClientTransModel.getCustomerIndustry())) {
+            dataLabel.add(new BaseDataModel(CLIENT_VOCATION_INDEX, "+ 客户行业"));
+        } else {
+            resClientVocationLayout.setVisibility(View.VISIBLE);
+            resClientVocationTv.setText(recievedClientTransModel.getCustomerIndustry());
+            transModel.setCustomerIndustry(recievedClientTransModel.getCustomerIndustry());
+        }
+
+        if (TextUtils.isEmpty(recievedClientTransModel.getCustomerLevel())) {
+            dataLabel.add(new BaseDataModel(CLIENT_LEVEL_INDEX, "+ 客户级别"));
+        } else {
+            resClientLevelLayout.setVisibility(View.VISIBLE);
+            resClientLevelTv.setText(recievedClientTransModel.getCustomerLevel());
+            transModel.setCustomerLevel(recievedClientTransModel.getCustomerLevel());
+        }
+
+        if (TextUtils.isEmpty(recievedClientTransModel.getCustomerSource())) {
+            dataLabel.add(new BaseDataModel(CLIENT_SOURCE_INDEX, "+ 客户来源"));
+        } else {
+            resClientSourceLayout.setVisibility(View.VISIBLE);
+            resClientSourceTv.setText(recievedClientTransModel.getCustomerSource());
+            transModel.setCustomerSource(recievedClientTransModel.getCustomerSource());
+        }
+
+
+        resCompanyNameTv.setText(recievedClientTransModel.getCustomerName());
+        resPhoneTv.setText(recievedClientTransModel.getCustomerTel());
+        resCompanyAddrDetailTv.setText(recievedClientTransModel.getCustomerAddress());
+        transModel.setCustomerAddress(recievedClientTransModel.getCustomerAddress());
+        transModel.setLatitude(recievedClientTransModel.getLatitude());
+        transModel.setLongitude(recievedClientTransModel.getLongitude());
+        transModel.setCustomerName(recievedClientTransModel.getCustomerName());
+        transModel.setCustomerTel(recievedClientTransModel.getCustomerTel());
+
         generationLabels(this, dataLabel, flowLayoutLayout);
+
     }
 
 
@@ -237,10 +279,12 @@ public class ClientRegisterActivity extends BaseActivity {
                 }
 
                 break;
-            case XxbService.INSERTCSR:
+            case XxbService.UPDATECSR:
 
                 if (status == 1) {
-                    AppTools.getToast("新增成功");
+                    AppTools.getToast("编辑成功");
+                    sendBroadcast(new Intent(Constant.CLIENT_REFRESH_PERSONA_LABEL));
+                    finish();
                 }
                 break;
         }
@@ -259,7 +303,7 @@ public class ClientRegisterActivity extends BaseActivity {
                     transModel.setCustomerTel(resPhoneTv.getText().toString());
                     transModel.setCsrContactJsonArray(BasePresenter.gson.toJson(linkmanModels));
 
-                    commonPresenter.invokeInterfaceObtainData(XxbService.INSERTCSR, transModel,
+                    commonPresenter.invokeInterfaceObtainData(XxbService.UPDATECSR, transModel,
                             new TypeToken<BaseDataModel>() {
                             });
                 } else {
@@ -374,7 +418,7 @@ public class ClientRegisterActivity extends BaseActivity {
                 break;
             }
         }
-        generationLabels(ClientRegisterActivity.this, dataLabel, flowLayoutLayout);
+        generationLabels(ClientEditActivity.this, dataLabel, flowLayoutLayout);
     }
 
 
@@ -455,7 +499,7 @@ public class ClientRegisterActivity extends BaseActivity {
                             @Override
                             public void onClick(View v) {
                                 AppConfig.setIntConfig("position", (Integer) v.getTag());
-                                ClientRegisterActivity.this.startActivityForResult(new Intent(ClientRegisterActivity.this, ClientAddContactActivity.class).putExtra("model", model), Constant.ADD_OR_EDIT_CONTRACT);
+                                ClientEditActivity.this.startActivityForResult(new Intent(ClientEditActivity.this, ClientAddContactActivity.class).putExtra("model", model), Constant.ADD_OR_EDIT_CONTRACT);
                             }
                         });
 

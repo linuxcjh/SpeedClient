@@ -33,85 +33,9 @@ public class AddClientTransModel {
     private String ownerName;//归属人
 //    private String createTime;//创建时间
 
-    /**
-     * 客户画像
-     *
-     * @return
-     */
-    private String contactCount;//联系人数量
-    private String followUpCount;//根进数量
 
+    private String fixationJsonArray;
 
-//    private String fixationJsonArray;// josnArray
-//    tagCount 标签数量
-//    businessMoney 商机金额
-//    turnoverMoney 成交金额
-//    arrearsMoney 欠款金额
-
-
-    public String getContactCount() {
-        return contactCount;
-    }
-
-    public void setContactCount(String contactCount) {
-        this.contactCount = contactCount;
-    }
-
-    public String getFollowUpCount() {
-        return followUpCount;
-    }
-
-    public void setFollowUpCount(String followUpCount) {
-        this.followUpCount = followUpCount;
-    }
-
-    public String getCsrId() {
-        return csrId;
-    }
-
-    public void setCsrId(String csrId) {
-        this.csrId = csrId;
-    }
-
-    public String getLastVisitTime() {
-        return lastVisitTime;
-    }
-
-    public void setLastVisitTime(String lastVisitTime) {
-        this.lastVisitTime = lastVisitTime;
-    }
-
-    public String getVisitCount() {
-        return visitCount;
-    }
-
-    public void setVisitCount(String visitCount) {
-        this.visitCount = visitCount;
-    }
-
-    public String getBizOppsCount() {
-        return bizOppsCount;
-    }
-
-    public void setBizOppsCount(String bizOppsCount) {
-        this.bizOppsCount = bizOppsCount;
-    }
-
-    public String getOwnerName() {
-        return ownerName;
-    }
-
-    public void setOwnerName(String ownerName) {
-        this.ownerName = ownerName;
-    }
-
-//    public String getCreateTime() {
-//        return createTime;
-//    }
-//
-//    public void setCreateTime(String createTime) {
-//        this.createTime = createTime;
-//    }
 
     public String getCustomerType() {
         return customerType;
@@ -216,20 +140,52 @@ public class AddClientTransModel {
     public void setCsrContactJsonArray(String csrContactJsonArray) {
         this.csrContactJsonArray = csrContactJsonArray;
     }
-    //
-////    public List<TeamUserModel> getCsrTeamJsonArray() {
-////        return csrTeamJsonArray;
-////    }
-////
-////    public void setCsrTeamJsonArray(List<TeamUserModel> csrTeamJsonArray) {
-////        this.csrTeamJsonArray = csrTeamJsonArray;
-////    }
-////
-////    public List<ContactModel> getCsrContactJsonArray() {
-////        return csrContactJsonArray;
-////    }
-////
-////    public void setCsrContactJsonArray(List<ContactModel> csrContactJsonArray) {
-////        this.csrContactJsonArray = csrContactJsonArray;
-//    }
+
+    public String getCsrId() {
+        return csrId;
+    }
+
+    public void setCsrId(String csrId) {
+        this.csrId = csrId;
+    }
+
+    public String getLastVisitTime() {
+        return lastVisitTime;
+    }
+
+    public void setLastVisitTime(String lastVisitTime) {
+        this.lastVisitTime = lastVisitTime;
+    }
+
+    public String getVisitCount() {
+        return visitCount;
+    }
+
+    public void setVisitCount(String visitCount) {
+        this.visitCount = visitCount;
+    }
+
+    public String getBizOppsCount() {
+        return bizOppsCount;
+    }
+
+    public void setBizOppsCount(String bizOppsCount) {
+        this.bizOppsCount = bizOppsCount;
+    }
+
+    public String getOwnerName() {
+        return ownerName;
+    }
+
+    public void setOwnerName(String ownerName) {
+        this.ownerName = ownerName;
+    }
+
+    public String getFixationJsonArray() {
+        return fixationJsonArray;
+    }
+
+    public void setFixationJsonArray(String fixationJsonArray) {
+        this.fixationJsonArray = fixationJsonArray;
+    }
 }

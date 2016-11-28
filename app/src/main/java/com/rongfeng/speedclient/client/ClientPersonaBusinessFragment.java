@@ -1,10 +1,12 @@
 package com.rongfeng.speedclient.client;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.GridView;
 
 import com.google.gson.reflect.TypeToken;
@@ -24,7 +26,7 @@ import butterknife.ButterKnife;
  * Client标签
  * 2016/1/13
  */
-public class ClientPersonaBusinessFragment extends BaseFragment {
+public class ClientPersonaBusinessFragment extends BaseFragment implements AdapterView.OnItemClickListener {
 
     @Bind(R.id.grid_view)
     GridView gridView;
@@ -53,6 +55,7 @@ public class ClientPersonaBusinessFragment extends BaseFragment {
 
 
     private void init() {
+        gridView.setOnItemClickListener(this);
         adapter = new ClientPersonaBusinessAdapter(getActivity(), R.layout.client_persona_business_item, models);
         gridView.setAdapter(adapter);
 
@@ -62,6 +65,11 @@ public class ClientPersonaBusinessFragment extends BaseFragment {
         transDataModel.setCsrId(getArguments().getString("customerId", ""));
         commonPresenter.invokeInterfaceObtainData(XxbService.SEARCHCSRBUSINESS, transDataModel, new TypeToken<List<AddBusinessTransModel>>() {
         });
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+        startActivity(new Intent(getActivity(), ClientDetaisBusinessActivity.class).putExtra("model", models.get(i)).putExtra("customerId",getArguments().getString("customerId", "")));
     }
 
     @Override

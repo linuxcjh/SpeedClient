@@ -44,6 +44,8 @@ public class ClientVisitActivity extends BaseActivity {
     LinearLayout linearAddPicLayout;
     @Bind(R.id.remark_et)
     EditText remarkEt;
+    @Bind(R.id.time_layout)
+    LinearLayout timeLayout;
 
 
     private AddVisitRecordModel visitRecordModel = new AddVisitRecordModel();
@@ -85,7 +87,7 @@ public class ClientVisitActivity extends BaseActivity {
         }
     }
 
-    @OnClick({R.id.back_bt, R.id.save_bt, R.id.time_tv})
+    @OnClick({R.id.back_bt, R.id.save_bt,R.id.time_layout})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.back_bt:
@@ -96,7 +98,9 @@ public class ClientVisitActivity extends BaseActivity {
                 invoke();
 
                 break;
-            case R.id.time_tv:
+            case R.id.time_layout:
+
+                AppTools.obtainDataAndTime(this,timeTv);
                 break;
         }
     }

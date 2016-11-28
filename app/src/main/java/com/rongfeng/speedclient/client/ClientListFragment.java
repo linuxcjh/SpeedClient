@@ -53,6 +53,14 @@ public class ClientListFragment extends BaseFragment implements ICommonPaginatio
 
     private CommonPaginationPresenter commonPaginationPresenter = new CommonPaginationPresenter(this);
 
+    public static ClientListFragment newInstance(String clientType) {
+
+        Bundle args = new Bundle();
+        args.putString("clientType",clientType);
+        ClientListFragment fragment = new ClientListFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -71,7 +79,6 @@ public class ClientListFragment extends BaseFragment implements ICommonPaginatio
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(layoutManager);
-
         mRecyclerView.setRefreshProgressStyle(ProgressStyle.BallSpinFadeLoader);
         mRecyclerView.setLaodingMoreProgressStyle(ProgressStyle.Pacman);
         mRecyclerView.setArrowImageView(R.drawable.refresh_pulldown);
@@ -115,6 +122,7 @@ public class ClientListFragment extends BaseFragment implements ICommonPaginatio
     }
 
     private void invoke() {
+        transDataModel.setClientType(getArguments().getString("clientType"));
         transDataModel.setPage(String.valueOf(commonPaginationPresenter.page));
         commonPaginationPresenter.invokeInterfaceObtainData(XxbService.SEARCHCSR, transDataModel, new TypeToken<List<AddClientTransModel>>() {
         });

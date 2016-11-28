@@ -257,6 +257,7 @@ public class AppTools {
 
                         }
                     }, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), false);
+
                     timePickerDialog.show();
                     flag = false;
 

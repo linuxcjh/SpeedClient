@@ -60,6 +60,7 @@ public class ClientPersonaBusinessAdapter extends QuickAdapter<AddBusinessTransM
                 break;
         }
 
+
     }
 
     public void setReset(BaseAdapterHelper helper) {

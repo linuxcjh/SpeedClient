@@ -3,6 +3,7 @@ package com.rongfeng.speedclient.client;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,6 +33,7 @@ public class ClientPersonaLabelFragment extends BaseFragment implements AdapterV
 
     private ClientPersonaLabelAdapter adapter;
     List<BaseDataModel> models = new ArrayList<>();
+
     public static ClientPersonaLabelFragment newInstance(String customerId) {
 
         Bundle args = new Bundle();
@@ -40,6 +42,8 @@ public class ClientPersonaLabelFragment extends BaseFragment implements AdapterV
         fragment.setArguments(args);
         return fragment;
     }
+
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -52,15 +56,30 @@ public class ClientPersonaLabelFragment extends BaseFragment implements AdapterV
 
 
     private void init() {
-        models.add(new BaseDataModel("新客户", "300个"));
-        models.add(new BaseDataModel("老客户", "300个"));
-        models.add(new BaseDataModel("商机客户", "300个"));
-        models.add(new BaseDataModel("欠款客户", "300个"));
-        models.add(new BaseDataModel("客户总数", "300个"));
-        models.add(new BaseDataModel("关注客户", "300个"));
         adapter = new ClientPersonaLabelAdapter(getActivity(), R.layout.client_persona_item, models);
         gridView.setAdapter(adapter);
         gridView.setOnItemClickListener(this);
+
+    }
+
+
+    public void setData(List<BaseDataModel> model) {
+
+        List<BaseDataModel> result = new ArrayList<>();
+
+        for (int i = 0; i < model.size(); i++) {
+
+            if (!TextUtils.isEmpty(model.get(i).getDictionaryName())) {
+                BaseDataModel m = new BaseDataModel();
+                m.setDictionaryId(model.get(i).getDictionaryId());
+                m.setDictionaryName(model.get(i).getDictionaryName());
+                result.add(m);
+            }
+        }
+
+        this.models = result;
+
+        adapter.setData(models);
 
     }
 
@@ -69,8 +88,6 @@ public class ClientPersonaLabelFragment extends BaseFragment implements AdapterV
         super.onDestroyView();
         ButterKnife.unbind(this);
     }
-
-
 
 
     @Override

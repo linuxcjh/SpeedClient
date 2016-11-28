@@ -691,4 +691,10 @@ public interface XxbService {
     String SEARCHCSRCOUNTSTATISTICSDOWN="searchCsrCountStatisticsDown";
 
     String SEARCHCSRCOUNTSTATISTICSTOP="searchCsrCountStatisticsTop";
+
+    String UPDATECSR="updateCsr";
+
+    String UPDATECSRBUSINESS="updateCsrBusiness";
+
+    String SEARCHCSRCONBYID="searchCsrConById";
 }

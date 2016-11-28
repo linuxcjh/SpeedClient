@@ -42,12 +42,16 @@ public class VoiceNoteAdapter extends BaseRecyclerAdapter<VoiceNoteModel> {
             }
             holder.setText(R.id.time_tv, model.getCreateTime().split(" ")[1]);
 
+
             if (position != 0 && !TextUtils.isEmpty(data.get(position - 1).getCreateTime())) {
                 if (data.get(position).getCreateTime().split(" ")[0].equals(data.get(position - 1).getCreateTime().split(" ")[0])) {
                     dataLayout.setVisibility(View.GONE);
                 } else {
                     dataLayout.setVisibility(View.VISIBLE);
                 }
+            }
+            if(position==0){
+                dataLayout.setVisibility(View.VISIBLE);
             }
 
         }

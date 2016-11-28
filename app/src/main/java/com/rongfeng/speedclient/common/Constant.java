@@ -250,6 +250,9 @@ public interface Constant {
      */
     public static final String  CLIENT_REFRESH_PERSONA = "client_refresh_persona";
 
+    public static final String  CLIENT_REFRESH_PERSONA_LABEL = "client_refresh_persona_label";
+
+
 
 
 }

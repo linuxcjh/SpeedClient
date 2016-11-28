@@ -3,6 +3,7 @@ package com.rongfeng.speedclient.client;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -58,9 +59,9 @@ public class ClientFragment extends BaseFragment implements AdapterView.OnItemCl
     TextView debtClientTv;
 
     private ClientAnalysisAdapter adapter;
-    List<BaseDataModel> models = new ArrayList<>();
-    AnalysisClientModel model = new AnalysisClientModel();
-    List<Double> radarData = new ArrayList<>();
+    private List<BaseDataModel> models = new ArrayList<>();
+    private AnalysisClientModel model = new AnalysisClientModel();
+    private List<Double> radarData = new ArrayList<>();
 
 
     @Nullable
@@ -95,7 +96,7 @@ public class ClientFragment extends BaseFragment implements AdapterView.OnItemCl
     }
 
     public void invokeStatistics() {
-
+        commonPresenter.isShowProgressDialog = false;
         commonPresenter.invokeInterfaceObtainData(XxbService.SEARCHCSRCOUNTSTATISTICSTOP, new TypeToken<AnalysisClientModel>() {
         });
     }
@@ -181,11 +182,13 @@ public class ClientFragment extends BaseFragment implements AdapterView.OnItemCl
                 startActivity(new Intent(getActivity(), ClientPersonaActivity.class));
                 break;
             case R.id.pass_record:
+                setLayoutStatus(passRecord, false);
                 transDataModel.setRadarType("0");
                 invoke();
 
                 break;
             case R.id.future_record:
+                setLayoutStatus(futureRecord, true);
                 transDataModel.setRadarType("1");
                 invoke();
 
@@ -193,26 +196,53 @@ public class ClientFragment extends BaseFragment implements AdapterView.OnItemCl
         }
     }
 
+    /**
+     * 设置View状态
+     *
+     * @param button
+     */
+    private void setLayoutStatus(Button button, boolean isRight) {
+        resetLayout();
+        button.setTextColor(ContextCompat.getColor(getActivity(), R.color.colorWhite));
+        if (isRight) {
+            button.setBackgroundResource(R.drawable.client_top_right_fouces);
+        } else {
+            button.setBackgroundResource(R.drawable.client_top_left_fouces);
+
+        }
+    }
+
+    private void resetLayout() {
+
+
+        passRecord.setTextColor(ContextCompat.getColor(getActivity(), R.color.colorBlue));
+        futureRecord.setTextColor(ContextCompat.getColor(getActivity(), R.color.colorBlue));
+
+        passRecord.setBackgroundResource(R.drawable.client_top_left_normal);
+        futureRecord.setBackgroundResource(R.drawable.client_top_right_normal);
+
+    }
+
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         switch (position) {
             case 0:
-                startActivity(new Intent(getActivity(), ClientListActivity.class));
+                startActivity(new Intent(getActivity(), ClientListActivity.class).putExtra("clientType", "1"));
                 break;
             case 1:
-                startActivity(new Intent(getActivity(), ClientListActivity.class));
+                startActivity(new Intent(getActivity(), ClientListActivity.class).putExtra("clientType", "2"));
                 break;
             case 2:
-                startActivity(new Intent(getActivity(), ClientListActivity.class));
+                startActivity(new Intent(getActivity(), ClientListActivity.class).putExtra("clientType", "3"));
                 break;
             case 3:
-                startActivity(new Intent(getActivity(), ClientListActivity.class));
+                startActivity(new Intent(getActivity(), ClientListActivity.class).putExtra("clientType", "4"));
                 break;
             case 4:
-                startActivity(new Intent(getActivity(), ClientListActivity.class));
+                startActivity(new Intent(getActivity(), ClientListActivity.class).putExtra("clientType", "5"));
                 break;
             case 5:
-                startActivity(new Intent(getActivity(), ClientListActivity.class));
+                startActivity(new Intent(getActivity(), ClientListActivity.class).putExtra("clientType", "6"));
                 break;
 
         }
