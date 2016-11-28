@@ -11,6 +11,7 @@ import com.google.gson.reflect.TypeToken;
 import com.rongfeng.speedclient.API.XxbService;
 import com.rongfeng.speedclient.R;
 import com.rongfeng.speedclient.client.adapter.ClientRecordAdapter;
+import com.rongfeng.speedclient.client.entry.ClientRecordAllModel;
 import com.rongfeng.speedclient.client.entry.ClientRecordModel;
 import com.rongfeng.speedclient.common.BaseActivity;
 import com.rongfeng.speedclient.common.CommonPaginationPresenter;
@@ -41,8 +42,11 @@ public class ClientRecordsActivity extends BaseActivity implements ICommonPagina
     LinearLayout noDataLayout;
     @Bind(R.id.client_listView)
     XRecyclerView mRecyclerView;
+    @Bind(R.id.total_tv)
+    TextView totalTv;
 
     private ClientRecordAdapter mAdapter;
+    private ClientRecordAllModel allModel = new ClientRecordAllModel();
     private List<ClientRecordModel> data = new ArrayList<>();
     private CommonPaginationPresenter commonPaginationPresenter = new CommonPaginationPresenter(this);
 
@@ -66,15 +70,16 @@ public class ClientRecordsActivity extends BaseActivity implements ICommonPagina
         mAdapter = new ClientRecordAdapter(this, R.layout.client_record_item, data);
         mAdapter.setOnRecyclerViewListener(this);
         mRecyclerView.setAdapter(mAdapter);
+        invoke();
     }
-
-
 
 
     @Override
     public void obtainData(Object data, String methodIndex, int status) {
 
-        if(data!=null){
+        if (data != null) {
+            allModel = (ClientRecordAllModel) commonPaginationPresenter.resultModel;
+            totalTv.setText("共 "+allModel.getFollowUpCount()+" 条");
             mAdapter.setData((List<ClientRecordModel>) data);
             if (commonPaginationPresenter.data != null && commonPaginationPresenter.data.size() == 0) {
                 noDataLayout.setVisibility(View.VISIBLE);
@@ -106,7 +111,7 @@ public class ClientRecordsActivity extends BaseActivity implements ICommonPagina
     private void invoke() {
         transDataModel.setCsrId(getIntent().getStringExtra("customerId"));
         transDataModel.setPage(String.valueOf(commonPaginationPresenter.page));
-        commonPaginationPresenter.invokeInterfaceObtainData(XxbService.SEARCHFOLLOWUP, transDataModel, new TypeToken<List<ClientRecordModel>>() {
+        commonPaginationPresenter.invokeInterfaceObtainData(XxbService.SEARCHFOLLOWUP, transDataModel, new TypeToken<ClientRecordAllModel>() {
         });
     }
 

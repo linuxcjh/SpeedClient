@@ -11,6 +11,7 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -81,6 +82,8 @@ public class ClientAddBusinessActivity extends BaseActivity {
     TextView stageThreeTv;
     @Bind(R.id.stage_four_tv)
     TextView stageFourTv;
+    @Bind(R.id.add_contract_bt)
+    Button addContractBt;
     private List<BaseDataModel> dataLabel = new ArrayList<>();
 
     private List<BaseDataModel> stageModels = new ArrayList<>();
@@ -170,7 +173,7 @@ public class ClientAddBusinessActivity extends BaseActivity {
         }
     };
 
-    @OnClick({R.id.cancel_tv, R.id.commit_tv, R.id.res_bargain_time_tv, R.id.product_layout, R.id.stage_one_image, R.id.stage_two_image, R.id.stage_three_image, R.id.stage_four_image, R.id.stage_one_tv, R.id.stage_two_tv, R.id.stage_three_tv, R.id.stage_four_tv})
+    @OnClick({R.id.cancel_tv, R.id.commit_tv, R.id.res_bargain_time_tv, R.id.product_layout, R.id.stage_one_image, R.id.stage_two_image, R.id.stage_three_image, R.id.stage_four_image, R.id.stage_one_tv, R.id.stage_two_tv, R.id.add_contract_bt, R.id.stage_three_tv, R.id.stage_four_tv})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.cancel_tv:
@@ -209,6 +212,9 @@ public class ClientAddBusinessActivity extends BaseActivity {
 
                 setFocusStatus(stageFourTv, stageFourImage);
                 transModel.setBusinessStage(stageModels.get(3).getDictionaryId());
+
+                break;
+            case R.id.add_contract_bt:
 
                 break;
         }

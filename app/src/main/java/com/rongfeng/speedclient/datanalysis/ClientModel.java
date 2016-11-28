@@ -5,6 +5,7 @@ public class ClientModel {
 
     public String client_name;
     public String client_id;
+    public String client_phone;
 
     public String contact_name;
     public String contact_phone;
@@ -15,12 +16,21 @@ public class ClientModel {
     }
 
 
-    public ClientModel(String client_id, String client_name, String contact_id, String contact_name, String contact_phone) {
+    public ClientModel(String client_id, String client_name, String client_phone,String contact_id, String contact_name, String contact_phone) {
         this.client_name = client_name;
         this.client_id = client_id;
         this.contact_name = contact_name;
         this.contact_phone = contact_phone;
         this.contact_id = contact_id;
+        this.client_phone = client_phone;
+    }
+
+    public String getClient_phone() {
+        return client_phone;
+    }
+
+    public void setClient_phone(String client_phone) {
+        this.client_phone = client_phone;
     }
 
     public String getClient_name() {

@@ -12,6 +12,7 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -36,6 +37,8 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+
+import static com.rongfeng.speedclient.R.id.add_contract_bt;
 
 
 /**
@@ -84,6 +87,10 @@ public class ClientDetaisBusinessActivity extends BaseActivity {
     TextView stageFourTv;
     @Bind(R.id.title_tv)
     TextView titleTv;
+    @Bind(add_contract_bt)
+    Button addContractBt;
+
+
     private List<BaseDataModel> dataLabel = new ArrayList<>();
 
     private List<BaseDataModel> stageModels = new ArrayList<>();
@@ -102,6 +109,7 @@ public class ClientDetaisBusinessActivity extends BaseActivity {
     }
 
     private void initViews() {
+        addContractBt.setVisibility(View.VISIBLE);
         titleTv.setText("商机编辑");
         transModel = (AddBusinessTransModel) getIntent().getSerializableExtra("model");
         if (TextUtils.isEmpty(transModel.getProductId())) {
@@ -195,7 +203,7 @@ public class ClientDetaisBusinessActivity extends BaseActivity {
         }
     };
 
-    @OnClick({R.id.cancel_tv, R.id.commit_tv, R.id.res_bargain_time_tv, R.id.product_layout, R.id.stage_one_image, R.id.stage_two_image, R.id.stage_three_image, R.id.stage_four_image, R.id.stage_one_tv, R.id.stage_two_tv, R.id.stage_three_tv, R.id.stage_four_tv})
+    @OnClick({R.id.cancel_tv, R.id.commit_tv, R.id.res_bargain_time_tv, R.id.product_layout, R.id.stage_one_image, R.id.stage_two_image, R.id.stage_three_image, R.id.stage_four_image, R.id.stage_one_tv, R.id.stage_two_tv, R.id.stage_three_tv, R.id.stage_four_tv,R.id.add_contract_bt})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.cancel_tv:
@@ -236,6 +244,12 @@ public class ClientDetaisBusinessActivity extends BaseActivity {
                 transModel.setBusinessStage(stageModels.get(3).getDictionaryId());
 
                 break;
+
+            case R.id.add_contract_bt:
+                startActivity(new Intent(this, ClientAddContractActivity.class).putExtra("customerId", transModel.getCsrId()).putExtra("model",transModel));
+                break;
+
+
         }
     }
 

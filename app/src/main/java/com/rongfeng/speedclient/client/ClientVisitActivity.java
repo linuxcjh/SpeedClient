@@ -14,6 +14,7 @@ import com.rongfeng.speedclient.client.entry.AddVisitRecordModel;
 import com.rongfeng.speedclient.common.BaseActivity;
 import com.rongfeng.speedclient.common.utils.AppTools;
 import com.rongfeng.speedclient.common.utils.DateUtil;
+import com.rongfeng.speedclient.common.utils.SingleClickBt;
 import com.rongfeng.speedclient.components.AddVisitGridLayoutDisplayView;
 import com.rongfeng.speedclient.entity.BaseDataModel;
 
@@ -31,7 +32,7 @@ public class ClientVisitActivity extends BaseActivity {
     @Bind(R.id.back_bt)
     ImageView backBt;
     @Bind(R.id.save_bt)
-    TextView saveBt;
+    SingleClickBt saveBt;
     @Bind(R.id.client_name_tv)
     TextView clientNameTv;
     @Bind(R.id.arrow_iv)

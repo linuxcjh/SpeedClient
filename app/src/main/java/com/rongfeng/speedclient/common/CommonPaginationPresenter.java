@@ -1,5 +1,10 @@
 package com.rongfeng.speedclient.common;
 
+import com.google.gson.reflect.TypeToken;
+import com.rongfeng.speedclient.API.XxbService;
+import com.rongfeng.speedclient.client.entry.ClientRecordAllModel;
+import com.rongfeng.speedclient.login.TransDataModel;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,18 +44,22 @@ public class CommonPaginationPresenter extends CommonPresenter {
 
     }
 
+    private void invoke(TransDataModel transDataModel) {
+        invokeInterfaceObtainData(XxbService.SEARCHFOLLOWUP, transDataModel, new TypeToken<ClientRecordAllModel>() {
+        });
+    }
 
     @Override
     public void onResponse(String methodName, Object object, int status) {
 
         if (object != null) {
             switch (methodName) {
-//                case XxbService.SEARCHCUSTOMERLISTCOUNT:
-//                    resultModel = object;
-//                    disposeData(((ClientReceivedTotalModel) object).getCustomerList(), methodName,status);
-//                    break;
+                case XxbService.SEARCHFOLLOWUP:
+                    resultModel = object;
+                    disposeData(((ClientRecordAllModel) object).getFollowUpJSONArray(), methodName, status);
+                    break;
                 default: //直接返回list
-                    disposeData(object, methodName,status);
+                    disposeData(object, methodName, status);
                     break;
 
             }
@@ -65,7 +74,7 @@ public class CommonPaginationPresenter extends CommonPresenter {
      * @param object
      * @param methodName
      */
-    public void disposeData(Object object, String methodName,int status) {
+    public void disposeData(Object object, String methodName, int status) {
 
 
         List<Object> resultData = (List<Object>) object;
@@ -73,7 +82,7 @@ public class CommonPaginationPresenter extends CommonPresenter {
             data.clear();
         }
         data.addAll((List<Object>) object);
-        iCommonPaginationAction.obtainData(data, methodName,status);
+        iCommonPaginationAction.obtainData(data, methodName, status);
         if (isRefresh) {
             //下拉刷新完成
             iCommonPaginationAction.refreshComplete();

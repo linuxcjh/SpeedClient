@@ -33,7 +33,7 @@ public class DBManager {
         db.beginTransaction();  //开始事务
         try {
             for (ClientModel person : persons) {
-                db.execSQL("INSERT INTO notes VALUES(null,?,?,?,?,?)", new Object[]{person.client_id, person.client_name, person.contact_id, person.contact_name, person.contact_phone});
+                db.execSQL("INSERT INTO notes VALUES(null,?,?,?,?,?,?)", new Object[]{person.client_id, person.client_name,person.client_phone, person.contact_id, person.contact_name, person.contact_phone});
             }
             db.setTransactionSuccessful();  //设置事务成功完成
         } finally {
@@ -86,6 +86,8 @@ public class DBManager {
             ClientModel person = new ClientModel();
             person.client_id = c.getString(c.getColumnIndex("client_id"));
             person.client_name = c.getString(c.getColumnIndex("client_name"));
+            person.client_phone = c.getString(c.getColumnIndex("client_phone"));
+
             person.contact_id = c.getString(c.getColumnIndex("contact_id"));
             person.contact_name = c.getString(c.getColumnIndex("contact_name"));
             person.contact_phone = c.getString(c.getColumnIndex("contact_phone"));
