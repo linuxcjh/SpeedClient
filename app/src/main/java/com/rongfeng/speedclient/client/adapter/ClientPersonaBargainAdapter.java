@@ -10,6 +10,7 @@ import com.rongfeng.speedclient.client.ClientAddRebackMoneyActivity;
 import com.rongfeng.speedclient.client.entry.AddContractTransModel;
 import com.rongfeng.speedclient.common.BaseAdapterHelper;
 import com.rongfeng.speedclient.common.QuickAdapter;
+import com.rongfeng.speedclient.common.utils.AppTools;
 
 import java.util.List;
 
@@ -31,8 +32,8 @@ public class ClientPersonaBargainAdapter extends QuickAdapter<AddContractTransMo
     protected void convert(BaseAdapterHelper helper, AddContractTransModel item, int position) {
 
         helper.setText(R.id.title_tv, item.getConName());
-        helper.setText(R.id.total_num_tv, "总额  " + item.getConRental());
-        helper.setText(R.id.reback_tv, "已收  " + item.getRemainingBalance());
+        helper.setText(R.id.total_num_tv, "总额  " + AppTools.getNumKbDot(item.getConRental()) + " 元");
+        helper.setText(R.id.reback_tv, "已收  " + AppTools.getNumKbDot(item.getMoneyReceipt()) + " 元");
 
         Button backBt = helper.getView(R.id.back_bt);
         backBt.setTag(item);

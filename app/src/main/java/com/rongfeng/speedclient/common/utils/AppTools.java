@@ -48,6 +48,7 @@ import com.gitonway.lee.niftymodaldialogeffects.lib.NiftyDialogBuilder;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.rongfeng.speedclient.R;
+import com.rongfeng.speedclient.client.entry.AddClientTransModel;
 import com.rongfeng.speedclient.common.AmapLbsLocationManager;
 import com.rongfeng.speedclient.common.BaseTransModel;
 import com.rongfeng.speedclient.common.CameraNoMarkActivity;
@@ -58,6 +59,8 @@ import com.rongfeng.speedclient.common.GlideRoundTransform;
 import com.rongfeng.speedclient.common.RoundedCornersTransformation;
 import com.rongfeng.speedclient.components.SelectionDialog;
 import com.rongfeng.speedclient.components.SelectionDialogListAdapter;
+import com.rongfeng.speedclient.datanalysis.ClientModel;
+import com.rongfeng.speedclient.datanalysis.DBManager;
 import com.rongfeng.speedclient.entity.BaseDataModel;
 import com.rongfeng.speedclient.login.Enterprise;
 import com.rongfeng.speedclient.login.User;
@@ -1542,5 +1545,53 @@ public class AppTools {
                 })
                 .show();
 
+    }
+
+
+    /**
+     * 添加数据到数据库
+     */
+    public static void insertClientDataToDB(Context context, List<AddClientTransModel> data) {
+
+        List<ClientModel> persons = new ArrayList<>();
+        for (int i = 0; i < data.size(); i++) {
+            ClientModel m = new ClientModel();
+            m.setClient_name(data.get(i).getCustomerName());
+            m.setClient_phone(data.get(i).getCustomerTel());
+            m.setClient_id(data.get(i).getCsrId());
+            persons.add(m);
+        }
+
+        DBManager dbManager = new DBManager(context);
+        dbManager.truncate();
+        if (persons.size() > 0) {
+            dbManager.addClient(persons);
+        }
+
+        dbManager.closeDB();
+
+    }
+
+    /**
+     * 删除数据库数据
+     */
+    public static void deleteClientDataToDB(Context context) {
+
+        DBManager dbManager = new DBManager(context);
+        dbManager.truncate();
+        dbManager.closeDB();
+
+    }
+
+    /**
+     * 查询数据库数据
+     */
+    public static List<ClientModel> queryClientDataToDB(Context context) {
+        List<ClientModel> persons = new ArrayList<>();
+        DBManager dbManager = new DBManager(context);
+        persons = dbManager.query();
+        dbManager.closeDB();
+
+        return persons;
     }
 }

@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.rongfeng.speedclient.R;
 import com.rongfeng.speedclient.common.BaseFragment;
+import com.rongfeng.speedclient.organization.OrganizationActivity;
 import com.rongfeng.speedclient.schedule.ScheduleActivity;
 import com.rongfeng.speedclient.voice.VoiceNoteActivity;
 
@@ -75,6 +76,8 @@ public class MineFragment extends BaseFragment {
                 startActivity(new Intent(getActivity(), VoiceNoteActivity.class));
                 break;
             case R.id.connect_layout:
+                startActivity(new Intent(getActivity(), OrganizationActivity.class));
+
                 break;
             case R.id.remind_layout:
                 startActivity(new Intent(getActivity(), ScheduleActivity.class));

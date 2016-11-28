@@ -186,25 +186,25 @@ public class MainActivity extends BaseActivity {
         DBManager dbManager = new DBManager(this);
         persons = dbManager.query();
 
-        if (persons.size() == 0) {
-            for (int i = 0; i < 5000; i++) {
-                persons.add(new ClientModel((i + 1) + "", "董龙" + i, (i + 2) + "", i + "陈建辉", "18710428556"));
-            }
-            persons.add(new ClientModel((10003) + "", "张治", (10004) + "", "魏萌", "18710428556"));
-            persons.add(new ClientModel((10004) + "", "李昊泽", (10005) + "", "常征", "18710428556"));
-
-            persons.add(new ClientModel((10003) + "", "张志", (10004) + "", "陈建辉", "18710428556"));
-            persons.add(new ClientModel((10003) + "", "张制", (10004) + "", "董世龙", "18710428556"));
-            persons.add(new ClientModel((10003) + "", "三一重工", (10004) + "", "马锐", "18710428556"));
-
-            persons.add(new ClientModel((10003) + "", "中国移动", (10004) + "", "肖秋风", "18710428556"));
-            persons.add(new ClientModel((10003) + "", "中国联通", (10004) + "", "董世龙", "18710428556"));
-            persons.add(new ClientModel((10003) + "", "荣峰软件科技有限公司", (10004) + "", "陈建辉", "18710428556"));
-
-            dbManager.add(persons);
-            Toast.makeText(this, persons.size() + "", Toast.LENGTH_SHORT).show();
-
-        }
+//        if (persons.size() == 0) {
+//            for (int i = 0; i < 5000; i++) {
+//                persons.add(new ClientModel((i + 1) + "", "董龙" + i, (i + 2) + "", i + "陈建辉", "18710428556"));
+//            }
+//            persons.add(new ClientModel((10003) + "", "张治", (10004) + "", "魏萌", "18710428556"));
+//            persons.add(new ClientModel((10004) + "", "李昊泽", (10005) + "", "常征", "18710428556"));
+//
+//            persons.add(new ClientModel((10003) + "", "张志", (10004) + "", "陈建辉", "18710428556"));
+//            persons.add(new ClientModel((10003) + "", "张制", (10004) + "", "董世龙", "18710428556"));
+//            persons.add(new ClientModel((10003) + "", "三一重工", (10004) + "", "马锐", "18710428556"));
+//
+//            persons.add(new ClientModel((10003) + "", "中国移动", (10004) + "", "肖秋风", "18710428556"));
+//            persons.add(new ClientModel((10003) + "", "中国联通", (10004) + "", "董世龙", "18710428556"));
+//            persons.add(new ClientModel((10003) + "", "荣峰软件科技有限公司", (10004) + "", "陈建辉", "18710428556"));
+//
+//            dbManager.add(persons);
+//            Toast.makeText(this, persons.size() + "", Toast.LENGTH_SHORT).show();
+//
+//        }
 
 
         dbManager.closeDB();

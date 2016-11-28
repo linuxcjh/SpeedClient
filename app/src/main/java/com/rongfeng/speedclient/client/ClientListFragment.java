@@ -56,7 +56,7 @@ public class ClientListFragment extends BaseFragment implements ICommonPaginatio
     public static ClientListFragment newInstance(String clientType) {
 
         Bundle args = new Bundle();
-        args.putString("clientType",clientType);
+        args.putString("clientType", clientType);
         ClientListFragment fragment = new ClientListFragment();
         fragment.setArguments(args);
         return fragment;
@@ -92,7 +92,7 @@ public class ClientListFragment extends BaseFragment implements ICommonPaginatio
     @Override
     public void obtainData(Object data, String methodIndex, int status) {
 
-        if(data!=null){
+        if (data != null) {
             mAdapter.setData((List<AddClientTransModel>) data);
             if (commonPaginationPresenter.data != null && commonPaginationPresenter.data.size() == 0) {
                 noDataLayout.setVisibility(View.VISIBLE);

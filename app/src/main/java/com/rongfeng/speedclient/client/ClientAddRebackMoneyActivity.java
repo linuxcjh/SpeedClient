@@ -56,7 +56,7 @@ public class ClientAddRebackMoneyActivity extends BaseActivity {
         transModel.setCsrId(getIntent().getStringExtra("customerId"));
         transModel.setConId(m.getConId());
         contractNameTv.setText(m.getConName());
-        resValueTv.setText(m.getConRental());
+        resValueTv.setText(m.getRemainingBalance());
     }
 
 

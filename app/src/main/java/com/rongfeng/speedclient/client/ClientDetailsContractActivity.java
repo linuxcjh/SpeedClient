@@ -17,6 +17,7 @@ import com.rongfeng.speedclient.API.XxbService;
 import com.rongfeng.speedclient.R;
 import com.rongfeng.speedclient.client.entry.AddContractTransModel;
 import com.rongfeng.speedclient.common.BaseActivity;
+import com.rongfeng.speedclient.common.utils.AppTools;
 import com.rongfeng.speedclient.common.utils.SingleClickBt;
 import com.rongfeng.speedclient.entity.BaseDataModel;
 import com.rongfeng.speedclient.utils.DensityUtil;
@@ -29,6 +30,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static com.rongfeng.speedclient.R.id.contact_reback_layout;
 import static com.rongfeng.speedclient.R.id.res_value_tv;
 
 
@@ -56,7 +58,7 @@ public class ClientDetailsContractActivity extends BaseActivity {
     TextView contractDebtTv;
     @Bind(R.id.contact_bargain_time_tv)
     TextView contactBargainTimeTv;
-    @Bind(R.id.contact_reback_layout)
+    @Bind(contact_reback_layout)
     LinearLayout contactRebackLayout;
     @Bind(R.id.contract_debt_layout)
     LinearLayout contractDebtLayout;
@@ -70,6 +72,8 @@ public class ClientDetailsContractActivity extends BaseActivity {
     TextView titleTv;
     @Bind(R.id.arrow_iv)
     ImageView arrowIv;
+    @Bind(R.id.contact_first_pay_tv)
+    EditText contactFirstPayTv;
 
     private List<BaseDataModel> dataLabel = new ArrayList<>();
 
@@ -111,11 +115,11 @@ public class ClientDetailsContractActivity extends BaseActivity {
 
                     contractNameTv.setText(transModel.getConName());
                     contractProductTv.setText(transModel.getProductName());
-                    resValueTv.setText(transModel.getReturnedMoney());
+                    resValueTv.setText(AppTools.getNumKbDot(transModel.getConRental()));
                     contactBargainTimeTv.setText(transModel.getTransactionDate());
-                    contactRebackTv.setText(transModel.getReturnedMoney());
-                    contractDebtTv.setText(transModel.getRemainingBalance());
-
+                    contactRebackTv.setText(AppTools.getNumKbDot(transModel.getMoneyReceipt()));
+                    contractDebtTv.setText(AppTools.getNumKbDot(transModel.getRemainingBalance()));
+                    contactFirstPayTv.setText(AppTools.getNumKbDot(transModel.getReturnedMoney()));
 
                 }
                 break;

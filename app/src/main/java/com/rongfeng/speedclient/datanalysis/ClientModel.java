@@ -25,6 +25,12 @@ public class ClientModel {
         this.client_phone = client_phone;
     }
 
+    public ClientModel(String client_id, String client_name, String client_phone) {
+        this.client_name = client_name;
+        this.client_id = client_id;
+        this.client_phone = client_phone;
+    }
+
     public String getClient_phone() {
         return client_phone;
     }

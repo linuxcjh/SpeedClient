@@ -13,7 +13,7 @@ import com.rongfeng.speedclient.common.utils.DeviceInfoUtil;
 public class BaseTransModel {
 
     private String userId = AppTools.getUser().getUserId();//当前登录用户的ID
-//    private String tenementId = AppTools.getUser().getTenementId();//	租户ID【预留】
+    //    private String tenementId = AppTools.getUser().getTenementId();//	租户ID【预留】
     private String appVersion = DeviceInfoUtil.instance().getAppInfo();//	app版本
     private String osVersion = DeviceInfoUtil.instance().getDeviceInfo();//	手机操作系统版本
     private String imei = DeviceInfoUtil.instance().getDeviceId();//	手机IMEI号

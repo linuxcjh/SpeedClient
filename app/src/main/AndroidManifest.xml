@@ -88,10 +88,12 @@
         <activity android:name=".client.ClientAddRebackMoneyActivity" />
         <activity android:name=".client.ClientAddContractActivity" />
         <activity android:name=".voice.AddScheduleActivity" />
-        <activity android:name=".client.ClientEditActivity"
-            android:windowSoftInputMode="stateHidden|stateUnchanged"/>
-        <activity android:name=".client.ClientDetaisBusinessActivity"/>
-        <activity android:name=".client.ClientDetailsContractActivity"/>
+        <activity
+            android:name=".client.ClientEditActivity"
+            android:windowSoftInputMode="stateHidden|stateUnchanged" />
+        <activity android:name=".client.ClientDetaisBusinessActivity" />
+        <activity android:name=".client.ClientDetailsContractActivity" />
+        <activity android:name=".organization.OrganizationActivity" />
         <activity
             android:name=".call.AlertActivity"
             android:launchMode="singleInstance"

@@ -11,10 +11,16 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.rongfeng.speedclient.R;
+import com.rongfeng.speedclient.client.ClientAddBusinessActivity;
+import com.rongfeng.speedclient.client.ClientAddContractActivity;
 import com.rongfeng.speedclient.client.ClientPersonaActivity;
-import com.rongfeng.speedclient.client.ClientRecordsActivity;
+import com.rongfeng.speedclient.client.ClientRegisterActivity;
+import com.rongfeng.speedclient.client.ClientVisitActivity;
+import com.rongfeng.speedclient.entity.BaseDataModel;
 import com.rongfeng.speedclient.voice.AddScheduleActivity;
 
 import butterknife.Bind;
@@ -36,13 +42,34 @@ public class SearchPopupWindow {
     LinearLayout clientRecordLayout;
     @Bind(R.id.client_remind_layout)
     LinearLayout clientRemindLayout;
+    @Bind(R.id.add_business_layout)
+    RelativeLayout addBusinessLayout;
+    @Bind(R.id.add_contract_layout)
+    RelativeLayout addContractLayout;
+    @Bind(R.id.client_name_tv)
+    TextView clientNameTv;
+    @Bind(R.id.add_note_layout)
+    RelativeLayout addNoteLayout;
+    @Bind(R.id.client_layout)
+    LinearLayout clientLayout;
+    @Bind(R.id.client_add_client_layout)
+    LinearLayout clientAddClientLayout;
+    @Bind(R.id.client_no_remind_layout)
+    LinearLayout clientNoRemindLayout;
+    @Bind(R.id.add_no_note_layout)
+    RelativeLayout addNoNoteLayout;
+    @Bind(R.id.client_no_layout)
+    LinearLayout clientNoLayout;
     private View view;
     public PopupWindow mPopupWindow;
     private Context mContext;
     private int mDisplayHeight;
 
     private String voiceConent;
+    private BaseDataModel clientInfoModel = new BaseDataModel();
 
+
+    private Handler mHandler;
 
     public SearchPopupWindow(Context context, int displayHeight) {
         this(context, displayHeight, null);
@@ -51,6 +78,7 @@ public class SearchPopupWindow {
     public SearchPopupWindow(Context context, int displayHeight, Handler handler) {
         this.mContext = context;
         this.mDisplayHeight = displayHeight;
+        this.mHandler = handler;
     }
 
 
@@ -72,33 +100,72 @@ public class SearchPopupWindow {
         this.voiceConent = content;
     }
 
+    /**
+     * 如果model 为null说明没识别到客户
+     *
+     * @param model
+     */
+    public void setSelectClient(BaseDataModel model) {
 
-//    @OnClick(R.id.cancel_iv)
-//    public void onClick() {
-////        mPopupWindow.dismiss();
-//        mContext.startActivity(new Intent(mContext, VoiceNoteActivity.class));
-//
-//    }
+        this.clientInfoModel = model;
+        if (model != null) {
+            clientNameTv.setText(model.getDictionaryName());
+            clientLayout.setVisibility(View.VISIBLE);
+            clientNoLayout.setVisibility(View.GONE);
 
-    @OnClick({R.id.cancel_iv, R.id.client_persona_layout, R.id.client_record_layout, R.id.client_remind_layout})
+        } else {
+            clientNoLayout.setVisibility(View.VISIBLE);
+            clientLayout.setVisibility(View.GONE);
+        }
+    }
+
+
+    @OnClick({R.id.cancel_iv, R.id.client_persona_layout, R.id.client_record_layout, R.id.client_remind_layout, R.id.add_business_layout, R.id.add_contract_layout, R.id.add_note_layout, R.id.client_add_client_layout, R.id.client_no_remind_layout, R.id.add_no_note_layout})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.cancel_iv:
                 mPopupWindow.dismiss();
                 break;
             case R.id.client_persona_layout:
-                mContext.startActivity(new Intent(mContext, ClientPersonaActivity.class));
+                if (clientInfoModel != null) {
+                    mContext.startActivity(new Intent(mContext, ClientPersonaActivity.class).putExtra("customerId", clientInfoModel.getDictionaryId()).putExtra("customerName", clientInfoModel.getDictionaryName()));
+                }
 
                 break;
             case R.id.client_record_layout:
-                mContext.startActivity(new Intent(mContext, ClientRecordsActivity.class));
-
+                if (clientInfoModel != null) {
+                    mContext.startActivity(new Intent(mContext, ClientVisitActivity.class).putExtra("customerId", clientInfoModel.getDictionaryId()).putExtra("customerName", clientInfoModel.getDictionaryName()));
+                }
                 break;
+            case R.id.client_no_remind_layout:
             case R.id.client_remind_layout:
                 mContext.startActivity(new Intent(mContext, AddScheduleActivity.class).putExtra("content", voiceConent));
                 break;
+            case R.id.add_business_layout:
+
+                if (clientInfoModel != null) {
+                    mContext.startActivity(new Intent(mContext, ClientAddBusinessActivity.class).putExtra("customerId", clientInfoModel.getDictionaryId()).putExtra("customerName", clientInfoModel.getDictionaryName()));
+                }
+
+                break;
+            case R.id.add_contract_layout:
+                if (clientInfoModel != null) {
+                    mContext.startActivity(new Intent(mContext, ClientAddContractActivity.class).putExtra("customerId", clientInfoModel.getDictionaryId()).putExtra("customerName", clientInfoModel.getDictionaryName()));
+                }
+
+                break;
+            case R.id.add_no_note_layout:
+            case R.id.add_note_layout:
+                mHandler.sendEmptyMessage(3);
+                break;
+            case R.id.client_add_client_layout:
+
+                mContext.startActivity(new Intent(mContext, ClientRegisterActivity.class).putExtra("voiceConent", voiceConent));
+
+                break;
         }
     }
+
 }
 
 

@@ -37,7 +37,6 @@ import com.rongfeng.speedclient.common.utils.AppTools;
 import com.rongfeng.speedclient.common.utils.Utils;
 import com.rongfeng.speedclient.components.SearchPopupWindow;
 import com.rongfeng.speedclient.datanalysis.ClientModel;
-import com.rongfeng.speedclient.datanalysis.DBManager;
 import com.rongfeng.speedclient.entity.BaseDataModel;
 import com.rongfeng.speedclient.utils.JsonParser;
 
@@ -132,7 +131,7 @@ public class VoiceFragment extends BaseFragment implements View.OnTouchListener 
         switch (methodIndex) {
             case XxbService.INSERTNOTE:
                 if (status == 1) {
-//                    AppTools.getToast("Success");
+                    AppTools.getToast("添加笔记成功");
                 }
                 break;
         }
@@ -197,10 +196,12 @@ public class VoiceFragment extends BaseFragment implements View.OnTouchListener 
     /**
      * 显示搜索框
      */
-    public void showPop() {
+    public void showPop(BaseDataModel model) {
         if (!searchPopupWindow.mPopupWindow.isShowing()) {
             searchPopupWindow.mPopupWindow.showAtLocation(rootLayout, Gravity.TOP, 0, 0);
             searchPopupWindow.setContent(contentEt.getText().toString());
+            searchPopupWindow.setSelectClient(model);
+
         }
     }
 
@@ -211,10 +212,17 @@ public class VoiceFragment extends BaseFragment implements View.OnTouchListener 
             super.handleMessage(msg);
             switch (msg.what) {
                 case 0:
-                    hTimeTv.setText( timeNum++ + " s");
+                    hTimeTv.setText(timeNum++ + " s");
                     break;
                 case 1:
                     timeNum = 0;
+                    break;
+                case 2:
+                    BaseDataModel m = (BaseDataModel) msg.obj;
+                    showPop(m);
+                    break;
+                case 3:
+                    invoke();
                     break;
             }
 
@@ -309,6 +317,7 @@ public class VoiceFragment extends BaseFragment implements View.OnTouchListener 
 //        analysisData();
     }
 
+
     /**
      * 解析数据
      */
@@ -316,11 +325,10 @@ public class VoiceFragment extends BaseFragment implements View.OnTouchListener 
         String resultStr = contentEt.getText().toString();
         String pinYinStr = AppTools.convertPinYin(resultStr);
         if (!TextUtils.isEmpty(resultStr)) {
-            invoke();
+//            invoke();
             setEditLayoutStatus(false);
 
-            DBManager dbManager = new DBManager(getActivity());
-            clientModels = dbManager.query();
+            clientModels = AppTools.queryClientDataToDB(getActivity());
 
             List<BaseDataModel> clientData = new ArrayList<>();
 
@@ -331,19 +339,21 @@ public class VoiceFragment extends BaseFragment implements View.OnTouchListener 
                     String namePY = AppTools.convertPinYin(name);
 
                     if (resultStr.indexOf(name) != -1 || pinYinStr.indexOf(namePY) != -1) {//全名匹配
-                        clientData.add(new BaseDataModel(i + "", name));
+                        clientData.add(new BaseDataModel(clientModels.get(i).client_id, name));
                     } else if (name.length() > 2 && (resultStr.contains(name.substring(0, 2)) || pinYinStr.contains(AppTools.convertPinYin(name.substring(0, 2))))) {//模糊匹配，开始2个字
-                        clientData.add(new BaseDataModel(i + "", name));
+                        clientData.add(new BaseDataModel(clientModels.get(i).client_id, name));
                     }
 
                 }
             }
+            if (clientData.size() > 1) {
+                AppTools.selectDialog("选择客户", getActivity(), clientData, mHandler, 2);
+            } else if (clientData.size() == 1) {
+                showPop(clientData.get(0));
+            } else if (clientData.size() == 0) {
+                showPop(null);
+            }
 
-
-            //关闭数据库
-            dbManager.closeDB();
-
-            showPop();
 
         } else {
             AppTools.getToast("请输入内容");
@@ -419,7 +429,6 @@ public class VoiceFragment extends BaseFragment implements View.OnTouchListener 
                     voiceStatusTv.setText("长按语音输入");
 
                 }
-
 
                 break;
         }

@@ -253,6 +253,17 @@ public interface Constant {
     public static final String  CLIENT_REFRESH_PERSONA_LABEL = "client_refresh_persona_label";
 
 
+    /**
+     * 添加重复Fragment
+     */
+    public static final int ADD_FRAGMENT_REPEAT_INDEX = 0x030;
+    /**
+     * Display pop search
+     */
+    public static final int SHOW_SEARCH_VIEW_INDEX = 0x031;
+
+
+
 
 
 }

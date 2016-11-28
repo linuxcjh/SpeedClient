@@ -150,6 +150,10 @@ public class ClientRegisterActivity extends BaseActivity {
 
     private void initViews() {
 
+        if (!TextUtils.isEmpty(getIntent().getStringExtra("voiceConent"))) {
+            resCompanyNameTv.setText(getIntent().getStringExtra("voiceConent"));
+        }
+
         transModel.setCustomerType("2");//客户类型【1企业客户；2个人客户】
         resPhoneTv.clearFocus();
 

@@ -85,7 +85,7 @@ public class ClientAddContractActivity extends BaseActivity {
     }
 
     private void initViews() {
-        dataLabel.add(new BaseDataModel("0", "+ 添加回款"));
+        dataLabel.add(new BaseDataModel("0", "+ 添加首付款"));
         generationLabels(this, dataLabel, flowLayoutLayout);
     }
 
@@ -95,6 +95,7 @@ public class ClientAddContractActivity extends BaseActivity {
         transModel.setReturnedMoney(contactRebackTv.getText().toString());
         transModel.setConRental(resValueTv.getText().toString());
         transModel.setRemainingBalance(contractDebtTv.getText().toString());
+        transModel.setTransactionDate(contactBargainTimeTv.getText().toString());
         commonPresenter.invokeInterfaceObtainData(XxbService.INSERTCSRCON, transModel, new TypeToken<BaseDataModel>() {
         });
     }
