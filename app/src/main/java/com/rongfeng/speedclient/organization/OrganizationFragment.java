@@ -148,7 +148,7 @@ public class OrganizationFragment extends BackHandledFragment implements ICommon
         OrganizationInfoModel m = (OrganizationInfoModel) object;
 
         if(TextUtils.isEmpty(m.getUserId())){
-            mHandler.sendMessage(mHandler.obtainMessage(Constant.ADD_FRAGMENT_REPEAT_INDEX, m.getDepartmentId()));
+            mHandler.sendMessage(mHandler.obtainMessage(Constant.ADD_FRAGMENT_REPEAT_INDEX, m));
         }
 
     }

@@ -25,10 +25,14 @@ import com.rongfeng.speedclient.common.utils.AppTools;
 import com.rongfeng.speedclient.common.utils.GetCustomerContactNum;
 import com.rongfeng.speedclient.common.utils.SingleClickBt;
 import com.rongfeng.speedclient.common.utils.Utils;
+import com.rongfeng.speedclient.components.MyDialog;
 import com.rongfeng.speedclient.entity.ContactDetail;
+import com.rongfeng.speedclient.organization.model.OrganizationInfoModel;
 import com.rongfeng.speedclient.organization.model.OrganizationReceivedModel;
 import com.rongfeng.speedclient.organization.model.TransOrganizationModel;
 import com.rongfeng.speedclient.permisson.PermissionsChecker;
+
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -53,13 +57,18 @@ public class OrganizationActivity extends BaseActivity implements BackHandledInt
     private String searchDepartmentId;//部门id
 
     private OrganizationReceivedModel receivedModel = new OrganizationReceivedModel();// 当前Fragment信息
+    private TransOrganizationModel selectPersonInfo = new TransOrganizationModel();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_organization_layout);
         ButterKnife.bind(this);
-        mHandler.sendMessage(mHandler.obtainMessage(Constant.ADD_FRAGMENT_REPEAT_INDEX, AppTools.getUser().getDepartmentId()));
+        OrganizationInfoModel model = new OrganizationInfoModel();
+        model.setDepartmentName(AppTools.getUser().getDepartmentName());
+        model.setDepartmentId(AppTools.getUser().getDepartmentId());
+        mHandler.sendMessage(mHandler.obtainMessage(Constant.ADD_FRAGMENT_REPEAT_INDEX, model));
 
     }
 
@@ -91,7 +100,9 @@ public class OrganizationActivity extends BaseActivity implements BackHandledInt
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case Constant.ADD_FRAGMENT_REPEAT_INDEX:
-                    searchDepartmentId = (String) msg.obj;
+                    OrganizationInfoModel m = (OrganizationInfoModel) msg.obj;
+                    searchDepartmentId = m.getDepartmentId();
+                    titleTv.setText(m.getDepartmentName());
                     setFragment();
 
                     break;
@@ -111,18 +122,35 @@ public class OrganizationActivity extends BaseActivity implements BackHandledInt
                         } else {
                             modelCon.setPhone(result.replace(" ", ""));
                         }
-                        TransOrganizationModel transModel = new TransOrganizationModel();
-                        transModel.setDepartmentId(AppTools.getUser().getDepartmentId());
-                        transModel.setName(modelCon.getName());
-                        transModel.setPhone(modelCon.getPhone());
-                        invoke(transModel);
+                        selectPersonInfo.setDepartmentId(AppTools.getUser().getDepartmentId());
+                        selectPersonInfo.setName(modelCon.getName());
+                        selectPersonInfo.setPhone(modelCon.getPhone());
+                        sendSMS(selectPersonInfo.getPhone(), "sdfsdfsdfsdfsdfasdfsafsd");//TODO
+
+                        MyDialog dialog = new MyDialog(OrganizationActivity.this, mHandler);
+                        dialog.buildDialog().setTitle("提示").setCancelText("取消").setConfirm("确定").setMessage("是否邀请" + modelCon.getName() + " ?");
                     }
 
+                    break;
+
+                case Constant.CONFIRMDIALOG:
+                    sendSMS(selectPersonInfo.getPhone(), "sdfsdfsdfsdfsdfasdfsafsd");
+                    invoke(selectPersonInfo);
                     break;
             }
         }
 
     };
+
+    public void sendSMS(String phoneNumber, String message) {
+        //获取短信管理器
+        android.telephony.SmsManager smsManager = android.telephony.SmsManager.getDefault();
+        //拆分短信内容（手机短信长度限制）
+        List<String> divideContents = smsManager.divideMessage(message);
+        for (String text : divideContents) {
+            smsManager.sendTextMessage(phoneNumber, null, text, null, null);
+        }
+    }
 
     private void setPopSearch() {
         SearchNewPopupWindow searchPopupWindow = new SearchNewPopupWindow(this, Utils.getDecorViewHeightPixels(this) - 1);
@@ -155,6 +183,9 @@ public class OrganizationActivity extends BaseActivity implements BackHandledInt
             if (getSupportFragmentManager().getBackStackEntryCount() == 1) {
                 super.onBackPressed();
                 finish();
+            } else if (getSupportFragmentManager().getBackStackEntryCount() == 2) {
+                getSupportFragmentManager().popBackStack();
+                titleTv.setText(AppTools.getUser().getDepartmentName());
             } else {
                 getSupportFragmentManager().popBackStack();
             }
@@ -206,6 +237,7 @@ public class OrganizationActivity extends BaseActivity implements BackHandledInt
                             .getPhone(data);
                     break;
                 case Constant.EDIT_DEPARTMENT_INDEX:
+
                     if (mBackHandedFragment != null) {
                         mBackHandedFragment.invoke();
                     }

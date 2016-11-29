@@ -152,7 +152,7 @@ public class VoiceFragment extends BaseFragment implements View.OnTouchListener 
 
 
     private void init() {
-        voiceBt.setOnTouchListener(this);
+//        voiceBt.setOnTouchListener(this);
         searchPopupWindow = new SearchPopupWindow(getActivity(), Utils.getDeviceHeightPixels(getActivity()), mHandler);
         searchPopupWindow.getPopupWindow();
     }
@@ -167,19 +167,14 @@ public class VoiceFragment extends BaseFragment implements View.OnTouchListener 
 
     }
 
-    @OnClick({R.id.note_tv, R.id.click_input_tv, R.id.input_cancel_tv, R.id.input_confirm_tv})
+    @OnClick({R.id.note_tv, R.id.click_input_tv, R.id.input_cancel_tv, R.id.input_confirm_tv, R.id.voice_bt})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.note_tv:
                 startActivity(new Intent(getActivity(), VoiceNoteActivity.class));
-//                AppTools.selectDialog("选择客户", this, clientAddPresenter.generationClientOrigin(), mHandler, clientAddPresenter.SELECT_TYPE_CLIENT_ORIGIN);
-//                showPop();
-//                startActivity(new Intent(getActivity(), ScheduleActivity.class));
                 break;
             case R.id.click_input_tv:
                 setEditLayoutStatus(true);
-//                AppTools.dialogShow(getActivity());
-
                 break;
             case R.id.input_cancel_tv:
                 contentEt.setText("");
@@ -188,6 +183,18 @@ public class VoiceFragment extends BaseFragment implements View.OnTouchListener 
 
                 analysisData();
                 AppTools.hideKeyboard(contentEt);
+                break;
+            case R.id.voice_bt:
+                // 设置参数
+                setParam();
+                boolean isShowDialog = mSharedPreferences.getBoolean(
+                        getString(R.string.pref_key_iat_show), true);
+                if (isShowDialog) {
+                    // 显示听写对话框
+                    mIatDialog.setListener(mRecognizerDialogListener);
+                    mIatDialog.show();
+                } else {
+                }
                 break;
         }
     }
@@ -276,10 +283,10 @@ public class VoiceFragment extends BaseFragment implements View.OnTouchListener 
         }
 
         // 设置语音前端点:静音超时时间，即用户多长时间不说话则当做超时处理0~10000
-        mIat.setParameter(SpeechConstant.VAD_BOS, mSharedPreferences.getString("iat_vadbos_preference", "10000"));
+        mIat.setParameter(SpeechConstant.VAD_BOS, mSharedPreferences.getString("iat_vadbos_preference", "3000"));
 
         // 设置语音后端点:后端点静音检测时间，即用户停止说话多长时间内即认为不再输入， 自动停止录音0~10000
-        mIat.setParameter(SpeechConstant.VAD_EOS, mSharedPreferences.getString("iat_vadeos_preference", "10000"));
+        mIat.setParameter(SpeechConstant.VAD_EOS, mSharedPreferences.getString("iat_vadeos_preference", "5000"));
 
         // 设置标点符号,设置为"0"返回结果无标点,设置为"1"返回结果有标点
         mIat.setParameter(SpeechConstant.ASR_PTT, mSharedPreferences.getString("iat_punc_preference", "1"));

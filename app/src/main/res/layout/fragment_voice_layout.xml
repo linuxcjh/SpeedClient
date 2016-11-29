@@ -91,7 +91,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
                         android:layout_marginTop="55dp"
-                        android:text="长按下方语音按钮识别语音,您可以："
+                        android:text="点击下方语音按钮识别语音,您可以："
                         android:textColor="@color/colorClientRadar"
                         android:textSize="15sp" />
 
@@ -230,7 +230,8 @@
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="10dp"
-                android:text="剩余60s" />
+                android:text="剩余60s"
+                android:visibility="gone"/>
 
             <ImageButton
                 android:id="@+id/voice_bt"
@@ -248,7 +249,7 @@
                 android:layout_below="@+id/voice_bt"
                 android:layout_centerInParent="true"
                 android:layout_marginTop="10dp"
-                android:text="长按语音输入" />
+                android:text="点击语音输入" />
 
 
         </RelativeLayout>
