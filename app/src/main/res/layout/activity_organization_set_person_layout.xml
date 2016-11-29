@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBg"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@drawable/nav_bg">
+
+        <TextView
+            android:id="@+id/cancel_tv"
+            style="@style/title_side_text"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="16dp"
+            android:gravity="center_vertical"
+            android:paddingRight="20dp"
+            android:text="取消"
+            android:textColor="@color/colorWhite" />
+
+        <TextView
+            android:id="@+id/title_tv"
+            style="@style/title_mid_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="人员设置"
+            android:textColor="@color/colorWhite" />
+
+        <com.rongfeng.speedclient.common.utils.SingleClickBt
+            android:id="@+id/commit_tv"
+            style="@style/title_side_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
+            android:background="@android:color/transparent"
+            android:text="完成" />
+    </RelativeLayout>
+
+    <com.rongfeng.speedclient.utils.SpringView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:animateLayoutChanges="true"
+                android:background="@android:color/white"
+                android:divider="@drawable/divider"
+                android:dividerPadding="15dp"
+                android:orientation="vertical"
+                android:showDividers="middle">
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/examine_approve_item"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        style="@style/register_client_left_text_style"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/examine_approve_margin_left_right"
+                        android:text="所在部门：" />
+
+                    <TextView
+                        android:id="@+id/select_department_tv"
+                        style="@style/register_edit_view_style"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical|right"
+                        android:hint="请选择部门" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="@dimen/examine_approve_margin_left_right"
+                        android:src="@drawable/list_arrow" />
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/product_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/examine_approve_item"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        style="@style/register_client_left_text_style"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/examine_approve_margin_left_right"
+                        android:text="职务：" />
+
+
+                    <EditText
+                        android:id="@+id/input_position_tv"
+                        style="@style/register_edit_view_style"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:layout_marginRight="20dp"
+                        android:gravity="center_vertical|right"
+                        android:hint="请输入职务" />
+
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:gravity="center_vertical"
+                android:paddingLeft="16dp"
+                android:text="权限设置"
+                android:textColor="@color/colorAssist"
+                android:textSize="15sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/examine_approve_item"
+                android:background="@color/colorWhite"
+                android:gravity="center_vertical"
+                android:paddingRight="16dp">
+
+                <CheckBox
+                    android:id="@+id/select_cb"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:button="@drawable/checkbox_selector"
+                    android:checked="false" />
+
+
+                <TextView
+                    style="@style/register_client_left_text_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/examine_approve_margin_left_right"
+                    android:text="可以新建、编辑部门" />
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </com.rongfeng.speedclient.utils.SpringView>
+</LinearLayout>

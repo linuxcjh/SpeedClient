@@ -13,14 +13,12 @@ import com.rongfeng.speedclient.common.utils.DeviceInfoUtil;
 public class BaseTransModel {
 
     private String userId = AppTools.getUser().getUserId();//当前登录用户的ID
-    //    private String tenementId = AppTools.getUser().getTenementId();//	租户ID【预留】
+    private String tenementId = AppTools.getUser().getTenementId();//	租户ID【预留】
     private String appVersion = DeviceInfoUtil.instance().getAppInfo();//	app版本
     private String osVersion = DeviceInfoUtil.instance().getDeviceInfo();//	手机操作系统版本
     private String imei = DeviceInfoUtil.instance().getDeviceId();//	手机IMEI号
     private String osType = "0";//	0：android；1：ios
-    //    private String schemaFlag = AppTools.getUser().getSchemaFlag(); //唯一schema标识
-    private String schemaFlag = "w_sk"; //唯一schema标识
-    private String tenementId = "sk";//	租户ID【预留】
+    private String schemaFlag = AppTools.getUser().getSchemaFlag(); //唯一schema标识
 
 
     private String phoneModel = Build.MODEL;//手机型号

@@ -24,6 +24,57 @@ public class TransDataModel extends BaseTransModel {
 
     private String clientType;
 
+    private String departmentId;//登录人部门ID
+
+    private String searchDepartmentId;//查询部门的ID
+
+    private String departmentName;//新增部门名称
+
+    private String departmentParentId;//登录人部门ID
+
+    private String attention;//0未关注 1 已关注
+
+
+    public String getAttention() {
+        return attention;
+    }
+
+    public void setAttention(String attention) {
+        this.attention = attention;
+    }
+
+    public String getDepartmentParentId() {
+        return departmentParentId;
+    }
+
+    public void setDepartmentParentId(String departmentParentId) {
+        this.departmentParentId = departmentParentId;
+    }
+
+    public String getDepartmentName() {
+        return departmentName;
+    }
+
+    public void setDepartmentName(String departmentName) {
+        this.departmentName = departmentName;
+    }
+
+    public String getDepartmentId() {
+        return departmentId;
+    }
+
+    public void setDepartmentId(String departmentId) {
+        this.departmentId = departmentId;
+    }
+
+    public String getSearchDepartmentId() {
+        return searchDepartmentId;
+    }
+
+    public void setSearchDepartmentId(String searchDepartmentId) {
+        this.searchDepartmentId = searchDepartmentId;
+    }
+
     public String getClientType() {
         return clientType;
     }

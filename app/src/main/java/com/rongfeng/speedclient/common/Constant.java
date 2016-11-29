@@ -262,6 +262,9 @@ public interface Constant {
      */
     public static final int SHOW_SEARCH_VIEW_INDEX = 0x031;
 
+    public static final int EDIT_DEPARTMENT_INDEX = 0x111;
+
+
 
 
 

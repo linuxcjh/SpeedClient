@@ -27,6 +27,7 @@ public class RecievedClientTransModel implements Serializable{
     private List<ContactPersonModel> csrContactJsonArray;
 
     private String csrId;//客户ID
+    private String attention;
 
 
 
@@ -45,6 +46,14 @@ public class RecievedClientTransModel implements Serializable{
     private String  turnoverMoney ;//成交金额
     private String  arrearsMoney ;//欠款金额
 
+
+    public String getAttention() {
+        return attention;
+    }
+
+    public void setAttention(String attention) {
+        this.attention = attention;
+    }
 
     public List<BaseDataModel> getFixationJsonArray() {
         return fixationJsonArray;

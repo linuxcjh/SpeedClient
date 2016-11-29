@@ -16,6 +16,18 @@
             android:layout_height="50dp"
             android:background="@drawable/nav_bg">
 
+            <TextView
+                android:id="@+id/select_language_tv"
+                style="@style/title_side_text"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="16dp"
+                android:gravity="center_vertical"
+                android:paddingRight="20dp"
+                android:text="口音"
+                android:textColor="@color/colorWhite" />
+
 
             <TextView
                 style="@style/title_mid_text"
@@ -209,6 +221,7 @@
             android:layout_height="170dp"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
+            android:layout_marginTop="10dp"
             android:background="@drawable/radar_bg">
 
             <TextView

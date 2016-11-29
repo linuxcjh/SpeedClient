@@ -19,6 +19,7 @@ public class BaseDataModel implements Serializable {
     private String dictionaryName;
     private boolean isSelect;//1 选中 0为选中
 
+
     public boolean isSelect() {
         return isSelect;
     }

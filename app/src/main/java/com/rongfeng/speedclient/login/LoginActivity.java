@@ -65,9 +65,9 @@ public class LoginActivity extends BaseActivity implements ICommonAction {
      * 判断是否登录
      */
     public void isLogin() {
-//        if (!TextUtils.isEmpty(AppTools.getUser().getUserId())) {
+        if (!TextUtils.isEmpty(AppTools.getUser().getUserId())) {
             gotoActivity();
-//        }
+        }
         userName.setText(AppConfig.getStringConfig("userName", ""));
         userName.setSelection(userName.getText().toString().length());
 

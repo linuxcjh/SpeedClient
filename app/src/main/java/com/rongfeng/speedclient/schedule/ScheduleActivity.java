@@ -77,7 +77,7 @@ public class ScheduleActivity extends BaseActivity implements CalendarListener, 
         weekView.setWeekListener(this);
         calendarView = effectsCalendarView.getCalendarView();
         listView = effectsCalendarView.getListView();
-        effectsCalendarView.setIsShrink(true);
+        effectsCalendarView.setIsShrink(false);
         calendarView.setCalendarListener(this);
         calendarView.getCalendart().getAdapter().setDaySelected(false, calendarView.getmDay());
 
@@ -96,7 +96,7 @@ public class ScheduleActivity extends BaseActivity implements CalendarListener, 
 
         persenter = new SchedulePersenter(this);
         month = calendarView.getYear() + "-" + (calendarView.getMonth() < 10 ? "0" + calendarView.getMonth() : calendarView.getMonth());
-        requestModel.setMonth(month);
+        requestModel.setTheMonth(month);
         persenter.searchCalendarWithMonth(requestModel);
     }
 
@@ -133,7 +133,7 @@ public class ScheduleActivity extends BaseActivity implements CalendarListener, 
     public void calendarAnimationEnd() {
         boolean isContainsKey = mapMonth.containsKey(month);
         if (!isContainsKey) {
-            requestModel.setMonth(month);
+            requestModel.setTheMonth(month);
             persenter.searchCalendarWithMonth(requestModel);
         }
     }
@@ -199,17 +199,19 @@ public class ScheduleActivity extends BaseActivity implements CalendarListener, 
             dateString = intent.getStringExtra("dateString");
             weekView.setDateString(dateString, false);
             adapter.setDateString(dateString);
-            requestModel.setDate(dateString);
-            int i = intent.getIntExtra("flag", 0);
-            switch (i) {
-                case 0://有日程
-                    persenter.searchScheduleListWithDate(requestModel);
-                    break;
-                case 1:// 无日程
-                    data.clear();
-                    callBackScheduleList(data);
-                    break;
-            }
+            requestModel.setThatDay(dateString);
+            persenter.searchScheduleListWithDate(requestModel);
+
+//            int i = intent.getIntExtra("flag", 0);
+//            switch (i) {
+//                case 0://有日程
+//                    persenter.searchScheduleListWithDate(requestModel);
+//                    break;
+//                case 1:// 无日程
+//                    data.clear();
+//                    callBackScheduleList(data);
+//                    break;
+//            }
         }
     }
 

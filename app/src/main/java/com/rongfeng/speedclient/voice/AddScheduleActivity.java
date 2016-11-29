@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -88,6 +89,10 @@ public class AddScheduleActivity extends BaseActivity implements CalendarListene
 
     private void init() {
         addRemindModel.setRemindType("1");
+        if (!TextUtils.isEmpty(getIntent().getStringExtra("customerId"))) {
+            addRemindModel.setCsrId(getIntent().getStringExtra("customerId"));
+
+        }
         effectsCalendarView.isDisableWeekView(true);
         calendarView = effectsCalendarView.getCalendarView();
         effectsCalendarView.setIsShrink(false);
@@ -98,7 +103,7 @@ public class AddScheduleActivity extends BaseActivity implements CalendarListene
 
         persenter = new SchedulePersenter(this);
         month = calendarView.getYear() + "-" + (calendarView.getMonth() < 10 ? "0" + calendarView.getMonth() : calendarView.getMonth());
-        requestModel.setMonth(month);
+        requestModel.setTheMonth(month);
 
     }
 
@@ -177,7 +182,7 @@ public class AddScheduleActivity extends BaseActivity implements CalendarListene
     public void calendarAnimationEnd() {
         boolean isContainsKey = mapMonth.containsKey(month);
         if (!isContainsKey) {
-            requestModel.setMonth(month);
+            requestModel.setTheMonth(month);
             persenter.searchCalendarWithMonth(requestModel);
         }
     }
@@ -234,7 +239,7 @@ public class AddScheduleActivity extends BaseActivity implements CalendarListene
         public void onReceive(Context context, Intent intent) {
             dateString = intent.getStringExtra("dateString");
             addRemindModel.setRemindDate(dateString);
-            requestModel.setDate(dateString);
+            requestModel.setThatDay(dateString);
         }
     }
 

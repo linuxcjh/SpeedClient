@@ -13,6 +13,15 @@ public class AddRemindModel {
     private String startHour;//开始时间 格式 20:23
     private String endHour;//开始时间 格式 20:23
 
+    private String csrId;//
+
+    public String getCsrId() {
+        return csrId;
+    }
+
+    public void setCsrId(String csrId) {
+        this.csrId = csrId;
+    }
 
     public String getRemindDate() {
         return remindDate;

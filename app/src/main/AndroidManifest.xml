@@ -94,6 +94,10 @@
         <activity android:name=".client.ClientDetaisBusinessActivity" />
         <activity android:name=".client.ClientDetailsContractActivity" />
         <activity android:name=".organization.OrganizationActivity" />
+        <activity android:name=".organization.OrganizationSetPersonActivity" />
+        <activity
+            android:name=".organization.OrganizationEditDepartmentActivity"
+            android:windowSoftInputMode="stateHidden|stateUnchanged" />
         <activity
             android:name=".call.AlertActivity"
             android:launchMode="singleInstance"

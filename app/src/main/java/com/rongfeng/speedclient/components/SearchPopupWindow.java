@@ -139,7 +139,12 @@ public class SearchPopupWindow {
                 break;
             case R.id.client_no_remind_layout:
             case R.id.client_remind_layout:
-                mContext.startActivity(new Intent(mContext, AddScheduleActivity.class).putExtra("content", voiceConent));
+                if (clientInfoModel != null) {
+                    mContext.startActivity(new Intent(mContext, AddScheduleActivity.class).putExtra("customerId", clientInfoModel.getDictionaryId()).putExtra("content", voiceConent));
+                } else {
+                    mContext.startActivity(new Intent(mContext, AddScheduleActivity.class).putExtra("content", voiceConent));
+                }
+
                 break;
             case R.id.add_business_layout:
 

@@ -697,4 +697,14 @@ public interface XxbService {
     String UPDATECSRBUSINESS="updateCsrBusiness";
 
     String SEARCHCSRCONBYID="searchCsrConById";
+
+    String SEARCHDEPARTMENTBYALLSK="searchDepartmentByAllSk";
+
+    String PULLTHEUSER="pullTheUser";
+
+    String INSERTDEPARTMENT="insertDepartment";
+
+    String UPDATECSRATTENTION="updateCsrAttention";
+
+    String UPDATEDEPARTMENT="updateDepartment";
 }

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/add_layout"
+    android:layout_width="match_parent"
+    android:layout_height="60dp"
+    android:background="@color/colorWhite">
+
+    <ImageView
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:background="@color/colorDividerLine" />
+
+    <TextView
+        android:id="@+id/department_name_tv"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:drawableLeft="@drawable/address_add"
+        android:drawablePadding="14dp"
+        android:gravity="center_vertical"
+        android:paddingLeft="20dp"
+        android:paddingRight="15dp"
+        android:text="添加部门"
+        android:textColor="@color/colorBlue"
+        android:textSize="15sp" />
+</RelativeLayout>
+

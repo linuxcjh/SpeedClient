@@ -5,25 +5,25 @@ package com.rongfeng.speedclient.schedule.model;
  */
 public class RequestScheduleMonthModel {
 
-    private String month;//	月份	yyyy-MM	not  null
+    private String theMonth;//	月份	yyyy-MM	not  null
     private String customerId;//	客户ID
     private String contactsId;//	联系人ID
-    private String date;//
+    private String thatDay;//
 
-    public String getDate() {
-        return date;
+    public String getThatDay() {
+        return thatDay;
     }
 
-    public void setDate(String date) {
-        this.date = date;
+    public void setThatDay(String thatDay) {
+        this.thatDay = thatDay;
     }
 
-    public String getMonth() {
-        return month;
+    public String getTheMonth() {
+        return theMonth;
     }
 
-    public void setMonth(String month) {
-        this.month = month;
+    public void setTheMonth(String theMonth) {
+        this.theMonth = theMonth;
     }
 
     public String getCustomerId() {

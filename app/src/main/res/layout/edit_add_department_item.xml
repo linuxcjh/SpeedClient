@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/root_layout"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:animateLayoutChanges="true"
+    android:background="@color/colorWhite">
+
+    <ImageView
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:background="@color/colorDividerLine" />
+
+    <ImageView
+        android:id="@+id/left_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="20dp"
+        android:src="@drawable/address_edit" />
+
+    <TextView
+        android:id="@+id/department_name_tv"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/left_icon"
+        android:gravity="center_vertical"
+        android:paddingRight="15dp"
+        android:text=""
+        android:textColor="@color/colorListName"
+        android:textSize="14sp" />
+
+    <EditText
+        android:id="@+id/department_name_edit"
+        style="@style/register_edit_view_style"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/left_icon"
+        android:background="@null"
+        android:gravity="center_vertical"
+        android:hint="请输入部门名称"
+        android:textColor="@color/colorAssist"
+        android:textColorHint="@color/colorAssistLight"
+        android:textSize="14sp"
+        android:visibility="gone">
+
+        <requestFocus />
+    </EditText>
+</RelativeLayout>
+

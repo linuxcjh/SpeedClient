@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LinearInterpolator;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -29,6 +30,7 @@ import com.rongfeng.speedclient.common.BaseActivity;
 import com.rongfeng.speedclient.common.Constant;
 import com.rongfeng.speedclient.common.utils.AppTools;
 import com.rongfeng.speedclient.entity.BaseDataModel;
+import com.rongfeng.speedclient.login.TransDataModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -115,6 +117,8 @@ public class ClientPersonaActivity extends BaseActivity {
     ViewPager contentViewPager;
     @Bind(R.id.client_name_tv)
     TextView clientNameTv;
+    @Bind(R.id.focus_bt)
+    Button focusBt;
 
     private ClientPersonaLabelAdapter adapter;
     private List<BaseDataModel> models = new ArrayList<>();
@@ -129,7 +133,7 @@ public class ClientPersonaActivity extends BaseActivity {
     //当前页
     public int changeStatus = -1;
 
-    private RecievedClientTransModel recievedClientTransModel=new RecievedClientTransModel();
+    private RecievedClientTransModel recievedClientTransModel = new RecievedClientTransModel();
 
 
     @Override
@@ -159,6 +163,15 @@ public class ClientPersonaActivity extends BaseActivity {
         });
     }
 
+    /**
+     * 关注
+     */
+    private void focusInvoke(TransDataModel transDataModel) {
+        transDataModel.setCsrId(getIntent().getStringExtra("customerId"));
+        commonPresenter.invokeInterfaceObtainData(XxbService.UPDATECSRATTENTION, transDataModel, new TypeToken<BaseDataModel>() {
+        });
+    }
+
 
     @Override
     public void obtainData(Object data, String methodIndex, int status) {
@@ -173,10 +186,24 @@ public class ClientPersonaActivity extends BaseActivity {
                     clientRecordNumTv.setText("跟进(" + recievedClientTransModel.getFollowUpCount() + ")");
                     labelFragment.setData(recievedClientTransModel.getFixationJsonArray());
 
-                    labelLayoutValueTv.setText(recievedClientTransModel.getTagCount()+" 个");
-                    busLayoutValueTv.setText("￥ "+ AppTools.getNumKbDot(recievedClientTransModel.getBusinessMoney()));
-                    bargainLayoutValueTv.setText("￥ "+ AppTools.getNumKbDot(recievedClientTransModel.getTurnoverMoney()));
-                    debtLayoutValueTv.setText("￥ "+ AppTools.getNumKbDot(recievedClientTransModel.getArrearsMoney()));
+                    labelLayoutValueTv.setText(recievedClientTransModel.getTagCount() + " 个");
+                    busLayoutValueTv.setText("￥ " + AppTools.getNumKbDot(recievedClientTransModel.getBusinessMoney()));
+                    bargainLayoutValueTv.setText("￥ " + AppTools.getNumKbDot(recievedClientTransModel.getTurnoverMoney()));
+                    debtLayoutValueTv.setText("￥ " + AppTools.getNumKbDot(recievedClientTransModel.getArrearsMoney()));
+
+                }
+                break;
+            case XxbService.UPDATECSRATTENTION:
+                if (status == 1) {
+                    if (recievedClientTransModel != null && recievedClientTransModel.getAttention().equals("1")) {
+                        recievedClientTransModel.setAttention("0");
+                        focusBt.setText("未关注");
+                        AppTools.getToast("已取消关注");
+                    } else {
+                        recievedClientTransModel.setAttention("1");
+                        focusBt.setText("已关注");
+                        AppTools.getToast("已关注");
+                    }
 
                 }
                 break;
@@ -256,14 +283,14 @@ public class ClientPersonaActivity extends BaseActivity {
     }
 
 
-    @OnClick({R.id.cancel_tv, R.id.add_client_tv,R.id.contact_layout, R.id.shortcut_contract_tv, R.id.shortcut_bus_tv, R.id.shortcut_record_tv, shortcut_layout, R.id.plus_ib, R.id.client_record_layout, R.id.label_layout, R.id.bus_layout, R.id.bargain_layout, R.id.debt_layout})
+    @OnClick({R.id.cancel_tv, R.id.add_client_tv, R.id.contact_layout, R.id.shortcut_contract_tv, R.id.shortcut_bus_tv, R.id.shortcut_record_tv, shortcut_layout, R.id.plus_ib, R.id.client_record_layout, R.id.label_layout, R.id.bus_layout, R.id.bargain_layout, R.id.debt_layout, R.id.focus_bt})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.cancel_tv:
                 finish();
                 break;
             case R.id.add_client_tv:
-                startActivity(new Intent(this, ClientEditActivity.class).putExtra("model",recievedClientTransModel ));
+                startActivity(new Intent(this, ClientEditActivity.class).putExtra("model", recievedClientTransModel));
 
                 break;
             case R.id.contact_layout:
@@ -316,6 +343,15 @@ public class ClientPersonaActivity extends BaseActivity {
             case R.id.debt_layout:
                 contentViewPager.setCurrentItem(CLIENT_DEBT_INDEX, true);
 
+                break;
+            case R.id.focus_bt:
+                TransDataModel transDataModel = new TransDataModel();
+                if (recievedClientTransModel != null && recievedClientTransModel.getAttention().equals("1")) {
+                    transDataModel.setAttention("0");
+                } else {
+                    transDataModel.setAttention("1");
+                }
+                focusInvoke(transDataModel);
                 break;
         }
     }
@@ -422,7 +458,7 @@ public class ClientPersonaActivity extends BaseActivity {
                 businessFragment.invoke();
                 bargainFragment.invoke();
                 debtFragment.invoke();
-            }else if(intent.getAction().equals(Constant.CLIENT_REFRESH_PERSONA_LABEL)){
+            } else if (intent.getAction().equals(Constant.CLIENT_REFRESH_PERSONA_LABEL)) {
                 invoke();
             }
 

@@ -38,8 +38,8 @@
                 style="@style/title_side_text"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_centerVertical="true"
                 android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
                 android:gravity="center_vertical"
                 android:paddingLeft="20dp"
                 android:paddingRight="16dp"
@@ -73,7 +73,7 @@
                     android:layout_width="75dp"
                     android:layout_height="75dp"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginTop="26dp"
+                    android:layout_marginTop="20dp"
                     android:src="@drawable/custshow_company" />
 
 
@@ -87,6 +87,15 @@
                     android:text="西安荣峰软件科技有限公司"
                     android:textColor="#707070"
                     android:textSize="14sp" />
+
+                <Button
+                    android:id="@+id/focus_bt"
+                    android:layout_width="46dp"
+                    android:layout_height="30dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_below="@+id/client_name_tv"
+                    android:textSize="6sp"
+                    android:text="已关注" />
 
                 <LinearLayout
                     android:id="@+id/contact_layout"
@@ -371,7 +380,6 @@
             android:layout_marginTop="6dp">
 
         </android.support.v4.view.ViewPager>
-
 
 
     </LinearLayout>
