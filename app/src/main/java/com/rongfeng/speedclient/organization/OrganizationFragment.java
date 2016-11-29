@@ -1,10 +1,10 @@
 package com.rongfeng.speedclient.organization;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,9 +54,9 @@ public class OrganizationFragment extends BackHandledFragment implements ICommon
 
     private List<OrganizationInfoModel> models = new ArrayList<>();
 
-    public static OrganizationFragment newInstance() {
+    public static OrganizationFragment newInstance(String departmentId) {
         Bundle args = new Bundle();
-
+        args.putString("departmentId", departmentId);
         OrganizationFragment fragment = new OrganizationFragment();
         fragment.setArguments(args);
         return fragment;
@@ -79,13 +79,6 @@ public class OrganizationFragment extends BackHandledFragment implements ICommon
 
 
     private void initView() {
-//        data.add(new OrganizationInfoModel("","市场部"));
-//        data.add(new OrganizationInfoModel("","市场部"));
-//        data.add(new OrganizationInfoModel("","市场部"));
-//        data.add(new OrganizationInfoModel("1","市场部"));
-//        data.add(new OrganizationInfoModel("1","市场部"));
-//        data.add(new OrganizationInfoModel("1","市场部"));
-
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -102,18 +95,11 @@ public class OrganizationFragment extends BackHandledFragment implements ICommon
     @Override
     protected void invoke() {
         transDataModel.setDepartmentId(AppTools.getUser().getDepartmentId());
+        transDataModel.setSearchDepartmentId(getArguments().getString("departmentId",""));
         commonPresenter.invokeInterfaceObtainData(XxbService.SEARCHDEPARTMENTBYALLSK, transDataModel, new TypeToken<OrganizationReceivedModel>() {
         });
     }
 
-
-    /**
-     * 编辑部门
-     */
-    public void editDepartment() {
-
-        startActivity(new Intent(getActivity(), OrganizationEditDepartmentActivity.class));
-    }
 
     @Override
     public void obtainData(Object data, String methodIndex, int status) {
@@ -159,6 +145,11 @@ public class OrganizationFragment extends BackHandledFragment implements ICommon
 
     @Override
     public void onItemClick(int position, Object object) {
+        OrganizationInfoModel m = (OrganizationInfoModel) object;
+
+        if(TextUtils.isEmpty(m.getUserId())){
+            mHandler.sendMessage(mHandler.obtainMessage(Constant.ADD_FRAGMENT_REPEAT_INDEX, m.getDepartmentId()));
+        }
 
     }
 

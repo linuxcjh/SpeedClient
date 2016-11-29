@@ -707,4 +707,8 @@ public interface XxbService {
     String UPDATECSRATTENTION="updateCsrAttention";
 
     String UPDATEDEPARTMENT="updateDepartment";
+
+    String SETPERMISSIONASSIGNMENT="setPermissionAssignment";
+
+    String SEARCHMYDEPARTMENTBYALL="searchMyDepartmentByAll";
 }

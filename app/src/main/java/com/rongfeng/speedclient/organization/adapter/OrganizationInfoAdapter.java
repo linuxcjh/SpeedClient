@@ -211,7 +211,7 @@ public class OrganizationInfoAdapter extends RecyclerView.Adapter<OrganizationIn
 
                     break;
                 case R.id.set_iv:
-                    context.startActivity(new Intent(context, OrganizationSetPersonActivity.class));
+                    context.startActivity(new Intent(context, OrganizationSetPersonActivity.class).putExtra("model", model));
                     break;
                 case R.id.msg_iv:
 

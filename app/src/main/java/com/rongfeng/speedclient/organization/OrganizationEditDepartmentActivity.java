@@ -1,5 +1,6 @@
 package com.rongfeng.speedclient.organization;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -105,11 +106,15 @@ public class OrganizationEditDepartmentActivity extends BaseActivity {
             case XxbService.INSERTDEPARTMENT:
                 if (status == 1) {
                     AppTools.getToast("添加成功");
+                    setResult(RESULT_OK,new Intent());
+                    finish();
                 }
                 break;
             case XxbService.UPDATEDEPARTMENT:
                 if (status == 1) {
                     AppTools.getToast("修改成功");
+                    setResult(RESULT_OK,new Intent());
+                    finish();
                 }
                 break;
         }

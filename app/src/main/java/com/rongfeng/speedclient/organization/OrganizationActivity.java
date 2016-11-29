@@ -50,7 +50,7 @@ public class OrganizationActivity extends BaseActivity implements BackHandledInt
     ImageButton plusIb;
     private BackHandledFragment mBackHandedFragment;
     private boolean hadIntercept;
-
+    private String searchDepartmentId;//部门id
 
     private OrganizationReceivedModel receivedModel = new OrganizationReceivedModel();// 当前Fragment信息
 
@@ -59,7 +59,8 @@ public class OrganizationActivity extends BaseActivity implements BackHandledInt
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_organization_layout);
         ButterKnife.bind(this);
-        setFragment();
+        mHandler.sendMessage(mHandler.obtainMessage(Constant.ADD_FRAGMENT_REPEAT_INDEX, AppTools.getUser().getDepartmentId()));
+
     }
 
     private void invoke(TransOrganizationModel transModel) {
@@ -90,6 +91,7 @@ public class OrganizationActivity extends BaseActivity implements BackHandledInt
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case Constant.ADD_FRAGMENT_REPEAT_INDEX:
+                    searchDepartmentId = (String) msg.obj;
                     setFragment();
 
                     break;
@@ -129,8 +131,11 @@ public class OrganizationActivity extends BaseActivity implements BackHandledInt
     }
 
 
+    /**
+     * 添加Fragment
+     */
     private void setFragment() {
-        OrganizationFragment fragment = OrganizationFragment.newInstance();
+        OrganizationFragment fragment = OrganizationFragment.newInstance(searchDepartmentId);
         fragment.setHandler(mHandler);
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
