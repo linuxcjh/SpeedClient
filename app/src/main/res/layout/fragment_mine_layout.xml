@@ -155,7 +155,7 @@
                 android:layout_weight="1"
                 android:drawableLeft="@drawable/voice_icon"
                 android:drawablePadding="6dp"
-                android:text="通讯录"
+                android:text="组织结构"
                 android:textColor="@color/colorListName"
                 android:textSize="16sp" />
 
