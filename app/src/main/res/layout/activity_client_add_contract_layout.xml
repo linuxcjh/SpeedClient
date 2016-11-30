@@ -33,14 +33,15 @@
 
         <com.rongfeng.speedclient.common.utils.SingleClickBt
             android:id="@+id/commit_tv"
-            style="@style/title_side_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="20dp"
             android:background="@android:color/transparent"
-            android:text="完成" />
+            android:gravity="center_vertical|right"
+            android:paddingRight="16dp"
+            android:text="完成"
+            android:textColor="@color/colorWhite"
+            android:textSize="15sp" />
     </RelativeLayout>
 
     <com.rongfeng.speedclient.utils.SpringView
@@ -76,7 +77,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/examine_approve_margin_left_right"
-                        android:text="合同名称" />
+                        android:text="合同名称"
+                        android:textColor="@android:color/holo_red_light"/>
 
                     <EditText
                         android:id="@+id/contract_name_tv"
@@ -145,7 +147,8 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:gravity="center_vertical|right"
-                        android:hint="输入合同总额" />
+                        android:hint="输入合同总额"
+                        android:inputType="numberDecimal" />
 
 
                 </LinearLayout>
@@ -205,6 +208,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
+                        android:inputType="numberDecimal"
                         android:gravity="center_vertical|right"
                         android:hint="输入首付金额" />
 

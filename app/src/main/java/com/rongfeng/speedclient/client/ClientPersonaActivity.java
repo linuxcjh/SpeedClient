@@ -14,7 +14,6 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LinearInterpolator;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -118,7 +117,7 @@ public class ClientPersonaActivity extends BaseActivity {
     @Bind(R.id.client_name_tv)
     TextView clientNameTv;
     @Bind(R.id.focus_bt)
-    Button focusBt;
+    ImageView focusBt;
 
     private ClientPersonaLabelAdapter adapter;
     private List<BaseDataModel> models = new ArrayList<>();
@@ -153,6 +152,8 @@ public class ClientPersonaActivity extends BaseActivity {
         filter.addAction(Constant.CLIENT_REFRESH_PERSONA);
         filter.addAction(Constant.CLIENT_REFRESH_PERSONA_LABEL);
         registerReceiver(refreshBroadCastReceiver, filter);
+
+
     }
 
 
@@ -181,6 +182,9 @@ public class ClientPersonaActivity extends BaseActivity {
             case XxbService.GETCSRBYID:
                 if (status == 1) {
                     recievedClientTransModel = (RecievedClientTransModel) data;
+
+                    labelFragment.setClientInfo(recievedClientTransModel);
+
                     clientNameTv.setText(recievedClientTransModel.getCustomerName());
                     contactNumTv.setText("联系人(" + recievedClientTransModel.getContactCount() + ")");
                     clientRecordNumTv.setText("跟进(" + recievedClientTransModel.getFollowUpCount() + ")");
@@ -191,18 +195,28 @@ public class ClientPersonaActivity extends BaseActivity {
                     bargainLayoutValueTv.setText("￥ " + AppTools.getNumKbDot(recievedClientTransModel.getTurnoverMoney()));
                     debtLayoutValueTv.setText("￥ " + AppTools.getNumKbDot(recievedClientTransModel.getArrearsMoney()));
 
+                    if (recievedClientTransModel != null && recievedClientTransModel.getAttention().equals("1")) {
+                        focusBt.setImageResource(R.drawable.cust_focused);
+                    } else {
+                        focusBt.setImageResource(R.drawable.cust_focus);
+                    }
+                    focusBt.setVisibility(View.VISIBLE);
+
                 }
                 break;
             case XxbService.UPDATECSRATTENTION:
                 if (status == 1) {
                     if (recievedClientTransModel != null && recievedClientTransModel.getAttention().equals("1")) {
                         recievedClientTransModel.setAttention("0");
-                        focusBt.setText("未关注");
+//                        focusBt.setText("未关注");
+                        focusBt.setImageResource(R.drawable.cust_focus);
                         AppTools.getToast("已取消关注");
                     } else {
                         recievedClientTransModel.setAttention("1");
-                        focusBt.setText("已关注");
+//                        focusBt.setText("已关注");
                         AppTools.getToast("已关注");
+                        focusBt.setImageResource(R.drawable.cust_focused);
+
                     }
 
                 }

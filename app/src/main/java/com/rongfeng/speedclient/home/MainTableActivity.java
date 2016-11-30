@@ -15,8 +15,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.reflect.TypeToken;
+import com.rongfeng.speedclient.API.XxbService;
 import com.rongfeng.speedclient.R;
 import com.rongfeng.speedclient.client.ClientFragment;
+import com.rongfeng.speedclient.client.entry.AddClientTransModel;
 import com.rongfeng.speedclient.common.BaseActivity;
 import com.rongfeng.speedclient.common.ConstantPermission;
 import com.rongfeng.speedclient.common.utils.AppConfig;
@@ -113,9 +116,32 @@ public class MainTableActivity extends BaseActivity {
         }
     }
 
+    /**
+     * 客户
+     */
+    private void invokeClient() {
+        transDataModel.setClientType("5");
+        commonPresenter.invokeInterfaceObtainData(XxbService.SEARCHCSR, transDataModel, new TypeToken<List<AddClientTransModel>>() {
+        });
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
+        invokeClient();
+    }
+
+
+    @Override
+    public void obtainData(Object data, String methodIndex, int status) {
+        super.obtainData(data, methodIndex, status);
+        switch (methodIndex) {
+
+            case XxbService.SEARCHCSR:
+                AppTools.insertClientDataToDB(this, (List<AddClientTransModel>) data);
+
+                break;
+        }
     }
 
 

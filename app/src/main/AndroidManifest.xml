@@ -92,12 +92,16 @@
             android:name=".client.ClientEditActivity"
             android:windowSoftInputMode="stateHidden|stateUnchanged" />
         <activity android:name=".client.ClientDetaisBusinessActivity" />
-        <activity android:name=".client.ClientDetailsContractActivity" />
+        <activity android:name=".client.ClientDetailsContractActivity"
+            android:windowSoftInputMode="stateHidden|stateUnchanged"/>
         <activity android:name=".organization.OrganizationActivity" />
         <activity android:name=".organization.OrganizationSetPersonActivity" />
         <activity
             android:name=".organization.OrganizationEditDepartmentActivity"
             android:windowSoftInputMode="stateHidden|stateUnchanged" />
+        <activity android:name=".client.ClientDistributeActivity"/>
+        <activity android:name=".client.ClientAddContactUpLoadActivity"/>
+        <activity android:name=".client.ClientAddContactDetailsActivity"/>
         <activity
             android:name=".call.AlertActivity"
             android:launchMode="singleInstance"

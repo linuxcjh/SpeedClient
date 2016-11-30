@@ -68,7 +68,7 @@
                         android:background="@drawable/remide_top_item_bg"
                         android:gravity="center"
                         android:text="提前1天"
-                        android:textColor="@color/colorListName"
+                        android:textColor="@color/colorWhite"
                         android:textSize="14sp"
                         />
 

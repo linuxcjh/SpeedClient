@@ -3,6 +3,7 @@ package com.rongfeng.speedclient.schedule;
 import android.app.ActionBar;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -119,18 +120,21 @@ public class ScheduleAddEditActivity extends BaseActivity {
                 resetTopView();
                 oneSelectTv.setVisibility(View.VISIBLE);
                 addRemindModel.setRemindType("1");
+                oneSelectTv.setTextColor(ContextCompat.getColor(this,R.color.colorWhite));
 
                 break;
             case R.id.two_tv:
                 resetTopView();
                 twoSelectTv.setVisibility(View.VISIBLE);
                 addRemindModel.setRemindType("3");
+                twoSelectTv.setTextColor(ContextCompat.getColor(this,R.color.colorWhite));
 
                 break;
             case R.id.three_tv:
                 resetTopView();
                 threeSelectTv.setVisibility(View.VISIBLE);
                 addRemindModel.setRemindType("7");
+                threeSelectTv.setTextColor(ContextCompat.getColor(this,R.color.colorWhite));
 
                 break;
             case R.id.start_time_layout:
@@ -147,6 +151,10 @@ public class ScheduleAddEditActivity extends BaseActivity {
         oneSelectTv.setVisibility(View.GONE);
         twoSelectTv.setVisibility(View.GONE);
         threeSelectTv.setVisibility(View.GONE);
+
+        oneSelectTv.setTextColor(ContextCompat.getColor(this,R.color.colorAssist));
+        twoSelectTv.setTextColor(ContextCompat.getColor(this,R.color.colorAssist));
+        threeSelectTv.setTextColor(ContextCompat.getColor(this,R.color.colorAssist));
 
     }
 

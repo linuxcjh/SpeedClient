@@ -33,14 +33,16 @@
 
         <com.rongfeng.speedclient.common.utils.SingleClickBt
             android:id="@+id/commit_tv"
-            style="@style/title_side_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="20dp"
             android:background="@android:color/transparent"
-            android:text="完成" />
+            android:gravity="center_vertical|right"
+            android:paddingRight="16dp"
+            android:text="完成"
+            android:textColor="@color/colorWhite"
+            android:textSize="15sp" />
+
     </RelativeLayout>
 
     <LinearLayout
@@ -237,7 +239,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/examine_approve_item"
                     android:gravity="center_vertical"
-                    android:paddingRight="16dp">
+                    android:paddingRight="20dp">
 
                     <TextView
                         style="@style/register_client_left_text_style"
@@ -263,7 +265,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/examine_approve_item"
                     android:gravity="center_vertical"
-                    android:paddingRight="16dp">
+                    android:paddingRight="20dp">
 
                     <TextView
                         style="@style/register_client_left_text_style"
@@ -364,22 +366,20 @@
 
             </com.rongfeng.speedclient.utils.FlowLayout>
 
-            <Button
-                android:id="@+id/add_contract_bt"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginLeft="30dp"
-                android:layout_marginRight="30dp"
-                android:layout_marginTop="50dp"
-                android:background="@drawable/blue_arround_bg"
-                android:text="添加合同"
-                android:textColor="@color/colorWhite"
-                android:textSize="16sp"
-                android:visibility="gone"/>
-
 
         </LinearLayout>
 
     </com.rongfeng.speedclient.utils.SpringView>
+
+    <Button
+        android:id="@+id/add_contract_bt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:background="@color/colorBlue"
+        android:text="添加合同"
+        android:textColor="@color/colorWhite"
+        android:textSize="16sp"
+        android:visibility="gone" />
+
 </LinearLayout>

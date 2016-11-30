@@ -10,8 +10,8 @@ public class TransDataModel extends BaseTransModel {
 
 
     private String flg;
-    private String page;//	当前页
-    private String rows = "20";
+    private String page ;//	当前页
+    private String rows = "30";
 
     private String csrId;
 

@@ -16,16 +16,17 @@
             android:layout_marginLeft="20dp"
             android:text="取消"
             android:textColor="@color/colorWhite"
-            android:textSize="17sp" />
+            android:textSize="15sp" />
 
         <TextView
             android:id="@+id/title_tv"
+            style="@style/title_mid_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:text="添加联系人"
             android:textColor="@color/colorWhite"
-            android:textSize="19sp" />
+            />
 
         <com.rongfeng.speedclient.common.utils.SingleClickBt
             android:id="@+id/commit_tv"
@@ -37,7 +38,7 @@
             android:background="@android:color/transparent"
             android:text="完成"
             android:textColor="@color/colorWhite"
-            android:textSize="17sp" />
+            android:textSize="15sp" />
     </RelativeLayout>
 
     <com.rongfeng.speedclient.utils.SpringView

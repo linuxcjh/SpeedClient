@@ -912,7 +912,7 @@ public class AppTools {
             String result = formatter.format(Double.parseDouble(s));
             return result;
         }
-        return s;
+        return "0.00";
     }
 
     public static String getNumKbDotSpecile(String s) {

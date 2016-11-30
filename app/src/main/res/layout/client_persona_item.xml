@@ -15,25 +15,39 @@
         android:paddingLeft="20dp"
         android:paddingRight="20dp">
 
-        <TextView
-            android:id="@+id/name_tv"
+        <RelativeLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:text="新客户"
-            android:ellipsize="end"
-            android:singleLine="true"
-            android:textColor="@color/colorTitleText"
-            android:textSize="14sp" />
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/name_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:text="新客户"
+                android:textColor="@color/colorTitleText"
+                android:textSize="14sp" />
+
+            <ImageView
+                android:id="@+id/addr_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/cust_address"
+                android:visibility="gone" />
+
+        </RelativeLayout>
+
 
         <TextView
             android:id="@+id/num_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginTop="10dp"
-            android:text="300个"
+            android:layout_marginTop="8dp"
             android:singleLine="true"
+            android:text="300个"
             android:textColor="@color/colorAssist"
             android:textSize="10sp" />
 

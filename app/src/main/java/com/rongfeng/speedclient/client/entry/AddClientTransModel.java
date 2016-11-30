@@ -27,10 +27,10 @@ public class AddClientTransModel {
      * 客户列表
      */
     private String csrId;//客户ID
-    private String lastVisitTime;//	上次拜访时间	yyyy.MM.dd
-    private String visitCount;//	拜访次数
-    private String bizOppsCount;//	商机数
-    private String ownerName;//归属人
+    private String lastTime;//	上次拜访时间	yyyy.MM.dd
+    private String followCount;//	拜访次数
+    private String businessMoney;//	商机
+    private String ownerUserName;//归属人
 //    private String createTime;//创建时间
 
 
@@ -149,36 +149,36 @@ public class AddClientTransModel {
         this.csrId = csrId;
     }
 
-    public String getLastVisitTime() {
-        return lastVisitTime;
+    public String getLastTime() {
+        return lastTime;
     }
 
-    public void setLastVisitTime(String lastVisitTime) {
-        this.lastVisitTime = lastVisitTime;
+    public void setLastTime(String lastTime) {
+        this.lastTime = lastTime;
     }
 
-    public String getVisitCount() {
-        return visitCount;
+    public String getFollowCount() {
+        return followCount;
     }
 
-    public void setVisitCount(String visitCount) {
-        this.visitCount = visitCount;
+    public void setFollowCount(String followCount) {
+        this.followCount = followCount;
     }
 
-    public String getBizOppsCount() {
-        return bizOppsCount;
+    public String getBusinessMoney() {
+        return businessMoney;
     }
 
-    public void setBizOppsCount(String bizOppsCount) {
-        this.bizOppsCount = bizOppsCount;
+    public void setBusinessMoney(String businessMoney) {
+        this.businessMoney = businessMoney;
     }
 
-    public String getOwnerName() {
-        return ownerName;
+    public String getOwnerUserName() {
+        return ownerUserName;
     }
 
-    public void setOwnerName(String ownerName) {
-        this.ownerName = ownerName;
+    public void setOwnerUserName(String ownerUserName) {
+        this.ownerUserName = ownerUserName;
     }
 
     public String getFixationJsonArray() {

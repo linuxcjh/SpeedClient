@@ -1,14 +1,19 @@
 package com.rongfeng.speedclient.organization;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.ContactsContract;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.telephony.SmsManager;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -23,7 +28,6 @@ import com.rongfeng.speedclient.common.Constant;
 import com.rongfeng.speedclient.common.ConstantPermission;
 import com.rongfeng.speedclient.common.utils.AppTools;
 import com.rongfeng.speedclient.common.utils.GetCustomerContactNum;
-import com.rongfeng.speedclient.common.utils.SingleClickBt;
 import com.rongfeng.speedclient.common.utils.Utils;
 import com.rongfeng.speedclient.components.MyDialog;
 import com.rongfeng.speedclient.entity.ContactDetail;
@@ -42,8 +46,6 @@ public class OrganizationActivity extends BaseActivity implements BackHandledInt
 
     @Bind(R.id.cancel_tv)
     ImageView cancelTv;
-    @Bind(R.id.commit_tv)
-    SingleClickBt commitTv;
     @Bind(R.id.container_layout)
     FrameLayout containerLayout;
     @Bind(R.id.view)
@@ -52,6 +54,8 @@ public class OrganizationActivity extends BaseActivity implements BackHandledInt
     TextView titleTv;
     @Bind(R.id.plus_ib)
     ImageButton plusIb;
+    @Bind(R.id.edit_bt)
+    Button editBt;
     private BackHandledFragment mBackHandedFragment;
     private boolean hadIntercept;
     private String searchDepartmentId;//部门id
@@ -59,16 +63,33 @@ public class OrganizationActivity extends BaseActivity implements BackHandledInt
     private OrganizationReceivedModel receivedModel = new OrganizationReceivedModel();// 当前Fragment信息
     private TransOrganizationModel selectPersonInfo = new TransOrganizationModel();
 
+    private RefreshBroadCastReceiver refreshBroadCastReceiver;
+
+//    String SMSContent = "您的好友陈建化邀请您加入【语音速客】\n用户名：2342342343  密码：123456 。\n快去体验吧，手机App下载地址：http://www.3swin.com/download";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_organization_layout);
         ButterKnife.bind(this);
+        initView();
+
+
+    }
+
+    private void initView() {
+
+        refreshBroadCastReceiver = new RefreshBroadCastReceiver();
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(Constant.ORGANIZATION_REFRESH_FLAG);
+        registerReceiver(refreshBroadCastReceiver, filter);
+
+
         OrganizationInfoModel model = new OrganizationInfoModel();
         model.setDepartmentName(AppTools.getUser().getDepartmentName());
-        model.setDepartmentId(AppTools.getUser().getDepartmentId());
+        model.setDepartmentId("");
         mHandler.sendMessage(mHandler.obtainMessage(Constant.ADD_FRAGMENT_REPEAT_INDEX, model));
+
 
     }
 
@@ -106,6 +127,11 @@ public class OrganizationActivity extends BaseActivity implements BackHandledInt
                     setFragment();
 
                     break;
+                case Constant.JUDGE_DISPLAY_BUTTON:
+                    plusIb.setVisibility(View.GONE);
+                    editBt.setVisibility(View.GONE);
+
+                    break;
                 case Constant.SHOW_SEARCH_VIEW_INDEX:
                     setPopSearch();
                     break;
@@ -125,16 +151,18 @@ public class OrganizationActivity extends BaseActivity implements BackHandledInt
                         selectPersonInfo.setDepartmentId(AppTools.getUser().getDepartmentId());
                         selectPersonInfo.setName(modelCon.getName());
                         selectPersonInfo.setPhone(modelCon.getPhone());
-                        sendSMS(selectPersonInfo.getPhone(), "sdfsdfsdfsdfsdfasdfsafsd");//TODO
+                        sendSMS(selectPersonInfo.getPhone(), "您的好友" + AppTools.getUser().getUserName() + "邀请您加入【语音速客】" +
+                                "用户名：" + selectPersonInfo.getPhone() + " 密码：123456 。" +
+                                "App下载地址：http://t.cn/Rf8OoAJ");//发送短信
 
                         MyDialog dialog = new MyDialog(OrganizationActivity.this, mHandler);
-                        dialog.buildDialog().setTitle("提示").setCancelText("取消").setConfirm("确定").setMessage("是否邀请" + modelCon.getName() + " ?");
+                        dialog.buildDialog().setTitle("提示").setCancelText("取消").setConfirm("确定").setMessage("是否发送短信邀请 " + modelCon.getName() + " " + modelCon.getPhone() + " ?");
                     }
 
                     break;
 
                 case Constant.CONFIRMDIALOG:
-                    sendSMS(selectPersonInfo.getPhone(), "sdfsdfsdfsdfsdfasdfsafsd");
+                    sendSMS(selectPersonInfo.getPhone(), "");
                     invoke(selectPersonInfo);
                     break;
             }
@@ -144,12 +172,13 @@ public class OrganizationActivity extends BaseActivity implements BackHandledInt
 
     public void sendSMS(String phoneNumber, String message) {
         //获取短信管理器
-        android.telephony.SmsManager smsManager = android.telephony.SmsManager.getDefault();
+        SmsManager smsManager = SmsManager.getDefault();
         //拆分短信内容（手机短信长度限制）
         List<String> divideContents = smsManager.divideMessage(message);
         for (String text : divideContents) {
             smsManager.sendTextMessage(phoneNumber, null, text, null, null);
         }
+
     }
 
     private void setPopSearch() {
@@ -170,11 +199,15 @@ public class OrganizationActivity extends BaseActivity implements BackHandledInt
         ft.replace(R.id.container_layout, fragment);
         ft.addToBackStack("tag");
         ft.commit();
+
+
     }
 
     @Override
     public void setSelectedFragment(BackHandledFragment selectedFragment) {
         this.mBackHandedFragment = selectedFragment;
+
+
     }
 
     @Override
@@ -183,9 +216,12 @@ public class OrganizationActivity extends BaseActivity implements BackHandledInt
             if (getSupportFragmentManager().getBackStackEntryCount() == 1) {
                 super.onBackPressed();
                 finish();
-            } else if (getSupportFragmentManager().getBackStackEntryCount() == 2) {
+            } else if (getSupportFragmentManager().getBackStackEntryCount() == 2) {//第一个Fragment
                 getSupportFragmentManager().popBackStack();
                 titleTv.setText(AppTools.getUser().getDepartmentName());
+                plusIb.setVisibility(View.VISIBLE);
+                editBt.setVisibility(View.VISIBLE);
+                searchDepartmentId = "";
             } else {
                 getSupportFragmentManager().popBackStack();
             }
@@ -198,13 +234,13 @@ public class OrganizationActivity extends BaseActivity implements BackHandledInt
         this.receivedModel = organizationReceivedModel;
     }
 
-    @OnClick({R.id.cancel_tv, R.id.commit_tv, R.id.plus_ib})
+    @OnClick({R.id.cancel_tv, R.id.edit_bt, R.id.plus_ib})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.cancel_tv:
                 onBackPressed();
                 break;
-            case R.id.commit_tv://编辑部门
+            case R.id.edit_bt://编辑部门
 
                 if (mBackHandedFragment != null) {
                     startActivityForResult(new Intent(this, OrganizationEditDepartmentActivity.class).putExtra("model", receivedModel), Constant.EDIT_DEPARTMENT_INDEX);
@@ -247,6 +283,27 @@ public class OrganizationActivity extends BaseActivity implements BackHandledInt
             }
         }
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(refreshBroadCastReceiver);
+    }
+
+    class RefreshBroadCastReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+            if (intent.getAction().equals(Constant.ORGANIZATION_REFRESH_FLAG)) {
+
+                if (mBackHandedFragment != null) {
+                    mBackHandedFragment.invoke();
+                }
+
+            }
+        }
     }
 
 }

@@ -11,6 +11,7 @@ import android.widget.AdapterView;
 
 import com.rongfeng.speedclient.R;
 import com.rongfeng.speedclient.client.adapter.ClientPersonaLabelAdapter;
+import com.rongfeng.speedclient.client.entry.RecievedClientTransModel;
 import com.rongfeng.speedclient.common.BaseFragment;
 import com.rongfeng.speedclient.components.MyGridView;
 import com.rongfeng.speedclient.entity.BaseDataModel;
@@ -33,6 +34,7 @@ public class ClientPersonaLabelFragment extends BaseFragment implements AdapterV
 
     private ClientPersonaLabelAdapter adapter;
     List<BaseDataModel> models = new ArrayList<>();
+    private RecievedClientTransModel recievedClientTransModel = new RecievedClientTransModel();
 
     public static ClientPersonaLabelFragment newInstance(String customerId) {
 
@@ -60,6 +62,11 @@ public class ClientPersonaLabelFragment extends BaseFragment implements AdapterV
         gridView.setAdapter(adapter);
         gridView.setOnItemClickListener(this);
 
+    }
+
+
+    public void setClientInfo(RecievedClientTransModel recievedClientTransModel) {
+        this.recievedClientTransModel = recievedClientTransModel;
     }
 
 
@@ -94,7 +101,7 @@ public class ClientPersonaLabelFragment extends BaseFragment implements AdapterV
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         switch (position) {
             case 0:
-                startActivity(new Intent(getActivity(), ClientPersonaActivity.class));
+                startActivity(new Intent(getActivity(), ClientDistributeActivity.class).putExtra("model",recievedClientTransModel));
                 break;
         }
     }

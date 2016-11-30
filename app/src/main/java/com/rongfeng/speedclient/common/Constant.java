@@ -252,6 +252,11 @@ public interface Constant {
 
     public static final String  CLIENT_REFRESH_PERSONA_LABEL = "client_refresh_persona_label";
 
+    /**
+     * 刷新组织结构
+     */
+    public static final String  ORGANIZATION_REFRESH_FLAG = "organization_refresh_flag";
+
 
     /**
      * 添加重复Fragment
@@ -265,6 +270,7 @@ public interface Constant {
     public static final int EDIT_DEPARTMENT_INDEX = 0x111;
 
 
+    public static final int JUDGE_DISPLAY_BUTTON = 0x0333;
 
 
 

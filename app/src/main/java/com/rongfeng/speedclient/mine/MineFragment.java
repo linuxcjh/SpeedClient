@@ -14,6 +14,8 @@ import android.widget.TextView;
 
 import com.rongfeng.speedclient.R;
 import com.rongfeng.speedclient.common.BaseFragment;
+import com.rongfeng.speedclient.common.utils.AppConfig;
+import com.rongfeng.speedclient.common.utils.AppTools;
 import com.rongfeng.speedclient.organization.OrganizationActivity;
 import com.rongfeng.speedclient.schedule.ScheduleActivity;
 import com.rongfeng.speedclient.voice.VoiceNoteActivity;
@@ -58,7 +60,7 @@ public class MineFragment extends BaseFragment {
     }
 
     private void init() {
-
+        mineFirstName.setText(AppTools.getUser().getUserName());
     }
 
 
@@ -83,6 +85,9 @@ public class MineFragment extends BaseFragment {
                 startActivity(new Intent(getActivity(), ScheduleActivity.class));
                 break;
             case R.id.mine_first_switch_bt:
+                AppConfig.setStringConfig("userModel", "");
+                AppConfig.setStringConfig("login", "0"); //启动页面
+
                 getActivity().finish();
                 break;
         }

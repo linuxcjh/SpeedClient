@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.content.ContextCompat;
-import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -112,13 +111,17 @@ public class ClientDetaisBusinessActivity extends BaseActivity {
         addContractBt.setVisibility(View.VISIBLE);
         titleTv.setText("商机编辑");
         transModel = (AddBusinessTransModel) getIntent().getSerializableExtra("model");
-        if (TextUtils.isEmpty(transModel.getProductId())) {
-            dataLabel.add(new BaseDataModel("0", "+ 产品"));
-            generationLabels(this, dataLabel, flowLayoutLayout);
-        }
+
+        flowLayoutLayout.setVisibility(View.GONE);
+        productLayout.setVisibility(View.VISIBLE);
+//        if (TextUtils.isEmpty(transModel.getProductId())) {
+//            dataLabel.add(new BaseDataModel("0", "+ 产品"));
+//            generationLabels(this, dataLabel, flowLayoutLayout);
+//        }
         resBusNameTv.setText(transModel.getBusinessName());
         resValueTv.setText(transModel.getPredictMoney());
         resBargainTimeTv.setText(transModel.getPredictTime());
+        contractProductTv.setText(transModel.getProductName());
 
 
     }
@@ -178,6 +181,9 @@ public class ClientDetaisBusinessActivity extends BaseActivity {
                             case "成交":
                                 stageFourTv.performClick();
                                 break;
+                            default:
+                                stageOneTv.performClick();
+                                break;
                         }
                     }
                 }
@@ -203,7 +209,7 @@ public class ClientDetaisBusinessActivity extends BaseActivity {
         }
     };
 
-    @OnClick({R.id.cancel_tv, R.id.commit_tv, R.id.res_bargain_time_tv, R.id.product_layout, R.id.stage_one_image, R.id.stage_two_image, R.id.stage_three_image, R.id.stage_four_image, R.id.stage_one_tv, R.id.stage_two_tv, R.id.stage_three_tv, R.id.stage_four_tv,R.id.add_contract_bt})
+    @OnClick({R.id.cancel_tv, R.id.commit_tv, R.id.res_bargain_time_tv, R.id.product_layout, R.id.stage_one_image, R.id.stage_two_image, R.id.stage_three_image, R.id.stage_four_image, R.id.stage_one_tv, R.id.stage_two_tv, R.id.stage_three_tv, R.id.stage_four_tv, R.id.add_contract_bt})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.cancel_tv:
@@ -246,7 +252,7 @@ public class ClientDetaisBusinessActivity extends BaseActivity {
                 break;
 
             case R.id.add_contract_bt:
-                startActivity(new Intent(this, ClientAddContractActivity.class).putExtra("customerId", transModel.getCsrId()).putExtra("model",transModel));
+                startActivity(new Intent(this, ClientAddContractActivity.class).putExtra("customerId", transModel.getCsrId()).putExtra("model", transModel));
                 break;
 
 

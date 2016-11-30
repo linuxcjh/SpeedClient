@@ -31,23 +31,25 @@
             android:text="合同详情"
             android:textColor="@color/colorWhite" />
 
-        <com.rongfeng.speedclient.common.utils.SingleClickBt
+        <TextView
             android:id="@+id/commit_tv"
             style="@style/title_side_text"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="20dp"
             android:background="@android:color/transparent"
-            android:text="完成"
-            android:visibility="gone" />
+            android:gravity="center_vertical"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:text="收款" />
     </RelativeLayout>
 
-    <com.rongfeng.speedclient.utils.SpringView
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        android:paddingBottom="10dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -170,6 +172,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:gravity="center_vertical|right"
+                        android:paddingRight="16dp"
                         android:singleLine="false" />
 
                     <ImageView
@@ -182,6 +185,7 @@
                         android:visibility="gone" />
 
                 </LinearLayout>
+
                 <LinearLayout
                     android:id="@+id/contact_first_pay_layout"
                     android:layout_width="match_parent"
@@ -261,17 +265,26 @@
                 </LinearLayout>
             </LinearLayout>
 
+            <TextView
+                android:id="@+id/divide_title_tv"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_marginTop="12dp"
+                android:gravity="center_vertical"
+                android:paddingLeft="16dp"
+                android:text="回款列表"
+                android:textColor="@color/colorAssistLight"
+                android:textSize="13sp" />
+
             <com.rongfeng.speedclient.utils.FlowLayout
                 android:id="@+id/flowLayout_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
                 android:layout_marginTop="10dp"
                 android:animateLayoutChanges="true">
 
             </com.rongfeng.speedclient.utils.FlowLayout>
 
         </LinearLayout>
-    </com.rongfeng.speedclient.utils.SpringView>
+    </ScrollView>
 </LinearLayout>

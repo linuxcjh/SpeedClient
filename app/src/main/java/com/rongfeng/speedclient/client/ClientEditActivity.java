@@ -168,7 +168,7 @@ public class ClientEditActivity extends BaseActivity {
             dataLabel.add(new BaseDataModel(CLIENT_VOCATION_INDEX, "+ 客户行业"));
         } else {
             resClientVocationLayout.setVisibility(View.VISIBLE);
-            resClientVocationTv.setText(recievedClientTransModel.getCustomerIndustry());
+            resClientVocationTv.setText(recievedClientTransModel.getCustomerIndustryName());
             transModel.setCustomerIndustry(recievedClientTransModel.getCustomerIndustry());
         }
 
@@ -176,7 +176,7 @@ public class ClientEditActivity extends BaseActivity {
             dataLabel.add(new BaseDataModel(CLIENT_LEVEL_INDEX, "+ 客户级别"));
         } else {
             resClientLevelLayout.setVisibility(View.VISIBLE);
-            resClientLevelTv.setText(recievedClientTransModel.getCustomerLevel());
+            resClientLevelTv.setText(recievedClientTransModel.getCustomerLevelName());
             transModel.setCustomerLevel(recievedClientTransModel.getCustomerLevel());
         }
 
@@ -184,7 +184,7 @@ public class ClientEditActivity extends BaseActivity {
             dataLabel.add(new BaseDataModel(CLIENT_SOURCE_INDEX, "+ 客户来源"));
         } else {
             resClientSourceLayout.setVisibility(View.VISIBLE);
-            resClientSourceTv.setText(recievedClientTransModel.getCustomerSource());
+            resClientSourceTv.setText(recievedClientTransModel.getCustomerSourceName());
             transModel.setCustomerSource(recievedClientTransModel.getCustomerSource());
         }
 

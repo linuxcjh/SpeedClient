@@ -2,6 +2,9 @@ package com.rongfeng.speedclient.client;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -40,6 +43,8 @@ public class ClientAddRebackMoneyActivity extends BaseActivity {
     EditText contractBackTv;
     @Bind(R.id.contract_surplus_tv)
     TextView contractSurplusTv;
+    @Bind(R.id.contract_date_tv)
+    TextView contractDateTv;
 
     private AddRebackMoneyModel transModel = new AddRebackMoneyModel();
 
@@ -52,11 +57,32 @@ public class ClientAddRebackMoneyActivity extends BaseActivity {
     }
 
     private void initViews() {
-        AddContractTransModel m = (AddContractTransModel) getIntent().getSerializableExtra("model");
+        final AddContractTransModel m = (AddContractTransModel) getIntent().getSerializableExtra("model");
         transModel.setCsrId(getIntent().getStringExtra("customerId"));
         transModel.setConId(m.getConId());
         contractNameTv.setText(m.getConName());
-        resValueTv.setText(m.getRemainingBalance());
+        resValueTv.setText(AppTools.getNumKbDot(m.getRemainingBalance()));
+
+        contractBackTv.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if (!TextUtils.isEmpty(m.getRemainingBalance()) && !TextUtils.isEmpty(editable.toString())) {
+                    contractSurplusTv.setText(AppTools.getNumKbDot((Float.parseFloat(m.getRemainingBalance()) - Float.parseFloat(editable.toString())) + ""));
+                } else {
+                    contractSurplusTv.setText(AppTools.getNumKbDot(m.getRemainingBalance()));
+                }
+            }
+        });
     }
 
 
@@ -64,6 +90,7 @@ public class ClientAddRebackMoneyActivity extends BaseActivity {
 
         transModel.setGatheringMoney(contractBackTv.getText().toString());
         transModel.setResidueMoney(contractSurplusTv.getText().toString());
+        transModel.setCollectionDate(contractDateTv.getText().toString());
         commonPresenter.invokeInterfaceObtainData(XxbService.INSERTCSRGATHERING, transModel, new TypeToken<BaseDataModel>() {
         });
     }
@@ -76,20 +103,32 @@ public class ClientAddRebackMoneyActivity extends BaseActivity {
                 if (status == 1) {
                     AppTools.getToast("添加成功");
                     sendBroadcast(new Intent(Constant.CLIENT_REFRESH_PERSONA));
+                    setResult(RESULT_OK, new Intent());
                     finish();
                 }
                 break;
         }
     }
 
-    @OnClick({R.id.cancel_tv, R.id.commit_tv})
+    @OnClick({R.id.cancel_tv, R.id.commit_tv, R.id.contract_date_tv})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.cancel_tv:
                 finish();
                 break;
             case R.id.commit_tv:
+                if (TextUtils.isEmpty(contractBackTv.getText().toString())) {
+                    AppTools.getToast("请输入收款金额");
+                    return;
+                }
+                if (TextUtils.isEmpty(contractDateTv.getText().toString())) {
+                    AppTools.getToast("请选择收款日期");
+                    return;
+                }
                 invoke();
+                break;
+            case R.id.contract_date_tv:
+                AppTools.obtainData(this, contractDateTv);
                 break;
         }
     }

@@ -72,9 +72,7 @@ public class ClientFragment extends BaseFragment implements AdapterView.OnItemCl
         View view = inflater.inflate(R.layout.fragment_client_layout, null);
         ButterKnife.bind(this, view);
         init();
-        invoke();
-        invokeStatistics();
-        invokeClient();
+
         return view;
     }
 
@@ -98,18 +96,11 @@ public class ClientFragment extends BaseFragment implements AdapterView.OnItemCl
         });
     }
 
-    /**
-     * 客户
-     */
-    private void invokeClient() {
-        transDataModel.setClientType("5");
-        commonPresenter.invokeInterfaceObtainData(XxbService.SEARCHCSR, transDataModel, new TypeToken<List<AddClientTransModel>>() {
-        });
-    }
+
 
     public void invokeStatistics() {
         commonPresenter.isShowProgressDialog = false;
-        commonPresenter.invokeInterfaceObtainData(XxbService.SEARCHCSRCOUNTSTATISTICSTOP, new TypeToken<AnalysisClientModel>() {
+        commonPresenter.invokeInterfaceObtainData(XxbService.SEARCHCSRCOUNTSTATISTICSTOP, transDataModel,new TypeToken<AnalysisClientModel>() {
         });
     }
 
@@ -138,7 +129,9 @@ public class ClientFragment extends BaseFragment implements AdapterView.OnItemCl
                 break;
             case XxbService.SEARCHCSRCOUNTSTATISTICSTOP:
                 if (data != null) {
+
                     model = (AnalysisClientModel) data;
+                    radarData.clear();
                     newClientTv.setText(model.getAnalysisNewClient());
                     focusClientTv.setText(model.getAnalysisFocusClient());
                     debtClientTv.setText(model.getAnalysisDebtClient());
@@ -182,6 +175,14 @@ public class ClientFragment extends BaseFragment implements AdapterView.OnItemCl
         }
     }
 
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        invoke();
+        invokeStatistics();
+    }
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
@@ -201,14 +202,12 @@ public class ClientFragment extends BaseFragment implements AdapterView.OnItemCl
             case R.id.pass_record:
                 setLayoutStatus(passRecord, false);
                 transDataModel.setRadarType("0");
-                invoke();
-
+                invokeStatistics();
                 break;
             case R.id.future_record:
                 setLayoutStatus(futureRecord, true);
                 transDataModel.setRadarType("1");
-                invoke();
-
+                invokeStatistics();
                 break;
         }
     }

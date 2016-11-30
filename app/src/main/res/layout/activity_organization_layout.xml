@@ -34,8 +34,8 @@
             android:text="组织结构"
             android:textColor="@color/colorWhite" />
 
-        <com.rongfeng.speedclient.common.utils.SingleClickBt
-            android:id="@+id/commit_tv"
+        <Button
+            android:id="@+id/edit_bt"
             style="@style/title_side_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

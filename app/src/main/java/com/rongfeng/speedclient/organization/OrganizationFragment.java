@@ -149,6 +149,8 @@ public class OrganizationFragment extends BackHandledFragment implements ICommon
 
         if(TextUtils.isEmpty(m.getUserId())){
             mHandler.sendMessage(mHandler.obtainMessage(Constant.ADD_FRAGMENT_REPEAT_INDEX, m));
+            mHandler.sendEmptyMessage(Constant.JUDGE_DISPLAY_BUTTON);
+
         }
 
     }

@@ -29,7 +29,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="190dp"
-            android:background="@color/colorBlue"
+            android:background="@drawable/profile_bg"
             android:paddingTop="25dp">
 
             <RelativeLayout
@@ -119,11 +119,12 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_weight="1"
-                android:drawableLeft="@drawable/voice_icon"
+                android:drawableLeft="@drawable/me_notes"
                 android:drawablePadding="6dp"
                 android:text="我的笔记"
+                android:gravity="center_vertical"
                 android:textColor="@color/colorListName"
-                android:textSize="16sp" />
+                android:textSize="14sp" />
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -153,11 +154,12 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_weight="1"
-                android:drawableLeft="@drawable/voice_icon"
+                android:drawableLeft="@drawable/me_addressbook"
                 android:drawablePadding="6dp"
+                android:gravity="center_vertical"
                 android:text="组织结构"
                 android:textColor="@color/colorListName"
-                android:textSize="16sp" />
+                android:textSize="14sp" />
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -186,6 +188,7 @@
             android:background="@drawable/custshow_3_green"
             android:gravity="center"
             android:orientation="horizontal"
+
             android:paddingLeft="15dp"
             android:paddingRight="15dp">
 
@@ -193,12 +196,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
+                android:layout_gravity="center_vertical"
                 android:layout_weight="1"
-                android:drawableLeft="@drawable/voice_icon"
+                android:drawableLeft="@drawable/me_reminders"
                 android:drawablePadding="6dp"
                 android:text="我的提醒"
+                android:gravity="center_vertical"
                 android:textColor="@color/colorListName"
-                android:textSize="16sp" />
+                android:textSize="14sp" />
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -232,7 +237,7 @@
                 android:drawablePadding="6dp"
                 android:text="我的提醒"
                 android:textColor="@color/colorListName"
-                android:textSize="16sp" />
+                android:textSize="14sp" />
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -255,7 +260,7 @@
         android:background="@drawable/blue_arround_bg"
         android:text="退出系统"
         android:textColor="@color/colorWhite"
-        android:textSize="16sp" />
+        android:textSize="14sp" />
 
 
 </LinearLayout>

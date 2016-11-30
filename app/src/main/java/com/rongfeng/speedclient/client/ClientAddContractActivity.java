@@ -6,6 +6,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +36,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static com.rongfeng.speedclient.R.id.contract_debt_tv;
 import static com.rongfeng.speedclient.R.id.res_value_tv;
 import static com.rongfeng.speedclient.client.ClientAddBusinessActivity.SELECT_PRODUCT_INDEX;
 
@@ -57,7 +61,7 @@ public class ClientAddContractActivity extends BaseActivity {
     EditText resValueTv;
     @Bind(R.id.contact_reback_tv)
     EditText contactRebackTv;
-    @Bind(R.id.contract_debt_tv)
+    @Bind(contract_debt_tv)
     TextView contractDebtTv;
     @Bind(R.id.contact_bargain_time_tv)
     TextView contactBargainTimeTv;
@@ -87,6 +91,45 @@ public class ClientAddContractActivity extends BaseActivity {
     private void initViews() {
         dataLabel.add(new BaseDataModel("0", "+ 添加首付款"));
         generationLabels(this, dataLabel, flowLayoutLayout);
+
+        resValueTv.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                contactRebackTv.setText("");
+                contractDebtTv.setText("");
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+        contactRebackTv.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if (!TextUtils.isEmpty(resValueTv.getText().toString()) && !TextUtils.isEmpty(editable.toString())) {
+                    contractDebtTv.setText(AppTools.getNumKbDot((Float.parseFloat(resValueTv.getText().toString()) - Float.parseFloat(editable.toString())) + ""));
+                } else {
+                    contractDebtTv.setText(AppTools.getNumKbDot(resValueTv.getText().toString()));
+                }
+            }
+        });
     }
 
     private void invoke() {
@@ -138,6 +181,10 @@ public class ClientAddContractActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.commit_tv:
+                if (TextUtils.isEmpty(contractNameTv.getText().toString())) {
+                    AppTools.getToast("请填写合同名称");
+                    return;
+                }
                 invoke();
                 break;
             case R.id.product_layout:

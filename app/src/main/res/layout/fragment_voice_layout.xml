@@ -25,7 +25,7 @@
                 android:layout_marginLeft="16dp"
                 android:gravity="center_vertical"
                 android:paddingRight="20dp"
-                android:text="口音"
+                android:text="普通话"
                 android:textColor="@color/colorWhite" />
 
 

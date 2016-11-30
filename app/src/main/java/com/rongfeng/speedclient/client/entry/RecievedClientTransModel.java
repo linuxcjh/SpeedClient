@@ -47,6 +47,36 @@ public class RecievedClientTransModel implements Serializable{
     private String  arrearsMoney ;//欠款金额
 
 
+
+    private String customerSourceName;
+    private String customerIndustryName;
+    private String customerLevelName;
+
+
+    public String getCustomerSourceName() {
+        return customerSourceName;
+    }
+
+    public void setCustomerSourceName(String customerSourceName) {
+        this.customerSourceName = customerSourceName;
+    }
+
+    public String getCustomerIndustryName() {
+        return customerIndustryName;
+    }
+
+    public void setCustomerIndustryName(String customerIndustryName) {
+        this.customerIndustryName = customerIndustryName;
+    }
+
+    public String getCustomerLevelName() {
+        return customerLevelName;
+    }
+
+    public void setCustomerLevelName(String customerLevelName) {
+        this.customerLevelName = customerLevelName;
+    }
+
     public String getAttention() {
         return attention;
     }

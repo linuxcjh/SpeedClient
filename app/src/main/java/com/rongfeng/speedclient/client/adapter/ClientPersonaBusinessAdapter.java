@@ -29,7 +29,9 @@ public class ClientPersonaBusinessAdapter extends QuickAdapter<AddBusinessTransM
 
 
         helper.setText(R.id.title_tv, item.getBusinessName());
-        helper.setText(R.id.num_tv, "￥" + AppTools.getNumKb(item.getPredictMoney()) + " 元");
+
+        helper.setText(R.id.num_tv, "￥" + AppTools.getNumKbDot(item.getPredictMoney()) + " 元");
+
 
         switch (item.getBusinessStageName()) {
 

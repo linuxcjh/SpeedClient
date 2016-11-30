@@ -1,5 +1,6 @@
 package com.rongfeng.speedclient.client;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -12,6 +13,7 @@ import com.rongfeng.speedclient.API.XxbService;
 import com.rongfeng.speedclient.R;
 import com.rongfeng.speedclient.client.entry.AddVisitRecordModel;
 import com.rongfeng.speedclient.common.BaseActivity;
+import com.rongfeng.speedclient.common.Constant;
 import com.rongfeng.speedclient.common.utils.AppTools;
 import com.rongfeng.speedclient.common.utils.DateUtil;
 import com.rongfeng.speedclient.common.utils.SingleClickBt;
@@ -81,6 +83,7 @@ public class ClientVisitActivity extends BaseActivity {
             case XxbService.INSERTFOLLOWUP:
                 if (status == 1) {
                     AppTools.getToast("添加成功");
+                    sendBroadcast(new Intent(Constant.CLIENT_REFRESH_PERSONA));
                     finish();
                 }
 
@@ -88,7 +91,7 @@ public class ClientVisitActivity extends BaseActivity {
         }
     }
 
-    @OnClick({R.id.back_bt, R.id.save_bt,R.id.time_layout})
+    @OnClick({R.id.back_bt, R.id.save_bt, R.id.time_layout})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.back_bt:
@@ -101,7 +104,7 @@ public class ClientVisitActivity extends BaseActivity {
                 break;
             case R.id.time_layout:
 
-                AppTools.obtainDataAndTime(this,timeTv);
+                AppTools.obtainDataAndTime(this, timeTv);
                 break;
         }
     }

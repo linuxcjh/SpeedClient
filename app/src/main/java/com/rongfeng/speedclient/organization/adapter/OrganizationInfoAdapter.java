@@ -107,14 +107,39 @@ public class OrganizationInfoAdapter extends RecyclerView.Adapter<OrganizationIn
                     holder.image_divider.setVisibility(View.VISIBLE);
 
                 }
+                if (position == 0) {
+                    holder.dep_title_tv.setVisibility(View.VISIBLE);
+
+                } else if (mData.size() > position && position > 0) {
+                    if (TextUtils.isEmpty(mData.get(position - 1).getUserId()) && TextUtils.isEmpty(model.getUserId())) {
+                        holder.dep_title_tv.setVisibility(View.GONE);
+                    } else {
+                        holder.dep_title_tv.setVisibility(View.VISIBLE);
+                    }
+                } else {
+                    holder.dep_title_tv.setVisibility(View.GONE);
+                }
                 holder.department_name_tv.setText(model.getDepartmentName());
                 break;
             case TYPE_EXECUTE:
                 if (position == 0) {
+
                     holder.image_divider.setVisibility(View.GONE);
                 } else {
                     holder.image_divider.setVisibility(View.VISIBLE);
+                }
 
+                if (position == 0) {
+                    holder.person_title_tv.setVisibility(View.VISIBLE);
+
+                } else if (mData.size() > position && position > 0) {
+                    if (!TextUtils.isEmpty(mData.get(position - 1).getUserId()) && !TextUtils.isEmpty(model.getUserId())) {
+                        holder.person_title_tv.setVisibility(View.GONE);
+                    } else {
+                        holder.person_title_tv.setVisibility(View.VISIBLE);
+                    }
+                } else {
+                    holder.person_title_tv.setVisibility(View.GONE);
                 }
                 String str = null;
                 if (!TextUtils.isEmpty(model.getUserName())) {
@@ -131,6 +156,18 @@ public class OrganizationInfoAdapter extends RecyclerView.Adapter<OrganizationIn
                     holder.image_view.setVisibility(View.GONE);
                 } else {
                     holder.image_view.setVisibility(View.VISIBLE);
+                }
+
+                if (model.getIsForbidden().equals("2")) {
+                    holder.activate_tv.setVisibility(View.VISIBLE);
+                } else {
+                    holder.activate_tv.setVisibility(View.GONE);
+                }
+
+                if (model.getIsPermissions().equals("0")) {
+                    holder.set_iv.setVisibility(View.GONE);
+                } else {
+                    holder.set_iv.setVisibility(View.VISIBLE);
                 }
                 break;
         }
@@ -153,6 +190,7 @@ public class OrganizationInfoAdapter extends RecyclerView.Adapter<OrganizationIn
         public TextView name_tv;
         public TextView department_tv;
         public TextView position_tv;
+        public TextView activate_tv;
 
 
         public ImageView set_iv;
@@ -166,6 +204,9 @@ public class OrganizationInfoAdapter extends RecyclerView.Adapter<OrganizationIn
         public ImageView image_divider;
 
 
+        public TextView person_title_tv;
+        public TextView dep_title_tv;
+
         public ViewHolder(View convertView, int viewType) {
             super(convertView);
 
@@ -176,6 +217,7 @@ public class OrganizationInfoAdapter extends RecyclerView.Adapter<OrganizationIn
                     root_layout.setOnClickListener(this);
                     department_name_tv = (TextView) convertView.findViewById(R.id.department_name_tv);
                     image_divider = (ImageView) convertView.findViewById(R.id.divider);
+                    dep_title_tv = (TextView) convertView.findViewById(R.id.dep_title_tv);
 
 
                     break;
@@ -197,6 +239,8 @@ public class OrganizationInfoAdapter extends RecyclerView.Adapter<OrganizationIn
                     set_iv.setOnClickListener(this);
                     image_view = (ImageView) convertView.findViewById(R.id.image_view);
                     image_divider = (ImageView) convertView.findViewById(R.id.divider);
+                    activate_tv = (TextView) convertView.findViewById(R.id.activate_tv);
+                    person_title_tv = (TextView) convertView.findViewById(R.id.person_title_tv);
 
                     break;
             }

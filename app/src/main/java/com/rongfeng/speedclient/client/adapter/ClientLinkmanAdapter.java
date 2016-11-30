@@ -1,6 +1,7 @@
 package com.rongfeng.speedclient.client.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Handler;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.rongfeng.speedclient.R;
+import com.rongfeng.speedclient.client.ClientAddContactDetailsActivity;
 import com.rongfeng.speedclient.client.entry.ContactPersonModel;
 import com.rongfeng.speedclient.common.Constant;
 import com.rongfeng.speedclient.common.utils.AppTools;
@@ -83,11 +85,9 @@ public class ClientLinkmanAdapter extends BaseAdapter implements View.OnClickLis
             viewHolder.grid_item_layout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-//                    Intent intent = new Intent(context, ClientContactDetailsActivity.class);
-//                    intent.putExtra("contactId", item.getContactsId());
-//                    intent.putExtra("contactName",item.getName());
-//                    intent.putExtra("contactUrl", item.getIconUrl());
-//                    context.startActivity(intent);
+
+                    context.startActivity(new Intent(context, ClientAddContactDetailsActivity.class).putExtra("contactId", item.getCsrContactId()));
+
                 }
             });
             viewHolder.name.setText(item.getName());

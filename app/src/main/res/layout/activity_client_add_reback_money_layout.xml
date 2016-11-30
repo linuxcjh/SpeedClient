@@ -38,6 +38,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
             android:background="@android:color/transparent"
             android:text="完成" />
     </RelativeLayout>
@@ -128,17 +129,18 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/examine_approve_margin_left_right"
                     android:text="收款金额(元)"
-                    android:textColor="@android:color/holo_red_light"/>
+                    android:textColor="@android:color/holo_red_light" />
 
                 <EditText
                     android:id="@+id/contract_back_tv"
                     style="@style/register_edit_view_style"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
                     android:layout_marginRight="16dp"
+                    android:layout_weight="1"
                     android:gravity="center_vertical|right"
                     android:hint="请输入收款金额"
+                    android:inputType="numberDecimal"
                     android:singleLine="false" />
 
 
@@ -168,11 +170,52 @@
                     style="@style/register_edit_view_style"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
+                    android:layout_marginRight="16dp"
                     android:layout_weight="1"
                     android:gravity="center_vertical|right"
                     android:hint="￥0"
-                    android:layout_marginRight="16dp"
                     android:singleLine="false" />
+
+
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:background="@color/colorDividerLine" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/examine_approve_item"
+                android:gravity="center_vertical">
+
+                <TextView
+                    style="@style/register_client_left_text_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/examine_approve_margin_left_right"
+                    android:text="收款日期"
+                    android:textColor="@android:color/holo_red_light" />
+
+
+                <TextView
+                    android:id="@+id/contract_date_tv"
+                    style="@style/register_edit_view_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="16dp"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical|right"
+                    android:hint="选择收款日期"
+                    android:singleLine="false" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="16dp"
+                    android:src="@drawable/list_arrow" />
 
 
             </LinearLayout>

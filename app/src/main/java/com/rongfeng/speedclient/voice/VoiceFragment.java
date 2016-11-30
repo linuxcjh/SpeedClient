@@ -57,6 +57,8 @@ import static android.content.ContentValues.TAG;
  */
 public class VoiceFragment extends BaseFragment implements View.OnTouchListener {
 
+    public static final int SELECT_LANGUAGE_INDEX = 0x11;
+
 
     @Bind(R.id.note_tv)
     TextView noteTv;
@@ -82,6 +84,8 @@ public class VoiceFragment extends BaseFragment implements View.OnTouchListener 
     TextView inputConfirmTv;
     @Bind(R.id.voice_input_layout)
     RelativeLayout voiceInputLayout;
+    @Bind(R.id.select_language_tv)
+    TextView selectLanguageTv;
 
     private SearchPopupWindow searchPopupWindow;
     private int timeNum = 0;//录音时长
@@ -167,7 +171,11 @@ public class VoiceFragment extends BaseFragment implements View.OnTouchListener 
 
     }
 
-    @OnClick({R.id.note_tv, R.id.click_input_tv, R.id.input_cancel_tv, R.id.input_confirm_tv, R.id.voice_bt})
+    @OnClick(R.id.select_language_tv)
+    public void onClick() {
+    }
+
+    @OnClick({R.id.note_tv, R.id.click_input_tv, R.id.input_cancel_tv, R.id.input_confirm_tv, R.id.voice_bt, R.id.select_language_tv})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.note_tv:
@@ -195,6 +203,16 @@ public class VoiceFragment extends BaseFragment implements View.OnTouchListener 
                     mIatDialog.show();
                 } else {
                 }
+                break;
+            case R.id.select_language_tv:
+                List<BaseDataModel> data = new ArrayList<>();
+                data.add(new BaseDataModel("1", ""));
+                data.add(new BaseDataModel("2", ""));
+                data.add(new BaseDataModel("3", ""));
+                data.add(new BaseDataModel("4", ""));
+
+                AppTools.selectDialog("请选语言", getActivity(), data, mHandler, SELECT_LANGUAGE_INDEX);
+
                 break;
         }
     }
@@ -230,6 +248,10 @@ public class VoiceFragment extends BaseFragment implements View.OnTouchListener 
                     break;
                 case 3:
                     invoke();
+                    break;
+                case SELECT_LANGUAGE_INDEX:
+
+
                     break;
             }
 

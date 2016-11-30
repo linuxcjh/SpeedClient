@@ -711,4 +711,12 @@ public interface XxbService {
     String SETPERMISSIONASSIGNMENT="setPermissionAssignment";
 
     String SEARCHMYDEPARTMENTBYALL="searchMyDepartmentByAll";
+
+    String INSERTCSRCONTACT="insertCsrContact";
+
+    String SEARCHCSRCONTACTBYCSRCONTACTID="searchCsrContactByCsrContactId";
+
+    String UPDATECSRCONTACT="updateCsrContact";
+
+    String SEARCHCSRGATHERING="searchCsrGathering";
 }

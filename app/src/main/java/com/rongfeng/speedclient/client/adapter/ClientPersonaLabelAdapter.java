@@ -24,8 +24,15 @@ public class ClientPersonaLabelAdapter extends QuickAdapter<BaseDataModel> {
     @Override
     protected void convert(BaseAdapterHelper helper, BaseDataModel item, int position) {
 
-        helper.setText(R.id.name_tv, item.getDictionaryId());
-        helper.setText(R.id.num_tv, item.getDictionaryName());
+        if (item.getDictionaryId().equals("csrMapId")) {
+            helper.setVisible(R.id.name_tv, false);
+            helper.setVisible(R.id.addr_iv, true);
+            helper.setText(R.id.num_tv, item.getDictionaryName());
+        } else {
+            helper.setText(R.id.name_tv, item.getDictionaryName());
+            helper.setText(R.id.num_tv, item.getDictionaryId());
+        }
+
         LinearLayout layout = helper.getView(R.id.base_layout);
         int type = position % 4;
         switch (type) {

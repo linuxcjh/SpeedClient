@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.rongfeng.speedclient.R;
 import com.rongfeng.speedclient.client.ClientAddRebackMoneyActivity;
@@ -31,11 +32,20 @@ public class ClientPersonaBargainAdapter extends QuickAdapter<AddContractTransMo
     @Override
     protected void convert(BaseAdapterHelper helper, AddContractTransModel item, int position) {
 
+        TextView clearBt = helper.getView(R.id.clear_bt);
+        Button backBt = helper.getView(R.id.back_bt);
         helper.setText(R.id.title_tv, item.getConName());
         helper.setText(R.id.total_num_tv, "总额  " + AppTools.getNumKbDot(item.getConRental()) + " 元");
         helper.setText(R.id.reback_tv, "已收  " + AppTools.getNumKbDot(item.getMoneyReceipt()) + " 元");
 
-        Button backBt = helper.getView(R.id.back_bt);
+        if (item.getRemainingBalance().equals("0")) {
+            clearBt.setVisibility(View.VISIBLE);
+            backBt.setVisibility(View.GONE);
+        }else{
+            clearBt.setVisibility(View.GONE);
+            backBt.setVisibility(View.VISIBLE);
+        }
+
         backBt.setTag(item);
         backBt.setOnClickListener(new View.OnClickListener() {
             @Override

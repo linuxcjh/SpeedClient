@@ -93,10 +93,10 @@
                         android:id="@+id/one_select_tv"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:background="@drawable/remide_top_item_bg"
+                        android:background="@drawable/remide_top_item_add_bg"
                         android:gravity="center"
                         android:text="提前1天"
-                        android:textColor="@color/colorListName"
+                        android:textColor="@color/colorWhite"
                         android:textSize="14sp" />
 
                 </RelativeLayout>
@@ -120,7 +120,7 @@
                         android:id="@+id/two_select_tv"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:background="@drawable/remide_top_item_bg"
+                        android:background="@drawable/remide_top_item_add_bg"
                         android:gravity="center"
                         android:text="提前3天"
                         android:textColor="@color/colorListName"
@@ -147,7 +147,7 @@
                         android:id="@+id/three_select_tv"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:background="@drawable/remide_top_item_bg"
+                        android:background="@drawable/remide_top_item_add_bg"
                         android:gravity="center"
                         android:text="提前7天"
                         android:textColor="@color/colorListName"

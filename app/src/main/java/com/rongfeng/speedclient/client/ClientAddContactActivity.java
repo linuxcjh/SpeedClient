@@ -96,7 +96,7 @@ public class ClientAddContactActivity extends BaseActivity {
             titleTv.setText("编辑联系人");
             resNameEt.setText(model.getName());
             resPhoneEt.setText(model.getPhone());
-            resPositionEt.setText(model.getPosition());
+            resPositionEt.setText(model.getContactPosition());
             regEmailEt.setText(model.getEmail());
             regRemarkEt.setText(model.getRemark());
             if (model.getIsPolicymaker().equals("1")) {
@@ -154,7 +154,7 @@ public class ClientAddContactActivity extends BaseActivity {
             case R.id.commit_tv:
                 model.setName(resNameEt.getText().toString());
                 model.setPhone(resPhoneEt.getText().toString());
-                model.setPosition(resPositionEt.getText().toString());
+                model.setContactPosition(resPositionEt.getText().toString());
                 model.setEmail(regEmailEt.getText().toString());
                 model.setQq(regQqEt.getText().toString());
                 model.setRemark(regRemarkEt.getText().toString());

@@ -4,8 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -29,7 +27,7 @@ import butterknife.OnClick;
 /**
  * 客户联系人
  */
-public class ClientContactsActivity extends BaseActivity implements AdapterView.OnItemClickListener {
+public class ClientContactsActivity extends BaseActivity  {
 
 
     @Bind(R.id.grid_view)
@@ -67,7 +65,6 @@ public class ClientContactsActivity extends BaseActivity implements AdapterView.
         clientNameTv.setText(getIntent().getStringExtra("customerName"));
         adapter = new ClientLinkmanAdapter(this, models, mHandler);
         gridView.setAdapter(adapter);
-        gridView.setOnItemClickListener(this);
     }
 
     @Override
@@ -88,9 +85,10 @@ public class ClientContactsActivity extends BaseActivity implements AdapterView.
             super.handleMessage(msg);
             switch (msg.what) {
                 case Constant.BIND_CONTACT_SIGN:
-
-                    Intent intent = new Intent(ClientContactsActivity.this, ClientAddContactActivity.class);
+                    Intent intent = new Intent(ClientContactsActivity.this, ClientAddContactUpLoadActivity.class);
+                    intent.putExtra("customerId", getIntent().getStringExtra("customerId"));
                     startActivityForResult(intent, Constant.ADD_CONTACT_REQUEST_CODE);
+
                     break;
                 case Constant.UNBIND_CONTACT_SIGN:
                     int position = (int) msg.obj;
@@ -102,13 +100,18 @@ public class ClientContactsActivity extends BaseActivity implements AdapterView.
         }
     };
 
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-    }
 
     @OnClick(R.id.cancel_tv)
     public void onClick() {
         finish();
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (data != null) {
+            invoke();
+        }
+    }
+
 }

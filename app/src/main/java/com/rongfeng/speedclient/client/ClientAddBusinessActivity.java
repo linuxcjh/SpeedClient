@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.content.ContextCompat;
+import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -105,6 +106,8 @@ public class ClientAddBusinessActivity extends BaseActivity {
 
         dataLabel.add(new BaseDataModel("0", "+ 产品"));
         generationLabels(this, dataLabel, flowLayoutLayout);
+        flowLayoutLayout.setVisibility(View.GONE);
+        productLayout.setVisibility(View.VISIBLE);
 
     }
 
@@ -180,6 +183,10 @@ public class ClientAddBusinessActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.commit_tv:
+                if (TextUtils.isEmpty(resBusNameTv.getText().toString())) {
+                    AppTools.getToast("请填写商机名称");
+                    return;
+                }
                 invoke();
                 break;
             case R.id.res_bargain_time_tv:

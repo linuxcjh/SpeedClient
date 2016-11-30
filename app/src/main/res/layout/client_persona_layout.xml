@@ -65,13 +65,14 @@
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
                 android:layout_marginTop="6dp"
+                android:animateLayoutChanges="true"
                 android:background="@drawable/radar_bg">
 
 
                 <ImageView
                     android:id="@+id/client_image_view"
-                    android:layout_width="75dp"
-                    android:layout_height="75dp"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="20dp"
                     android:src="@drawable/custshow_company" />
@@ -83,19 +84,20 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/client_image_view"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginTop="15sp"
+                    android:layout_marginTop="14sp"
                     android:text="西安荣峰软件科技有限公司"
                     android:textColor="#707070"
                     android:textSize="14sp" />
 
-                <Button
+                <ImageView
                     android:id="@+id/focus_bt"
-                    android:layout_width="46dp"
-                    android:layout_height="30dp"
-                    android:layout_centerHorizontal="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_below="@+id/client_name_tv"
-                    android:textSize="6sp"
-                    android:text="已关注" />
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="6dp"
+                    android:src="@drawable/cust_focus"
+                    android:visibility="invisible"/>
 
                 <LinearLayout
                     android:id="@+id/contact_layout"

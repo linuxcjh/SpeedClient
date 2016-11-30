@@ -1,5 +1,6 @@
 package com.rongfeng.speedclient.organization;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -15,6 +16,7 @@ import com.google.gson.reflect.TypeToken;
 import com.rongfeng.speedclient.API.XxbService;
 import com.rongfeng.speedclient.R;
 import com.rongfeng.speedclient.common.BaseActivity;
+import com.rongfeng.speedclient.common.Constant;
 import com.rongfeng.speedclient.common.utils.AppTools;
 import com.rongfeng.speedclient.common.utils.SingleClickBt;
 import com.rongfeng.speedclient.entity.BaseDataModel;
@@ -113,6 +115,8 @@ public class OrganizationSetPersonActivity extends BaseActivity {
 
                 if (status == 1) {
                     AppTools.getToast("设置成功");
+                    sendBroadcast(new Intent(Constant.ORGANIZATION_REFRESH_FLAG));
+                    finish();
                 }
 
                 break;
