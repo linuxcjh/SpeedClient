@@ -38,6 +38,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static com.rongfeng.speedclient.R.id.client_image_view;
 import static com.rongfeng.speedclient.R.id.label_layout_value_tv;
 import static com.rongfeng.speedclient.R.id.shortcut_layout;
 
@@ -76,7 +77,7 @@ public class ClientPersonaActivity extends BaseActivity {
     LinearLayout clientRecordLayout;
     @Bind(R.id.add_client_tv)
     ImageView addClientTv;
-    @Bind(R.id.client_image_view)
+    @Bind(client_image_view)
     ImageView clientImageView;
     @Bind(R.id.client_record_num_tv)
     TextView clientRecordNumTv;
@@ -184,6 +185,12 @@ public class ClientPersonaActivity extends BaseActivity {
                     recievedClientTransModel = (RecievedClientTransModel) data;
 
                     labelFragment.setClientInfo(recievedClientTransModel);
+
+                    if (recievedClientTransModel.getCustomerType().equals("1")) {
+                        clientImageView.setImageResource(R.drawable.custshow_company);
+                    } else {
+                        clientImageView.setImageResource(R.drawable.custshow_personal);
+                    }
 
                     clientNameTv.setText(recievedClientTransModel.getCustomerName());
                     contactNumTv.setText("联系人(" + recievedClientTransModel.getContactCount() + ")");

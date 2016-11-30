@@ -75,7 +75,8 @@
                     android:layout_height="70dp"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="20dp"
-                    android:src="@drawable/custshow_company" />
+                    android:src="@drawable/custshow_personal"
+                    />
 
 
                 <TextView

@@ -63,6 +63,7 @@ public class ClientVisitActivity extends BaseActivity {
     }
 
     private void initViews() {
+        remarkEt.setText(getIntent().getStringExtra("content"));
         clientNameTv.setText(getIntent().getStringExtra("customerName"));
         timeTv.setText(DateUtil.getTime(DateUtil.yyyy_MM_dd_HH_mm));
     }

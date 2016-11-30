@@ -71,7 +71,10 @@
                     android:id="@+id/content_et"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_margin="20dp"
+                    android:layout_marginBottom="30dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="20dp"
                     android:background="@null"
                     android:gravity="top|left"
                     android:hint="长按下方语音按钮或手动输入"
@@ -186,27 +189,27 @@
                             android:visibility="gone" />
 
                         <TextView
-                            android:id="@+id/input_cancel_tv"
+                            android:id="@+id/input_confirm_tv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
                             android:layout_centerVertical="true"
                             android:drawablePadding="6dp"
-                            android:drawableRight="@drawable/voice_cancel"
-                            android:gravity="center_vertical"
-                            android:text="取消" />
-
-                        <TextView
-                            android:id="@+id/input_confirm_tv"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginRight="14dp"
-                            android:layout_toLeftOf="@+id/input_cancel_tv"
-                            android:drawablePadding="6dp"
                             android:drawableRight="@drawable/voice_submit"
                             android:gravity="center_vertical"
                             android:text="确定" />
 
+
+                        <TextView
+                            android:id="@+id/input_cancel_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="24dp"
+                            android:layout_toLeftOf="@+id/input_confirm_tv"
+                            android:drawablePadding="6dp"
+                            android:drawableRight="@drawable/voice_cancel"
+                            android:gravity="center_vertical"
+                            android:text="取消 " />
 
                     </RelativeLayout>
 
@@ -231,7 +234,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="10dp"
                 android:text="剩余60s"
-                android:visibility="gone"/>
+                android:visibility="gone" />
 
             <ImageButton
                 android:id="@+id/voice_bt"

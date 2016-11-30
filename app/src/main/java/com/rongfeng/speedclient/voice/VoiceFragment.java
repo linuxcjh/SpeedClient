@@ -33,6 +33,7 @@ import com.iflytek.cloud.ui.RecognizerDialogListener;
 import com.rongfeng.speedclient.API.XxbService;
 import com.rongfeng.speedclient.R;
 import com.rongfeng.speedclient.common.BaseFragment;
+import com.rongfeng.speedclient.common.utils.AppConfig;
 import com.rongfeng.speedclient.common.utils.AppTools;
 import com.rongfeng.speedclient.common.utils.Utils;
 import com.rongfeng.speedclient.components.SearchPopupWindow;
@@ -156,6 +157,10 @@ public class VoiceFragment extends BaseFragment implements View.OnTouchListener 
 
 
     private void init() {
+
+        selectLanguageTv.setText(AppConfig.getStringConfig("language_select_name", "普通话"));
+
+
 //        voiceBt.setOnTouchListener(this);
         searchPopupWindow = new SearchPopupWindow(getActivity(), Utils.getDeviceHeightPixels(getActivity()), mHandler);
         searchPopupWindow.getPopupWindow();
@@ -206,11 +211,14 @@ public class VoiceFragment extends BaseFragment implements View.OnTouchListener 
                 break;
             case R.id.select_language_tv:
                 List<BaseDataModel> data = new ArrayList<>();
-                data.add(new BaseDataModel("1", ""));
-                data.add(new BaseDataModel("2", ""));
-                data.add(new BaseDataModel("3", ""));
-                data.add(new BaseDataModel("4", ""));
-
+                data.add(new BaseDataModel("mandarin", "普通话"));
+                data.add(new BaseDataModel("cantonese", "粤 语"));
+                data.add(new BaseDataModel("lmz", "四川话"));
+                data.add(new BaseDataModel("henanese", "河南话"));
+//                /普通话：mandarin(默认)
+//                //粤 语：cantonese
+//                //四川话：lmz
+//                //河南话：henanese
                 AppTools.selectDialog("请选语言", getActivity(), data, mHandler, SELECT_LANGUAGE_INDEX);
 
                 break;
@@ -250,8 +258,12 @@ public class VoiceFragment extends BaseFragment implements View.OnTouchListener 
                     invoke();
                     break;
                 case SELECT_LANGUAGE_INDEX:
-
-
+                    BaseDataModel mm = (BaseDataModel) msg.obj;
+                    selectLanguageTv.setText(mm.getDictionaryName());
+                    AppConfig.setStringConfig("language_select_name", mm.getDictionaryName());
+                    AppConfig.setStringConfig("language_select_id", mm.getDictionaryId());
+                    setParam();
+                    AppTools.getToast(mm.getDictionaryName());
                     break;
             }
 
@@ -288,9 +300,10 @@ public class VoiceFragment extends BaseFragment implements View.OnTouchListener 
         // 设置返回结果格式
         mIat.setParameter(SpeechConstant.RESULT_TYPE, "json");
 
-        String lag = mSharedPreferences.getString("iat_language_preference",
-                "mandarin");
-        if (lag.equals("en_us")) {
+//        String lag = mSharedPreferences.getString("iat_language_preference",
+//                "mandarin");
+        String language = AppConfig.getStringConfig("language_select_id", "mandarin");
+        if (language.equals("en_us")) {
             // 设置语言 // 简体中文:"zh_cn", 美式英文:"en_us"
             mIat.setParameter(SpeechConstant.LANGUAGE, "en_us");
         } else {
@@ -301,7 +314,8 @@ public class VoiceFragment extends BaseFragment implements View.OnTouchListener 
             //粤 语：cantonese
             //四川话：lmz
             //河南话：henanese
-            mIat.setParameter(SpeechConstant.ACCENT, lag);
+            mIat.setParameter(SpeechConstant.ACCENT, language);
+
         }
 
         // 设置语音前端点:静音超时时间，即用户多长时间不说话则当做超时处理0~10000
@@ -376,7 +390,7 @@ public class VoiceFragment extends BaseFragment implements View.OnTouchListener 
                 }
             }
             if (clientData.size() > 1) {
-                AppTools.selectDialog("选择客户", getActivity(), clientData, mHandler, 2);
+                AppTools.selectDialog("识别到的客户", getActivity(), clientData, mHandler, 2);
             } else if (clientData.size() == 1) {
                 showPop(clientData.get(0));
             } else if (clientData.size() == 0) {

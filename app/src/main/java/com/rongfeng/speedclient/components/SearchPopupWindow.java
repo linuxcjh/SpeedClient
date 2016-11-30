@@ -134,7 +134,7 @@ public class SearchPopupWindow {
                 break;
             case R.id.client_record_layout:
                 if (clientInfoModel != null) {
-                    mContext.startActivity(new Intent(mContext, ClientVisitActivity.class).putExtra("customerId", clientInfoModel.getDictionaryId()).putExtra("customerName", clientInfoModel.getDictionaryName()));
+                    mContext.startActivity(new Intent(mContext, ClientVisitActivity.class).putExtra("content", voiceConent).putExtra("customerId", clientInfoModel.getDictionaryId()).putExtra("customerName", clientInfoModel.getDictionaryName()));
                 }
                 break;
             case R.id.client_no_remind_layout:
