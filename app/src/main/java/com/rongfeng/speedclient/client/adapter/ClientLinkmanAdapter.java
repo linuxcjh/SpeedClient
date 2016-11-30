@@ -92,14 +92,14 @@ public class ClientLinkmanAdapter extends BaseAdapter implements View.OnClickLis
             });
             viewHolder.name.setText(item.getName());
             viewHolder.name.setVisibility(View.VISIBLE);
-            if (TextUtils.isEmpty(item.getIconUrl()) && !TextUtils.isEmpty(item.getName())) {
+            if (TextUtils.isEmpty(item.getFileImg()) && !TextUtils.isEmpty(item.getName())) {
                 viewHolder.avatar.setVisibility(View.GONE);
                 viewHolder.clue_avatar_no_url_iv.setVisibility(View.VISIBLE);
                 viewHolder.clue_avatar_no_url_iv.setContentText(item.getName().substring(0, 1));
             } else {
                 viewHolder.clue_avatar_no_url_iv.setVisibility(View.GONE);
                 viewHolder.avatar.setVisibility(View.VISIBLE);
-                AppTools.setImageViewPicture(context, item.getIconUrl(), viewHolder.avatar);
+                AppTools.setImageViewPicture(context, item.getFileImg(), viewHolder.avatar);
             }
             viewHolder.remind.setOnClickListener(this);
             viewHolder.remind.setTag(R.id.remind, position);

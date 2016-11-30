@@ -65,6 +65,8 @@ public class ClientDistributeActivity extends BaseActivity {
         } else {
             if (recievedClientTransModel.getCustomerAddress().length() > 15) {
                 address = recievedClientTransModel.getCustomerAddress().substring(0, 14) + "\n" + recievedClientTransModel.getCustomerAddress().substring(14, recievedClientTransModel.getCustomerAddress().length());
+            } else {
+                address = recievedClientTransModel.getCustomerAddress();
             }
 
             currentLatLng = new LatLng(Double.parseDouble(recievedClientTransModel.getLatitude()), Double.parseDouble(recievedClientTransModel.getLongitude()));

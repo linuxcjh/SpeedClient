@@ -97,10 +97,9 @@ public class ClientFragment extends BaseFragment implements AdapterView.OnItemCl
     }
 
 
-
     public void invokeStatistics() {
         commonPresenter.isShowProgressDialog = false;
-        commonPresenter.invokeInterfaceObtainData(XxbService.SEARCHCSRCOUNTSTATISTICSTOP, transDataModel,new TypeToken<AnalysisClientModel>() {
+        commonPresenter.invokeInterfaceObtainData(XxbService.SEARCHCSRCOUNTSTATISTICSTOP, transDataModel, new TypeToken<AnalysisClientModel>() {
         });
     }
 
@@ -138,11 +137,11 @@ public class ClientFragment extends BaseFragment implements AdapterView.OnItemCl
                     oldClientTv.setText(model.getAnalysisBargainClient());
                     busClientTv.setText(model.getAnalysisBusinessClient());
 
-                    setRadarViewData(model.getAnalysisNewClient());
-                    setRadarViewData(model.getAnalysisFocusClient());
-                    setRadarViewData(model.getAnalysisDebtClient());
-                    setRadarViewData(model.getAnalysisBargainClient());
                     setRadarViewData(model.getAnalysisBusinessClient());
+                    setRadarViewData(model.getAnalysisBargainClient());
+                    setRadarViewData(model.getAnalysisDebtClient());
+                    setRadarViewData(model.getAnalysisFocusClient());
+                    setRadarViewData(model.getAnalysisNewClient());
 
 
                     double max = 0;
@@ -154,11 +153,14 @@ public class ClientFragment extends BaseFragment implements AdapterView.OnItemCl
                         }
                     }
 
-                    if (max == 1) {
-                        max += 1;
+                    if (max == 0) {
+                        max = 5;
+                    }
+                    for (int i = 0; i < d.length; i++) {
+                        d[i] = 5.0d / max * d[i];
                     }
 
-                    radarView.setValue(d, (float) max);
+                    radarView.setValue(d);
 
                 }
 
@@ -168,10 +170,10 @@ public class ClientFragment extends BaseFragment implements AdapterView.OnItemCl
 
 
     private void setRadarViewData(String source) {
-        if (!TextUtils.isEmpty(source) && Integer.parseInt(source) != 0) {
+        if (!TextUtils.isEmpty(source)) {
             radarData.add(Double.parseDouble(source));
         } else {
-            radarData.add(1d);
+            radarData.add(0d);
         }
     }
 
@@ -243,22 +245,22 @@ public class ClientFragment extends BaseFragment implements AdapterView.OnItemCl
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         switch (position) {
             case 0:
-                startActivity(new Intent(getActivity(), ClientListActivity.class).putExtra("clientType", "1"));
+                startActivity(new Intent(getActivity(), ClientListActivity.class).putExtra("clientType", "1").putExtra("title","新客户"));
                 break;
             case 1:
-                startActivity(new Intent(getActivity(), ClientListActivity.class).putExtra("clientType", "2"));
+                startActivity(new Intent(getActivity(), ClientListActivity.class).putExtra("clientType", "2").putExtra("title","老客户"));
                 break;
             case 2:
-                startActivity(new Intent(getActivity(), ClientListActivity.class).putExtra("clientType", "3"));
+                startActivity(new Intent(getActivity(), ClientListActivity.class).putExtra("clientType", "3").putExtra("title","商机客户"));
                 break;
             case 3:
-                startActivity(new Intent(getActivity(), ClientListActivity.class).putExtra("clientType", "4"));
+                startActivity(new Intent(getActivity(), ClientListActivity.class).putExtra("clientType", "4").putExtra("title","欠款客户"));
                 break;
             case 4:
-                startActivity(new Intent(getActivity(), ClientListActivity.class).putExtra("clientType", "5"));
+                startActivity(new Intent(getActivity(), ClientListActivity.class).putExtra("clientType", "5").putExtra("title","客户总数"));
                 break;
             case 5:
-                startActivity(new Intent(getActivity(), ClientListActivity.class).putExtra("clientType", "6"));
+                startActivity(new Intent(getActivity(), ClientListActivity.class).putExtra("clientType", "6").putExtra("title","关注客户"));
                 break;
 
         }

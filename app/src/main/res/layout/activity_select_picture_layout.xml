@@ -8,19 +8,15 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="@drawable/nav_bg">
+        android:background="@color/colorBlue">
 
-        <ImageView
-            android:id="@+id/cancel_tv"
-            style="@style/title_side_text"
+        <ImageButton
+            android:id="@+id/cancel_ib"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:gravity="center_vertical"
-            android:paddingLeft="16dp"
-            android:paddingRight="20dp"
-            android:src="@drawable/nav_back" />
-
+            android:layout_marginLeft="20dp"
+            android:background="@drawable/nav_back" />
 
         <TextView
             android:id="@+id/title_tv"
@@ -28,29 +24,37 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="客户" />
+            android:text="选择照片" />
 
         <TextView
-            android:id="@+id/total_tv"
+            android:id="@+id/filter_tv"
             style="@style/title_side_text"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:gravity="center_vertical"
-            android:paddingLeft="16dp"
-            android:paddingRight="20dp"
-            android:text="共30条"
-            android:visibility="gone" />
-
-
+            android:layout_marginRight="20dp"
+            android:text="完成" />
     </RelativeLayout>
 
-    <FrameLayout
-        android:id="@+id/container_layout"
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1" />
+        android:layout_weight="1"
+        android:scrollbars="vertical" />
 
+
+    <Button
+        android:id="@+id/select_dir_bt"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/colorGreen"
+        android:gravity="left|center_vertical"
+        android:paddingLeft="20dp"
+        android:text="文件夹"
+        android:textColor="@color/colorWhite"
+        android:textSize="15sp" />
 
 </LinearLayout>

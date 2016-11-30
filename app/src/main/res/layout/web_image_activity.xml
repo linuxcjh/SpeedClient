@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:background="#000000" >
 
-    <com.rongfeng.xxb.utils.displayimage.MyViewPager
+    <com.rongfeng.speedclient.common.displayimage.MyViewPager
         android:id="@+id/web_image_viewpager"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent" />

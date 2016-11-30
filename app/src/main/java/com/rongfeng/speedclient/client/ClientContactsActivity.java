@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.TextUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -27,7 +28,7 @@ import butterknife.OnClick;
 /**
  * 客户联系人
  */
-public class ClientContactsActivity extends BaseActivity  {
+public class ClientContactsActivity extends BaseActivity {
 
 
     @Bind(R.id.grid_view)
@@ -63,6 +64,13 @@ public class ClientContactsActivity extends BaseActivity  {
 
     private void initViews() {
         clientNameTv.setText(getIntent().getStringExtra("customerName"));
+
+        if (TextUtils.isEmpty(getIntent().getStringExtra("clientType")) && getIntent().getStringExtra("clientType").equals("1")) {
+            clientImageView.setImageResource(R.drawable.custshow_company);
+        } else {
+            clientImageView.setImageResource(R.drawable.custshow_personal);
+        }
+
         adapter = new ClientLinkmanAdapter(this, models, mHandler);
         gridView.setAdapter(adapter);
     }

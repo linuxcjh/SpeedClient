@@ -1,19 +1,21 @@
 package com.rongfeng.speedclient.client.adapter;
 
 import android.content.Context;
-import android.view.View;
 
 import com.rongfeng.speedclient.R;
 import com.rongfeng.speedclient.client.entry.ClientRecordModel;
+import com.rongfeng.speedclient.client.entry.ImageListModel;
+import com.rongfeng.speedclient.components.AddVisitGridLayoutDisplayView;
 import com.rongfeng.speedclient.xrecyclerview.BaseRecyclerAdapter;
 import com.rongfeng.speedclient.xrecyclerview.ViewHolder;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by Alex on 2016/1/11.
  */
-public class ClientRecordAdapter extends BaseRecyclerAdapter<ClientRecordModel> implements View.OnClickListener {
+public class ClientRecordAdapter extends BaseRecyclerAdapter<ClientRecordModel> {
 
     public ClientRecordAdapter(Context context, int layoutResId, List<ClientRecordModel> data) {
         super(context, layoutResId, data);
@@ -22,35 +24,27 @@ public class ClientRecordAdapter extends BaseRecyclerAdapter<ClientRecordModel> 
     @Override
     protected void convert(ViewHolder helper, ClientRecordModel item, int position) {
 
-        helper.setText(R.id.time_tv,item.getFollowUpTime());
-        helper.setText(R.id.content_tv,item.getContent());
+        AddVisitGridLayoutDisplayView addPicLayout = helper.getView(R.id.add_pic_layout);
+
+        helper.setText(R.id.time_tv, item.getFollowUpTime());
+        helper.setText(R.id.content_tv, item.getContent());
+
+
+        if (item.getFollowUpInImageJSONArray() != null && item.getFollowUpInImageJSONArray().size() > 0) {
+
+            List<String> pathsUrl = new ArrayList<>();
+            List<String> pathsMinUrl = new ArrayList<>();
+
+            for (ImageListModel picm : item.getFollowUpInImageJSONArray()) {
+                pathsUrl.add(picm.getFileUrl());
+                pathsMinUrl.add(picm.getMinUrl());
+            }
+            addPicLayout.setColumn(4);
+            addPicLayout.setWidth(addPicLayout.getWidth());
+            addPicLayout.setImageLayout(pathsUrl, pathsMinUrl, true);
+
+        }
     }
 
-    @Override
-    public void onClick(View v) {
-        ClientRecordModel item = (ClientRecordModel) v.getTag();
-//        switch (v.getId()) {
-//            case R.id.history_tv:
-//                Intent intent=new Intent(context, StatementHistroyActivity.class);
-//                intent.putExtra("item",item);;
-//                context.startActivity(intent);
-//                break;
-//            case R.id.rapportStatus:
-//
-//                switch (item.getRapportStatus()) {
-//                    case "0":
-//                        Intent intent1=new Intent(context,ReportAddActivity.class);
-//                        intent1.putExtra("item",item);
-//                        intent1.putExtra("position",(int)v.getTag(R.id.rapportStatus));
-//                        fragment.startActivityForResult(intent1,1001);
-//                        break;
-//                    case "1":
-//                        Intent intent2=new Intent(context,ReportEditActivity.class);
-//                        intent2.putExtra("item",item);
-//                        context.startActivity(intent2);
-//                        break;
-//                }
-//                break;
-//        }
-    }
+
 }

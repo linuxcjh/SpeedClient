@@ -1,6 +1,7 @@
 package com.rongfeng.speedclient.client.entry;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * 跟进记录
@@ -17,7 +18,16 @@ public class ClientRecordModel implements Serializable{
     private String content;//内容
     private String longitude;//经度
     private String latitude;//纬度
+    private List<ImageListModel> followUpInImageJSONArray;
 
+
+    public List<ImageListModel> getFollowUpInImageJSONArray() {
+        return followUpInImageJSONArray;
+    }
+
+    public void setFollowUpInImageJSONArray(List<ImageListModel> followUpInImageJSONArray) {
+        this.followUpInImageJSONArray = followUpInImageJSONArray;
+    }
 
     public String getFollowUpTime() {
         return followUpTime;

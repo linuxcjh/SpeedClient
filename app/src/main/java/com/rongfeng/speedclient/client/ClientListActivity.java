@@ -26,6 +26,8 @@ public class ClientListActivity extends BaseActivity {
     TextView totalTv;
     @Bind(R.id.container_layout)
     FrameLayout containerLayout;
+    @Bind(R.id.title_tv)
+    TextView titleTv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +38,7 @@ public class ClientListActivity extends BaseActivity {
     }
 
     private void initViews() {
+        titleTv.setText(getIntent().getStringExtra("title"));
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.add(R.id.container_layout, ClientListFragment.newInstance(getIntent().getStringExtra("clientType")));
         transaction.commit();

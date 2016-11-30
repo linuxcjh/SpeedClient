@@ -14,6 +14,15 @@ public class AddVisitRecordModel {
     private String latitude ;//纬度
     private String content ;//内容
     private String visitTime;//拜访时间
+    private String followUpImages;
+
+    public String getFollowUpImages() {
+        return followUpImages;
+    }
+
+    public void setFollowUpImages(String followUpImages) {
+        this.followUpImages = followUpImages;
+    }
 
     public String getCsrId() {
         return csrId;

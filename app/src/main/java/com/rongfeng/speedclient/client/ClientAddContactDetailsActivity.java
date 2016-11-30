@@ -21,6 +21,8 @@ import com.rongfeng.speedclient.client.entry.ContactPersonModel;
 import com.rongfeng.speedclient.common.BaseActivity;
 import com.rongfeng.speedclient.common.Constant;
 import com.rongfeng.speedclient.common.ConstantPermission;
+import com.rongfeng.speedclient.common.IUpLoadPictureAction;
+import com.rongfeng.speedclient.common.UpLoadPicturePresenter;
 import com.rongfeng.speedclient.common.utils.AppConfig;
 import com.rongfeng.speedclient.common.utils.AppTools;
 import com.rongfeng.speedclient.common.utils.GetCustomerContactNum;
@@ -38,7 +40,7 @@ import butterknife.OnClick;
 /**
  * 添加联系人
  */
-public class ClientAddContactDetailsActivity extends BaseActivity {
+public class ClientAddContactDetailsActivity extends BaseActivity implements IUpLoadPictureAction {
 
 
     @Bind(R.id.cancel_tv)
@@ -78,6 +80,7 @@ public class ClientAddContactDetailsActivity extends BaseActivity {
     ToggleButton regSexEt;
 
     ContactPersonModel model = new ContactPersonModel();
+    private UpLoadPicturePresenter upLoadPicturePresenter;
 
 
     @Override
@@ -95,6 +98,7 @@ public class ClientAddContactDetailsActivity extends BaseActivity {
 
 
     private void initViews() {
+        upLoadPicturePresenter = new UpLoadPicturePresenter(this, this);
         titleTv.setText("信息编辑");
         contactExInfoLayout.setVisibility(View.VISIBLE);
         model.setIsPolicymaker("1");
@@ -144,6 +148,14 @@ public class ClientAddContactDetailsActivity extends BaseActivity {
 
     }
 
+    @Override
+    public void obtainFileId(int size) {
+        if (size > 0 && (size == upLoadPicturePresenter.paths.size())) {
+            model.setFileId(upLoadPicturePresenter.picIds.get(0).getFileId());
+            upLoadPicturePresenter.picIds.clear();
+            invokeUpate(model);
+        }
+    }
 
     @Override
     public void obtainData(Object data, String methodIndex, int status) {
@@ -201,8 +213,11 @@ public class ClientAddContactDetailsActivity extends BaseActivity {
                     AppTools.getToast("请填写联系人姓名");
                     return;
                 }
-
-                invokeUpate(model);
+                if (upLoadPicturePresenter.paths.size() > 0) {
+                    upLoadPicturePresenter.uploadFile(upLoadPicturePresenter.paths);
+                } else {
+                    invokeUpate(model);
+                }
                 break;
             case R.id.avatar_iv:
 
@@ -244,14 +259,21 @@ public class ClientAddContactDetailsActivity extends BaseActivity {
                             .getPhone(data);
                     break;
                 case Constant.SELECT_PICTURE: //图片
-                    if (!TextUtils.isEmpty(AppTools.getAbsolutePath(this, data.getData()))) {
-                        AppTools.setImageViewPicture(this, AppTools.getAbsolutePath(this, data.getData()), avatarIv);
+                    String imagePath = AppTools.getAbsolutePath(this, data.getData());
+                    if (!TextUtils.isEmpty(imagePath)) {
+                        upLoadPicturePresenter.paths.clear();
+                        upLoadPicturePresenter.paths.add(imagePath);
+                        avatarIv.setVisibility(View.VISIBLE);
+                        AppTools.setImageViewPicture(this, imagePath, avatarIv);
                     }
-
                     break;
                 case Constant.CAMERA_REQUEST_CODE: //拍照
-                    if (!TextUtils.isEmpty(AppConfig.getStringConfig("cameraPath", ""))) {
-                        AppTools.setImageViewPicture(this, AppConfig.getStringConfig("cameraPath", ""), avatarIv);
+                    String cmPath = AppConfig.getStringConfig("cameraPath", "");
+                    if (!TextUtils.isEmpty(cmPath)) {
+                        upLoadPicturePresenter.paths.clear();
+                        upLoadPicturePresenter.paths.add(cmPath);
+                        avatarIv.setVisibility(View.VISIBLE);
+                        AppTools.setImageViewPicture(this, cmPath, avatarIv);
                     }
                     break;
 

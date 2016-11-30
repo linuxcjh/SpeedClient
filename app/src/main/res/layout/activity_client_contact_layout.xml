@@ -62,7 +62,7 @@
                     android:layout_height="75dp"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="32dp"
-                    android:src="@drawable/custshow_company" />
+                    android:src="@drawable/custshow_personal" />
 
 
                 <TextView

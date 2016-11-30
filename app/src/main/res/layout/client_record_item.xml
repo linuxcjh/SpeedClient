@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:gravity="center_vertical"
     android:orientation="vertical">
 
     <LinearLayout
@@ -42,9 +43,12 @@
         android:layout_marginRight="16dp"
         android:layout_marginTop="10dp"
         android:background="@drawable/radar_bg"
-        android:minHeight="80dp"
+        android:minHeight="60dp"
         android:orientation="vertical"
-        android:padding="15dp">
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="6dp">
 
         <TextView
             android:id="@+id/content_tv"
@@ -74,6 +78,10 @@
             android:textSize="10sp"
             android:visibility="gone" />
 
+        <com.rongfeng.speedclient.components.AddVisitGridLayoutDisplayView
+            android:id="@+id/add_pic_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
     </LinearLayout>
 
 

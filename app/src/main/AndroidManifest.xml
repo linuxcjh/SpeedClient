@@ -102,6 +102,7 @@
         <activity android:name=".client.ClientDistributeActivity"/>
         <activity android:name=".client.ClientAddContactUpLoadActivity"/>
         <activity android:name=".client.ClientAddContactDetailsActivity"/>
+        <activity android:name=".selectpicture.SelectPictureActivity"/>
         <activity
             android:name=".call.AlertActivity"
             android:launchMode="singleInstance"

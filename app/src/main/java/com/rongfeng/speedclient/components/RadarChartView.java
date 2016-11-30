@@ -65,11 +65,9 @@ public class RadarChartView extends View {
      *
      * @param data
      */
-    public void setValue(double[] data,float maxValue) {
+    public void setValue(double[] data) {
 
         this.data = data;
-        this.maxValue =maxValue;
-
         invalidate();
     }
 
@@ -90,7 +88,7 @@ public class RadarChartView extends View {
         paint.setStyle(Paint.Style.FILL);
         //背景矩形
 //        canvas.drawRect(new Rect(0, 0, getWidth(), getHeight()), paint);
-//        canvas.rotate(-18,centerX,centerY);
+//        canvas.translate(0, Utils.dip2px(AppConfig.getContext(),10));
 
         drawPolygon(canvas);
         drawLines(canvas);

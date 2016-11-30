@@ -29,6 +29,8 @@ public class ClientPersonaLabelAdapter extends QuickAdapter<BaseDataModel> {
             helper.setVisible(R.id.addr_iv, true);
             helper.setText(R.id.num_tv, item.getDictionaryName());
         } else {
+            helper.setVisible(R.id.name_tv, true);
+            helper.setVisible(R.id.addr_iv, false);
             helper.setText(R.id.name_tv, item.getDictionaryName());
             helper.setText(R.id.num_tv, item.getDictionaryId());
         }

@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -315,7 +316,13 @@ public class ClientPersonaActivity extends BaseActivity {
 
                 break;
             case R.id.contact_layout:
-                startActivity(new Intent(this, ClientContactsActivity.class).putExtra("customerId", transDataModel.getCsrId()).putExtra("customerName", clientNameTv.getText().toString()));
+                if(!TextUtils.isEmpty(recievedClientTransModel.getCustomerType())){
+                    startActivity(new Intent(this, ClientContactsActivity.class).putExtra("clientType",recievedClientTransModel.getCustomerType()).putExtra("customerId", transDataModel.getCsrId()).putExtra("customerName", clientNameTv.getText().toString()));
+
+                }else{
+                    startActivity(new Intent(this, ClientContactsActivity.class).putExtra("customerId", transDataModel.getCsrId()).putExtra("customerName", clientNameTv.getText().toString()));
+
+                }
                 endAnimation();
 
                 break;
@@ -348,7 +355,7 @@ public class ClientPersonaActivity extends BaseActivity {
                 }
                 break;
             case R.id.client_record_layout:
-                startActivity(new Intent(this, ClientRecordsActivity.class));
+                startActivity(new Intent(this, ClientRecordsActivity.class).putExtra("customerId", transDataModel.getCsrId()));
                 break;
             case R.id.label_layout:
                 contentViewPager.setCurrentItem(CLIENT_LABEL_INDEX, true);
