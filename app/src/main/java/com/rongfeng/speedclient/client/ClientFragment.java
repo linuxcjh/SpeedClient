@@ -154,10 +154,10 @@ public class ClientFragment extends BaseFragment implements AdapterView.OnItemCl
                     }
 
                     if (max == 0) {
-                        max = 5;
+                        max = 4.5;
                     }
                     for (int i = 0; i < d.length; i++) {
-                        d[i] = 5.0d / max * d[i];
+                        d[i] = 4.5d / max * d[i];
                     }
 
                     radarView.setValue(d);

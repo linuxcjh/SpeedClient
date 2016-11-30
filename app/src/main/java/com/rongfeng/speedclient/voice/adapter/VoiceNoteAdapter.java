@@ -4,12 +4,14 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.rongfeng.speedclient.R;
 import com.rongfeng.speedclient.common.utils.DateUtil;
 import com.rongfeng.speedclient.voice.model.VoiceNoteModel;
 import com.rongfeng.speedclient.xrecyclerview.BaseRecyclerAdapter;
+import com.rongfeng.speedclient.xrecyclerview.OnItemClickViewListener;
 import com.rongfeng.speedclient.xrecyclerview.ViewHolder;
 
 import java.sql.Date;
@@ -20,6 +22,11 @@ import java.util.List;
  */
 public class VoiceNoteAdapter extends BaseRecyclerAdapter<VoiceNoteModel> {
 
+    private static OnItemClickViewListener onRecyclerViewListener;
+
+    public void setOnRecyclerViewListener(OnItemClickViewListener onRecyclerViewListener) {
+        this.onRecyclerViewListener = onRecyclerViewListener;
+    }
 
     public VoiceNoteAdapter(Context context, int layoutResId, List<VoiceNoteModel> data) {
         super(context, layoutResId, data);
@@ -30,8 +37,16 @@ public class VoiceNoteAdapter extends BaseRecyclerAdapter<VoiceNoteModel> {
     }
 
     @Override
-    protected void convert(ViewHolder holder, VoiceNoteModel model, int position) {
+    protected void convert(ViewHolder holder, VoiceNoteModel model, final int position) {
 
+        LinearLayout rootLayout = holder.getView(R.id.root_layout);
+        rootLayout.setTag(model);
+        rootLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onRecyclerViewListener.onItemClick(position, view.getTag());
+            }
+        });
         RelativeLayout dataLayout = holder.getView(R.id.data_layout);
         if (!TextUtils.isEmpty(model.getCreateTime())) {
             Date date = DateUtil.strToSQLDate(model.getCreateTime().split(" ")[0]);
@@ -50,7 +65,7 @@ public class VoiceNoteAdapter extends BaseRecyclerAdapter<VoiceNoteModel> {
                     dataLayout.setVisibility(View.VISIBLE);
                 }
             }
-            if(position==0){
+            if (position == 0) {
                 dataLayout.setVisibility(View.VISIBLE);
             }
 

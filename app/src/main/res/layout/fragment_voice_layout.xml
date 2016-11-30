@@ -63,7 +63,7 @@
                 android:layout_marginBottom="16dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="14dp"
                 android:background="@drawable/radar_bg"
                 android:paddingBottom="15dp">
 
@@ -225,7 +225,8 @@
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
             android:layout_marginTop="10dp"
-            android:background="@drawable/radar_bg">
+            android:background="@drawable/radar_bg"
+            android:gravity="center">
 
             <TextView
                 android:id="@+id/h_time_tv"
@@ -241,7 +242,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="30dp"
                 android:background="@null"
                 android:src="@drawable/voice_btn" />
 

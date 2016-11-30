@@ -140,8 +140,6 @@ public class ClientDetailsContractActivity extends BaseActivity {
                     if (models != null && models.size() > 0) {
                         generationLabels(models);
                         divideTitleTv.setVisibility(View.VISIBLE);
-
-
                     } else {
                         divideTitleTv.setVisibility(View.GONE);
                     }
@@ -159,7 +157,6 @@ public class ClientDetailsContractActivity extends BaseActivity {
                 break;
             case R.id.commit_tv:
                 startActivity(new Intent(this, ClientAddRebackMoneyActivity.class).putExtra("model", transModel).putExtra("customerId", getIntent().getStringExtra("customerId")));
-
                 break;
         }
     }
@@ -187,4 +184,11 @@ public class ClientDetailsContractActivity extends BaseActivity {
 
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (data != null) {
+            invoke();
+        }
+    }
 }

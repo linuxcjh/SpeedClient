@@ -60,6 +60,7 @@ public class ClientRecordsActivity extends BaseActivity implements ICommonPagina
 
     private void initViews() {
 
+        companyNameTv.setText(getIntent().getStringExtra("customerName"));
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(layoutManager);

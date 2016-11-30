@@ -20,6 +20,7 @@ import com.rongfeng.speedclient.client.ClientAddContractActivity;
 import com.rongfeng.speedclient.client.ClientPersonaActivity;
 import com.rongfeng.speedclient.client.ClientRegisterActivity;
 import com.rongfeng.speedclient.client.ClientVisitActivity;
+import com.rongfeng.speedclient.common.utils.AppTools;
 import com.rongfeng.speedclient.entity.BaseDataModel;
 import com.rongfeng.speedclient.voice.AddScheduleActivity;
 
@@ -71,6 +72,9 @@ public class SearchPopupWindow {
 
     private Handler mHandler;
 
+
+    private boolean isFromNoteRecord;//是否来源于笔记记录
+
     public SearchPopupWindow(Context context, int displayHeight) {
         this(context, displayHeight, null);
     }
@@ -95,6 +99,12 @@ public class SearchPopupWindow {
 
         return mPopupWindow;
     }
+
+    public void setIsFromNoteRecord(boolean isFromNoteRecord) {
+        this.isFromNoteRecord = isFromNoteRecord;
+
+    }
+
 
     public void setContent(String content) {
         this.voiceConent = content;
@@ -161,6 +171,11 @@ public class SearchPopupWindow {
                 break;
             case R.id.add_no_note_layout:
             case R.id.add_note_layout:
+
+                if (isFromNoteRecord) {
+                    AppTools.getToast("笔记已存在");
+                    return;
+                }
                 mHandler.sendEmptyMessage(3);
                 break;
             case R.id.client_add_client_layout:

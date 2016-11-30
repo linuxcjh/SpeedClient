@@ -355,7 +355,7 @@ public class ClientPersonaActivity extends BaseActivity {
                 }
                 break;
             case R.id.client_record_layout:
-                startActivity(new Intent(this, ClientRecordsActivity.class).putExtra("customerId", transDataModel.getCsrId()));
+                startActivity(new Intent(this, ClientRecordsActivity.class).putExtra("customerId", transDataModel.getCsrId()).putExtra("customerName", clientNameTv.getText().toString()));
                 break;
             case R.id.label_layout:
                 contentViewPager.setCurrentItem(CLIENT_LABEL_INDEX, true);
