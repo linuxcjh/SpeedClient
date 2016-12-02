@@ -10,7 +10,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.google.gson.reflect.TypeToken;
@@ -45,10 +48,6 @@ public class ClientFragment extends BaseFragment implements AdapterView.OnItemCl
     MyGridView gridView;
     @Bind(R.id.old_client_tv)
     TextView oldClientTv;
-    @Bind(R.id.pass_record)
-    Button passRecord;
-    @Bind(R.id.future_record)
-    Button futureRecord;
     @Bind(R.id.radar_view)
     RadarChartView radarView;
     @Bind(R.id.bus_client_tv)
@@ -59,6 +58,12 @@ public class ClientFragment extends BaseFragment implements AdapterView.OnItemCl
     TextView newClientTv;
     @Bind(R.id.debt_client_tv)
     TextView debtClientTv;
+    @Bind(R.id.top_layout)
+    RadioGroup topLayout;
+    @Bind(R.id.pass_record)
+    RadioButton passRecord;
+    @Bind(R.id.future_record)
+    RadioButton futureRecord;
 
     private ClientAnalysisAdapter adapter;
     private List<BaseDataModel> models = new ArrayList<>();
@@ -89,7 +94,42 @@ public class ClientFragment extends BaseFragment implements AdapterView.OnItemCl
         gridView.setAdapter(adapter);
         gridView.setOnItemClickListener(this);
 
+        passRecord.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+
+                if(b){
+                    passRecord.setTextColor(ContextCompat.getColor(getActivity(), R.color.colorWhite));
+                    passRecord.setBackgroundResource(R.drawable.client_top_left_fouces);
+                    transDataModel.setRadarType("0");
+                    invokeStatistics();
+                }else{
+                    passRecord.setBackgroundResource(R.drawable.client_top_left_normal);
+                    passRecord.setTextColor(ContextCompat.getColor(getActivity(), R.color.colorBlue));
+
+                }
+            }
+        });
+
+        futureRecord.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+
+                if(b){
+                    futureRecord.setTextColor(ContextCompat.getColor(getActivity(), R.color.colorWhite));
+                    futureRecord.setBackgroundResource(R.drawable.client_top_right_fouces);
+                    transDataModel.setRadarType("1");
+                    invokeStatistics();
+                }else{
+                    futureRecord.setTextColor(ContextCompat.getColor(getActivity(), R.color.colorBlue));
+                    futureRecord.setBackgroundResource(R.drawable.client_top_right_normal);
+
+                }
+            }
+        });
+
     }
+
 
     public void invoke() {
         commonPresenter.invokeInterfaceObtainData(XxbService.SEARCHCSRCOUNTSTATISTICSDOWN, new TypeToken<AnalysisClientModel>() {
@@ -154,10 +194,10 @@ public class ClientFragment extends BaseFragment implements AdapterView.OnItemCl
                     }
 
                     if (max == 0) {
-                        max = 4.5;
+                        max = 5;
                     }
                     for (int i = 0; i < d.length; i++) {
-                        d[i] = 4.5d / max * d[i];
+                        d[i] = 5d / max * d[i];
                     }
 
                     radarView.setValue(d);
@@ -192,7 +232,7 @@ public class ClientFragment extends BaseFragment implements AdapterView.OnItemCl
     }
 
 
-    @OnClick({R.id.add_client_tv, R.id.old_client_tv, R.id.pass_record, R.id.future_record})
+    @OnClick({R.id.add_client_tv, R.id.old_client_tv})
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.add_client_tv:
@@ -200,16 +240,6 @@ public class ClientFragment extends BaseFragment implements AdapterView.OnItemCl
                 break;
             case R.id.old_client_tv:
 //                startActivity(new Intent(getActivity(), ClientPersonaActivity.class));
-                break;
-            case R.id.pass_record:
-                setLayoutStatus(passRecord, false);
-                transDataModel.setRadarType("0");
-                invokeStatistics();
-                break;
-            case R.id.future_record:
-                setLayoutStatus(futureRecord, true);
-                transDataModel.setRadarType("1");
-                invokeStatistics();
                 break;
         }
     }
@@ -245,25 +275,28 @@ public class ClientFragment extends BaseFragment implements AdapterView.OnItemCl
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         switch (position) {
             case 0:
-                startActivity(new Intent(getActivity(), ClientListActivity.class).putExtra("clientType", "1").putExtra("title","新客户"));
+                startActivity(new Intent(getActivity(), ClientListActivity.class).putExtra("clientType", "1").putExtra("title", "新客户"));
                 break;
             case 1:
-                startActivity(new Intent(getActivity(), ClientListActivity.class).putExtra("clientType", "2").putExtra("title","老客户"));
+                startActivity(new Intent(getActivity(), ClientListActivity.class).putExtra("clientType", "2").putExtra("title", "老客户"));
                 break;
             case 2:
-                startActivity(new Intent(getActivity(), ClientListActivity.class).putExtra("clientType", "3").putExtra("title","商机客户"));
+                startActivity(new Intent(getActivity(), ClientListActivity.class).putExtra("clientType", "3").putExtra("title", "商机客户"));
                 break;
             case 3:
-                startActivity(new Intent(getActivity(), ClientListActivity.class).putExtra("clientType", "4").putExtra("title","欠款客户"));
+                startActivity(new Intent(getActivity(), ClientListActivity.class).putExtra("clientType", "4").putExtra("title", "欠款客户"));
                 break;
             case 4:
-                startActivity(new Intent(getActivity(), ClientListActivity.class).putExtra("clientType", "5").putExtra("title","客户总数"));
+                startActivity(new Intent(getActivity(), ClientListActivity.class).putExtra("clientType", "5").putExtra("title", "客户总数"));
                 break;
             case 5:
-                startActivity(new Intent(getActivity(), ClientListActivity.class).putExtra("clientType", "6").putExtra("title","关注客户"));
+                startActivity(new Intent(getActivity(), ClientListActivity.class).putExtra("clientType", "6").putExtra("title", "关注客户"));
                 break;
 
         }
     }
 
+    @OnClick(R.id.pass_record)
+    public void onClick() {
+    }
 }

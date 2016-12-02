@@ -71,24 +71,12 @@ public class RadarChartView extends View {
         invalidate();
     }
 
-    @Override
-    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-        radius = Math.min(h, w) / 2 * 0.8f;
-        centerX = w / 2;
-        centerY = h / 2;
-        postInvalidate();
-        super.onSizeChanged(w, h, oldw, oldh);
-    }
-
 
     @Override
     protected void onDraw(Canvas canvas) {
-        Paint paint = new Paint();
-        paint.setColor(Color.WHITE);
-        paint.setStyle(Paint.Style.FILL);
-        //背景矩形
-//        canvas.drawRect(new Rect(0, 0, getWidth(), getHeight()), paint);
-//        canvas.translate(0, Utils.dip2px(AppConfig.getContext(),10));
+        radius = Math.min(getHeight(), getWidth()) / 2 * 0.7f;
+        centerX = getHeight() / 2;
+        centerY = getWidth() / 2;
 
         drawPolygon(canvas);
         drawLines(canvas);
@@ -295,7 +283,6 @@ public class RadarChartView extends View {
 
         canvas.drawCircle(x5, y5, circleRadius, valuePaint);
         canvas.drawCircle(x5, y5, innerCircleRadius, innerCirclePaint);
-
 
 
     }
