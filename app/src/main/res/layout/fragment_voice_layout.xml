@@ -77,7 +77,7 @@
                     android:layout_marginTop="20dp"
                     android:background="@null"
                     android:gravity="top|left"
-                    android:hint="长按下方语音按钮或手动输入"
+                    android:hint="点击下方语音按钮或手动输入"
                     android:textColor="@color/colorListName"
                     android:textColorHint="@color/colorAssist"
                     android:textSize="15sp"
@@ -204,12 +204,11 @@
                             android:id="@+id/input_cancel_tv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginRight="24dp"
-                            android:layout_toLeftOf="@+id/input_confirm_tv"
+                            android:layout_marginLeft="16dp"
                             android:drawablePadding="6dp"
                             android:drawableRight="@drawable/voice_cancel"
                             android:gravity="center_vertical"
-                            android:text="取消 " />
+                            android:text="清空" />
 
                     </RelativeLayout>
 

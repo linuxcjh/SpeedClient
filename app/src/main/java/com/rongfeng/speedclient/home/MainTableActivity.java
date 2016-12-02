@@ -235,7 +235,6 @@ public class MainTableActivity extends BaseActivity {
     }
 
 
-
     /**
      * Change navigation status
      *
@@ -286,7 +285,7 @@ public class MainTableActivity extends BaseActivity {
 
 
         imageView.setImageResource(resId);
-        textView.setTextColor(getResources().getColor(R.color.colorBlueLight));
+        textView.setTextColor(getResources().getColor(R.color.colorBlue));
 
     }
 

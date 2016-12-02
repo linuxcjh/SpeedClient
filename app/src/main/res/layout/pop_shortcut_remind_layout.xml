@@ -166,7 +166,8 @@
             android:layout_gravity="center"
             android:drawablePadding="8dp"
             android:drawableTop="@drawable/shortcut_close"
-            android:text="取消操作"
+            android:text="取消"
+            android:gravity="center"
             android:textColor="@color/colorWhite"
             android:textSize="12sp" />
 
@@ -177,8 +178,9 @@
             android:layout_gravity="center"
             android:layout_marginLeft="100dp"
             android:drawablePadding="8dp"
-            android:drawableTop="@drawable/shortcut_add"
-            android:text="加入提醒"
+            android:drawableTop="@drawable/voice_finish"
+            android:text="确定"
+            android:gravity="center"
             android:textColor="@color/colorWhite"
             android:textSize="12sp" />
 

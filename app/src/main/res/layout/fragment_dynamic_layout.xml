@@ -1,7 +1,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorBg"
+    android:background="@color/colorWhite"
     android:orientation="vertical">
 
     <RelativeLayout
@@ -23,7 +23,8 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@color/colorWhite">
 
         <ImageView
             android:layout_width="match_parent"
@@ -31,7 +32,11 @@
             android:background="@drawable/nav_bg_down" />
 
 
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
 
+            android:background="@drawable/dynamic_bg" />
 
 
     </FrameLayout>

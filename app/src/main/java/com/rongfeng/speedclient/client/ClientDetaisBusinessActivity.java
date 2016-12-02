@@ -111,6 +111,7 @@ public class ClientDetaisBusinessActivity extends BaseActivity {
         addContractBt.setVisibility(View.VISIBLE);
         titleTv.setText("商机编辑");
         transModel = (AddBusinessTransModel) getIntent().getSerializableExtra("model");
+        transModel.setCsrId(getIntent().getStringExtra("customerId"));
 
         flowLayoutLayout.setVisibility(View.GONE);
         productLayout.setVisibility(View.VISIBLE);
@@ -127,7 +128,6 @@ public class ClientDetaisBusinessActivity extends BaseActivity {
     }
 
     private void invoke() {
-        transModel.setCsrId(getIntent().getStringExtra("customerId"));
         transModel.setBusinessName(resBusNameTv.getText().toString());
         transModel.setPredictMoney(resValueTv.getText().toString());
         transModel.setPredictTime(resBargainTimeTv.getText().toString());
@@ -252,7 +252,7 @@ public class ClientDetaisBusinessActivity extends BaseActivity {
                 break;
 
             case R.id.add_contract_bt:
-                startActivity(new Intent(this, ClientAddContractActivity.class).putExtra("customerId", transModel.getCsrId()).putExtra("model", transModel));
+                startActivity(new Intent(this, ClientAddContractActivity.class).putExtra("busId",transModel.getBusinessId()).putExtra("customerId", transModel.getCsrId()).putExtra("model", transModel));
                 break;
 
 

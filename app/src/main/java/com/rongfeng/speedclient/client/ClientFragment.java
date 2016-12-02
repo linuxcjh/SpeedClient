@@ -199,7 +199,7 @@ public class ClientFragment extends BaseFragment implements AdapterView.OnItemCl
                 startActivity(new Intent(getActivity(), ClientRegisterActivity.class));
                 break;
             case R.id.old_client_tv:
-                startActivity(new Intent(getActivity(), ClientPersonaActivity.class));
+//                startActivity(new Intent(getActivity(), ClientPersonaActivity.class));
                 break;
             case R.id.pass_record:
                 setLayoutStatus(passRecord, false);

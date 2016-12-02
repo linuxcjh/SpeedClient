@@ -133,6 +133,7 @@ public class ClientAddContractActivity extends BaseActivity {
     }
 
     private void invoke() {
+        transModel.setBusinessId(getIntent().getStringExtra("busId"));
         transModel.setCsrId(getIntent().getStringExtra("customerId"));
         transModel.setConName(contractNameTv.getText().toString());
         transModel.setReturnedMoney(contactRebackTv.getText().toString());

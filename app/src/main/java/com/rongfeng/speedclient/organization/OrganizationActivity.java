@@ -151,9 +151,6 @@ public class OrganizationActivity extends BaseActivity implements BackHandledInt
                         selectPersonInfo.setDepartmentId(AppTools.getUser().getDepartmentId());
                         selectPersonInfo.setName(modelCon.getName());
                         selectPersonInfo.setPhone(modelCon.getPhone());
-                        sendSMS(selectPersonInfo.getPhone(), "您的好友" + AppTools.getUser().getUserName() + "邀请您加入【语音速客】" +
-                                "用户名：" + selectPersonInfo.getPhone() + " 密码：123456 。" +
-                                "App下载地址：http://t.cn/Rf8OoAJ");//发送短信
 
                         MyDialog dialog = new MyDialog(OrganizationActivity.this, mHandler);
                         dialog.buildDialog().setTitle("提示").setCancelText("取消").setConfirm("确定").setMessage("是否发送短信邀请 " + modelCon.getName() + " " + modelCon.getPhone() + " ?");
@@ -162,7 +159,9 @@ public class OrganizationActivity extends BaseActivity implements BackHandledInt
                     break;
 
                 case Constant.CONFIRMDIALOG:
-                    sendSMS(selectPersonInfo.getPhone(), "");
+                    sendSMS(selectPersonInfo.getPhone(), AppTools.getUser().getUserName() + "邀请您加入【速客】" +
+                            "用户名:" + selectPersonInfo.getPhone() + " 密码:123456" +
+                            "，App下载：http://t.cn/Rf8OoAJ"+"，欢迎体验。");//发送短信
                     invoke(selectPersonInfo);
                     break;
             }

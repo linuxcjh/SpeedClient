@@ -123,7 +123,7 @@ public class ManageFragment extends BaseFragment {
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
-        clientSalesPerview.setValue(new float[]{40000, 60000, 80000, 50000});
+//        clientSalesPerview.setValue(new float[]{40000, 60000, 80000, 50000});
 
     }
 

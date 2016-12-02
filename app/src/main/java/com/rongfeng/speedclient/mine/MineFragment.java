@@ -3,6 +3,7 @@ package com.rongfeng.speedclient.mine;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.telephony.SmsManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,8 @@ import com.rongfeng.speedclient.common.utils.AppTools;
 import com.rongfeng.speedclient.organization.OrganizationActivity;
 import com.rongfeng.speedclient.schedule.ScheduleActivity;
 import com.rongfeng.speedclient.voice.VoiceNoteActivity;
+
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -75,6 +78,7 @@ public class MineFragment extends BaseFragment {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.note_layout:
+
                 startActivity(new Intent(getActivity(), VoiceNoteActivity.class));
                 break;
             case R.id.connect_layout:
@@ -91,5 +95,16 @@ public class MineFragment extends BaseFragment {
                 getActivity().finish();
                 break;
         }
+    }
+
+    public void sendSMS(String phoneNumber, String message) {
+        //获取短信管理器
+        SmsManager smsManager = SmsManager.getDefault();
+        //拆分短信内容（手机短信长度限制）
+        List<String> divideContents = smsManager.divideMessage(message);
+        for (String text : divideContents) {
+            smsManager.sendTextMessage(phoneNumber, null, text, null, null);
+        }
+
     }
 }
