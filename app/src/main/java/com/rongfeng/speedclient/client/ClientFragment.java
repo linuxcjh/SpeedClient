@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -71,6 +70,10 @@ public class ClientFragment extends BaseFragment implements AdapterView.OnItemCl
     private List<Double> radarData = new ArrayList<>();
 
 
+    private AnalysisClientModel leftData;
+    private AnalysisClientModel rightData;
+
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -94,39 +97,73 @@ public class ClientFragment extends BaseFragment implements AdapterView.OnItemCl
         gridView.setAdapter(adapter);
         gridView.setOnItemClickListener(this);
 
-        passRecord.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        topLayout.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
 
-                if(b){
+                if (i == R.id.pass_record) {
                     passRecord.setTextColor(ContextCompat.getColor(getActivity(), R.color.colorWhite));
                     passRecord.setBackgroundResource(R.drawable.client_top_left_fouces);
-                    transDataModel.setRadarType("0");
-                    invokeStatistics();
-                }else{
-                    passRecord.setBackgroundResource(R.drawable.client_top_left_normal);
-                    passRecord.setTextColor(ContextCompat.getColor(getActivity(), R.color.colorBlue));
-
-                }
-            }
-        });
-
-        futureRecord.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-
-                if(b){
-                    futureRecord.setTextColor(ContextCompat.getColor(getActivity(), R.color.colorWhite));
-                    futureRecord.setBackgroundResource(R.drawable.client_top_right_fouces);
-                    transDataModel.setRadarType("1");
-                    invokeStatistics();
-                }else{
                     futureRecord.setTextColor(ContextCompat.getColor(getActivity(), R.color.colorBlue));
                     futureRecord.setBackgroundResource(R.drawable.client_top_right_normal);
-
+                    transDataModel.setRadarType("0");
+                    invokeStatistics();
+                } else {
+                    futureRecord.setTextColor(ContextCompat.getColor(getActivity(), R.color.colorWhite));
+                    futureRecord.setBackgroundResource(R.drawable.client_top_right_fouces);
+                    passRecord.setBackgroundResource(R.drawable.client_top_left_normal);
+                    passRecord.setTextColor(ContextCompat.getColor(getActivity(), R.color.colorBlue));
+                    transDataModel.setRadarType("1");
+                    invokeStatistics();
                 }
             }
         });
+
+//        passRecord.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+//
+//                if (b) {
+//                    passRecord.setTextColor(ContextCompat.getColor(getActivity(), R.color.colorWhite));
+//                    passRecord.setBackgroundResource(R.drawable.client_top_left_fouces);
+//                    transDataModel.setRadarType("0");
+//                    if (leftData == null) {
+//                        invokeStatistics();
+//                    } else {
+//                        setRadarViewData(leftData);
+//
+//                    }
+//
+//                } else {
+//                    passRecord.setBackgroundResource(R.drawable.client_top_left_normal);
+//                    passRecord.setTextColor(ContextCompat.getColor(getActivity(), R.color.colorBlue));
+//
+//                }
+//            }
+//        });
+//
+//        futureRecord.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+//
+//                if (b) {
+//                    futureRecord.setTextColor(ContextCompat.getColor(getActivity(), R.color.colorWhite));
+//                    futureRecord.setBackgroundResource(R.drawable.client_top_right_fouces);
+//                    transDataModel.setRadarType("1");
+//                    if (rightData == null) {
+//                        invokeStatistics();
+//                    } else {
+//                        setRadarViewData(rightData);
+//
+//                    }
+//
+//                } else {
+//                    futureRecord.setTextColor(ContextCompat.getColor(getActivity(), R.color.colorBlue));
+//                    futureRecord.setBackgroundResource(R.drawable.client_top_right_normal);
+//
+//                }
+//            }
+//        });
 
     }
 
@@ -170,46 +207,56 @@ public class ClientFragment extends BaseFragment implements AdapterView.OnItemCl
                 if (data != null) {
 
                     model = (AnalysisClientModel) data;
-                    radarData.clear();
+
+//                    if (passRecord.isChecked()) {
+//                        leftData = model;
+//                    } else {
+//                        rightData = model;
+//                    }
+
+
                     newClientTv.setText(model.getAnalysisNewClient());
                     focusClientTv.setText(model.getAnalysisFocusClient());
                     debtClientTv.setText(model.getAnalysisDebtClient());
                     oldClientTv.setText(model.getAnalysisBargainClient());
                     busClientTv.setText(model.getAnalysisBusinessClient());
 
-                    setRadarViewData(model.getAnalysisBusinessClient());
-                    setRadarViewData(model.getAnalysisBargainClient());
-                    setRadarViewData(model.getAnalysisDebtClient());
-                    setRadarViewData(model.getAnalysisFocusClient());
-                    setRadarViewData(model.getAnalysisNewClient());
-
-
-                    double max = 0;
-                    double[] d = new double[5];
-                    for (int i = 0; i < radarData.size(); i++) {
-                        d[i] = radarData.get(i);
-                        if (radarData.get(i) > max) {
-                            max = radarData.get(i);
-                        }
-                    }
-
-                    if (max == 0) {
-                        max = 5;
-                    }
-                    for (int i = 0; i < d.length; i++) {
-                        d[i] = 5d / max * d[i];
-                    }
-
-                    radarView.setValue(d);
-
+                    setRadarViewData(model);
                 }
 
                 break;
         }
     }
 
+    private void setRadarViewData(AnalysisClientModel model) {
+        radarData.clear();
+        getRaderViewData(model.getAnalysisBusinessClient());
+        getRaderViewData(model.getAnalysisBargainClient());
+        getRaderViewData(model.getAnalysisDebtClient());
+        getRaderViewData(model.getAnalysisFocusClient());
+        getRaderViewData(model.getAnalysisNewClient());
 
-    private void setRadarViewData(String source) {
+        double max = 0;
+        double[] d = new double[5];
+        for (int i = 0; i < radarData.size(); i++) {
+            d[i] = radarData.get(i);
+            if (radarData.get(i) > max) {
+                max = radarData.get(i);
+            }
+        }
+
+        if (max == 0) {
+            max = 5;
+        }
+        for (int i = 0; i < d.length; i++) {
+            d[i] = 5d / max * d[i];
+        }
+
+        radarView.setValue(d);
+    }
+
+
+    private void getRaderViewData(String source) {
         if (!TextUtils.isEmpty(source)) {
             radarData.add(Double.parseDouble(source));
         } else {

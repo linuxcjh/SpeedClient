@@ -1,5 +1,6 @@
 package com.rongfeng.speedclient.home;
 
+import android.graphics.PixelFormat;
 import android.os.Bundle;
 import android.os.Process;
 import android.support.v4.app.Fragment;
@@ -99,6 +100,7 @@ public class MainTableActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().setFormat(PixelFormat.TRANSLUCENT);
         setContentView(R.layout.activity_main_tab_layout);
         ButterKnife.bind(this);
         AppTools.clearPictureCache();

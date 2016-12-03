@@ -4,19 +4,22 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.PaintFlagsDrawFilter;
 import android.graphics.Path;
+import android.graphics.PixelFormat;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.util.TypedValue;
-import android.view.View;
+import android.view.SurfaceHolder;
+import android.view.SurfaceView;
 
 import com.rongfeng.speedclient.R;
 
 /**
- * 雷达图
+ * AUTHOR: Alex
+ * DATE: 11/11/2015 00:22
  */
-public class RadarChartView extends View {
-
+public class RadarSurfaceView extends SurfaceView implements SurfaceHolder.Callback, Runnable {
 
     private int count = 5;                //数据个数
     private float angle = (float) (Math.PI * 2 / count);    //五边形角度
@@ -32,26 +35,47 @@ public class RadarChartView extends View {
     private Paint coverPaint;               //覆盖区域画笔
 
 
-
     private float circleRadius = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2.6f, getResources().getDisplayMetrics());
 
     private float innerCircleRadius = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2f, getResources().getDisplayMetrics());
+    private PaintFlagsDrawFilter pfd = new PaintFlagsDrawFilter(0, Paint.ANTI_ALIAS_FLAG | Paint.FILTER_BITMAP_FLAG);
 
 
-    public RadarChartView(Context context) {
-        super(context);
-        init();
+    private SurfaceHolder mHolder;
+    private Canvas mCanvas;
+    private Thread t;
+    private boolean isRunning;
+
+    //最大帧数 (1000 / 30)
+    private static final int DRAW_INTERVAL = 30;
+
+    public RadarSurfaceView(Context context) {
+        super(context, null);
     }
 
-    public RadarChartView(Context context, AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
-        init();
-    }
-
-    public RadarChartView(Context context, AttributeSet attrs) {
+    public RadarSurfaceView(Context context, AttributeSet attrs) {
         super(context, attrs);
+
+
+        mHolder = getHolder();
+        mHolder.addCallback(this);
+        mHolder.setFormat(PixelFormat.TRANSPARENT); //使view支持透明度
+
+        setFocusable(true);
+        setFocusableInTouchMode(true);
+        setKeepScreenOn(true);
         init();
 
+    }
+
+    /**
+     * 添加值
+     *
+     * @param data
+     */
+    public void setValue(double[] data) {
+
+        this.data = data;
     }
 
 
@@ -84,36 +108,75 @@ public class RadarChartView extends View {
 
     }
 
-    /**
-     * 添加值
-     *
-     * @param data
-     */
-    public void setValue(double[] data) {
+    @Override
+    public void surfaceCreated(SurfaceHolder holder) {
+        isRunning = true;
+        t = new Thread(this);
+        t.start();
 
-        this.data = data;
-        invalidate();
     }
-
 
     @Override
-    protected void onDraw(Canvas canvas) {
+    public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
 
-//        canvas.drawRect();
+    }
 
-        radius = Math.min(getHeight(), getWidth()) / 2 * 0.7f;
-        centerX = getHeight() / 2;
-        centerY = getWidth() / 2;
+    @Override
+    public void surfaceDestroyed(SurfaceHolder holder) {
 
-        drawPolygon(canvas);
-        drawLines(canvas);
+        isRunning = false;
+    }
 
-//        drawText(canvas);
-        drawRegion(canvas);
+    @Override
+    public void run() {
+
+        while (isRunning) {
+            draw();
+        }
+
+    }
+
+    public void startView() {
+        this.isRunning = true;
+    }
+
+    public void endView() {
+        this.isRunning = false;
     }
 
 
-//    2、绘制正五边形
+    private void draw() {
+
+        try {
+            mCanvas = mHolder.lockCanvas();
+            if (mCanvas != null) {
+
+                mCanvas.setDrawFilter(pfd);
+                mCanvas.drawColor(Color.WHITE);
+                radius = Math.min(getHeight(), getWidth()) / 2 * 0.7f;
+                centerX = getHeight() / 2;
+                centerY = getWidth() / 2;
+
+                drawPolygon(mCanvas);
+                drawLines(mCanvas);
+
+//              drawText(canvas);
+                drawRegion(mCanvas);
+
+
+            }
+            Thread.sleep(50);
+        } catch (Exception e) {
+
+        } finally {
+            if (mCanvas != null) {
+                mHolder.unlockCanvasAndPost(mCanvas);
+            }
+        }
+
+
+    }
+    //    2、绘制正五边形
 
     /**
      * 绘制正多边形
@@ -314,4 +377,3 @@ public class RadarChartView extends View {
 
     }
 }
-
