@@ -5,9 +5,12 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.View;
+
+import com.rongfeng.speedclient.R;
 
 /**
  * 雷达图
@@ -26,10 +29,12 @@ public class RadarChartView extends View {
     //网格区画笔
     private Paint valuePaint;               //数据区画笔
     private Paint innerCirclePaint;//内圆
+    private Paint coverPaint;               //覆盖区域画笔
 
-    private float circleRadius = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 3, getResources().getDisplayMetrics());
-    ;
-    private float innerCircleRadius = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, getResources().getDisplayMetrics());
+
+    private float circleRadius = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2.6f, getResources().getDisplayMetrics());
+
+    private float innerCircleRadius = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2f, getResources().getDisplayMetrics());
 
 
     public RadarChartView(Context context) {
@@ -40,14 +45,14 @@ public class RadarChartView extends View {
     public RadarChartView(Context context, AttributeSet attrs) {
         super(context, attrs);
         mainPaint = new Paint();
-        mainPaint.setColor(Color.parseColor("#CCCCCC"));
+        mainPaint.setColor(ContextCompat.getColor(getContext(), R.color.colorAssistLight));
         mainPaint.setStrokeWidth(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 0.8f, getResources().getDisplayMetrics()));
         mainPaint.setAntiAlias(true);
         mainPaint.setStyle(Paint.Style.STROKE);
 
 
         valuePaint = new Paint();
-        valuePaint.setColor(Color.parseColor("#2E86F1"));
+        valuePaint.setColor(ContextCompat.getColor(getContext(), R.color.colorBlue));
         valuePaint.setStrokeWidth(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1, getResources().getDisplayMetrics()));
         valuePaint.setAntiAlias(true);
         valuePaint.setStyle(Paint.Style.FILL_AND_STROKE);
@@ -56,6 +61,14 @@ public class RadarChartView extends View {
         innerCirclePaint.setColor(Color.WHITE);
         innerCirclePaint.setAntiAlias(true);
         innerCirclePaint.setStyle(Paint.Style.FILL);
+
+
+        coverPaint = new Paint();
+        coverPaint.setColor(ContextCompat.getColor(getContext(), R.color.colorBlue));
+        coverPaint.setStrokeWidth(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1, getResources().getDisplayMetrics()));
+        coverPaint.setAntiAlias(true);
+        coverPaint.setStyle(Paint.Style.FILL_AND_STROKE);
+        coverPaint.setAlpha(66);
 
 
     }
@@ -260,14 +273,13 @@ public class RadarChartView extends View {
         path.lineTo(x5, y5);
         path.lineTo(x1, y1);
         path.close();
+
+        //绘制填充区域
+        canvas.drawPath(path, coverPaint);
+
         valuePaint.setStyle(Paint.Style.STROKE);
         canvas.drawPath(path, valuePaint);
-        valuePaint.setAlpha(66);
-//绘制填充区域
-        valuePaint.setStyle(Paint.Style.FILL_AND_STROKE);
-        canvas.drawPath(path, valuePaint);
-
-        valuePaint.setAlpha(230);
+        
 
         canvas.drawCircle(x1, y1, circleRadius, valuePaint);
         canvas.drawCircle(x1, y1, innerCircleRadius, innerCirclePaint);
