@@ -20,7 +20,6 @@ import com.rongfeng.speedclient.client.ClientAddContractActivity;
 import com.rongfeng.speedclient.client.ClientPersonaActivity;
 import com.rongfeng.speedclient.client.ClientRegisterActivity;
 import com.rongfeng.speedclient.client.ClientVisitActivity;
-import com.rongfeng.speedclient.common.utils.AppTools;
 import com.rongfeng.speedclient.entity.BaseDataModel;
 import com.rongfeng.speedclient.voice.AddScheduleActivity;
 
@@ -61,6 +60,16 @@ public class SearchPopupWindow {
     RelativeLayout addNoNoteLayout;
     @Bind(R.id.client_no_layout)
     LinearLayout clientNoLayout;
+    @Bind(R.id.content_tv)
+    TextView contentTv;
+    @Bind(R.id.check_client_layout)
+    RelativeLayout checkClientLayout;
+    @Bind(R.id.check_business_layout)
+    RelativeLayout checkBusinessLayout;
+    @Bind(R.id.check_bargain_layout)
+    RelativeLayout checkBargainLayout;
+    @Bind(R.id.check_reback_layout)
+    RelativeLayout checkRebackLayout;
     private View view;
     public PopupWindow mPopupWindow;
     private Context mContext;
@@ -108,6 +117,7 @@ public class SearchPopupWindow {
 
     public void setContent(String content) {
         this.voiceConent = content;
+        contentTv.setText("“ " + voiceConent + " ”");
     }
 
     /**
@@ -130,12 +140,13 @@ public class SearchPopupWindow {
     }
 
 
-    @OnClick({R.id.cancel_iv, R.id.client_persona_layout, R.id.client_record_layout, R.id.client_remind_layout, R.id.add_business_layout, R.id.add_contract_layout, R.id.add_note_layout, R.id.client_add_client_layout, R.id.client_no_remind_layout, R.id.add_no_note_layout})
+    @OnClick({R.id.cancel_iv, R.id.client_persona_layout, R.id.client_record_layout, R.id.client_remind_layout, R.id.add_business_layout, R.id.add_contract_layout, R.id.add_note_layout, R.id.client_add_client_layout, R.id.client_no_remind_layout, R.id.add_no_note_layout, R.id.check_client_layout, R.id.check_business_layout, R.id.check_bargain_layout, R.id.check_reback_layout})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.cancel_iv:
                 mPopupWindow.dismiss();
                 break;
+            case R.id.check_client_layout:
             case R.id.client_persona_layout:
                 if (clientInfoModel != null) {
                     mContext.startActivity(new Intent(mContext, ClientPersonaActivity.class).putExtra("customerId", clientInfoModel.getDictionaryId()).putExtra("customerName", clientInfoModel.getDictionaryName()));
@@ -172,16 +183,31 @@ public class SearchPopupWindow {
             case R.id.add_no_note_layout:
             case R.id.add_note_layout:
 
-                if (isFromNoteRecord) {
-                    AppTools.getToast("笔记已存在");
-                    return;
-                }
-                mHandler.sendEmptyMessage(3);
+//                if (isFromNoteRecord) {
+//                    AppTools.getToast("笔记已存在");
+//                    return;
+//                }
+//                mHandler.sendEmptyMessage(3);
                 break;
             case R.id.client_add_client_layout:
 
                 mContext.startActivity(new Intent(mContext, ClientRegisterActivity.class).putExtra("voiceConent", voiceConent));
 
+                break;
+            case R.id.check_business_layout:
+                if (clientInfoModel != null) {
+                    mContext.startActivity(new Intent(mContext, ClientPersonaActivity.class).putExtra("flag", ClientPersonaActivity.CLIENT_BUSINESS_INDEX).putExtra("customerId", clientInfoModel.getDictionaryId()).putExtra("customerName", clientInfoModel.getDictionaryName()));
+                }
+                break;
+            case R.id.check_bargain_layout:
+                if (clientInfoModel != null) {
+                    mContext.startActivity(new Intent(mContext, ClientPersonaActivity.class).putExtra("flag", ClientPersonaActivity.CLIENT_BARGAIN_INDEX).putExtra("customerId", clientInfoModel.getDictionaryId()).putExtra("customerName", clientInfoModel.getDictionaryName()));
+                }
+                break;
+            case R.id.check_reback_layout:
+                if (clientInfoModel != null) {
+                    mContext.startActivity(new Intent(mContext, ClientPersonaActivity.class).putExtra("flag", ClientPersonaActivity.CLIENT_DEBT_INDEX).putExtra("customerId", clientInfoModel.getDictionaryId()).putExtra("customerName", clientInfoModel.getDictionaryName()));
+                }
                 break;
         }
     }

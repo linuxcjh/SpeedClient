@@ -38,6 +38,8 @@
             android:dividerHeight="1dp"
             android:listSelector="@android:color/transparent"
             android:divider="@color/colorDividerLine" />
+
+
     </LinearLayout>
 
     <TextView

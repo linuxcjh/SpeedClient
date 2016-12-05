@@ -142,8 +142,8 @@ public class ClientPersonaActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.client_persona_layout);
         ButterKnife.bind(this);
-        initViews();
         initViewPage();
+        initViews();
         invoke();
     }
 
@@ -155,7 +155,9 @@ public class ClientPersonaActivity extends BaseActivity {
         filter.addAction(Constant.CLIENT_REFRESH_PERSONA_LABEL);
         registerReceiver(refreshBroadCastReceiver, filter);
 
-
+         //语音界面跳转过来
+        int flag = getIntent().getIntExtra("flag", 0);
+        contentViewPager.setCurrentItem(flag, true);
     }
 
 
@@ -316,10 +318,10 @@ public class ClientPersonaActivity extends BaseActivity {
 
                 break;
             case R.id.contact_layout:
-                if(!TextUtils.isEmpty(recievedClientTransModel.getCustomerType())){
-                    startActivity(new Intent(this, ClientContactsActivity.class).putExtra("clientType",recievedClientTransModel.getCustomerType()).putExtra("customerId", transDataModel.getCsrId()).putExtra("customerName", clientNameTv.getText().toString()));
+                if (!TextUtils.isEmpty(recievedClientTransModel.getCustomerType())) {
+                    startActivity(new Intent(this, ClientContactsActivity.class).putExtra("clientType", recievedClientTransModel.getCustomerType()).putExtra("customerId", transDataModel.getCsrId()).putExtra("customerName", clientNameTv.getText().toString()));
 
-                }else{
+                } else {
                     startActivity(new Intent(this, ClientContactsActivity.class).putExtra("customerId", transDataModel.getCsrId()).putExtra("customerName", clientNameTv.getText().toString()));
 
                 }

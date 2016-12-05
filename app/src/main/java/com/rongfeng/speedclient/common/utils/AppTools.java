@@ -59,6 +59,7 @@ import com.rongfeng.speedclient.common.GlideRoundTransform;
 import com.rongfeng.speedclient.common.RoundedCornersTransformation;
 import com.rongfeng.speedclient.components.SelectionDialog;
 import com.rongfeng.speedclient.components.SelectionDialogListAdapter;
+import com.rongfeng.speedclient.components.SelectionVoiceDialog;
 import com.rongfeng.speedclient.datanalysis.ClientModel;
 import com.rongfeng.speedclient.datanalysis.DBManager;
 import com.rongfeng.speedclient.entity.BaseDataModel;
@@ -1462,6 +1463,26 @@ public class AppTools {
         dialog.buildDialog().setAdapter(adapter).setTitle(title);
     }
 
+
+    /**
+     * 语音界面弹出框
+     * @param title
+     * @param activity
+     * @param data
+     * @param handler
+     * @param selectSign
+     */
+    public static void selectVoiceDialog(String title, Activity activity, List<BaseDataModel> data, Handler handler, int selectSign) {
+        AppTools.selectVoiceHeightDialog(title, activity, data, handler, selectSign, 0);
+    }
+
+
+    public static void selectVoiceHeightDialog(String title, Activity activity, List<BaseDataModel> data, Handler handler, int selectSign, int height) {
+        SelectionDialogListAdapter adapter = new SelectionDialogListAdapter(activity, R.layout.selection_dialog_voice_listview_item, data);
+        SelectionVoiceDialog dialog = new SelectionVoiceDialog(activity, R.layout.selection_dialog_voice_listview_layout, handler, selectSign, height);
+
+        dialog.buildDialog().setAdapter(adapter).setTitle(title);
+    }
 
     /**
      * label

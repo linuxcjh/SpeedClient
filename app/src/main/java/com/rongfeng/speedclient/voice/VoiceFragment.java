@@ -31,7 +31,10 @@ import com.iflytek.cloud.ui.RecognizerDialog;
 import com.iflytek.cloud.ui.RecognizerDialogListener;
 import com.rongfeng.speedclient.API.XxbService;
 import com.rongfeng.speedclient.R;
+import com.rongfeng.speedclient.client.ClientRegisterActivity;
+import com.rongfeng.speedclient.client.entry.AddClientTransModel;
 import com.rongfeng.speedclient.common.BaseFragment;
+import com.rongfeng.speedclient.common.Constant;
 import com.rongfeng.speedclient.common.utils.AppConfig;
 import com.rongfeng.speedclient.common.utils.AppTools;
 import com.rongfeng.speedclient.common.utils.Utils;
@@ -51,6 +54,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 import static android.content.ContentValues.TAG;
+import static com.rongfeng.speedclient.common.Constant.ADD_CLIENT_INDEX;
 
 /**
  * 语音
@@ -59,6 +63,8 @@ import static android.content.ContentValues.TAG;
 public class VoiceFragment extends BaseFragment implements View.OnTouchListener {
 
     public static final int SELECT_LANGUAGE_INDEX = 0x11;
+
+
     @Bind(R.id.select_language_tv)
     TextView selectLanguageTv;
     @Bind(R.id.note_tv)
@@ -134,7 +140,7 @@ public class VoiceFragment extends BaseFragment implements View.OnTouchListener 
         switch (methodIndex) {
             case XxbService.INSERTNOTE:
                 if (status == 1) {
-                    AppTools.getToast("添加笔记成功");
+                    AppTools.getToast("添加日志成功");
                 }
                 break;
         }
@@ -178,7 +184,7 @@ public class VoiceFragment extends BaseFragment implements View.OnTouchListener 
     }
 
 
-    @OnClick({R.id.input_to_schedule_tv, R.id.input_to_log_tv, R.id.input_confirm_tv,R.id.note_tv, R.id.input_cancel_tv, R.id.voice_bt, R.id.select_language_tv})
+    @OnClick({R.id.input_to_schedule_tv, R.id.input_to_log_tv, R.id.input_confirm_tv, R.id.note_tv, R.id.input_cancel_tv, R.id.voice_bt, R.id.select_language_tv})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.note_tv:
@@ -218,8 +224,21 @@ public class VoiceFragment extends BaseFragment implements View.OnTouchListener 
 
                 break;
             case R.id.input_to_schedule_tv:
+                if (TextUtils.isEmpty(contentEt.getText().toString())) {
+                    AppTools.getToast("请输入内容");
+                    return;
+                }
+                startActivity(new Intent(getActivity(), AddScheduleActivity.class).putExtra("content", contentEt.getText().toString()));
+
+
                 break;
             case R.id.input_to_log_tv:
+
+                if (TextUtils.isEmpty(contentEt.getText().toString())) {
+                    AppTools.getToast("请输入内容");
+                    return;
+                }
+                invoke();
                 break;
         }
     }
@@ -263,6 +282,12 @@ public class VoiceFragment extends BaseFragment implements View.OnTouchListener 
                     AppConfig.setStringConfig("language_select_id", mm.getDictionaryId());
                     setParam();
                     AppTools.getToast(mm.getDictionaryName());
+                    break;
+                case Constant.SEARCH_CLIENT_INDEX:
+
+                    break;
+                case Constant.ADD_CLIENT_INDEX:
+                    startActivityForResult(new Intent(getActivity(), ClientRegisterActivity.class), ADD_CLIENT_INDEX);
                     break;
             }
 
@@ -355,7 +380,6 @@ public class VoiceFragment extends BaseFragment implements View.OnTouchListener 
         contentEt.setText(contentEt.getText().toString() + text);
         contentEt.setSelection(contentEt.length());
 
-//        analysisData();
     }
 
 
@@ -366,7 +390,6 @@ public class VoiceFragment extends BaseFragment implements View.OnTouchListener 
         String resultStr = contentEt.getText().toString();
         String pinYinStr = AppTools.convertPinYin(resultStr);
         if (!TextUtils.isEmpty(resultStr)) {
-//            invoke();
 
             clientModels = AppTools.queryClientDataToDB(getActivity());
 
@@ -386,14 +409,11 @@ public class VoiceFragment extends BaseFragment implements View.OnTouchListener 
 
                 }
             }
-            if (clientData.size() > 1) {
-                AppTools.selectDialog("识别到的客户", getActivity(), clientData, mHandler, 2);
-            } else if (clientData.size() == 1) {
-                showPop(clientData.get(0));
+            if (clientData.size() >= 1) {
+                AppTools.selectVoiceDialog("选择需要关联的客户：", getActivity(), clientData, mHandler, 2);
             } else if (clientData.size() == 0) {
-                showPop(null);
+                AppTools.selectVoiceDialog("查找或新建需要关联的客户：", getActivity(), clientData, mHandler, 2);
             }
-
 
         } else {
             AppTools.getToast("请输入内容");
@@ -401,7 +421,6 @@ public class VoiceFragment extends BaseFragment implements View.OnTouchListener 
 
 
     }
-
 
 
     @Override
@@ -468,5 +487,16 @@ public class VoiceFragment extends BaseFragment implements View.OnTouchListener 
         ButterKnife.unbind(this);
     }
 
-
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (data != null) {
+            switch (requestCode) {
+                case Constant.ADD_CLIENT_INDEX:
+                    AddClientTransModel transModel = (AddClientTransModel) data.getSerializableExtra("model");
+                    showPop(new BaseDataModel("",transModel.getCustomerName()) );//TODO 新增接口需返回客户ID
+                    break;
+            }
+        }
+    }
 }

@@ -2,37 +2,74 @@
 
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/client_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_centerVertical="true"
-    android:id="@+id/client_layout"
-
     android:orientation="vertical">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:text="客户"
-        android:textColor="@color/colorAssist"
-        android:textSize="12sp" />
-
-    <TextView
-        android:id="@+id/client_name_tv"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
-        android:layout_marginTop="10dp"
-        android:text=""
-        android:textColor="@color/colorWhite"
-        android:textSize="18sp" />
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="40dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="输入内容："
+            android:textColor="@color/colorAssist"
+            android:textSize="12sp"
+            android:visibility="gone"/>
+
+        <TextView
+            android:id="@+id/content_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:text=""
+            android:textColor="@color/colorAssist"
+            android:textSize="13sp" />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:text="客户名称："
+            android:textColor="@color/colorAssist"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/client_name_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="4dp"
+            android:text="sdfsdfsdfdsf"
+            android:textColor="@color/colorWhite"
+            android:textSize="14sp" />
+    </LinearLayout>
+
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
-        android:layout_marginTop="30dp"
-        android:text="常用的操作"
+        android:layout_marginTop="18dp"
+        android:text="将输入内容关联到该客户的："
         android:textColor="@color/colorAssist"
         android:textSize="12sp" />
 
@@ -46,30 +83,6 @@
         android:layout_marginTop="10dp"
         android:gravity="center_horizontal"
         android:orientation="horizontal">
-
-        <LinearLayout
-            android:id="@+id/client_persona_layout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@drawable/voice_search_item_bg"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:drawablePadding="10dp"
-                android:drawableTop="@drawable/shortcut_client"
-                android:gravity="center_horizontal"
-                android:text="查看客户画像"
-                android:textColor="@android:color/white"
-                android:textSize="12sp" />
-        </LinearLayout>
-
-        <ImageView
-            android:layout_width="15dp"
-            android:layout_height="match_parent" />
 
 
         <LinearLayout
@@ -87,7 +100,7 @@
                 android:drawablePadding="10dp"
                 android:drawableTop="@drawable/shortcut_visit"
                 android:gravity="center_horizontal"
-                android:text="添加到跟进记录"
+                android:text="跟进记录"
                 android:textColor="@android:color/white"
                 android:textSize="12sp" />
         </LinearLayout>
@@ -111,7 +124,7 @@
                 android:drawablePadding="10dp"
                 android:drawableTop="@drawable/shortcut_remind"
                 android:gravity="center_horizontal"
-                android:text="设置为跟进提醒"
+                android:text="跟进提醒"
                 android:textColor="@android:color/white"
                 android:textSize="12sp" />
         </LinearLayout>
@@ -122,7 +135,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="10dp"
         android:text="其他可能的操作"
         android:textColor="@color/colorAssist"
         android:textSize="12sp" />
@@ -136,9 +149,9 @@
         android:orientation="vertical">
 
         <RelativeLayout
-            android:id="@+id/add_business_layout"
+            android:id="@+id/check_client_layout"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="50dp"
             android:background="@drawable/voice_search_item_bg">
 
             <TextView
@@ -149,16 +162,16 @@
                 android:drawableLeft="@drawable/shortcut_hand"
                 android:drawablePadding="10dp"
                 android:gravity="center_vertical"
-                android:text="添加商机"
+                android:text="查看客户"
                 android:textColor="@android:color/white"
                 android:textSize="14sp" />
 
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/add_contract_layout"
+            android:id="@+id/check_business_layout"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="50dp"
             android:layout_marginTop="10dp"
             android:background="@drawable/voice_search_item_bg">
 
@@ -170,16 +183,16 @@
                 android:drawableLeft="@drawable/shortcut_hand"
                 android:drawablePadding="10dp"
                 android:gravity="center_vertical"
-                android:text="添加合同"
+                android:text="查看商机"
                 android:textColor="@android:color/white"
                 android:textSize="14sp" />
 
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/add_note_layout"
+            android:id="@+id/check_bargain_layout"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="50dp"
             android:layout_marginTop="10dp"
             android:background="@drawable/voice_search_item_bg">
 
@@ -191,11 +204,33 @@
                 android:drawableLeft="@drawable/shortcut_hand"
                 android:drawablePadding="10dp"
                 android:gravity="center_vertical"
-                android:text="保存为笔记"
+                android:text="查看成交"
                 android:textColor="@android:color/white"
                 android:textSize="14sp" />
 
         </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/check_reback_layout"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/voice_search_item_bg">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="15dp"
+                android:drawableLeft="@drawable/shortcut_hand"
+                android:drawablePadding="10dp"
+                android:gravity="center_vertical"
+                android:text="查看回款"
+                android:textColor="@android:color/white"
+                android:textSize="14sp" />
+
+        </RelativeLayout>
+
     </LinearLayout>
 
 

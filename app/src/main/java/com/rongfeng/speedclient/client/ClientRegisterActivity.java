@@ -245,6 +245,7 @@ public class ClientRegisterActivity extends BaseActivity {
 
                 if (status == 1) {
                     AppTools.getToast("新增成功");
+                    setResult(RESULT_OK, new Intent().putExtra("model",transModel));
                     finish();
                 }
                 break;

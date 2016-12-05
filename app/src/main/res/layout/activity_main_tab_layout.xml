@@ -14,8 +14,8 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1.0">
+        android:layout_height="match_parent"
+        android:layout_weight="1">
 
         <FrameLayout
             android:id="@+id/container_layout"
@@ -26,7 +26,7 @@
             android:id="@+id/middle_container_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="gone"/>
+            android:visibility="gone" />
     </RelativeLayout>
 
     <LinearLayout

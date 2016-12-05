@@ -1,11 +1,13 @@
 package com.rongfeng.speedclient.client.entry;
 
+import java.io.Serializable;
+
 /**
  * AUTHOR: Alex
  * DATE: 25/11/2016 22:08
  */
 
-public class AddClientTransModel {
+public class AddClientTransModel implements Serializable{
 
     private String customerType;//	客户类型【1企业客户；2个人客户】
     private String customerName;//	客户名称

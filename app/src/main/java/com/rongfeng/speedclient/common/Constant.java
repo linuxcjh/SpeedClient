@@ -273,6 +273,12 @@ public interface Constant {
     public static final int JUDGE_DISPLAY_BUTTON = 0x0333;
 
 
+    /**
+     * 语音页面 查看和新增
+     */
+    public static final int SEARCH_CLIENT_INDEX = 0x12;
+    public static final int ADD_CLIENT_INDEX = 0x13;
+
 
 
 }

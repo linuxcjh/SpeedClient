@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.rongfeng.speedclient">
+
     <uses-permission android:name="android.permission.SEND_SMS" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
@@ -54,10 +55,10 @@
     <application
         android:name=".MineApplication"
         android:allowBackup="true"
+        android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:hardwareAccelerated="true"
         android:theme="@style/AppTheme">
         <activity android:name=".login.LoginActivity">
             <intent-filter>
@@ -67,7 +68,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".WordsActivity" />
-        <activity android:name=".home.MainTableActivity" />
+        <activity
+            android:name=".home.MainTableActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity
             android:name=".client.ClientRegisterActivity"
             android:configChanges="orientation|keyboardHidden"
@@ -93,17 +96,18 @@
             android:name=".client.ClientEditActivity"
             android:windowSoftInputMode="stateHidden|stateUnchanged" />
         <activity android:name=".client.ClientDetaisBusinessActivity" />
-        <activity android:name=".client.ClientDetailsContractActivity"
-            android:windowSoftInputMode="stateHidden|stateUnchanged"/>
+        <activity
+            android:name=".client.ClientDetailsContractActivity"
+            android:windowSoftInputMode="stateHidden|stateUnchanged" />
         <activity android:name=".organization.OrganizationActivity" />
         <activity android:name=".organization.OrganizationSetPersonActivity" />
         <activity
             android:name=".organization.OrganizationEditDepartmentActivity"
             android:windowSoftInputMode="stateHidden|stateUnchanged" />
-        <activity android:name=".client.ClientDistributeActivity"/>
-        <activity android:name=".client.ClientAddContactUpLoadActivity"/>
-        <activity android:name=".client.ClientAddContactDetailsActivity"/>
-        <activity android:name=".selectpicture.SelectPictureActivity"/>
+        <activity android:name=".client.ClientDistributeActivity" />
+        <activity android:name=".client.ClientAddContactUpLoadActivity" />
+        <activity android:name=".client.ClientAddContactDetailsActivity" />
+        <activity android:name=".selectpicture.SelectPictureActivity" />
         <activity
             android:name=".call.AlertActivity"
             android:launchMode="singleInstance"
