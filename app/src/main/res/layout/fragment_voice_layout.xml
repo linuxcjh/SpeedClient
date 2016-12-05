@@ -59,158 +59,106 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="280dp"
-                android:layout_marginBottom="16dp"
+                android:layout_height="290dp"
+                android:layout_marginBottom="14dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
-                android:layout_marginTop="14dp"
-                android:background="@drawable/radar_bg"
-                android:paddingBottom="15dp">
+                android:layout_marginTop="10dp"
+                android:background="@drawable/radar_bg">
 
                 <EditText
                     android:id="@+id/content_et"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="30dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:layout_marginTop="20dp"
+                    android:layout_height="190dp"
                     android:background="@null"
                     android:gravity="top|left"
                     android:hint="点击下方语音按钮或手动输入"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:paddingTop="20dp"
+                    android:scrollbars="vertical"
                     android:textColor="@color/colorListName"
                     android:textColorHint="@color/colorAssist"
-                    android:textSize="15sp"
-                    android:visibility="gone" />
+                    android:textSize="15sp" />
 
-                <LinearLayout
-                    android:id="@+id/voice_hint_layout"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginTop="55dp"
-                        android:text="点击下方语音按钮识别语音,您可以："
-                        android:textColor="@color/colorClientRadar"
-                        android:textSize="15sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginTop="15dp"
-                        android:text="（如涉及客户信息，建议说出客户全称）"
-                        android:textColor="@color/colorAssist"
-                        android:textSize="10sp" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="50dp"
-                        android:layout_marginRight="50dp"
-                        android:layout_marginTop="40dp"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:drawablePadding="10dp"
-                            android:drawableTop="@drawable/voice_tip_1"
-                            android:gravity="center_horizontal"
-                            android:text="搜索查询客户"
-                            android:textColor="@color/colorAssistLight"
-                            android:textSize="10sp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:drawablePadding="10dp"
-                            android:drawableTop="@drawable/voice_tip_2"
-                            android:gravity="center_horizontal"
-                            android:text="智能快速分析"
-                            android:textColor="@color/colorAssistLight"
-                            android:textSize="10sp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:drawablePadding="10dp"
-                            android:drawableTop="@drawable/voice_tip_3"
-                            android:gravity="center_horizontal"
-                            android:text="添加工作笔记"
-                            android:textColor="@color/colorAssistLight"
-                            android:textSize="10sp" />
-                    </LinearLayout>
-
-
-                </LinearLayout>
+                <TextView
+                    android:id="@+id/input_cancel_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@+id/content_et"
+                    android:layout_marginRight="15dp"
+                    android:drawableLeft="@drawable/clear"
+                    android:drawablePadding="6dp"
+                    android:gravity="center_vertical"
+                    android:text="清空"
+                    android:textColor="@color/colorAssistLight" />
 
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
-                    android:layout_alignParentRight="true"
-                    android:paddingRight="20dp">
+                    android:layout_alignParentRight="true">
 
 
-                    <TextView
-                        android:id="@+id/click_input_tv"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:drawablePadding="8dp"
-                        android:drawableRight="@drawable/voice_write"
-                        android:gravity="center_vertical"
-                        android:text="点击输入文本" />
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="0.8dp"
+                        android:background="@color/colorDividerLine" />
 
-                    <RelativeLayout
+                    <LinearLayout
                         android:id="@+id/voice_input_layout"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:visibility="gone">
+                        android:layout_height="70dp"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginRight="15dp"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
 
                         <TextView
-                            android:id="@+id/input_count_tv"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentLeft="true"
-                            android:layout_centerVertical="true"
-                            android:layout_marginLeft="16dp"
-                            android:gravity="center_vertical"
-                            android:text="41字"
-                            android:visibility="gone" />
-
-                        <TextView
-                            android:id="@+id/input_confirm_tv"
-                            android:layout_width="wrap_content"
+                            android:id="@+id/input_to_schedule_tv"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
                             android:layout_centerVertical="true"
-                            android:drawablePadding="6dp"
-                            android:drawableRight="@drawable/voice_submit"
-                            android:gravity="center_vertical"
-                            android:text="确定" />
-
+                            android:layout_weight="1"
+                            android:drawablePadding="8dp"
+                            android:drawableTop="@drawable/voice_schedule"
+                            android:gravity="center"
+                            android:text="关联到日程"
+                            android:textColor="@color/colorBlue"
+                            android:textSize="11sp" />
 
                         <TextView
-                            android:id="@+id/input_cancel_tv"
-                            android:layout_width="wrap_content"
+                            android:id="@+id/input_to_log_tv"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="16dp"
-                            android:drawablePadding="6dp"
-                            android:drawableRight="@drawable/voice_cancel"
-                            android:gravity="center_vertical"
-                            android:text="清空" />
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_weight="1"
+                            android:drawablePadding="8dp"
+                            android:drawableTop="@drawable/voice_worklog"
+                            android:gravity="center"
+                            android:text="保存到日志"
+                            android:textColor="@color/colorBlue"
+                            android:textSize="11sp" />
 
-                    </RelativeLayout>
+                        <TextView
+                            android:id="@+id/input_confirm_tv"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_weight="1"
+                            android:drawablePadding="8dp"
+                            android:drawableTop="@drawable/voice_customer"
+                            android:gravity="center"
+                            android:text="关联客户"
+                            android:textColor="@color/colorBlue"
+                            android:textSize="11sp" />
+
+                    </LinearLayout>
 
 
                 </RelativeLayout>
@@ -220,10 +168,9 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="170dp"
+            android:layout_height="150dp"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
-            android:layout_marginTop="10dp"
             android:background="@drawable/radar_bg"
             android:gravity="center">
 
@@ -236,12 +183,11 @@
                 android:text="剩余60s"
                 android:visibility="gone" />
 
-            <ImageButton
+            <ImageView
                 android:id="@+id/voice_bt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
                 android:layout_centerHorizontal="true"
-                android:background="@null"
                 android:src="@drawable/voice_btn" />
 
             <TextView
@@ -250,8 +196,10 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/voice_bt"
                 android:layout_centerInParent="true"
-                android:layout_marginTop="10dp"
-                android:text="点击语音输入" />
+                android:layout_marginTop="12dp"
+                android:text="点击开始语音输入"
+                android:textColor="@color/colorVoiceInput"
+                android:textSize="13sp" />
 
 
         </RelativeLayout>

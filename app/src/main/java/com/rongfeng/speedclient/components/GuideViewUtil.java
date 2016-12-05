@@ -63,7 +63,6 @@ public void setGuideView() {
 		
 		@Override
 		public void onClick(View v) {
-			// TODO Auto-generated method stub
 		  frameLayout.removeView(mImageView);
 //		  mGuideView_SP.edit().putString("Guide", mActivity.getClass().getName()).commit();
 		}

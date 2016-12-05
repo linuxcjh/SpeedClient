@@ -16,9 +16,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.gson.reflect.TypeToken;
@@ -36,7 +35,7 @@ import com.rongfeng.speedclient.common.BaseFragment;
 import com.rongfeng.speedclient.common.utils.AppConfig;
 import com.rongfeng.speedclient.common.utils.AppTools;
 import com.rongfeng.speedclient.common.utils.Utils;
-import com.rongfeng.speedclient.components.GuideViewUtil;
+import com.rongfeng.speedclient.components.GuideViewDisplayUtil;
 import com.rongfeng.speedclient.components.SearchPopupWindow;
 import com.rongfeng.speedclient.datanalysis.ClientModel;
 import com.rongfeng.speedclient.entity.BaseDataModel;
@@ -60,34 +59,31 @@ import static android.content.ContentValues.TAG;
 public class VoiceFragment extends BaseFragment implements View.OnTouchListener {
 
     public static final int SELECT_LANGUAGE_INDEX = 0x11;
-
-
+    @Bind(R.id.select_language_tv)
+    TextView selectLanguageTv;
     @Bind(R.id.note_tv)
     TextView noteTv;
-    @Bind(R.id.voice_bt)
-    ImageButton voiceBt;
-    @Bind(R.id.h_time_tv)
-    TextView hTimeTv;
-    @Bind(R.id.voice_status_tv)
-    TextView voiceStatusTv;
     @Bind(R.id.content_et)
     EditText contentEt;
-    @Bind(R.id.root_layout)
-    LinearLayout rootLayout;
-    @Bind(R.id.voice_hint_layout)
-    LinearLayout voiceHintLayout;
-    @Bind(R.id.click_input_tv)
-    TextView clickInputTv;
-    @Bind(R.id.input_count_tv)
-    TextView inputCountTv;
     @Bind(R.id.input_cancel_tv)
     TextView inputCancelTv;
+    @Bind(R.id.input_to_schedule_tv)
+    TextView inputToScheduleTv;
+    @Bind(R.id.input_to_log_tv)
+    TextView inputToLogTv;
     @Bind(R.id.input_confirm_tv)
     TextView inputConfirmTv;
     @Bind(R.id.voice_input_layout)
-    RelativeLayout voiceInputLayout;
-    @Bind(R.id.select_language_tv)
-    TextView selectLanguageTv;
+    LinearLayout voiceInputLayout;
+    @Bind(R.id.h_time_tv)
+    TextView hTimeTv;
+    @Bind(R.id.voice_bt)
+    ImageView voiceBt;
+    @Bind(R.id.voice_status_tv)
+    TextView voiceStatusTv;
+    @Bind(R.id.root_layout)
+    LinearLayout rootLayout;
+
 
     private SearchPopupWindow searchPopupWindow;
     private int timeNum = 0;//录音时长
@@ -105,7 +101,7 @@ public class VoiceFragment extends BaseFragment implements View.OnTouchListener 
     int ret = 0; // 函数调用返回值
 
     private List<ClientModel> clientModels;
-    private GuideViewUtil mGuideViewUtil;
+    private GuideViewDisplayUtil mGuideViewUtil;
 
 
     @Nullable
@@ -159,7 +155,10 @@ public class VoiceFragment extends BaseFragment implements View.OnTouchListener 
 
 
     private void init() {
-        mGuideViewUtil=new GuideViewUtil(getActivity(), R.drawable.addcustomer_defaultavatar);
+
+        View view = getActivity().getLayoutInflater().inflate(R.layout.tips_view_layout, null);
+
+        mGuideViewUtil = new GuideViewDisplayUtil(getActivity(), view);
         selectLanguageTv.setText(AppConfig.getStringConfig("language_select_name", "普通话"));
 
 
@@ -178,18 +177,12 @@ public class VoiceFragment extends BaseFragment implements View.OnTouchListener 
 
     }
 
-    @OnClick(R.id.select_language_tv)
-    public void onClick() {
-    }
 
-    @OnClick({R.id.note_tv, R.id.click_input_tv, R.id.input_cancel_tv, R.id.input_confirm_tv, R.id.voice_bt, R.id.select_language_tv})
+    @OnClick({R.id.input_to_schedule_tv, R.id.input_to_log_tv, R.id.input_confirm_tv,R.id.note_tv, R.id.input_cancel_tv, R.id.voice_bt, R.id.select_language_tv})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.note_tv:
                 startActivity(new Intent(getActivity(), VoiceNoteActivity.class));
-                break;
-            case R.id.click_input_tv:
-                setEditLayoutStatus(true);
                 break;
             case R.id.input_cancel_tv:
                 contentEt.setText("");
@@ -223,6 +216,10 @@ public class VoiceFragment extends BaseFragment implements View.OnTouchListener 
 //                //河南话：henanese
                 AppTools.selectDialog("请选语言", getActivity(), data, mHandler, SELECT_LANGUAGE_INDEX);
 
+                break;
+            case R.id.input_to_schedule_tv:
+                break;
+            case R.id.input_to_log_tv:
                 break;
         }
     }
@@ -357,7 +354,6 @@ public class VoiceFragment extends BaseFragment implements View.OnTouchListener 
 
         contentEt.setText(contentEt.getText().toString() + text);
         contentEt.setSelection(contentEt.length());
-        setEditLayoutStatus(false);
 
 //        analysisData();
     }
@@ -371,7 +367,6 @@ public class VoiceFragment extends BaseFragment implements View.OnTouchListener 
         String pinYinStr = AppTools.convertPinYin(resultStr);
         if (!TextUtils.isEmpty(resultStr)) {
 //            invoke();
-            setEditLayoutStatus(false);
 
             clientModels = AppTools.queryClientDataToDB(getActivity());
 
@@ -408,21 +403,6 @@ public class VoiceFragment extends BaseFragment implements View.OnTouchListener 
     }
 
 
-    /**
-     * 设置编辑layout
-     */
-    private void setEditLayoutStatus(boolean isShowKeyBoard) {
-        contentEt.setVisibility(View.VISIBLE);
-        contentEt.setFocusable(true);
-        contentEt.setFocusableInTouchMode(true);
-        contentEt.requestFocus();//获取焦点 光标出现
-        if (isShowKeyBoard) {
-            AppTools.openKeyboard(getActivity(), mHandler, 200);
-        }
-        voiceInputLayout.setVisibility(View.VISIBLE);
-        voiceHintLayout.setVisibility(View.GONE);
-        clickInputTv.setVisibility(View.GONE);
-    }
 
     @Override
     public boolean onTouch(View view, MotionEvent event) {

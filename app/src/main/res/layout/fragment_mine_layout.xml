@@ -20,6 +20,8 @@
 
     </RelativeLayout>
 
+
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -51,17 +53,6 @@
                         android:layout_centerHorizontal="true"
                         android:src="@drawable/defaultavatar" />
 
-                    <!--<com.rongfeng.xxb.components.AvatarImageView-->
-                    <!--android:id="@+id/contact_avatar_no_url_iv"-->
-                    <!--android:layout_width="80dp"-->
-                    <!--android:layout_height="80dp"-->
-                    <!--android:layout_centerHorizontal="true"-->
-                    <!--android:layout_marginLeft="10dp"-->
-                    <!--android:visibility="gone"-->
-                    <!--img:contentBackColor="@color/colorUnComplete"-->
-                    <!--img:radius="80dp"-->
-                    <!--img:textColor="@android:color/white"-->
-                    <!--img:textSize="30sp" />-->
                 </RelativeLayout>
 
                 <ImageView
