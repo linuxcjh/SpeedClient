@@ -63,6 +63,8 @@ public class ClientFragment extends BaseFragment implements AdapterView.OnItemCl
     RadioButton passRecord;
     @Bind(R.id.future_record)
     RadioButton futureRecord;
+//    @Bind(R.id.siri_view)
+//    SiriView siriView;
 
     private ClientAnalysisAdapter adapter;
     private List<BaseDataModel> models = new ArrayList<>();
@@ -86,6 +88,24 @@ public class ClientFragment extends BaseFragment implements AdapterView.OnItemCl
 
 
     private void init() {
+
+
+        // 停止波浪曲线
+//        siriView.stop();
+//// 设置曲线高度，height的取值是0f~1f
+//        siriView.setWaveHeight(0.5f);
+//// 设置曲线的粗细，width的取值大于0f
+//        siriView.setWaveWidth(4f);
+//// 设置曲线颜色
+//        siriView.setWaveColor(Color.rgb(39, 188, 136));
+//// 设置曲线在X轴上的偏移量，默认值为0f
+//        siriView.setWaveOffsetX(0f);
+//// 设置曲线的数量，默认是4
+//        siriView.setWaveAmount(4);
+//// 设置曲线的速度，默认是0.1f
+//        siriView.setWaveSpeed(0.08f);
+
+
         transDataModel.setRadarType("0");
         models.add(new BaseDataModel("新客户", "0 个"));
         models.add(new BaseDataModel("老客户", "0 个"));

@@ -36,6 +36,7 @@ import com.rongfeng.speedclient.common.BaseFragment;
 import com.rongfeng.speedclient.common.utils.AppConfig;
 import com.rongfeng.speedclient.common.utils.AppTools;
 import com.rongfeng.speedclient.common.utils.Utils;
+import com.rongfeng.speedclient.components.GuideViewUtil;
 import com.rongfeng.speedclient.components.SearchPopupWindow;
 import com.rongfeng.speedclient.datanalysis.ClientModel;
 import com.rongfeng.speedclient.entity.BaseDataModel;
@@ -104,6 +105,7 @@ public class VoiceFragment extends BaseFragment implements View.OnTouchListener 
     int ret = 0; // 函数调用返回值
 
     private List<ClientModel> clientModels;
+    private GuideViewUtil mGuideViewUtil;
 
 
     @Nullable
@@ -157,7 +159,7 @@ public class VoiceFragment extends BaseFragment implements View.OnTouchListener 
 
 
     private void init() {
-
+        mGuideViewUtil=new GuideViewUtil(getActivity(), R.drawable.addcustomer_defaultavatar);
         selectLanguageTv.setText(AppConfig.getStringConfig("language_select_name", "普通话"));
 
 

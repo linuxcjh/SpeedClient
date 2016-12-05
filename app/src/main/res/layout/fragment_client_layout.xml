@@ -34,7 +34,8 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+     >
 
         <ImageView
             android:layout_width="match_parent"
@@ -277,5 +278,10 @@
 
     </FrameLayout>
 
+    <!--<com.rongfeng.speedclient.components.SiriView-->
+        <!--android:id="@+id/siri_view"-->
+        <!--android:layout_width="match_parent"-->
+
+        <!--android:layout_height="100dp" />-->
 
 </LinearLayout>
