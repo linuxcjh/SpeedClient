@@ -39,6 +39,7 @@ import com.rongfeng.speedclient.common.utils.AppConfig;
 import com.rongfeng.speedclient.common.utils.AppTools;
 import com.rongfeng.speedclient.common.utils.Utils;
 import com.rongfeng.speedclient.components.GuideViewDisplayUtil;
+import com.rongfeng.speedclient.components.MyDialog;
 import com.rongfeng.speedclient.components.SearchPopupWindow;
 import com.rongfeng.speedclient.datanalysis.ClientModel;
 import com.rongfeng.speedclient.entity.BaseDataModel;
@@ -140,7 +141,9 @@ public class VoiceFragment extends BaseFragment implements View.OnTouchListener 
         switch (methodIndex) {
             case XxbService.INSERTNOTE:
                 if (status == 1) {
-                    AppTools.getToast("添加日志成功");
+                    MyDialog dialog = new MyDialog(getActivity(), mHandler);
+                    dialog.buildDialog().setTitle("保存成功").setCancelText("留在当前页").setConfirm("查看日志").setMessage("是否跳转到日志页?");
+
                 }
                 break;
         }
@@ -166,7 +169,6 @@ public class VoiceFragment extends BaseFragment implements View.OnTouchListener 
 
         mGuideViewUtil = new GuideViewDisplayUtil(getActivity(), view);
         selectLanguageTv.setText(AppConfig.getStringConfig("language_select_name", "普通话"));
-
 
 //        voiceBt.setOnTouchListener(this);
         searchPopupWindow = new SearchPopupWindow(getActivity(), Utils.getDeviceHeightPixels(getActivity()), mHandler);
@@ -288,6 +290,10 @@ public class VoiceFragment extends BaseFragment implements View.OnTouchListener 
                     break;
                 case Constant.ADD_CLIENT_INDEX:
                     startActivityForResult(new Intent(getActivity(), ClientRegisterActivity.class), ADD_CLIENT_INDEX);
+                    break;
+                case Constant.CONFIRMDIALOG:
+
+                    startActivity(new Intent(getActivity(), VoiceNoteActivity.class));
                     break;
             }
 

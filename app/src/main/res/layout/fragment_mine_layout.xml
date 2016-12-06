@@ -112,7 +112,7 @@
                 android:layout_weight="1"
                 android:drawableLeft="@drawable/me_notes"
                 android:drawablePadding="6dp"
-                android:text="我的笔记"
+                android:text="我的日志"
                 android:gravity="center_vertical"
                 android:textColor="@color/colorListName"
                 android:textSize="14sp" />
