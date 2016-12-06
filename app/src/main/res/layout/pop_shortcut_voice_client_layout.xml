@@ -2,6 +2,8 @@
 
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:expandableTextView="http://schemas.android.com/apk/res-auto"
+
     android:id="@+id/client_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -15,7 +17,8 @@
         android:layout_marginRight="20dp"
         android:layout_marginTop="40dp"
         android:gravity="center_vertical"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:visibility="gone">
 
         <TextView
             android:layout_width="wrap_content"
@@ -23,7 +26,7 @@
             android:text="输入内容："
             android:textColor="@color/colorAssist"
             android:textSize="12sp"
-            android:visibility="gone"/>
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/content_tv"
@@ -36,6 +39,34 @@
             android:textSize="13sp" />
 
     </LinearLayout>
+
+    <com.rongfeng.speedclient.components.ExpandableTextView
+        android:id="@+id/expand_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="40dp"
+        android:gravity="center_vertical"
+        expandableTextView:maxCollapsedLines="2">
+
+        <TextView
+            android:id="@+id/expandable_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="20dp"
+            android:fontFamily="sans-serif-light"
+            android:textColor="@color/colorAssist"
+            android:textSize="16sp" />
+
+        <ImageButton
+            android:id="@+id/expand_collapse"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|center_vertical"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="-20dp"
+            android:background="@android:color/transparent" />
+    </com.rongfeng.speedclient.components.ExpandableTextView>
 
 
     <LinearLayout
@@ -225,7 +256,7 @@
                 android:drawableLeft="@drawable/shortcut_hand"
                 android:drawablePadding="10dp"
                 android:gravity="center_vertical"
-                android:text="查看回款"
+                android:text="查看欠款"
                 android:textColor="@android:color/white"
                 android:textSize="14sp" />
 

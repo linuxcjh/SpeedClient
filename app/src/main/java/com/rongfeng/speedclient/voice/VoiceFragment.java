@@ -494,7 +494,7 @@ public class VoiceFragment extends BaseFragment implements View.OnTouchListener 
             switch (requestCode) {
                 case Constant.ADD_CLIENT_INDEX:
                     AddClientTransModel transModel = (AddClientTransModel) data.getSerializableExtra("model");
-                    showPop(new BaseDataModel("",transModel.getCustomerName()) );//TODO 新增接口需返回客户ID
+                    showPop(new BaseDataModel(transModel.getCsrId(), transModel.getCustomerName()));//TODO 新增接口需返回客户ID
                     break;
             }
         }

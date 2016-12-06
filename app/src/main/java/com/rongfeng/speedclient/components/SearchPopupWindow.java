@@ -8,6 +8,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -70,6 +71,12 @@ public class SearchPopupWindow {
     RelativeLayout checkBargainLayout;
     @Bind(R.id.check_reback_layout)
     RelativeLayout checkRebackLayout;
+    @Bind(R.id.expandable_text)
+    TextView expandableText;
+    @Bind(R.id.expand_collapse)
+    ImageButton expandCollapse;
+    @Bind(R.id.expand_text_view)
+    ExpandableTextView expandTextView;
     private View view;
     public PopupWindow mPopupWindow;
     private Context mContext;
@@ -118,6 +125,8 @@ public class SearchPopupWindow {
     public void setContent(String content) {
         this.voiceConent = content;
         contentTv.setText("“ " + voiceConent + " ”");
+        expandTextView.setText("“ " + voiceConent + " ”");
+
     }
 
     /**
@@ -130,12 +139,12 @@ public class SearchPopupWindow {
         this.clientInfoModel = model;
         if (model != null) {
             clientNameTv.setText(model.getDictionaryName());
-            clientLayout.setVisibility(View.VISIBLE);
-            clientNoLayout.setVisibility(View.GONE);
+//            clientLayout.setVisibility(View.VISIBLE);
+//            clientNoLayout.setVisibility(View.GONE);
 
         } else {
-            clientNoLayout.setVisibility(View.VISIBLE);
-            clientLayout.setVisibility(View.GONE);
+//            clientNoLayout.setVisibility(View.VISIBLE);
+//            clientLayout.setVisibility(View.GONE);
         }
     }
 

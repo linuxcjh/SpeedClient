@@ -245,7 +245,9 @@ public class ClientRegisterActivity extends BaseActivity {
 
                 if (status == 1) {
                     AppTools.getToast("新增成功");
-                    setResult(RESULT_OK, new Intent().putExtra("model",transModel));
+                    AddClientTransModel m = (AddClientTransModel) data;
+                    transModel.setCsrId(m.getCsrId());
+                    setResult(RESULT_OK, new Intent().putExtra("model", transModel));
                     finish();
                 }
                 break;
@@ -266,7 +268,7 @@ public class ClientRegisterActivity extends BaseActivity {
                     transModel.setCsrContactJsonArray(BasePresenter.gson.toJson(linkmanModels));
 
                     commonPresenter.invokeInterfaceObtainData(XxbService.INSERTCSR, transModel,
-                            new TypeToken<BaseDataModel>() {
+                            new TypeToken<AddClientTransModel>() {
                             });
                 } else {
                     AppTools.getToast("请填写客户名称");
