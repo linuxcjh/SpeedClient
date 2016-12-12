@@ -43,6 +43,7 @@ public class DBManager {
 
     /**
      * add person
+     *
      * @param person
      */
     public void addClient(ClientModel person) {
@@ -55,6 +56,24 @@ public class DBManager {
         }
     }
 
+    /**
+     * 更新客户数据
+     *
+     * @param person
+     */
+    public void updateClient(ClientModel person) {
+        db.beginTransaction();  //开始事务
+        try {
+            db.execSQL("UPDATE  notes set " + DatabaseHelper.CLIENT_NAME + "='" + person.getClient_name()
+                    + "'," + DatabaseHelper.CLIENT_INFO + "='" + person.getClient_info()
+                    + "'," + DatabaseHelper.CONTACT_NAME + "='" + person.getContact_name()
+                    + "' WHERE " + DatabaseHelper.CLIENT_ID + "='" + person.getClient_id()
+                    + "'");
+            db.setTransactionSuccessful();  //设置事务成功完成
+        } finally {
+            db.endTransaction();    //结束事务
+        }
+    }
 
     /**
      * 删除表数据
@@ -122,6 +141,21 @@ public class DBManager {
     public Cursor queryTheCursor() {
         Cursor c = db.rawQuery("SELECT * FROM notes", null);
         return c;
+    }
+
+
+    /**
+     * 判断是否存在
+     *
+     * @param clientId
+     * @return
+     */
+    public boolean queryTheClientCursor(String clientId) {
+        Cursor c = db.rawQuery("SELECT * FROM notes WHERE " + DatabaseHelper.CLIENT_ID + "='" + clientId+"'", null);
+        if (c != null && c.getCount() > 0) {
+            return true;
+        }
+        return false;
     }
 
     /**

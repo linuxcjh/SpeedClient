@@ -352,7 +352,7 @@ public class VoiceFragment extends BaseFragment implements View.OnTouchListener 
             //商旅:travel
             //视频:video
             //音乐:entrancemusic
-            mIat.setParameter(SpeechConstant.DOMAIN, "travel");
+//            mIat.setParameter(SpeechConstant.DOMAIN, "travel");
 
 
         }
@@ -428,7 +428,7 @@ public class VoiceFragment extends BaseFragment implements View.OnTouchListener 
                             if (j == 0 && !TextUtils.isEmpty(splitWordModels.get(j).getCont()) && dupArea(splitWordModels.get(j).getCont())) {
 
                             } else {
-                                if (resultStr.indexOf(splitWordModels.get(j).getCont()) != -1|| pinYinStr.indexOf(AppTools.convertPinYin(splitWordModels.get(j).getCont())) != -1) {
+                                if (!word.contains(splitWordModels.get(j).getCont()) && resultStr.indexOf(splitWordModels.get(j).getCont()) != -1) {
                                     clientData.add(resultModel.client_id + "," + name);
                                 }
                             }
@@ -451,6 +451,10 @@ public class VoiceFragment extends BaseFragment implements View.OnTouchListener 
 
 
     }
+
+
+    //过滤公司名 需要排除的词
+    private String word = "公司 股份 证券 有限 责任 咨询 设备 信息 科技 实业";
 
 
     private boolean dupArea(String content) {

@@ -13,6 +13,7 @@ import com.iflytek.cloud.LexiconListener;
 import com.iflytek.cloud.SpeechConstant;
 import com.iflytek.cloud.SpeechError;
 import com.iflytek.cloud.SpeechRecognizer;
+import com.iflytek.cloud.util.ContactManager;
 import com.rongfeng.speedclient.API.XxbService;
 import com.rongfeng.speedclient.client.entry.AddClientTransModel;
 import com.rongfeng.speedclient.common.BasePresenter;
@@ -83,10 +84,67 @@ public class UpdateClientInfoService extends IntentService implements ICommonAct
         if (list != null) {
             String upload = AppTools.getUploadClientNamesWordForm(list);
             if (!TextUtils.isEmpty(upload)) {
-                mIat.updateLexicon("userword", AppTools.getUploadClientNamesWordForm(list), mLexiconListener);
+                mIat.updateLexicon("userword", upload, mLexiconListener);
             }
         }
     }
+
+    /**
+     * 上传客户联系人
+     *
+     * @param list
+     */
+    private void uploadClientContact(List<AddClientTransModel> list) {
+        //指定引擎类型
+        mIat.setParameter(SpeechConstant.ENGINE_TYPE, SpeechConstant.TYPE_CLOUD);
+        mIat.setParameter(SpeechConstant.TEXT_ENCODING, "utf-8");
+        if (list != null) {
+            StringBuilder builder = new StringBuilder();
+            for (AddClientTransModel m : list) {
+                builder.append(m.getCustomerName()).append("\n");
+            }
+            String upload = builder.toString();
+            if (!TextUtils.isEmpty(upload)) {
+                mIat.updateLexicon("contact", upload, lexiconListener);
+            }
+        }
+    }
+
+    /**
+     * 上传手机通讯录
+     */
+    private void upPhoneContact() {
+
+        ContactManager mgr = ContactManager.createManager(this, mContactListener);
+        //异步查询联系人接口，通过onContactQueryFinish接口回调
+        mgr.asyncQueryAllContactsName();
+
+    }
+
+    /**
+     * 上传手机通讯录监听
+     */
+    private ContactManager.ContactListener mContactListener = new ContactManager.ContactListener() {
+        @Override
+        public void onContactQueryFinish(String contactInfos, boolean changeFlag) {
+            //指定引擎类型
+            mIat.setParameter(SpeechConstant.ENGINE_TYPE, SpeechConstant.TYPE_CLOUD);
+            mIat.setParameter(SpeechConstant.TEXT_ENCODING, "utf-8");
+            mIat.updateLexicon("contact", contactInfos, lexiconListener);
+        }
+    };
+
+    //上传联系人监听器。
+    private LexiconListener lexiconListener = new LexiconListener() {
+        @Override
+        public void onLexiconUpdated(String lexiconId, SpeechError error) {
+            if (error != null) {
+//                Log.d(TAG, error.toString());
+            } else {
+                AppTools.getToast("联系人上传成功");
+            }
+        }
+    };
 
     /**
      * 初始化监听器。
@@ -126,7 +184,19 @@ public class UpdateClientInfoService extends IntentService implements ICommonAct
                 List<List<List<SplitWordModel>>> models = (List<List<List<SplitWordModel>>>) object;
 
                 if (models != null && models.size() > 0 && models.get(0).size() > 0) {
-                    model.setClientNameWordsSplit(BasePresenter.gson.toJson(models.get(0).get(0)));
+
+                    List<SplitWordModel> results = models.get(0).get(0);
+                    for (int i = 0; i < results.size(); i++) {
+                        if (results.get(i).getCont().length() == 1) {//当前为单个字
+                            if ((i + 1) < results.size()) {
+                                results.get(i).setCont(results.get(i).getCont() + results.get(i + 1).getCont());
+                            }
+                        }
+                    }
+
+                    model.setClientNameWordsSplit(BasePresenter.gson.toJson(results));
+
+
                     AppTools.insertClientDataToDB(UpdateClientInfoService.this, model);
                 }
             }
@@ -161,15 +231,13 @@ public class UpdateClientInfoService extends IntentService implements ICommonAct
 
             case XxbService.SEARCHCSR:
                 List<AddClientTransModel> list = (List<AddClientTransModel>) data;
-
                 if (list != null && list.size() > 0) {
                     uploadWords(list);
-                    AppTools.clearForm(this);
+                    uploadClientContact(list);
                     for (int i = 0; i < list.size(); i++) {
                         languageCloudParse(list.get(i));
                     }
                 }
-//                AppTools.insertClientDataToDB(this, list);
                 break;
         }
     }

@@ -1625,10 +1625,17 @@ public class AppTools {
         m.setClient_id(data.getCsrId());
 
         DBManager dbManager = new DBManager(context);
-        dbManager.addClient(m);
+
+        if (dbManager.queryTheClientCursor(data.getCsrId())) {
+            dbManager.updateClient(m);
+        }else{
+            dbManager.addClient(m);
+        }
+
         dbManager.closeDB();
 
     }
+
 
     /**
      * 上传用户词表
@@ -1641,6 +1648,9 @@ public class AppTools {
         JSONArray wordFormList = new JSONArray();
         JSONObject inner = new JSONObject();
         JSONArray innerNames = new JSONArray();
+
+//        JSONObject inner2 = new JSONObject();
+//        JSONArray innerNames2 = new JSONArray();
         try {
             inner.put("name", "客户名称词表");
             for (int i = 0; i < list.size(); i++) {
@@ -1648,6 +1658,12 @@ public class AppTools {
             }
             inner.put("words", innerNames);
             wordFormList.put(0, inner);
+
+//            inner2.put("name", "我的好友");
+//            innerNames2.put(0, "张范孚");
+//            inner2.put("words", innerNames2);
+//            wordFormList.put(1, inner2);
+
             wordsOjb.put("userword", wordFormList);
             return wordsOjb.toString();
         } catch (JSONException e) {
@@ -1679,6 +1695,21 @@ public class AppTools {
         dbManager.closeDB();
 
         return persons;
+    }
+
+    /**
+     * 判断指定客户是否存在
+     *
+     * @param context
+     * @param clientId
+     * @return
+     */
+    public static boolean queryClientIsExist(Context context, String clientId) {
+        DBManager dbManager = new DBManager(context);
+        boolean isExist = dbManager.queryTheClientCursor(clientId);
+        dbManager.closeDB();
+
+        return isExist;
     }
 
 
