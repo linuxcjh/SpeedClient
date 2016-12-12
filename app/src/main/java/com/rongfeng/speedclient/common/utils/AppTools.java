@@ -14,6 +14,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
@@ -68,6 +69,8 @@ import com.rongfeng.speedclient.login.User;
 import com.rongfeng.speedclient.permisson.PermissionsChecker;
 import com.rongfeng.speedclient.utils.DensityUtil;
 import com.rongfeng.speedclient.utils.FlowLayout;
+import com.rongfeng.speedclient.voice.AreaDBManager;
+import com.rongfeng.speedclient.voice.model.AreaModel;
 
 import net.sourceforge.pinyin4j.PinyinHelper;
 import net.sourceforge.pinyin4j.format.HanyuPinyinCaseType;
@@ -1583,7 +1586,7 @@ public class AppTools {
         for (int i = 0; i < data.size(); i++) {
             ClientModel m = new ClientModel();
             m.setClient_name(data.get(i).getCustomerName());
-            m.setClient_phone(data.get(i).getCustomerTel());
+            m.setClient_info(data.get(i).getClientNameWordsSplit());
             m.setClient_id(data.get(i).getCsrId());
             persons.add(m);
         }
@@ -1598,6 +1601,34 @@ public class AppTools {
 
     }
 
+
+    /**
+     * 清空表
+     *
+     * @param context
+     */
+    public static void clearForm(Context context) {
+        DBManager dbManager = new DBManager(context);
+        dbManager.truncate();
+
+        dbManager.closeDB();
+    }
+
+    /**
+     * 添加单个人到数据库
+     */
+    public static void insertClientDataToDB(Context context, AddClientTransModel data) {
+
+        ClientModel m = new ClientModel();
+        m.setClient_name(data.getCustomerName());
+        m.setClient_info(data.getClientNameWordsSplit());
+        m.setClient_id(data.getCsrId());
+
+        DBManager dbManager = new DBManager(context);
+        dbManager.addClient(m);
+        dbManager.closeDB();
+
+    }
 
     /**
      * 上传用户词表
@@ -1648,5 +1679,38 @@ public class AppTools {
         dbManager.closeDB();
 
         return persons;
+    }
+
+
+    /**
+     * 获取省列表
+     *
+     * @param type 1、省  2、市 3、区
+     * @return
+     */
+    public static List<AreaModel> getAreaData(Context context, String type, String areaName) {
+        AreaDBManager dbHelper = new AreaDBManager(context);
+
+        List<AreaModel> data = new ArrayList<>();
+
+        SQLiteDatabase db = dbHelper.openDatabase();
+
+//        Cursor cursor = db.query("area", new String[]{"areaId", "areaType", "areaName", "parentId"}, "areaName = ?", new String[]{type, areaName}, null, null, null);
+        String current_sql_sel = "SELECT  * FROM AREA where areaName like '%" + areaName + "%'";
+        Cursor cursor = db.rawQuery(current_sql_sel, null);
+
+        while (cursor.moveToNext()) {
+
+            AreaModel model = new AreaModel();
+            model.setAreaName(cursor.getString(cursor.getColumnIndex("areaName")));
+            model.setAreaId(cursor.getString(cursor.getColumnIndex("areaId")));
+            model.setAreaType(cursor.getInt(cursor.getColumnIndex("areaType")));
+            model.setParentId(cursor.getString(cursor.getColumnIndex("parentId")));
+            data.add(model);
+        }
+        cursor.close();
+        db.close();
+
+        return data;
     }
 }

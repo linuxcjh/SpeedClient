@@ -49,11 +49,19 @@ android {
         abortOnError false
     }
 
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['src/jniLibs']
+        }
+    }
+
     dexOptions {
         javaMaxHeapSize "4g"
         incremental true
         maxProcessCount 4
     }
+
+
 }
 
 dependencies {

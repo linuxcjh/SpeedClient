@@ -59,7 +59,7 @@ public class PhoneStatReceiver extends BroadcastReceiver {
     }
 
     /**
-     * 判断是否存在
+     * 判断联系人是否存在
      *
      * @param phoneNum
      */
@@ -67,7 +67,7 @@ public class PhoneStatReceiver extends BroadcastReceiver {
 
         List<ClientModel> clientModels = AppTools.queryClientDataToDB(AppConfig.getContext());
         for (int i = 0; i < clientModels.size(); i++) {
-            if (clientModels.get(i).getClient_phone().equals(phoneNum)) {
+            if (clientModels.get(i).getContact_phone().equals(phoneNum)) {
                 setAlarActivity();
             }
         }

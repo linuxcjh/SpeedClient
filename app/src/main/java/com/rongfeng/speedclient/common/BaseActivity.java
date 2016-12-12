@@ -1,6 +1,7 @@
 package com.rongfeng.speedclient.common;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.content.res.Resources;
@@ -12,6 +13,7 @@ import android.view.WindowManager;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 import com.rongfeng.speedclient.R;
 import com.rongfeng.speedclient.common.utils.AppTools;
+import com.rongfeng.speedclient.home.UpdateClientInfoService;
 import com.rongfeng.speedclient.login.TransDataModel;
 
 import java.util.ArrayList;
@@ -71,6 +73,14 @@ public class BaseActivity extends FragmentActivity implements ICommonAction {
         activityList.remove(this);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (!isActive) {
+            isActive = true;
+            startService(new Intent(this, UpdateClientInfoService.class));//从后台到前台时启动更新客户数据服务
+        }
+    }
 
     @Override
     protected void onStop() {

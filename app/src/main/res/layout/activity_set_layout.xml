@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBg"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@drawable/nav_bg">
+
+        <TextView
+            android:id="@+id/cancel_tv"
+            style="@style/title_side_text"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="16dp"
+            android:gravity="center_vertical"
+            android:paddingRight="20dp"
+            android:text="取消"
+            android:textColor="@color/colorWhite" />
+
+        <TextView
+            android:id="@+id/title_tv"
+            style="@style/title_mid_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="设置服务地址"
+            android:textColor="@color/colorWhite" />
+
+        <com.rongfeng.speedclient.common.utils.SingleClickBt
+            android:id="@+id/commit_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:background="@android:color/transparent"
+            android:gravity="center_vertical|right"
+            android:paddingRight="16dp"
+            android:text="完成"
+            android:textColor="@color/colorWhite"
+            android:textSize="15sp" />
+    </RelativeLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="vertical"
+        android:layout_marginTop="40dp">
+        <TextView
+            style="@style/register_client_left_text_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="服务地址:"
+            android:textSize="16sp"
+            android:paddingLeft="16dp"
+        android:textColor="@color/colorListName"/>
+
+        <EditText
+            android:id="@+id/contract_name_tv"
+            style="@style/register_edit_view_style"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="20dp"
+            android:layout_weight="1"
+            android:textSize="14sp"
+            android:paddingLeft="16dp"
+            android:background="@null"
+            android:gravity="center_vertical"
+            android:text="http://59.110.52.231:8108/restful/xxbService/"
+            android:hint="输入url" />
+
+
+    </LinearLayout>
+
+</LinearLayout>

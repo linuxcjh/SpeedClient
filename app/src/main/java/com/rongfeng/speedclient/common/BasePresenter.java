@@ -60,11 +60,10 @@ public abstract class BasePresenter {
      * String Convert
      */
     public Retrofit retrofit = new Retrofit.Builder()
-            .baseUrl(XxbAPI.URL)
+            .baseUrl(AppConfig.getStringConfig("url",XxbAPI.URL))
             .client(client())
             .addConverterFactory(new ToStringConverterFactory())
             .build();
-
     public XxbAPI service = retrofit.create(XxbAPI.class);
 
 

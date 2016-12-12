@@ -8,9 +8,10 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.rongfeng.speedclient.API.XxbAPI;
+import com.rongfeng.speedclient.client.entry.AddClientTransModel;
 import com.rongfeng.speedclient.common.BaseActivity;
+import com.rongfeng.speedclient.common.BasePresenter;
 import com.rongfeng.speedclient.common.LoggingInterceptor;
-import com.rongfeng.speedclient.common.ParseResult;
 import com.rongfeng.speedclient.common.ToStringConverterFactory;
 import com.rongfeng.speedclient.common.utils.AppConfig;
 import com.rongfeng.speedclient.common.utils.AppTools;
@@ -77,7 +78,7 @@ public abstract class VoicePresenter {
      * @param parameterMap 参数
      * @param typeToken    返回值类型
      */
-    public void commonApi(final String methodName, Map<String, String> parameterMap, final TypeToken<?> typeToken) {
+    public void commonApi(final String methodName, final AddClientTransModel model, Map<String, String> parameterMap, final TypeToken<?> typeToken) {
 
         if (Utils.netWorkJuder(context)) {
 
@@ -91,16 +92,10 @@ public abstract class VoicePresenter {
                 public void onResponse(Response<String> response, Retrofit retrofit) {
 
                     Object object = null;
-                    if (ParseResult.instance().requestServerResult(response.body())) {
-                        if (typeToken != null) {
-                            object = ParseResult.instance().requestServer(methodName, response.body(), typeToken);
-                        }
-
-                        VoicePresenter.this.onResponse(methodName, object, REQUEST_SUCCESS);
-                    } else {
-                        VoicePresenter.this.onResponse(methodName, object, REQUEST_FAILURE);
-
+                    if(response.body()!=null){
+                        object = BasePresenter.gson.fromJson(response.body(), typeToken.getType());
                     }
+                    VoicePresenter.this.onResponse(methodName, model, object, REQUEST_SUCCESS);
                 }
 
                 @Override
@@ -111,13 +106,12 @@ public abstract class VoicePresenter {
                 }
             });
 
-        } else{
+        } else {
             Toast.makeText(AppConfig.getContext(), "网络不给力，请稍后重试！", Toast.LENGTH_SHORT).show();
 
         }
 
     }
-
 
 
     /**
@@ -127,8 +121,7 @@ public abstract class VoicePresenter {
      * @param object     返回数据对象
      * @param status     是否成功标识
      */
-    public abstract void onResponse(String methodName, Object object, int status) ;
-
+    public abstract void onResponse(String methodName, AddClientTransModel model, Object object, int status);
 
 
 }

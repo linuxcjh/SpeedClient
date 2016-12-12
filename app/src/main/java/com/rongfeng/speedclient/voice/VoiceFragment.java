@@ -34,6 +34,7 @@ import com.rongfeng.speedclient.R;
 import com.rongfeng.speedclient.client.ClientRegisterActivity;
 import com.rongfeng.speedclient.client.entry.AddClientTransModel;
 import com.rongfeng.speedclient.common.BaseFragment;
+import com.rongfeng.speedclient.common.BasePresenter;
 import com.rongfeng.speedclient.common.Constant;
 import com.rongfeng.speedclient.common.utils.AppConfig;
 import com.rongfeng.speedclient.common.utils.AppTools;
@@ -44,8 +45,11 @@ import com.rongfeng.speedclient.components.SearchPopupWindow;
 import com.rongfeng.speedclient.datanalysis.ClientModel;
 import com.rongfeng.speedclient.entity.BaseDataModel;
 import com.rongfeng.speedclient.utils.JsonParser;
+import com.rongfeng.speedclient.voice.model.AreaModel;
+import com.rongfeng.speedclient.voice.model.SplitWordModel;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -404,36 +408,88 @@ public class VoiceFragment extends BaseFragment implements View.OnTouchListener 
 
             clientModels = AppTools.queryClientDataToDB(getActivity());
 
-            List<BaseDataModel> clientData = new ArrayList<>();
+            List<String> clientData = new ArrayList<>();
 
             if (clientModels.size() != 0) {
                 for (int i = 0; i < clientModels.size(); i++) {
 
-                    String name = clientModels.get(i).client_name;
+                    ClientModel resultModel = clientModels.get(i);
+                    String name = resultModel.client_name;
                     String namePY = AppTools.convertPinYin(name);
 
                     if (resultStr.indexOf(name) != -1 || pinYinStr.indexOf(namePY) != -1) {//全名匹配
-                        clientData.add(new BaseDataModel(clientModels.get(i).client_id, name));
-                    } else if (name.length() > 2 && (resultStr.contains(name.substring(0, 2)) || pinYinStr.contains(AppTools.convertPinYin(name.substring(0, 2))))) {//模糊匹配，开始2个字
-                        clientData.add(new BaseDataModel(clientModels.get(i).client_id, name));
+                        clientData.add(resultModel.client_id + "," + name);
+                    } else {
+                        List<SplitWordModel> splitWordModels = BasePresenter.gson.fromJson(resultModel.client_info, new TypeToken<List<SplitWordModel>>() {
+                        }.getType());
+
+                        for (int j = 0; j < splitWordModels.size(); j++) {
+
+                            if (j == 0 && !TextUtils.isEmpty(splitWordModels.get(j).getCont()) && dupArea(splitWordModels.get(j).getCont())) {
+
+                            } else {
+                                if (resultStr.indexOf(splitWordModels.get(j).getCont()) != -1|| pinYinStr.indexOf(AppTools.convertPinYin(splitWordModels.get(j).getCont())) != -1) {
+                                    clientData.add(resultModel.client_id + "," + name);
+                                }
+                            }
+
+                        }
                     }
-
-                    if (name.length() > 4 && (resultStr.contains(name.substring(2, 4)) || pinYinStr.contains(AppTools.convertPinYin(name.substring(2, 4))))) {
-                        //模糊匹配，开始4个字中后两个
-
-                    }
-
                 }
             }
+
+            List<BaseDataModel> temp = obtainWithoutDup(clientData);
             if (clientData.size() >= 1) {
-                AppTools.selectVoiceDialog("选择需要关联的客户：", getActivity(), clientData, mHandler, 2);
+                AppTools.selectVoiceDialog("选择需要关联的客户：", getActivity(), temp, mHandler, 2);
             } else if (clientData.size() == 0) {
-                AppTools.selectVoiceDialog("查找或新建需要关联的客户：", getActivity(), clientData, mHandler, 2);
+                AppTools.selectVoiceDialog("查找或新建需要关联的客户：", getActivity(), temp, mHandler, 2);
             }
 
         } else {
             AppTools.getToast("请输入内容");
         }
+
+
+    }
+
+
+    private boolean dupArea(String content) {
+        List<AreaModel> areaModels = AppTools.getAreaData(getActivity(), "", content);
+        areaModels.size();
+
+        if (areaModels.size() > 0) {
+            return true;
+        }
+        return false;
+
+    }
+
+    /**
+     * 去掉重复
+     *
+     * @param clientData
+     * @param
+     * @return
+     */
+    private List<BaseDataModel> obtainWithoutDup(List<String> clientData) {
+
+        List<String> listWithoutDup = new ArrayList<>(new HashSet<>(clientData));
+
+        List<BaseDataModel> temp = new ArrayList<>();
+        for (int i = 0; i < listWithoutDup.size(); i++) {
+            temp.add(new BaseDataModel(listWithoutDup.get(i).split(",")[0], listWithoutDup.get(i).split(",")[1]));
+        }
+        return temp;
+    }
+
+    /**
+     * 客户名分词内容
+     *
+     * @param model
+     */
+    private void splitWordInfo(ClientModel model) {
+        List<SplitWordModel> splitWordModels = BasePresenter.gson.fromJson(model.client_info, new TypeToken<List<SplitWordModel>>() {
+        }.getType());
 
 
     }
