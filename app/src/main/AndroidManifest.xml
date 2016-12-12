@@ -133,6 +133,11 @@
         </receiver>
 
 
+        <service
+            android:name=".home.UpdateClientInfoService"
+            android:exported="false" />
+
+
     </application>
 
 </manifest>

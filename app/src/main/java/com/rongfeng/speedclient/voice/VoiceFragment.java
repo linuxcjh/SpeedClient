@@ -329,7 +329,6 @@ public class VoiceFragment extends BaseFragment implements View.OnTouchListener 
         mIat.setParameter(SpeechConstant.ENGINE_TYPE, SpeechConstant.TYPE_CLOUD);
         // 设置返回结果格式
         mIat.setParameter(SpeechConstant.RESULT_TYPE, "json");
-
 //        String lag = mSharedPreferences.getString("iat_language_preference",
 //                "mandarin");
         String language = AppConfig.getStringConfig("language_select_id", "mandarin");
@@ -345,6 +344,12 @@ public class VoiceFragment extends BaseFragment implements View.OnTouchListener 
             //四川话：lmz
             //河南话：henanese
             mIat.setParameter(SpeechConstant.ACCENT, language);
+            //目前提供三个垂直领域的听写模型：商旅、视频和音乐
+            //商旅:travel
+            //视频:video
+            //音乐:entrancemusic
+            mIat.setParameter(SpeechConstant.DOMAIN, "travel");
+
 
         }
 
@@ -377,12 +382,12 @@ public class VoiceFragment extends BaseFragment implements View.OnTouchListener 
         public void onError(SpeechError error) {
             AppTools.getToast(error.getPlainDescription(true));
         }
+
     };
 
 
     private void printResult(RecognizerResult results) {
         String text = JsonParser.parseIatResult(results.getResultString());
-
         contentEt.setText(contentEt.getText().toString() + text);
         contentEt.setSelection(contentEt.length());
 
@@ -411,6 +416,11 @@ public class VoiceFragment extends BaseFragment implements View.OnTouchListener 
                         clientData.add(new BaseDataModel(clientModels.get(i).client_id, name));
                     } else if (name.length() > 2 && (resultStr.contains(name.substring(0, 2)) || pinYinStr.contains(AppTools.convertPinYin(name.substring(0, 2))))) {//模糊匹配，开始2个字
                         clientData.add(new BaseDataModel(clientModels.get(i).client_id, name));
+                    }
+
+                    if (name.length() > 4 && (resultStr.contains(name.substring(2, 4)) || pinYinStr.contains(AppTools.convertPinYin(name.substring(2, 4))))) {
+                        //模糊匹配，开始4个字中后两个
+
                     }
 
                 }

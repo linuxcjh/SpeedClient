@@ -74,6 +74,10 @@ import net.sourceforge.pinyin4j.format.HanyuPinyinCaseType;
 import net.sourceforge.pinyin4j.format.HanyuPinyinOutputFormat;
 import net.sourceforge.pinyin4j.format.exception.BadHanyuPinyinOutputFormatCombination;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -1466,6 +1470,7 @@ public class AppTools {
 
     /**
      * 语音界面弹出框
+     *
      * @param title
      * @param activity
      * @param data
@@ -1590,6 +1595,35 @@ public class AppTools {
         }
 
         dbManager.closeDB();
+
+    }
+
+
+    /**
+     * 上传用户词表
+     */
+    public static String getUploadClientNamesWordForm(List<AddClientTransModel> list) {
+
+//        {"userword":[{"name":"我的常用词","words":["佳晨实业","蜀南庭苑"]}
+//                ,{"name":"我的好友","words":["李馨琪","鹿晓雷"]}]}
+        JSONObject wordsOjb = new JSONObject();
+        JSONArray wordFormList = new JSONArray();
+        JSONObject inner = new JSONObject();
+        JSONArray innerNames = new JSONArray();
+        try {
+            inner.put("name", "客户名称词表");
+            for (int i = 0; i < list.size(); i++) {
+                innerNames.put(i, list.get(i).getCustomerName());
+            }
+            inner.put("words", innerNames);
+            wordFormList.put(0, inner);
+            wordsOjb.put("userword", wordFormList);
+            return wordsOjb.toString();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return "";
 
     }
 

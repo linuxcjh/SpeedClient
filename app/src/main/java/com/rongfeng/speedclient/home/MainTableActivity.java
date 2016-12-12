@@ -1,5 +1,6 @@
 package com.rongfeng.speedclient.home;
 
+import android.content.Intent;
 import android.graphics.PixelFormat;
 import android.os.Bundle;
 import android.os.Process;
@@ -32,6 +33,7 @@ import com.rongfeng.speedclient.mine.MineFragment;
 import com.rongfeng.speedclient.permisson.PermissionsChecker;
 import com.rongfeng.speedclient.voice.VoiceFragment;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -140,8 +142,9 @@ public class MainTableActivity extends BaseActivity {
         switch (methodIndex) {
 
             case XxbService.SEARCHCSR:
+                List<AddClientTransModel> list =  (List<AddClientTransModel>) data;
+                startService(new Intent(this,UpdateClientInfoService.class).putExtra("clientList", (Serializable) list));
                 AppTools.insertClientDataToDB(this, (List<AddClientTransModel>) data);
-
                 break;
         }
     }
