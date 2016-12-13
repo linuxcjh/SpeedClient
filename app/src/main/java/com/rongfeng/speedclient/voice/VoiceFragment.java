@@ -221,27 +221,27 @@ public class VoiceFragment extends BaseFragment implements View.OnTouchListener 
                 data.add(new BaseDataModel("mandarin", "普通话"));
                 data.add(new BaseDataModel("cantonese", "粤 语"));
                 data.add(new BaseDataModel("lmz", "四川话"));
-                data.add(new BaseDataModel("henanese", "河南话"));
+                    data.add(new BaseDataModel("henanese", "河南话"));
 //                /普通话：mandarin(默认)
 //                //粤 语：cantonese
 //                //四川话：lmz
 //                //河南话：henanese
-                AppTools.selectDialog("请选语言", getActivity(), data, mHandler, SELECT_LANGUAGE_INDEX);
+                    AppTools.selectDialog("请选语言", getActivity(), data, mHandler, SELECT_LANGUAGE_INDEX);
 
-                break;
-            case R.id.input_to_schedule_tv:
-                if (TextUtils.isEmpty(contentEt.getText().toString())) {
-                    AppTools.getToast("请输入内容");
-                    return;
-                }
-                startActivity(new Intent(getActivity(), AddScheduleActivity.class).putExtra("content", contentEt.getText().toString()));
+                    break;
+                    case R.id.input_to_schedule_tv:
+                        if (TextUtils.isEmpty(contentEt.getText().toString())) {
+                            AppTools.getToast("请输入内容");
+                            return;
+                        }
+                        startActivity(new Intent(getActivity(), AddScheduleActivity.class).putExtra("content", contentEt.getText().toString()));
 
 
-                break;
-            case R.id.input_to_log_tv:
+                        break;
+                    case R.id.input_to_log_tv:
 
-                if (TextUtils.isEmpty(contentEt.getText().toString())) {
-                    AppTools.getToast("请输入内容");
+                        if (TextUtils.isEmpty(contentEt.getText().toString())) {
+                            AppTools.getToast("请输入内容");
                     return;
                 }
                 invoke();
@@ -448,7 +448,6 @@ public class VoiceFragment extends BaseFragment implements View.OnTouchListener 
         } else {
             AppTools.getToast("请输入内容");
         }
-
 
     }
 
