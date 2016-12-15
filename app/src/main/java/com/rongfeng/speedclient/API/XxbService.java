@@ -660,6 +660,8 @@ public interface XxbService {
 
     String SEARCHCSR = "searchCsr";
 
+    String SEARCHCSRDATA="searchCsrData";
+
     String GETCSRBYID = "getCsrById";
 
     String SEARCHCSRCONTACTBYCSRID = "searchCsrContactByCsrId";

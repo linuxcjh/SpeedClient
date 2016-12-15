@@ -49,7 +49,6 @@ import com.gitonway.lee.niftymodaldialogeffects.lib.NiftyDialogBuilder;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.rongfeng.speedclient.R;
-import com.rongfeng.speedclient.client.entry.AddClientTransModel;
 import com.rongfeng.speedclient.common.AmapLbsLocationManager;
 import com.rongfeng.speedclient.common.BaseTransModel;
 import com.rongfeng.speedclient.common.CameraNoMarkActivity;
@@ -71,6 +70,7 @@ import com.rongfeng.speedclient.utils.DensityUtil;
 import com.rongfeng.speedclient.utils.FlowLayout;
 import com.rongfeng.speedclient.voice.AreaDBManager;
 import com.rongfeng.speedclient.voice.model.AreaModel;
+import com.rongfeng.speedclient.voice.model.SyncClientInfoModel;
 
 import net.sourceforge.pinyin4j.PinyinHelper;
 import net.sourceforge.pinyin4j.format.HanyuPinyinCaseType;
@@ -1580,7 +1580,7 @@ public class AppTools {
     /**
      * 添加数据到数据库
      */
-    public static void insertClientDataToDB(Context context, List<AddClientTransModel> data) {
+    public static void insertClientDataToDB(Context context, List<SyncClientInfoModel> data) {
 
         List<ClientModel> persons = new ArrayList<>();
         for (int i = 0; i < data.size(); i++) {
@@ -1617,12 +1617,13 @@ public class AppTools {
     /**
      * 添加单个人到数据库
      */
-    public static void insertClientDataToDB(Context context, AddClientTransModel data) {
+    public static void insertClientDataToDB(Context context, SyncClientInfoModel data) {
 
         ClientModel m = new ClientModel();
         m.setClient_name(data.getCustomerName());
         m.setClient_info(data.getClientNameWordsSplit());
         m.setClient_id(data.getCsrId());
+
 
         DBManager dbManager = new DBManager(context);
 
@@ -1640,7 +1641,7 @@ public class AppTools {
     /**
      * 上传用户词表
      */
-    public static String getUploadClientNamesWordForm(List<AddClientTransModel> list) {
+    public static String getUploadClientNamesWordForm(List<SyncClientInfoModel> list) {
 
 //        {"userword":[{"name":"我的常用词","words":["佳晨实业","蜀南庭苑"]}
 //                ,{"name":"我的好友","words":["李馨琪","鹿晓雷"]}]}

@@ -19,10 +19,8 @@ import com.google.gson.reflect.TypeToken;
 import com.rongfeng.speedclient.API.XxbService;
 import com.rongfeng.speedclient.R;
 import com.rongfeng.speedclient.client.adapter.ClientAnalysisAdapter;
-import com.rongfeng.speedclient.client.entry.AddClientTransModel;
 import com.rongfeng.speedclient.client.entry.AnalysisClientModel;
 import com.rongfeng.speedclient.common.BaseFragment;
-import com.rongfeng.speedclient.common.utils.AppTools;
 import com.rongfeng.speedclient.components.MyGridView;
 import com.rongfeng.speedclient.components.RadarChartView;
 import com.rongfeng.speedclient.entity.BaseDataModel;
@@ -205,10 +203,6 @@ public class ClientFragment extends BaseFragment implements AdapterView.OnItemCl
         super.obtainData(data, methodIndex, status);
         switch (methodIndex) {
 
-            case XxbService.SEARCHCSR:
-                AppTools.insertClientDataToDB(getActivity(), (List<AddClientTransModel>) data);
-
-                break;
             case XxbService.SEARCHCSRCOUNTSTATISTICSDOWN:
                 if (data != null) {
                     model = (AnalysisClientModel) data;

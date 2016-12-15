@@ -15,15 +15,16 @@ import com.iflytek.cloud.SpeechError;
 import com.iflytek.cloud.SpeechRecognizer;
 import com.iflytek.cloud.util.ContactManager;
 import com.rongfeng.speedclient.API.XxbService;
-import com.rongfeng.speedclient.client.entry.AddClientTransModel;
 import com.rongfeng.speedclient.common.BasePresenter;
 import com.rongfeng.speedclient.common.CommonPresenter;
 import com.rongfeng.speedclient.common.ICommonAction;
 import com.rongfeng.speedclient.common.utils.AppTools;
 import com.rongfeng.speedclient.login.TransDataModel;
 import com.rongfeng.speedclient.voice.VoicePresenter;
+import com.rongfeng.speedclient.voice.model.CsrContactJSONArray;
 import com.rongfeng.speedclient.voice.model.LanguageCloudModel;
 import com.rongfeng.speedclient.voice.model.SplitWordModel;
+import com.rongfeng.speedclient.voice.model.SyncClientInfoModel;
 
 import java.util.List;
 
@@ -78,7 +79,7 @@ public class UpdateClientInfoService extends IntentService implements ICommonAct
      *
      * @param list
      */
-    private void uploadWords(List<AddClientTransModel> list) {
+    private void uploadWords(List<SyncClientInfoModel> list) {
         mIat.setParameter(SpeechConstant.ENGINE_TYPE, SpeechConstant.TYPE_CLOUD);
         mIat.setParameter(SpeechConstant.TEXT_ENCODING, "utf-8");
         if (list != null) {
@@ -94,14 +95,17 @@ public class UpdateClientInfoService extends IntentService implements ICommonAct
      *
      * @param list
      */
-    private void uploadClientContact(List<AddClientTransModel> list) {
+    private void uploadClientContact(List<SyncClientInfoModel> list) {
         //指定引擎类型
         mIat.setParameter(SpeechConstant.ENGINE_TYPE, SpeechConstant.TYPE_CLOUD);
         mIat.setParameter(SpeechConstant.TEXT_ENCODING, "utf-8");
         if (list != null) {
             StringBuilder builder = new StringBuilder();
-            for (AddClientTransModel m : list) {
-                builder.append(m.getCustomerName()).append("\n");
+            for (SyncClientInfoModel m : list) {
+                builder.append(m.getCustomerName()).append("\n"); //客户名称
+                for (CsrContactJSONArray contact : m.getCsrContactJSONArray()) { //联系人名称
+                    builder.append(contact.getName()).append("\n");
+                }
             }
             String upload = builder.toString();
             if (!TextUtils.isEmpty(upload)) {
@@ -178,7 +182,7 @@ public class UpdateClientInfoService extends IntentService implements ICommonAct
      */
     private VoicePresenter voicePresenter = new VoicePresenter() {
         @Override
-        public void onResponse(String methodName, AddClientTransModel model, Object object, int status) {
+        public void onResponse(String methodName, SyncClientInfoModel model, Object object, int status) {
 
             if (object != null) {
                 List<List<List<SplitWordModel>>> models = (List<List<List<SplitWordModel>>>) object;
@@ -195,8 +199,6 @@ public class UpdateClientInfoService extends IntentService implements ICommonAct
                     }
 
                     model.setClientNameWordsSplit(BasePresenter.gson.toJson(results));
-
-
                     AppTools.insertClientDataToDB(UpdateClientInfoService.this, model);
                 }
             }
@@ -207,7 +209,7 @@ public class UpdateClientInfoService extends IntentService implements ICommonAct
     /**
      * 客户名称分词解析
      */
-    private void languageCloudParse(AddClientTransModel m) {
+    private void languageCloudParse(SyncClientInfoModel m) {
         LanguageCloudModel model = new LanguageCloudModel();
         model.setText(m.getCustomerName());
         voicePresenter.commonApi("", m, AppTools.toMap(model), new TypeToken<List<List<List<SplitWordModel>>>>() {
@@ -221,7 +223,7 @@ public class UpdateClientInfoService extends IntentService implements ICommonAct
     private void invokeClient() {
         TransDataModel transDataModel = new TransDataModel();
         transDataModel.setClientType("5");
-        commonPresenter.invokeInterfaceObtainData(XxbService.SEARCHCSR, transDataModel, new TypeToken<List<AddClientTransModel>>() {
+        commonPresenter.invokeInterfaceObtainData(XxbService.SEARCHCSRDATA, transDataModel, new TypeToken<List<SyncClientInfoModel>>() {
         });
     }
 
@@ -229,8 +231,8 @@ public class UpdateClientInfoService extends IntentService implements ICommonAct
     public void obtainData(Object data, String methodIndex, int status) {
         switch (methodIndex) {
 
-            case XxbService.SEARCHCSR:
-                List<AddClientTransModel> list = (List<AddClientTransModel>) data;
+            case XxbService.SEARCHCSRDATA:
+                List<SyncClientInfoModel> list = (List<SyncClientInfoModel>) data;
                 if (list != null && list.size() > 0) {
                     uploadWords(list);
                     uploadClientContact(list);
