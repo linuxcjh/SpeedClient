@@ -118,7 +118,7 @@ public class VoicePresenter {
                     }
                 }
                 model.setClientNameWordsSplit(BasePresenter.gson.toJson(results));
-                VoiceAnalysisTools.updateClientNameSplit(AppConfig.getContext(), model);//更新分词结果
+                VoiceAnalysisTools.getInstance().updateClientNameSplit(AppConfig.getContext(), model);//更新分词结果
             }
         }
     }

@@ -282,7 +282,10 @@ public interface Constant {
     /**
      * 上传联系人
      */
+
     String UPLOAD_CONTACTS_FLAG = "contact";
+    String SAVE_UPLOAD_CONTACTS_FLAG = "contact_save";
+
 
     /**
      * 上传客户词表

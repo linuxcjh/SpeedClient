@@ -406,7 +406,7 @@ public class VoiceFragment extends BaseFragment implements View.OnTouchListener 
         String pinYinStr = AppTools.convertPinYin(resultStr);
         if (!TextUtils.isEmpty(resultStr)) {
 
-            clientModels = AppTools.queryClientDataToDB(getActivity());
+            clientModels = VoiceAnalysisTools.getInstance().queryClientDataToDB(getActivity());
 
             List<String> clientData = new ArrayList<>();
 

@@ -1,10 +1,25 @@
 package com.rongfeng.speedclient.voice;
 
 import android.content.Context;
+import android.text.TextUtils;
 
+import com.google.gson.reflect.TypeToken;
+import com.iflytek.cloud.ErrorCode;
+import com.iflytek.cloud.InitListener;
+import com.iflytek.cloud.LexiconListener;
+import com.iflytek.cloud.SpeechConstant;
+import com.iflytek.cloud.SpeechError;
+import com.iflytek.cloud.SpeechRecognizer;
+import com.iflytek.cloud.util.ContactManager;
 import com.rongfeng.speedclient.common.BasePresenter;
+import com.rongfeng.speedclient.common.Constant;
+import com.rongfeng.speedclient.common.utils.AppConfig;
+import com.rongfeng.speedclient.common.utils.AppTools;
 import com.rongfeng.speedclient.datanalysis.ClientModel;
 import com.rongfeng.speedclient.datanalysis.DBManager;
+import com.rongfeng.speedclient.voice.model.CsrContactJSONArray;
+import com.rongfeng.speedclient.voice.model.LanguageCloudModel;
+import com.rongfeng.speedclient.voice.model.SplitWordModel;
 import com.rongfeng.speedclient.voice.model.SyncClientInfoModel;
 
 import org.json.JSONArray;
@@ -24,6 +39,22 @@ import java.util.Map;
  */
 public class VoiceAnalysisTools {
 
+    private VoicePresenter voicePresenter;
+    private SpeechRecognizer mIat;
+    private static VoiceAnalysisTools ourInstance = new VoiceAnalysisTools();
+
+    public static VoiceAnalysisTools getInstance() {
+
+        return ourInstance;
+    }
+
+    private VoiceAnalysisTools() {
+        voicePresenter = new VoicePresenter();
+        mIat = SpeechRecognizer.createRecognizer(AppConfig.getContext(), mInitListener);
+        mIat.setParameter(SpeechConstant.ENGINE_TYPE, SpeechConstant.TYPE_CLOUD);
+        mIat.setParameter(SpeechConstant.TEXT_ENCODING, "utf-8");
+    }
+
 
     /**
      * Bean Convert Map
@@ -31,7 +62,7 @@ public class VoiceAnalysisTools {
      * @param targetBean
      * @return
      */
-    public static Map<String, String> toMap(Object targetBean) {
+    public Map<String, String> toMap(Object targetBean) {
 
         Map<String, String> result = new IdentityHashMap<String, String>();
         Method[] methods = targetBean.getClass().getDeclaredMethods();
@@ -55,13 +86,10 @@ public class VoiceAnalysisTools {
     }
 
 
-
-
-
     /**
      * 添加数据到数据库
      */
-    public static void insertClientDataToDB(Context context, List<SyncClientInfoModel> data) {
+    public void insertClientDataToDB(Context context, List<SyncClientInfoModel> data) {
 
         List<ClientModel> persons = new ArrayList<>();
         for (int i = 0; i < data.size(); i++) {
@@ -88,7 +116,7 @@ public class VoiceAnalysisTools {
      *
      * @param context
      */
-    public static void clearForm(Context context) {
+    public void clearForm(Context context) {
         DBManager dbManager = new DBManager(context);
         dbManager.truncate();
 
@@ -98,7 +126,7 @@ public class VoiceAnalysisTools {
     /**
      * 添加单个人到数据库
      */
-    public static void insertClientDataToDB(SyncClientInfoModel data, DBManager dbManager) {
+    public void insertClientDataToDB(SyncClientInfoModel data, DBManager dbManager) {
 
         ClientModel m = new ClientModel();
         m.setClient_name(data.getCustomerName());
@@ -112,12 +140,14 @@ public class VoiceAnalysisTools {
     /**
      * 更新客户名称分词结果
      */
-    public static void updateClientNameSplit(Context context, SyncClientInfoModel data) {
+    public void updateClientNameSplit(Context context, SyncClientInfoModel data) {
         DBManager dbManager = new DBManager(context);
 
         ClientModel m = new ClientModel();
         m.setClient_info(data.getClientNameWordsSplit());
         m.setClient_id(data.getCsrId());
+        m.setClient_update_time(data.getUpdateTime());
+        m.setClient_name(data.getCustomerName());
 
         dbManager.updateClient(m);
 
@@ -131,7 +161,7 @@ public class VoiceAnalysisTools {
      * @param dbManager
      */
 
-    public static void updateClientContact(SyncClientInfoModel data, DBManager dbManager) {
+    public void updateClientContact(SyncClientInfoModel data, DBManager dbManager) {
 
         ClientModel m = new ClientModel();
         m.setClient_name(data.getCustomerName());
@@ -146,7 +176,7 @@ public class VoiceAnalysisTools {
     /**
      * 上传用户词表
      */
-    public static String getUploadClientNamesWordForm(List<SyncClientInfoModel> list) {
+    public String getUploadClientNamesWordForm(List<SyncClientInfoModel> list) {
 
 //        {"userword":[{"name":"我的常用词","words":["佳晨实业","蜀南庭苑"]}
 //                ,{"name":"我的好友","words":["李馨琪","鹿晓雷"]}]}
@@ -183,7 +213,7 @@ public class VoiceAnalysisTools {
     /**
      * 删除数据库数据
      */
-    public static void deleteClientDataToDB(Context context) {
+    public void deleteClientDataToDB(Context context) {
 
         DBManager dbManager = new DBManager(context);
         dbManager.truncate();
@@ -194,7 +224,7 @@ public class VoiceAnalysisTools {
     /**
      * 查询数据库数据
      */
-    public static List<ClientModel> queryClientDataToDB(Context context) {
+    public List<ClientModel> queryClientDataToDB(Context context) {
         List<ClientModel> persons = new ArrayList<>();
         DBManager dbManager = new DBManager(context);
         persons = dbManager.query();
@@ -210,7 +240,7 @@ public class VoiceAnalysisTools {
      * @param clientId
      * @return
      */
-    public static boolean queryClientIsExist(Context context, String clientId) {
+    public boolean queryClientIsExist(Context context, String clientId) {
         DBManager dbManager = new DBManager(context);
         boolean isExist = dbManager.queryTheClientCursor(clientId);
         dbManager.closeDB();
@@ -218,6 +248,175 @@ public class VoiceAnalysisTools {
         return isExist;
     }
 
+
+    public void analysisData(List<SyncClientInfoModel> list) {
+
+
+        String contactStr = AppConfig.getStringConfig(Constant.SAVE_UPLOAD_CONTACTS_FLAG, "");
+        StringBuilder builder = new StringBuilder(contactStr);
+
+
+        DBManager dbManager = new DBManager(AppConfig.getContext());
+
+        if (list != null && list.size() > 0) {
+
+//            uploadWords(list);
+//            uploadClientContact(list);
+            for (int i = 0; i < list.size(); i++) {
+                SyncClientInfoModel model = list.get(i);
+
+                ClientModel m = dbManager.queryTheClient(model.getCsrId());
+                if (!TextUtils.isEmpty(m.client_id)) {//客户存在
+                    String contacts = BasePresenter.gson.toJson(model.getCsrContactJSONArray()).toString();
+                    if (!m.getContact_name().equals(contacts)) {//联系人变化更新已有客户的联系人
+                        updateClientContact(model, dbManager);
+                        uploadClientContactInfo(model, contactStr, builder);
+                    }
+                    if (!m.getClient_name().equals(model.getCustomerName())) {//客户名称有变化重新分词并更新数据库
+                        languageCloudParse(model);
+                        uploadClientContactInfo(model, contactStr, builder);
+                    }
+                } else {//客户不存在
+                    insertClientDataToDB(model, dbManager);//插入数据库
+                    languageCloudParse(model);//客户名称分词并更新数据库
+                    uploadClientContactInfo(model, contactStr, builder);
+                }
+            }
+        }
+
+        if (builder.toString().startsWith("\n")) {
+            builder.deleteCharAt(0);
+        }
+        if (!contactStr.equals(builder.toString())) {
+            mIat.updateLexicon(Constant.UPLOAD_CONTACTS_FLAG, builder.toString(), lexiconListener);
+            AppConfig.setStringConfig(Constant.SAVE_UPLOAD_CONTACTS_FLAG, builder.toString());//缓存联系人和个人客户信息用于在新增或修改时增量上传
+            builder.delete(0, builder.length());
+        }
+        dbManager.closeDB();
+
+    }
+
+
+    /**
+     * 客户名称分词解析
+     */
+    public void languageCloudParse(SyncClientInfoModel m) {
+        LanguageCloudModel model = new LanguageCloudModel();
+        model.setText(m.getCustomerName());
+        voicePresenter.commonApi("", m, toMap(model), new TypeToken<List<List<List<SplitWordModel>>>>() {
+        });
+    }
+
+    /**
+     * 全量上传客户联系人
+     *
+     * @param list
+     */
+    public void uploadClientContact(List<SyncClientInfoModel> list) {
+        if (list != null) {
+            StringBuilder builder = new StringBuilder();
+            for (SyncClientInfoModel m : list) {
+                builder.append(m.getCustomerName()).append("\n"); //客户名称
+                for (CsrContactJSONArray contact : m.getCsrContactJSONArray()) { //联系人名称
+                    builder.append(contact.getName()).append("\n");
+                }
+            }
+            String upload = builder.toString();
+            if (!TextUtils.isEmpty(upload)) {
+                mIat.updateLexicon(Constant.UPLOAD_CONTACTS_FLAG, upload, lexiconListener);
+                AppConfig.setStringConfig(Constant.SAVE_UPLOAD_CONTACTS_FLAG, upload);//缓存联系人和个人客户信息用于在新增或修改时增量上传
+            }
+        }
+    }
+
+
+    /**
+     * 增量上传
+     *
+     * @param m
+     */
+    public void uploadClientContactInfo(SyncClientInfoModel m, String contactStr, StringBuilder builder) {
+        if (!contactStr.contains(m.getCustomerName())) {
+            builder.append("\n").append(m.getCustomerName()); //客户名称
+        }
+        for (CsrContactJSONArray contact : m.getCsrContactJSONArray()) { //联系人名称
+            if (!contactStr.contains(contact.getName())) {
+                builder.append("\n").append(contact.getName());
+            }
+        }
+
+    }
+
+    /**
+     * 上传客户词表
+     *
+     * @param list
+     */
+    private void uploadWords(List<SyncClientInfoModel> list, SpeechRecognizer mIat) {
+        if (list != null) {
+            String upload = VoiceAnalysisTools.getInstance().getUploadClientNamesWordForm(list);
+            if (!TextUtils.isEmpty(upload)) {
+                mIat.updateLexicon(Constant.UPLOAD_CLIENT_FLAG, upload, mLexiconListener);
+            }
+        }
+    }
+
+
+    /**
+     * 上传手机通讯录
+     */
+    private void upPhoneContact() {
+
+        ContactManager mgr = ContactManager.createManager(AppConfig.getContext(), new ContactManager.ContactListener() {
+            @Override
+            public void onContactQueryFinish(String contactInfos, boolean changeFlag) {
+                //指定引擎类型
+                mIat.updateLexicon(Constant.UPLOAD_CONTACTS_FLAG, contactInfos, lexiconListener);
+            }
+        });
+        //异步查询联系人接口，通过onContactQueryFinish接口回调
+        mgr.asyncQueryAllContactsName();
+
+    }
+
+
+    /**
+     * 初始化监听器。
+     */
+    private InitListener mInitListener = new InitListener() {
+
+        @Override
+        public void onInit(int code) {
+            if (code != ErrorCode.SUCCESS) {
+                AppTools.getToast("初始化失败，错误码：" + code);
+            }
+        }
+    };
+    /**
+     * 上传联系人/词表监听器。
+     */
+    private LexiconListener mLexiconListener = new LexiconListener() {
+
+        @Override
+        public void onLexiconUpdated(String lexiconId, SpeechError error) {
+            if (error != null) {
+            } else {
+                AppTools.getToast("上传成功");
+            }
+        }
+    };
+
+    //上传联系人监听器。
+    private LexiconListener lexiconListener = new LexiconListener() {
+        @Override
+        public void onLexiconUpdated(String lexiconId, SpeechError error) {
+            if (error != null) {
+//                Log.d(TAG, error.toString());
+            } else {
+                AppTools.getToast("联系人上传成功");
+            }
+        }
+    };
 
 
 }

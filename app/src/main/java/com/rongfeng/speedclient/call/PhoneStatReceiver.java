@@ -8,8 +8,8 @@ import android.telephony.TelephonyManager;
 import android.util.Log;
 
 import com.rongfeng.speedclient.common.utils.AppConfig;
-import com.rongfeng.speedclient.common.utils.AppTools;
 import com.rongfeng.speedclient.datanalysis.ClientModel;
+import com.rongfeng.speedclient.voice.VoiceAnalysisTools;
 
 import java.util.List;
 
@@ -65,7 +65,7 @@ public class PhoneStatReceiver extends BroadcastReceiver {
      */
     private void judgeIsExist(String phoneNum) {
 
-        List<ClientModel> clientModels = AppTools.queryClientDataToDB(AppConfig.getContext());
+        List<ClientModel> clientModels = VoiceAnalysisTools.getInstance().queryClientDataToDB(AppConfig.getContext());
         for (int i = 0; i < clientModels.size(); i++) {
             if (clientModels.get(i).getContact_phone().equals(phoneNum)) {
                 setAlarActivity();

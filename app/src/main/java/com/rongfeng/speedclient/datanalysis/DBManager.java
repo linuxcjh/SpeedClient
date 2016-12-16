@@ -65,7 +65,9 @@ public class DBManager {
         db.beginTransaction();  //开始事务
         try {
             db.execSQL("UPDATE  notes set "
-                    + DatabaseHelper.CLIENT_INFO + "='" + person.getClient_info()
+                    + DatabaseHelper.CLIENT_NAME + "='" + person.getClient_name()
+                    + "'," + DatabaseHelper.CLIENT_INFO + "='" + person.getClient_info()
+                    + "'," + DatabaseHelper.CLIENT_UPDATE_TIME + "='" + person.getClient_update_time()
                     + "' WHERE " + DatabaseHelper.CLIENT_ID + "='" + person.getClient_id()
                     + "'");
             db.setTransactionSuccessful();  //设置事务成功完成

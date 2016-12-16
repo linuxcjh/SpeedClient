@@ -157,7 +157,7 @@ public class VoiceNoteActivity extends BaseActivity implements ICommonPagination
         String pinYinStr = AppTools.convertPinYin(resultStr);
         if (!TextUtils.isEmpty(resultStr)) {
 
-            List<ClientModel> clientModels = AppTools.queryClientDataToDB(this);
+            List<ClientModel> clientModels = VoiceAnalysisTools.getInstance().queryClientDataToDB(this);
 
             List<BaseDataModel> clientData = new ArrayList<>();
 
