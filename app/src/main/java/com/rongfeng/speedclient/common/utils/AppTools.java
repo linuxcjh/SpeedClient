@@ -50,6 +50,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.rongfeng.speedclient.R;
 import com.rongfeng.speedclient.common.AmapLbsLocationManager;
+import com.rongfeng.speedclient.common.BasePresenter;
 import com.rongfeng.speedclient.common.BaseTransModel;
 import com.rongfeng.speedclient.common.CameraNoMarkActivity;
 import com.rongfeng.speedclient.common.CameraWaterMarkActivity;
@@ -1617,26 +1618,50 @@ public class AppTools {
     /**
      * 添加单个人到数据库
      */
-    public static void insertClientDataToDB(Context context, SyncClientInfoModel data) {
+    public static void insertClientDataToDB(SyncClientInfoModel data, DBManager dbManager) {
 
         ClientModel m = new ClientModel();
         m.setClient_name(data.getCustomerName());
+        m.setClient_id(data.getCsrId());
+        m.setClient_update_time(data.getUpdateTime());
+        m.setContact_name(BasePresenter.gson.toJson(data.getCsrContactJSONArray()));
+
+        dbManager.addClient(m);
+    }
+
+    /**
+     * 更新客户名称分词结果
+     */
+    public static void updateClientNameSplit(Context context, SyncClientInfoModel data) {
+        DBManager dbManager = new DBManager(context);
+
+        ClientModel m = new ClientModel();
         m.setClient_info(data.getClientNameWordsSplit());
         m.setClient_id(data.getCsrId());
 
-
-        DBManager dbManager = new DBManager(context);
-
-        if (dbManager.queryTheClientCursor(data.getCsrId())) {
-            dbManager.updateClient(m);
-        }else{
-            dbManager.addClient(m);
-        }
+        dbManager.updateClient(m);
 
         dbManager.closeDB();
-
     }
 
+    /**
+     * 更新联系人
+     *
+     * @param data
+     * @param dbManager
+     */
+
+    public static void updateClientContact(SyncClientInfoModel data, DBManager dbManager) {
+
+        ClientModel m = new ClientModel();
+        m.setClient_name(data.getCustomerName());
+        m.setClient_id(data.getCsrId());
+        m.setClient_update_time(data.getUpdateTime());
+        m.setContact_name(BasePresenter.gson.toJson(data.getCsrContactJSONArray()));
+
+        dbManager.updateClientContact(m);
+
+    }
 
     /**
      * 上传用户词表

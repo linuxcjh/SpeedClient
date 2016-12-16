@@ -3,7 +3,7 @@ package com.rongfeng.speedclient.voice.model;
 import java.util.ArrayList;
 
 public class SyncClientInfoModel {
-	
+
     private String customerType;
     private String csrId;
     private ArrayList<CsrContactJSONArray> csrContactJSONArray;
@@ -11,6 +11,16 @@ public class SyncClientInfoModel {
     private String customerName;
 
     private String clientNameWordsSplit; //分词
+    private boolean isUpdate;//是否要更新
+
+
+    public boolean isUpdate() {
+        return isUpdate;
+    }
+
+    public void setUpdate(boolean update) {
+        isUpdate = update;
+    }
 
     public String getClientNameWordsSplit() {
         return clientNameWordsSplit;
@@ -19,11 +29,11 @@ public class SyncClientInfoModel {
     public void setClientNameWordsSplit(String clientNameWordsSplit) {
         this.clientNameWordsSplit = clientNameWordsSplit;
     }
-    
-	public SyncClientInfoModel () {
-		
-	}	
-        
+
+    public SyncClientInfoModel() {
+
+    }
+
 
     public String getCustomerType() {
         return this.customerType;
@@ -66,5 +76,4 @@ public class SyncClientInfoModel {
     }
 
 
-    
 }

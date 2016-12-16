@@ -17,9 +17,14 @@ import com.iflytek.cloud.util.ContactManager;
 import com.rongfeng.speedclient.API.XxbService;
 import com.rongfeng.speedclient.common.BasePresenter;
 import com.rongfeng.speedclient.common.CommonPresenter;
+import com.rongfeng.speedclient.common.Constant;
 import com.rongfeng.speedclient.common.ICommonAction;
+import com.rongfeng.speedclient.common.utils.AppConfig;
 import com.rongfeng.speedclient.common.utils.AppTools;
+import com.rongfeng.speedclient.datanalysis.ClientModel;
+import com.rongfeng.speedclient.datanalysis.DBManager;
 import com.rongfeng.speedclient.login.TransDataModel;
+import com.rongfeng.speedclient.voice.VoiceAnalysisTools;
 import com.rongfeng.speedclient.voice.VoicePresenter;
 import com.rongfeng.speedclient.voice.model.CsrContactJSONArray;
 import com.rongfeng.speedclient.voice.model.LanguageCloudModel;
@@ -37,7 +42,10 @@ import java.util.List;
 public class UpdateClientInfoService extends IntentService implements ICommonAction {
 
     private CommonPresenter commonPresenter = new CommonPresenter(this);
-
+    /**
+     * 分词Presenter
+     */
+    private VoicePresenter voicePresenter = new VoicePresenter();
     // 语音听写对象
     private SpeechRecognizer mIat;
 
@@ -62,7 +70,10 @@ public class UpdateClientInfoService extends IntentService implements ICommonAct
     @Override
     public void onCreate() {
         super.onCreate();
+        commonPresenter.isShowProgressDialog = false;
         mIat = SpeechRecognizer.createRecognizer(getApplicationContext(), mInitListener);
+        mIat.setParameter(SpeechConstant.ENGINE_TYPE, SpeechConstant.TYPE_CLOUD);
+        mIat.setParameter(SpeechConstant.TEXT_ENCODING, "utf-8");
 
     }
 
@@ -80,12 +91,10 @@ public class UpdateClientInfoService extends IntentService implements ICommonAct
      * @param list
      */
     private void uploadWords(List<SyncClientInfoModel> list) {
-        mIat.setParameter(SpeechConstant.ENGINE_TYPE, SpeechConstant.TYPE_CLOUD);
-        mIat.setParameter(SpeechConstant.TEXT_ENCODING, "utf-8");
         if (list != null) {
-            String upload = AppTools.getUploadClientNamesWordForm(list);
+            String upload = VoiceAnalysisTools.getUploadClientNamesWordForm(list);
             if (!TextUtils.isEmpty(upload)) {
-                mIat.updateLexicon("userword", upload, mLexiconListener);
+                mIat.updateLexicon(Constant.UPLOAD_CLIENT_FLAG, upload, mLexiconListener);
             }
         }
     }
@@ -96,20 +105,20 @@ public class UpdateClientInfoService extends IntentService implements ICommonAct
      * @param list
      */
     private void uploadClientContact(List<SyncClientInfoModel> list) {
-        //指定引擎类型
-        mIat.setParameter(SpeechConstant.ENGINE_TYPE, SpeechConstant.TYPE_CLOUD);
-        mIat.setParameter(SpeechConstant.TEXT_ENCODING, "utf-8");
         if (list != null) {
             StringBuilder builder = new StringBuilder();
             for (SyncClientInfoModel m : list) {
-                builder.append(m.getCustomerName()).append("\n"); //客户名称
+                if (m.getCustomerType().equals("2")) {//个人客户名称
+                    builder.append(m.getCustomerName()).append("\n"); //客户名称
+                }
                 for (CsrContactJSONArray contact : m.getCsrContactJSONArray()) { //联系人名称
                     builder.append(contact.getName()).append("\n");
                 }
             }
             String upload = builder.toString();
             if (!TextUtils.isEmpty(upload)) {
-                mIat.updateLexicon("contact", upload, lexiconListener);
+                mIat.updateLexicon(Constant.UPLOAD_CONTACTS_FLAG, upload, lexiconListener);
+                AppConfig.setStringConfig(Constant.UPLOAD_CONTACTS_FLAG, upload);//缓存联系人和个人客户信息用于在新增或修改时增量上传
             }
         }
     }
@@ -132,9 +141,7 @@ public class UpdateClientInfoService extends IntentService implements ICommonAct
         @Override
         public void onContactQueryFinish(String contactInfos, boolean changeFlag) {
             //指定引擎类型
-            mIat.setParameter(SpeechConstant.ENGINE_TYPE, SpeechConstant.TYPE_CLOUD);
-            mIat.setParameter(SpeechConstant.TEXT_ENCODING, "utf-8");
-            mIat.updateLexicon("contact", contactInfos, lexiconListener);
+            mIat.updateLexicon(Constant.UPLOAD_CONTACTS_FLAG, contactInfos, lexiconListener);
         }
     };
 
@@ -162,6 +169,7 @@ public class UpdateClientInfoService extends IntentService implements ICommonAct
             }
         }
     };
+
     /**
      * 上传联系人/词表监听器。
      */
@@ -171,40 +179,12 @@ public class UpdateClientInfoService extends IntentService implements ICommonAct
         public void onLexiconUpdated(String lexiconId, SpeechError error) {
             if (error != null) {
             } else {
-
                 AppTools.getToast("上传成功");
             }
         }
     };
 
-    /**
-     * 分词Presenter
-     */
-    private VoicePresenter voicePresenter = new VoicePresenter() {
-        @Override
-        public void onResponse(String methodName, SyncClientInfoModel model, Object object, int status) {
 
-            if (object != null) {
-                List<List<List<SplitWordModel>>> models = (List<List<List<SplitWordModel>>>) object;
-
-                if (models != null && models.size() > 0 && models.get(0).size() > 0) {
-
-                    List<SplitWordModel> results = models.get(0).get(0);
-                    for (int i = 0; i < results.size(); i++) {
-                        if (results.get(i).getCont().length() == 1) {//当前为单个字
-                            if ((i + 1) < results.size()) {
-                                results.get(i).setCont(results.get(i).getCont() + results.get(i + 1).getCont());
-                            }
-                        }
-                    }
-
-                    model.setClientNameWordsSplit(BasePresenter.gson.toJson(results));
-                    AppTools.insertClientDataToDB(UpdateClientInfoService.this, model);
-                }
-            }
-
-        }
-    };
 
     /**
      * 客户名称分词解析
@@ -212,7 +192,7 @@ public class UpdateClientInfoService extends IntentService implements ICommonAct
     private void languageCloudParse(SyncClientInfoModel m) {
         LanguageCloudModel model = new LanguageCloudModel();
         model.setText(m.getCustomerName());
-        voicePresenter.commonApi("", m, AppTools.toMap(model), new TypeToken<List<List<List<SplitWordModel>>>>() {
+        voicePresenter.commonApi("", m, VoiceAnalysisTools.toMap(model), new TypeToken<List<List<List<SplitWordModel>>>>() {
         });
     }
 
@@ -232,14 +212,32 @@ public class UpdateClientInfoService extends IntentService implements ICommonAct
         switch (methodIndex) {
 
             case XxbService.SEARCHCSRDATA:
+                DBManager dbManager = new DBManager(AppConfig.getContext());
+
                 List<SyncClientInfoModel> list = (List<SyncClientInfoModel>) data;
                 if (list != null && list.size() > 0) {
-                    uploadWords(list);
+
+//                    uploadWords(list);
                     uploadClientContact(list);
                     for (int i = 0; i < list.size(); i++) {
-                        languageCloudParse(list.get(i));
+                        SyncClientInfoModel model = list.get(i);
+
+                        ClientModel m = dbManager.queryTheClient(model.getCsrId());
+                        if (!TextUtils.isEmpty(m.client_id)) {//客户存在
+                            String contacts = BasePresenter.gson.toJson(model.getCsrContactJSONArray()).toString();
+                            if (!m.getContact_name().equals(contacts)) {//更新已有客户的联系人
+                                VoiceAnalysisTools.updateClientContact(model, dbManager);
+                            }
+                            if (!m.getClient_name().equals(model.getCustomerName())) {//客户名称有变化重新分词并更新数据库
+                                languageCloudParse(model);
+                            }
+                        } else {//客户不存在
+                            VoiceAnalysisTools.insertClientDataToDB(model, dbManager);//插入数据库
+                            languageCloudParse(model);//客户名称分词并更新数据库
+                        }
                     }
                 }
+                dbManager.closeDB();
                 break;
         }
     }

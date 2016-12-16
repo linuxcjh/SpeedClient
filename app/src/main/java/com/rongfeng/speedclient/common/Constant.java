@@ -248,14 +248,14 @@ public interface Constant {
     /**
      * 刷新客户
      */
-    public static final String  CLIENT_REFRESH_PERSONA = "client_refresh_persona";
+    public static final String CLIENT_REFRESH_PERSONA = "client_refresh_persona";
 
-    public static final String  CLIENT_REFRESH_PERSONA_LABEL = "client_refresh_persona_label";
+    public static final String CLIENT_REFRESH_PERSONA_LABEL = "client_refresh_persona_label";
 
     /**
      * 刷新组织结构
      */
-    public static final String  ORGANIZATION_REFRESH_FLAG = "organization_refresh_flag";
+    public static final String ORGANIZATION_REFRESH_FLAG = "organization_refresh_flag";
 
 
     /**
@@ -279,6 +279,15 @@ public interface Constant {
     public static final int SEARCH_CLIENT_INDEX = 0x12;
     public static final int ADD_CLIENT_INDEX = 0x13;
 
+    /**
+     * 上传联系人
+     */
+    String UPLOAD_CONTACTS_FLAG = "contact";
+
+    /**
+     * 上传客户词表
+     */
+    String UPLOAD_CLIENT_FLAG = "userword";
 
 
 }

@@ -33,7 +33,7 @@ public class DBManager {
         db.beginTransaction();  //开始事务
         try {
             for (ClientModel person : persons) {
-                db.execSQL("INSERT INTO notes VALUES(null,?,?,?,?,?,?)", new Object[]{person.client_id, person.client_name, person.client_info, person.contact_id, person.contact_name, person.contact_phone});
+                db.execSQL("INSERT INTO notes VALUES(null,?,?,?,?,?,?,?)", new Object[]{person.client_id, person.client_name, person.client_info, person.client_update_time, person.contact_id, person.contact_name, person.contact_phone});
             }
             db.setTransactionSuccessful();  //设置事务成功完成
         } finally {
@@ -49,7 +49,7 @@ public class DBManager {
     public void addClient(ClientModel person) {
         db.beginTransaction();  //开始事务
         try {
-            db.execSQL("INSERT INTO notes VALUES(null,?,?,?,?,?,?)", new Object[]{person.client_id, person.client_name, person.client_info, person.contact_id, person.contact_name, person.contact_phone});
+            db.execSQL("INSERT INTO notes VALUES(null,?,?,?,?,?,?,?)", new Object[]{person.client_id, person.client_name, person.client_info, person.client_update_time, person.contact_id, person.contact_name, person.contact_phone});
             db.setTransactionSuccessful();  //设置事务成功完成
         } finally {
             db.endTransaction();    //结束事务
@@ -57,15 +57,34 @@ public class DBManager {
     }
 
     /**
-     * 更新客户数据
+     * 更新客户名称分词结果数据
      *
      * @param person
      */
     public void updateClient(ClientModel person) {
         db.beginTransaction();  //开始事务
         try {
+            db.execSQL("UPDATE  notes set "
+                    + DatabaseHelper.CLIENT_INFO + "='" + person.getClient_info()
+                    + "' WHERE " + DatabaseHelper.CLIENT_ID + "='" + person.getClient_id()
+                    + "'");
+            db.setTransactionSuccessful();  //设置事务成功完成
+        } finally {
+            db.endTransaction();    //结束事务
+        }
+    }
+
+    /**
+     * 更新客户联系人数据
+     *
+     * @param person
+     */
+    public void updateClientContact(ClientModel person) {
+
+        db.beginTransaction();  //开始事务
+        try {
             db.execSQL("UPDATE  notes set " + DatabaseHelper.CLIENT_NAME + "='" + person.getClient_name()
-                    + "'," + DatabaseHelper.CLIENT_INFO + "='" + person.getClient_info()
+                    + "'," + DatabaseHelper.CLIENT_UPDATE_TIME + "='" + person.getClient_update_time()
                     + "'," + DatabaseHelper.CONTACT_NAME + "='" + person.getContact_name()
                     + "' WHERE " + DatabaseHelper.CLIENT_ID + "='" + person.getClient_id()
                     + "'");
@@ -123,6 +142,7 @@ public class DBManager {
             person.client_id = c.getString(c.getColumnIndex("client_id"));
             person.client_name = c.getString(c.getColumnIndex("client_name"));
             person.client_info = c.getString(c.getColumnIndex("client_info"));
+            person.client_update_time = c.getString(c.getColumnIndex("client_update_time"));
 
             person.contact_id = c.getString(c.getColumnIndex("contact_id"));
             person.contact_name = c.getString(c.getColumnIndex("contact_name"));
@@ -145,13 +165,37 @@ public class DBManager {
 
 
     /**
+     * 根据id查找指定客户
+     *
+     * @param clientId
+     * @return
+     */
+    public ClientModel queryTheClient(String clientId) {
+        Cursor c = db.rawQuery("SELECT * FROM notes WHERE " + DatabaseHelper.CLIENT_ID + "='" + clientId + "'", null);
+        ClientModel person = new ClientModel();
+        while (c.moveToNext()) {
+            person.client_id = c.getString(c.getColumnIndex("client_id"));
+            person.client_name = c.getString(c.getColumnIndex("client_name"));
+            person.client_info = c.getString(c.getColumnIndex("client_info"));
+            person.client_update_time = c.getString(c.getColumnIndex("client_update_time"));
+
+            person.contact_id = c.getString(c.getColumnIndex("contact_id"));
+            person.contact_name = c.getString(c.getColumnIndex("contact_name"));
+            person.contact_phone = c.getString(c.getColumnIndex("contact_phone"));
+        }
+        c.close();
+
+        return person;
+    }
+
+    /**
      * 判断是否存在
      *
      * @param clientId
      * @return
      */
     public boolean queryTheClientCursor(String clientId) {
-        Cursor c = db.rawQuery("SELECT * FROM notes WHERE " + DatabaseHelper.CLIENT_ID + "='" + clientId+"'", null);
+        Cursor c = db.rawQuery("SELECT * FROM notes WHERE " + DatabaseHelper.CLIENT_ID + "='" + clientId + "'", null);
         if (c != null && c.getCount() > 0) {
             return true;
         }

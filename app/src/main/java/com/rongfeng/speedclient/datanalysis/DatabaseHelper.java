@@ -21,6 +21,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String CLIENT_NAME = "client_name";
     public static final String CLIENT_ID = "client_id";
     public static final String CLIENT_INFO = "client_info";
+    public static final String CLIENT_UPDATE_TIME = "client_update_time";
+
 
 
     public static final String CONTACT_NAME = "contact_name";
@@ -31,10 +33,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String SQL_CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + " ("
             + _ID + " INTEGER PRIMARY KEY,"
             + CLIENT_ID + " VARCHAR(100),"
-            + CLIENT_NAME + " VARCHAR(100),"
-            + CLIENT_INFO + " VARCHAR(50),"
+            + CLIENT_NAME + " TEXT,"
+            + CLIENT_INFO + " TEXT,"
+            + CLIENT_UPDATE_TIME + " VARCHAR(50),"
             + CONTACT_ID + " VARCHAR(100),"
-            + CONTACT_NAME + " VARCHAR(100),"
+            + CONTACT_NAME + " TEXT,"
             + CONTACT_PHONE + " VARCHAR(50)"
             + ");";
 

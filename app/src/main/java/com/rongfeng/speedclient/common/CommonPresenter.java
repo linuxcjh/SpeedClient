@@ -13,12 +13,13 @@ public class CommonPresenter extends BasePresenter {
 
     public ICommonAction iCommonAction;
 
+    public CommonPresenter() {
+    }
 
 
     public CommonPresenter(ICommonAction iCommonAction) {
         this.iCommonAction = iCommonAction;
     }
-
 
 
     /**
@@ -48,7 +49,7 @@ public class CommonPresenter extends BasePresenter {
 
         switch (methodName) {
             default:
-                iCommonAction.obtainData(object, methodName,status);
+                iCommonAction.obtainData(object, methodName, status);
                 break;
 
         }
