@@ -155,6 +155,33 @@ public class DBManager {
         return persons;
     }
 
+
+    /**
+     * 根据电话查询联系人和客户
+     *
+     * @param contactPhone
+     * @return
+     */
+    public ClientModel queryContact(String contactPhone) {
+        ClientModel person = new ClientModel();
+        String currentSqlSel = "SELECT  * FROM NOTES where CONTACT_NAME like '%" + contactPhone + "%'";
+        Cursor c = db.rawQuery(currentSqlSel, null);
+
+        while (c.moveToNext()) {
+            person.client_id = c.getString(c.getColumnIndex("client_id"));
+            person.client_name = c.getString(c.getColumnIndex("client_name"));
+            person.client_info = c.getString(c.getColumnIndex("client_info"));
+            person.client_update_time = c.getString(c.getColumnIndex("client_update_time"));
+
+            person.contact_id = c.getString(c.getColumnIndex("contact_id"));
+            person.contact_name = c.getString(c.getColumnIndex("contact_name"));
+            person.contact_phone = c.getString(c.getColumnIndex("contact_phone"));
+        }
+        c.close();
+        return person;
+    }
+
+
     /**
      * query all persons, return cursor
      *

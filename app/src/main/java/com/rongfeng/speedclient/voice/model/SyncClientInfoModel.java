@@ -9,7 +9,6 @@ public class SyncClientInfoModel {
     private ArrayList<CsrContactJSONArray> csrContactJSONArray;
     private String updateTime;
     private String customerName;
-
     private String clientNameWordsSplit; //分词
     private boolean isUpdate;//是否要更新
 

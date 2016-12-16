@@ -46,6 +46,7 @@ import com.rongfeng.speedclient.datanalysis.ClientModel;
 import com.rongfeng.speedclient.entity.BaseDataModel;
 import com.rongfeng.speedclient.utils.JsonParser;
 import com.rongfeng.speedclient.voice.model.AreaModel;
+import com.rongfeng.speedclient.voice.model.CsrContactJSONArray;
 import com.rongfeng.speedclient.voice.model.SplitWordModel;
 
 import java.util.ArrayList;
@@ -221,27 +222,27 @@ public class VoiceFragment extends BaseFragment implements View.OnTouchListener 
                 data.add(new BaseDataModel("mandarin", "普通话"));
                 data.add(new BaseDataModel("cantonese", "粤 语"));
                 data.add(new BaseDataModel("lmz", "四川话"));
-                    data.add(new BaseDataModel("henanese", "河南话"));
+                data.add(new BaseDataModel("henanese", "河南话"));
 //                /普通话：mandarin(默认)
 //                //粤 语：cantonese
 //                //四川话：lmz
 //                //河南话：henanese
-                    AppTools.selectDialog("请选语言", getActivity(), data, mHandler, SELECT_LANGUAGE_INDEX);
+                AppTools.selectDialog("请选语言", getActivity(), data, mHandler, SELECT_LANGUAGE_INDEX);
 
-                    break;
-                    case R.id.input_to_schedule_tv:
-                        if (TextUtils.isEmpty(contentEt.getText().toString())) {
-                            AppTools.getToast("请输入内容");
-                            return;
-                        }
-                        startActivity(new Intent(getActivity(), AddScheduleActivity.class).putExtra("content", contentEt.getText().toString()));
+                break;
+            case R.id.input_to_schedule_tv:
+                if (TextUtils.isEmpty(contentEt.getText().toString())) {
+                    AppTools.getToast("请输入内容");
+                    return;
+                }
+                startActivity(new Intent(getActivity(), AddScheduleActivity.class).putExtra("content", contentEt.getText().toString()));
 
 
-                        break;
-                    case R.id.input_to_log_tv:
+                break;
+            case R.id.input_to_log_tv:
 
-                        if (TextUtils.isEmpty(contentEt.getText().toString())) {
-                            AppTools.getToast("请输入内容");
+                if (TextUtils.isEmpty(contentEt.getText().toString())) {
+                    AppTools.getToast("请输入内容");
                     return;
                 }
                 invoke();
@@ -406,7 +407,7 @@ public class VoiceFragment extends BaseFragment implements View.OnTouchListener 
         String pinYinStr = AppTools.convertPinYin(resultStr);
         if (!TextUtils.isEmpty(resultStr)) {
 
-            clientModels = VoiceAnalysisTools.getInstance().queryClientDataToDB(getActivity());
+            clientModels = VoiceAnalysisTools.getInstance().queryClientDataToDB();
 
             List<String> clientData = new ArrayList<>();
 
@@ -414,14 +415,18 @@ public class VoiceFragment extends BaseFragment implements View.OnTouchListener 
                 for (int i = 0; i < clientModels.size(); i++) {
 
                     ClientModel resultModel = clientModels.get(i);
-                    String name = resultModel.client_name;
+                    String name = resultModel.getClient_name();
                     String namePY = AppTools.convertPinYin(name);
+                    //客户名称分词结果
+                    List<SplitWordModel> splitWordModels = BasePresenter.gson.fromJson(resultModel.getClient_info(), new TypeToken<List<SplitWordModel>>() {
+                    }.getType());
+                    ArrayList<CsrContactJSONArray> contactModels = BasePresenter.gson.fromJson(resultModel.getContact_name(), new TypeToken<List<CsrContactJSONArray>>() {
+                    }.getType());
+                    if (resultStr.indexOf(name) != -1 || pinYinStr.indexOf(namePY) != -1) {//客户全名匹配
+                        clientData.add(resultModel.getClient_id() + "," + name);
+                    }
 
-                    if (resultStr.indexOf(name) != -1 || pinYinStr.indexOf(namePY) != -1) {//全名匹配
-                        clientData.add(resultModel.client_id + "," + name);
-                    } else {
-                        List<SplitWordModel> splitWordModels = BasePresenter.gson.fromJson(resultModel.client_info, new TypeToken<List<SplitWordModel>>() {
-                        }.getType());
+                    if (splitWordModels != null && splitWordModels.size() > 0) {//客户名称分词匹配
 
                         for (int j = 0; j < splitWordModels.size(); j++) {
 
@@ -429,10 +434,19 @@ public class VoiceFragment extends BaseFragment implements View.OnTouchListener 
 
                             } else {
                                 if (!word.contains(splitWordModels.get(j).getCont()) && resultStr.indexOf(splitWordModels.get(j).getCont()) != -1) {
-                                    clientData.add(resultModel.client_id + "," + name);
+                                    clientData.add(resultModel.getClient_id() + "," + name);
                                 }
                             }
 
+                        }
+                    }
+
+                    if (contactModels != null && contactModels.size() > 0) {//联系人匹配
+
+                        for (int k = 0; k < contactModels.size(); k++) {
+                            if (resultStr.indexOf(contactModels.get(k).getName()) != -1) {
+                                clientData.add(resultModel.getClient_id() + "," + name + "   " + contactModels.get(k).getName());
+                            }
                         }
                     }
                 }
@@ -453,9 +467,15 @@ public class VoiceFragment extends BaseFragment implements View.OnTouchListener 
 
 
     //过滤公司名 需要排除的词
-    private String word = "公司 股份 证券 有限 责任 咨询 设备 信息 科技 实业";
+    private String word = "公司 股份 证券 有限 责任 咨询 设备 信息 科技 实业 中国 国际";
 
 
+    /**
+     * 判断客户名称第一个分词是不是地名
+     *
+     * @param content
+     * @return
+     */
     private boolean dupArea(String content) {
         List<AreaModel> areaModels = AppTools.getAreaData(getActivity(), "", content);
         areaModels.size();
@@ -483,18 +503,6 @@ public class VoiceFragment extends BaseFragment implements View.OnTouchListener 
             temp.add(new BaseDataModel(listWithoutDup.get(i).split(",")[0], listWithoutDup.get(i).split(",")[1]));
         }
         return temp;
-    }
-
-    /**
-     * 客户名分词内容
-     *
-     * @param model
-     */
-    private void splitWordInfo(ClientModel model) {
-        List<SplitWordModel> splitWordModels = BasePresenter.gson.fromJson(model.client_info, new TypeToken<List<SplitWordModel>>() {
-        }.getType());
-
-
     }
 
 

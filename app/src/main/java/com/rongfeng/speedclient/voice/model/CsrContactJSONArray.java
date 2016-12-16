@@ -1,27 +1,31 @@
 package com.rongfeng.speedclient.voice.model;
 
-import org.json.*;
-
-
 public class CsrContactJSONArray {
 	
     private String csrContactId;
     private String name;
+    private String phone;
     private String updateTime;
     
     
 	public CsrContactJSONArray () {
 		
-	}	
-        
-    public CsrContactJSONArray (JSONObject json) {
-    
-        this.csrContactId = json.optString("csrContactId");
-        this.name = json.optString("name");
-        this.updateTime = json.optString("updateTime");
+	}
 
+    public CsrContactJSONArray(String csrContactId, String name, String phone) {
+        this.csrContactId = csrContactId;
+        this.name = name;
+        this.phone = phone;
     }
-    
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
     public String getCsrContactId() {
         return this.csrContactId;
     }

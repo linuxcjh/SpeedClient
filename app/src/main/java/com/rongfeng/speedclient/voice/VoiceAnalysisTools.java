@@ -1,6 +1,5 @@
 package com.rongfeng.speedclient.voice;
 
-import android.content.Context;
 import android.text.TextUtils;
 
 import com.google.gson.reflect.TypeToken;
@@ -89,7 +88,7 @@ public class VoiceAnalysisTools {
     /**
      * 添加数据到数据库
      */
-    public void insertClientDataToDB(Context context, List<SyncClientInfoModel> data) {
+    public void insertClientDataToDB(List<SyncClientInfoModel> data) {
 
         List<ClientModel> persons = new ArrayList<>();
         for (int i = 0; i < data.size(); i++) {
@@ -100,7 +99,7 @@ public class VoiceAnalysisTools {
             persons.add(m);
         }
 
-        DBManager dbManager = new DBManager(context);
+        DBManager dbManager = new DBManager(AppConfig.getContext());
         dbManager.truncate();
         if (persons.size() > 0) {
             dbManager.addClient(persons);
@@ -113,11 +112,9 @@ public class VoiceAnalysisTools {
 
     /**
      * 清空表
-     *
-     * @param context
      */
-    public void clearForm(Context context) {
-        DBManager dbManager = new DBManager(context);
+    public void clearForm() {
+        DBManager dbManager = new DBManager(AppConfig.getContext());
         dbManager.truncate();
 
         dbManager.closeDB();
@@ -140,8 +137,9 @@ public class VoiceAnalysisTools {
     /**
      * 更新客户名称分词结果
      */
-    public void updateClientNameSplit(Context context, SyncClientInfoModel data) {
-        DBManager dbManager = new DBManager(context);
+    public void updateClientNameSplit(SyncClientInfoModel data) {
+
+        DBManager dbManager = new DBManager(AppConfig.getContext());
 
         ClientModel m = new ClientModel();
         m.setClient_info(data.getClientNameWordsSplit());
@@ -213,9 +211,9 @@ public class VoiceAnalysisTools {
     /**
      * 删除数据库数据
      */
-    public void deleteClientDataToDB(Context context) {
+    public void deleteClientDataToDB() {
 
-        DBManager dbManager = new DBManager(context);
+        DBManager dbManager = new DBManager(AppConfig.getContext());
         dbManager.truncate();
         dbManager.closeDB();
 
@@ -224,9 +222,9 @@ public class VoiceAnalysisTools {
     /**
      * 查询数据库数据
      */
-    public List<ClientModel> queryClientDataToDB(Context context) {
+    public List<ClientModel> queryClientDataToDB() {
         List<ClientModel> persons = new ArrayList<>();
-        DBManager dbManager = new DBManager(context);
+        DBManager dbManager = new DBManager(AppConfig.getContext());
         persons = dbManager.query();
         dbManager.closeDB();
 
@@ -234,14 +232,23 @@ public class VoiceAnalysisTools {
     }
 
     /**
+     * 查询数据库数据中联系人
+     */
+    public ClientModel queryClientDataToDB(String contactPhone) {
+        DBManager dbManager = new DBManager(AppConfig.getContext());
+        ClientModel model = dbManager.queryContact(contactPhone);
+        dbManager.closeDB();
+        return model;
+    }
+
+    /**
      * 判断指定客户是否存在
      *
-     * @param context
      * @param clientId
      * @return
      */
-    public boolean queryClientIsExist(Context context, String clientId) {
-        DBManager dbManager = new DBManager(context);
+    public boolean queryClientIsExist(String clientId) {
+        DBManager dbManager = new DBManager(AppConfig.getContext());
         boolean isExist = dbManager.queryTheClientCursor(clientId);
         dbManager.closeDB();
 
@@ -251,20 +258,16 @@ public class VoiceAnalysisTools {
 
     public void analysisData(List<SyncClientInfoModel> list) {
 
-
         String contactStr = AppConfig.getStringConfig(Constant.SAVE_UPLOAD_CONTACTS_FLAG, "");
         StringBuilder builder = new StringBuilder(contactStr);
-
 
         DBManager dbManager = new DBManager(AppConfig.getContext());
 
         if (list != null && list.size() > 0) {
-
 //            uploadWords(list);
 //            uploadClientContact(list);
             for (int i = 0; i < list.size(); i++) {
                 SyncClientInfoModel model = list.get(i);
-
                 ClientModel m = dbManager.queryTheClient(model.getCsrId());
                 if (!TextUtils.isEmpty(m.client_id)) {//客户存在
                     String contacts = BasePresenter.gson.toJson(model.getCsrContactJSONArray()).toString();
@@ -279,7 +282,7 @@ public class VoiceAnalysisTools {
                 } else {//客户不存在
                     insertClientDataToDB(model, dbManager);//插入数据库
                     languageCloudParse(model);//客户名称分词并更新数据库
-                    uploadClientContactInfo(model, contactStr, builder);
+                    uploadClientContactInfo(model, contactStr, builder);//上传联系人
                 }
             }
         }

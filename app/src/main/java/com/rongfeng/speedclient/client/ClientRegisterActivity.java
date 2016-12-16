@@ -37,6 +37,8 @@ import com.rongfeng.speedclient.common.utils.SingleClickBt;
 import com.rongfeng.speedclient.entity.BaseDataModel;
 import com.rongfeng.speedclient.utils.DensityUtil;
 import com.rongfeng.speedclient.utils.FlowLayout;
+import com.rongfeng.speedclient.voice.VoiceAnalysisTools;
+import com.rongfeng.speedclient.voice.model.SyncClientInfoModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -245,9 +247,10 @@ public class ClientRegisterActivity extends BaseActivity {
 
                 if (status == 1) {
                     AppTools.getToast("新增成功");
-                    AddClientTransModel m = (AddClientTransModel) data;
-                    transModel.setCsrId(m.getCsrId());
-                    setResult(RESULT_OK, new Intent().putExtra("model", transModel));
+                    List<SyncClientInfoModel> list = new ArrayList<>();
+                    SyncClientInfoModel m = (SyncClientInfoModel) data;
+                    list.add(m);
+                    VoiceAnalysisTools.getInstance().analysisData(list);//新增客户插入数据库
                     finish();
                 }
                 break;
@@ -268,7 +271,7 @@ public class ClientRegisterActivity extends BaseActivity {
                     transModel.setCsrContactJsonArray(BasePresenter.gson.toJson(linkmanModels));
 
                     commonPresenter.invokeInterfaceObtainData(XxbService.INSERTCSR, transModel,
-                            new TypeToken<AddClientTransModel>() {
+                            new TypeToken<SyncClientInfoModel>() {
                             });
                 } else {
                     AppTools.getToast("请填写客户名称");

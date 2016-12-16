@@ -19,6 +19,7 @@ import com.rongfeng.speedclient.API.XxbService;
 import com.rongfeng.speedclient.R;
 import com.rongfeng.speedclient.client.entry.ContactPersonModel;
 import com.rongfeng.speedclient.common.BaseActivity;
+import com.rongfeng.speedclient.common.BasePresenter;
 import com.rongfeng.speedclient.common.Constant;
 import com.rongfeng.speedclient.common.ConstantPermission;
 import com.rongfeng.speedclient.common.IUpLoadPictureAction;
@@ -27,10 +28,18 @@ import com.rongfeng.speedclient.common.utils.AppConfig;
 import com.rongfeng.speedclient.common.utils.AppTools;
 import com.rongfeng.speedclient.common.utils.GetCustomerContactNum;
 import com.rongfeng.speedclient.common.utils.SingleClickBt;
+import com.rongfeng.speedclient.datanalysis.ClientModel;
+import com.rongfeng.speedclient.datanalysis.DBManager;
 import com.rongfeng.speedclient.entity.BaseDataModel;
 import com.rongfeng.speedclient.entity.ContactDetail;
 import com.rongfeng.speedclient.permisson.PermissionsActivity;
 import com.rongfeng.speedclient.permisson.PermissionsChecker;
+import com.rongfeng.speedclient.voice.VoiceAnalysisTools;
+import com.rongfeng.speedclient.voice.model.CsrContactJSONArray;
+import com.rongfeng.speedclient.voice.model.SyncClientInfoModel;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -156,7 +165,7 @@ public class ClientAddContactUpLoadActivity extends BaseActivity implements IUpL
      */
     private void invoke(ContactPersonModel model) {
         commonPresenter.invokeInterfaceObtainData(XxbService.INSERTCSRCONTACT, model,
-                new TypeToken<BaseDataModel>() {
+                new TypeToken<CsrContactJSONArray>() {
                 });
 
     }
@@ -177,6 +186,31 @@ public class ClientAddContactUpLoadActivity extends BaseActivity implements IUpL
             case XxbService.INSERTCSRCONTACT:
                 if (status == 1) {
                     AppTools.getToast("添加成功");
+
+                    CsrContactJSONArray csrContact = (CsrContactJSONArray) data;
+
+
+                    DBManager dbManager = new DBManager(AppConfig.getContext());
+                    ClientModel clientModel = dbManager.queryTheClient(model.getCsrId());//查询联系人所属的客户信息
+                    dbManager.closeDB();
+
+                    if (clientModel != null) {
+                        ArrayList<CsrContactJSONArray> lists = BasePresenter.gson.fromJson(clientModel.getContact_name(), new TypeToken<List<CsrContactJSONArray>>() {
+                        }.getType());
+                        lists.add(csrContact);
+
+                        List<SyncClientInfoModel> list = new ArrayList<>();
+                        SyncClientInfoModel m = new SyncClientInfoModel();
+                        m.setClientNameWordsSplit(clientModel.getClient_info());
+                        m.setCsrContactJSONArray(lists);
+                        m.setCsrId(clientModel.getClient_id());
+                        m.setCustomerName(clientModel.getClient_name());
+                        m.setUpdateTime(clientModel.getClient_update_time());
+
+                        list.add(m);
+                        VoiceAnalysisTools.getInstance().analysisData(list);//新增联系人插入数据库
+                    }
+
                     sendBroadcast(new Intent(Constant.CLIENT_REFRESH_PERSONA)); //刷新客户画像
                     setResult(RESULT_OK, new Intent());
                     finish();

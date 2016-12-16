@@ -50,8 +50,8 @@ public class PhoneStatReceiver extends BroadcastReceiver {
                     if (incomingFlag) {
                         Log.i(TAG, "incoming IDLE");
                     }
-//                    judgeIsExist(phoneNumber);
-                    setAlarActivity();
+                    judgeIsExist(phoneNumber);
+//                    setAlarActivity();
 
                     break;
             }
@@ -65,10 +65,11 @@ public class PhoneStatReceiver extends BroadcastReceiver {
      */
     private void judgeIsExist(String phoneNum) {
 
-        List<ClientModel> clientModels = VoiceAnalysisTools.getInstance().queryClientDataToDB(AppConfig.getContext());
+        List<ClientModel> clientModels = VoiceAnalysisTools.getInstance().queryClientDataToDB();
         for (int i = 0; i < clientModels.size(); i++) {
-            if (clientModels.get(i).getContact_phone().equals(phoneNum)) {
+            if (clientModels.get(i).getContact_name().contains(phoneNum)) {
                 setAlarActivity();
+                return;
             }
         }
 

@@ -61,8 +61,6 @@ public class ClientFragment extends BaseFragment implements AdapterView.OnItemCl
     RadioButton passRecord;
     @Bind(R.id.future_record)
     RadioButton futureRecord;
-//    @Bind(R.id.siri_view)
-//    SiriView siriView;
 
     private ClientAnalysisAdapter adapter;
     private List<BaseDataModel> models = new ArrayList<>();
@@ -86,23 +84,6 @@ public class ClientFragment extends BaseFragment implements AdapterView.OnItemCl
 
 
     private void init() {
-
-
-        // 停止波浪曲线
-//        siriView.stop();
-//// 设置曲线高度，height的取值是0f~1f
-//        siriView.setWaveHeight(0.5f);
-//// 设置曲线的粗细，width的取值大于0f
-//        siriView.setWaveWidth(4f);
-//// 设置曲线颜色
-//        siriView.setWaveColor(Color.rgb(39, 188, 136));
-//// 设置曲线在X轴上的偏移量，默认值为0f
-//        siriView.setWaveOffsetX(0f);
-//// 设置曲线的数量，默认是4
-//        siriView.setWaveAmount(4);
-//// 设置曲线的速度，默认是0.1f
-//        siriView.setWaveSpeed(0.08f);
-
 
         transDataModel.setRadarType("0");
         models.add(new BaseDataModel("新客户", "0 个"));
@@ -137,51 +118,6 @@ public class ClientFragment extends BaseFragment implements AdapterView.OnItemCl
             }
         });
 
-//        passRecord.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//            @Override
-//            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-//
-//                if (b) {
-//                    passRecord.setTextColor(ContextCompat.getColor(getActivity(), R.color.colorWhite));
-//                    passRecord.setBackgroundResource(R.drawable.client_top_left_fouces);
-//                    transDataModel.setRadarType("0");
-//                    if (leftData == null) {
-//                        invokeStatistics();
-//                    } else {
-//                        setRadarViewData(leftData);
-//
-//                    }
-//
-//                } else {
-//                    passRecord.setBackgroundResource(R.drawable.client_top_left_normal);
-//                    passRecord.setTextColor(ContextCompat.getColor(getActivity(), R.color.colorBlue));
-//
-//                }
-//            }
-//        });
-//
-//        futureRecord.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//            @Override
-//            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-//
-//                if (b) {
-//                    futureRecord.setTextColor(ContextCompat.getColor(getActivity(), R.color.colorWhite));
-//                    futureRecord.setBackgroundResource(R.drawable.client_top_right_fouces);
-//                    transDataModel.setRadarType("1");
-//                    if (rightData == null) {
-//                        invokeStatistics();
-//                    } else {
-//                        setRadarViewData(rightData);
-//
-//                    }
-//
-//                } else {
-//                    futureRecord.setTextColor(ContextCompat.getColor(getActivity(), R.color.colorBlue));
-//                    futureRecord.setBackgroundResource(R.drawable.client_top_right_normal);
-//
-//                }
-//            }
-//        });
 
     }
 
@@ -221,13 +157,6 @@ public class ClientFragment extends BaseFragment implements AdapterView.OnItemCl
                 if (data != null) {
 
                     model = (AnalysisClientModel) data;
-
-//                    if (passRecord.isChecked()) {
-//                        leftData = model;
-//                    } else {
-//                        rightData = model;
-//                    }
-
 
                     newClientTv.setText(model.getAnalysisNewClient());
                     focusClientTv.setText(model.getAnalysisFocusClient());
