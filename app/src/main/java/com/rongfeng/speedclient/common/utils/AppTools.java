@@ -59,6 +59,7 @@ import com.rongfeng.speedclient.common.GlideRoundTransform;
 import com.rongfeng.speedclient.common.RoundedCornersTransformation;
 import com.rongfeng.speedclient.components.SelectionDialog;
 import com.rongfeng.speedclient.components.SelectionDialogListAdapter;
+import com.rongfeng.speedclient.components.SelectionDialogVoiceListAdapter;
 import com.rongfeng.speedclient.components.SelectionVoiceDialog;
 import com.rongfeng.speedclient.entity.BaseDataModel;
 import com.rongfeng.speedclient.login.Enterprise;
@@ -1479,7 +1480,7 @@ public class AppTools {
 
 
     public static void selectVoiceHeightDialog(String title, Activity activity, List<BaseDataModel> data, Handler handler, int selectSign, int height) {
-        SelectionDialogListAdapter adapter = new SelectionDialogListAdapter(activity, R.layout.selection_dialog_voice_listview_item, data);
+        SelectionDialogVoiceListAdapter adapter = new SelectionDialogVoiceListAdapter(activity, R.layout.selection_dialog_voice_listview_item, data);
         SelectionVoiceDialog dialog = new SelectionVoiceDialog(activity, R.layout.selection_dialog_voice_listview_layout, handler, selectSign, height);
 
         dialog.buildDialog().setAdapter(adapter).setTitle(title);

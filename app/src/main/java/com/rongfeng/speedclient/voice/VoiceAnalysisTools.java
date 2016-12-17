@@ -1,6 +1,12 @@
 package com.rongfeng.speedclient.voice;
 
+import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
+import android.text.SpannableString;
+import android.text.Spanned;
 import android.text.TextUtils;
+import android.text.style.ForegroundColorSpan;
+import android.widget.EditText;
 
 import com.google.gson.reflect.TypeToken;
 import com.iflytek.cloud.ErrorCode;
@@ -10,12 +16,15 @@ import com.iflytek.cloud.SpeechConstant;
 import com.iflytek.cloud.SpeechError;
 import com.iflytek.cloud.SpeechRecognizer;
 import com.iflytek.cloud.util.ContactManager;
+import com.rongfeng.speedclient.R;
 import com.rongfeng.speedclient.common.BasePresenter;
 import com.rongfeng.speedclient.common.Constant;
 import com.rongfeng.speedclient.common.utils.AppConfig;
 import com.rongfeng.speedclient.common.utils.AppTools;
 import com.rongfeng.speedclient.datanalysis.ClientModel;
 import com.rongfeng.speedclient.datanalysis.DBManager;
+import com.rongfeng.speedclient.entity.BaseDataModel;
+import com.rongfeng.speedclient.voice.model.AreaModel;
 import com.rongfeng.speedclient.voice.model.CsrContactJSONArray;
 import com.rongfeng.speedclient.voice.model.LanguageCloudModel;
 import com.rongfeng.speedclient.voice.model.SplitWordModel;
@@ -27,6 +36,7 @@ import org.json.JSONObject;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.IdentityHashMap;
 import java.util.List;
 import java.util.Map;
@@ -420,6 +430,142 @@ public class VoiceAnalysisTools {
             }
         }
     };
+
+
+    /**
+     * 解析数据
+     */
+    public List<BaseDataModel> analysisData(@Nullable EditText editText, String resultStr) {
+
+
+        if (TextUtils.isEmpty(resultStr)) {
+            return null;
+        }
+
+        List<String> resultStrs = new ArrayList<>();
+
+        String pinYinStr = AppTools.convertPinYin(resultStr);
+
+        List<ClientModel> clientModels = VoiceAnalysisTools.getInstance().queryClientDataToDB();
+
+        List<String> clientData = new ArrayList<>();
+
+        if (clientModels.size() != 0) {
+            for (int i = 0; i < clientModels.size(); i++) {
+
+                ClientModel resultModel = clientModels.get(i);
+                String name = resultModel.getClient_name();
+                String namePY = AppTools.convertPinYin(name);
+                //客户名称分词结果
+                List<SplitWordModel> splitWordModels = BasePresenter.gson.fromJson(resultModel.getClient_info(), new TypeToken<List<SplitWordModel>>() {
+                }.getType());
+                ArrayList<CsrContactJSONArray> contactModels = BasePresenter.gson.fromJson(resultModel.getContact_name(), new TypeToken<List<CsrContactJSONArray>>() {
+                }.getType());
+                if (resultStr.indexOf(name) != -1 || pinYinStr.indexOf(namePY) != -1) {//客户全名匹配
+                    clientData.add(resultModel.getClient_id() + "," + name + "," + name);
+                    resultStrs.add(name);
+                }
+
+                if (splitWordModels != null && splitWordModels.size() > 0) {//客户名称分词匹配
+
+                    for (int j = 0; j < splitWordModels.size(); j++) {
+
+                        if (j == 0 && !TextUtils.isEmpty(splitWordModels.get(j).getCont()) && dupArea(splitWordModels.get(j).getCont())) {
+
+                        } else {
+                            if (!word.contains(splitWordModels.get(j).getCont()) && resultStr.indexOf(splitWordModels.get(j).getCont()) != -1) {
+                                clientData.add(resultModel.getClient_id() + "," + name + "," + splitWordModels.get(j).getCont());
+                                resultStrs.add(splitWordModels.get(j).getCont());
+                            }
+                        }
+
+                    }
+                }
+
+                if (contactModels != null && contactModels.size() > 0) {//联系人匹配
+                    for (int k = 0; k < contactModels.size(); k++) {
+                        if (resultStr.indexOf(contactModels.get(k).getName()) != -1) {
+                            clientData.add(resultModel.getClient_id() + "," + name + "  " + contactModels.get(k).getName() + "," + contactModels.get(k).getName());
+                            resultStrs.add(contactModels.get(k).getName());
+                        }
+                    }
+                }
+            }
+        }
+
+        if (editText != null) {
+            setContentColor(editText, resultStrs);
+        }
+
+        return obtainWithoutDup(clientData);
+    }
+
+
+    private void setContentColor(EditText editText, List<String> resultStrs) {
+        SpannableString ss = new SpannableString(editText.getText().toString());
+
+        resultStrs = new ArrayList<>(new HashSet<>(resultStrs));
+
+        for (String str : resultStrs) {
+            int pos = editText.getText().toString().indexOf(str);
+            if (pos != -1) {
+                ss.setSpan(new ForegroundColorSpan(ContextCompat.getColor(AppConfig.getContext(), R.color.colorBlue)), pos, pos + str.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            }
+        }
+        editText.setText(ss);
+    }
+
+    /**
+     * 判断客户名称第一个分词是不是地名
+     *
+     * @param content
+     * @return
+     */
+    private boolean dupArea(String content) {
+        List<AreaModel> areaModels = AppTools.getAreaData(AppConfig.getContext(), "", content);
+        areaModels.size();
+
+        if (areaModels.size() > 0) {
+            return true;
+        }
+        return false;
+
+    }
+
+    /**
+     * 去掉重复
+     *
+     * @param clientData
+     * @param
+     * @return
+     */
+    private List<BaseDataModel> obtainWithoutDup(List<String> clientData) {
+
+        List<String> listWithoutDup = new ArrayList<>(new HashSet<>(clientData));
+        List<BaseDataModel> temp = new ArrayList<>();
+        List<BaseDataModel> result = new ArrayList<>();
+
+        for (int i = 0; i < listWithoutDup.size(); i++) {
+            temp.add(new BaseDataModel(listWithoutDup.get(i).split(",")[0], listWithoutDup.get(i).split(",")[1], listWithoutDup.get(i).split(",")[2]));
+        }
+
+        for (int i = 0; i < temp.size(); i++) { //去掉客户名称重复
+            if (i != 0) {
+                if (!temp.get(i).getDictionaryName().equals(temp.get(i - 1).getDictionaryName())) {
+                    result.add(temp.get(i));
+                }
+            } else {
+                result.add(temp.get(i));
+            }
+        }
+
+        return result;
+    }
+
+
+    //过滤公司名 需要排除的词
+    private String word = "公司 股份 证券 有限 责任 咨询 设备 信息 科技 实业 中国 国际 地产 房地产 客户 " +
+            "0 1 2 3 4 5 6 7 8 9";
 
 
 }

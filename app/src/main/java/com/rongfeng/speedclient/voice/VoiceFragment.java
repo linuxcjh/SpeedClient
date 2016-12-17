@@ -34,7 +34,6 @@ import com.rongfeng.speedclient.R;
 import com.rongfeng.speedclient.client.ClientRegisterActivity;
 import com.rongfeng.speedclient.client.entry.AddClientTransModel;
 import com.rongfeng.speedclient.common.BaseFragment;
-import com.rongfeng.speedclient.common.BasePresenter;
 import com.rongfeng.speedclient.common.Constant;
 import com.rongfeng.speedclient.common.utils.AppConfig;
 import com.rongfeng.speedclient.common.utils.AppTools;
@@ -42,15 +41,10 @@ import com.rongfeng.speedclient.common.utils.Utils;
 import com.rongfeng.speedclient.components.GuideViewDisplayUtil;
 import com.rongfeng.speedclient.components.MyDialog;
 import com.rongfeng.speedclient.components.SearchPopupWindow;
-import com.rongfeng.speedclient.datanalysis.ClientModel;
 import com.rongfeng.speedclient.entity.BaseDataModel;
 import com.rongfeng.speedclient.utils.JsonParser;
-import com.rongfeng.speedclient.voice.model.AreaModel;
-import com.rongfeng.speedclient.voice.model.CsrContactJSONArray;
-import com.rongfeng.speedclient.voice.model.SplitWordModel;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -112,7 +106,6 @@ public class VoiceFragment extends BaseFragment implements View.OnTouchListener 
     private SharedPreferences mSharedPreferences;
     int ret = 0; // 函数调用返回值
 
-    private List<ClientModel> clientModels;
     private GuideViewDisplayUtil mGuideViewUtil;
 
 
@@ -201,9 +194,20 @@ public class VoiceFragment extends BaseFragment implements View.OnTouchListener 
                 contentEt.setText("");
                 break;
             case R.id.input_confirm_tv:
-
-                analysisData();
                 AppTools.hideKeyboard(contentEt);
+
+                if (!TextUtils.isEmpty(contentEt.getText().toString())) {
+
+                    List<BaseDataModel> temp = VoiceAnalysisTools.getInstance().analysisData(contentEt,contentEt.getText().toString());
+
+                    if (temp.size() >= 1) {
+                        AppTools.selectVoiceDialog("选择需要关联的客户：", getActivity(), temp, mHandler, 2);
+                    } else if (temp.size() == 0) {
+                        AppTools.selectVoiceDialog("查找或新建需要关联的客户：", getActivity(), temp, mHandler, 2);
+                    }
+                } else {
+                    AppTools.getToast("请输入内容");
+                }
                 break;
             case R.id.voice_bt:
                 // 设置参数
@@ -337,26 +341,26 @@ public class VoiceFragment extends BaseFragment implements View.OnTouchListener 
 //        String lag = mSharedPreferences.getString("iat_language_preference",
 //                "mandarin");
         String language = AppConfig.getStringConfig("language_select_id", "mandarin");
-        if (language.equals("en_us")) {
-            // 设置语言 // 简体中文:"zh_cn", 美式英文:"en_us"
-            mIat.setParameter(SpeechConstant.LANGUAGE, "en_us");
-        } else {
-            // 设置语言
-            mIat.setParameter(SpeechConstant.LANGUAGE, "zh_cn");
-            // 设置语言区域
-            //普通话：mandarin(默认)
-            //粤 语：cantonese
-            //四川话：lmz
-            //河南话：henanese
-            mIat.setParameter(SpeechConstant.ACCENT, language);
-            //目前提供三个垂直领域的听写模型：商旅、视频和音乐
-            //商旅:travel
-            //视频:video
-            //音乐:entrancemusic
+//        if (language.equals("en_us")) {
+//            // 设置语言 // 简体中文:"zh_cn", 美式英文:"en_us"
+//            mIat.setParameter(SpeechConstant.LANGUAGE, "en_us");
+//        } else {
+        // 设置语言
+        mIat.setParameter(SpeechConstant.LANGUAGE, "zh_cn");
+        // 设置语言区域
+        //普通话：mandarin(默认)
+        //粤 语：cantonese
+        //四川话：lmz
+        //河南话：henanese
+        mIat.setParameter(SpeechConstant.ACCENT, language);
+        //目前提供三个垂直领域的听写模型：商旅、视频和音乐
+        //商旅:travel
+        //视频:video
+        //音乐:entrancemusic
 //            mIat.setParameter(SpeechConstant.DOMAIN, "travel");
 
 
-        }
+//        }
 
         // 设置语音前端点:静音超时时间，即用户多长时间不说话则当做超时处理0~10000
         mIat.setParameter(SpeechConstant.VAD_BOS, mSharedPreferences.getString("iat_vadbos_preference", "3000"));
@@ -396,113 +400,6 @@ public class VoiceFragment extends BaseFragment implements View.OnTouchListener 
         contentEt.setText(contentEt.getText().toString() + text);
         contentEt.setSelection(contentEt.length());
 
-    }
-
-
-    /**
-     * 解析数据
-     */
-    private void analysisData() {
-        String resultStr = contentEt.getText().toString();
-        String pinYinStr = AppTools.convertPinYin(resultStr);
-        if (!TextUtils.isEmpty(resultStr)) {
-
-            clientModels = VoiceAnalysisTools.getInstance().queryClientDataToDB();
-
-            List<String> clientData = new ArrayList<>();
-
-            if (clientModels.size() != 0) {
-                for (int i = 0; i < clientModels.size(); i++) {
-
-                    ClientModel resultModel = clientModels.get(i);
-                    String name = resultModel.getClient_name();
-                    String namePY = AppTools.convertPinYin(name);
-                    //客户名称分词结果
-                    List<SplitWordModel> splitWordModels = BasePresenter.gson.fromJson(resultModel.getClient_info(), new TypeToken<List<SplitWordModel>>() {
-                    }.getType());
-                    ArrayList<CsrContactJSONArray> contactModels = BasePresenter.gson.fromJson(resultModel.getContact_name(), new TypeToken<List<CsrContactJSONArray>>() {
-                    }.getType());
-                    if (resultStr.indexOf(name) != -1 || pinYinStr.indexOf(namePY) != -1) {//客户全名匹配
-                        clientData.add(resultModel.getClient_id() + "," + name);
-                    }
-
-                    if (splitWordModels != null && splitWordModels.size() > 0) {//客户名称分词匹配
-
-                        for (int j = 0; j < splitWordModels.size(); j++) {
-
-                            if (j == 0 && !TextUtils.isEmpty(splitWordModels.get(j).getCont()) && dupArea(splitWordModels.get(j).getCont())) {
-
-                            } else {
-                                if (!word.contains(splitWordModels.get(j).getCont()) && resultStr.indexOf(splitWordModels.get(j).getCont()) != -1) {
-                                    clientData.add(resultModel.getClient_id() + "," + name);
-                                }
-                            }
-
-                        }
-                    }
-
-                    if (contactModels != null && contactModels.size() > 0) {//联系人匹配
-
-                        for (int k = 0; k < contactModels.size(); k++) {
-                            if (resultStr.indexOf(contactModels.get(k).getName()) != -1) {
-                                clientData.add(resultModel.getClient_id() + "," + name + "   " + contactModels.get(k).getName());
-                            }
-                        }
-                    }
-                }
-            }
-
-            List<BaseDataModel> temp = obtainWithoutDup(clientData);
-            if (clientData.size() >= 1) {
-                AppTools.selectVoiceDialog("选择需要关联的客户：", getActivity(), temp, mHandler, 2);
-            } else if (clientData.size() == 0) {
-                AppTools.selectVoiceDialog("查找或新建需要关联的客户：", getActivity(), temp, mHandler, 2);
-            }
-
-        } else {
-            AppTools.getToast("请输入内容");
-        }
-
-    }
-
-
-    //过滤公司名 需要排除的词
-    private String word = "公司 股份 证券 有限 责任 咨询 设备 信息 科技 实业 中国 国际";
-
-
-    /**
-     * 判断客户名称第一个分词是不是地名
-     *
-     * @param content
-     * @return
-     */
-    private boolean dupArea(String content) {
-        List<AreaModel> areaModels = AppTools.getAreaData(getActivity(), "", content);
-        areaModels.size();
-
-        if (areaModels.size() > 0) {
-            return true;
-        }
-        return false;
-
-    }
-
-    /**
-     * 去掉重复
-     *
-     * @param clientData
-     * @param
-     * @return
-     */
-    private List<BaseDataModel> obtainWithoutDup(List<String> clientData) {
-
-        List<String> listWithoutDup = new ArrayList<>(new HashSet<>(clientData));
-
-        List<BaseDataModel> temp = new ArrayList<>();
-        for (int i = 0; i < listWithoutDup.size(); i++) {
-            temp.add(new BaseDataModel(listWithoutDup.get(i).split(",")[0], listWithoutDup.get(i).split(",")[1]));
-        }
-        return temp;
     }
 
 

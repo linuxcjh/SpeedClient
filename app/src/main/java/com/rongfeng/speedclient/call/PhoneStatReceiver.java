@@ -50,8 +50,8 @@ public class PhoneStatReceiver extends BroadcastReceiver {
                     if (incomingFlag) {
                         Log.i(TAG, "incoming IDLE");
                     }
-                    judgeIsExist(phoneNumber);
-//                    setAlarActivity();
+//                    judgeIsExist(phoneNumber);
+                    setAlarActivity();
 
                     break;
             }

@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.widget.LinearLayoutManager;
-import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
@@ -20,7 +19,6 @@ import com.rongfeng.speedclient.common.ICommonPaginationAction;
 import com.rongfeng.speedclient.common.utils.AppTools;
 import com.rongfeng.speedclient.common.utils.Utils;
 import com.rongfeng.speedclient.components.SearchPopupWindow;
-import com.rongfeng.speedclient.datanalysis.ClientModel;
 import com.rongfeng.speedclient.entity.BaseDataModel;
 import com.rongfeng.speedclient.voice.adapter.VoiceNoteAdapter;
 import com.rongfeng.speedclient.voice.model.VoiceNoteModel;
@@ -125,7 +123,13 @@ public class VoiceNoteActivity extends BaseActivity implements ICommonPagination
     public void onItemClick(int position, Object object) {
 
         receivedModel = (VoiceNoteModel) object;
-        analysisData(receivedModel.getNoteContent());
+        List<BaseDataModel> temp = VoiceAnalysisTools.getInstance().analysisData(null, receivedModel.getNoteContent());
+
+        if (temp.size() >= 1) {
+            AppTools.selectVoiceDialog("选择需要关联的客户：", this, temp, mHandler, 2);
+        } else if (temp.size() == 0) {
+            AppTools.selectVoiceDialog("查找或新建需要关联的客户：", this, temp, mHandler, 2);
+        }
     }
 
     @Override
@@ -153,43 +157,6 @@ public class VoiceNoteActivity extends BaseActivity implements ICommonPagination
     /**
      * 解析数据
      */
-    private void analysisData(String resultStr) {
-        String pinYinStr = AppTools.convertPinYin(resultStr);
-        if (!TextUtils.isEmpty(resultStr)) {
-
-            List<ClientModel> clientModels = VoiceAnalysisTools.getInstance().queryClientDataToDB();
-
-            List<BaseDataModel> clientData = new ArrayList<>();
-
-            if (clientModels.size() != 0) {
-                for (int i = 0; i < clientModels.size(); i++) {
-
-                    String name = clientModels.get(i).client_name;
-                    String namePY = AppTools.convertPinYin(name);
-
-                    if (resultStr.indexOf(name) != -1 || pinYinStr.indexOf(namePY) != -1) {//全名匹配
-                        clientData.add(new BaseDataModel(clientModels.get(i).client_id, name));
-                    } else if (name.length() > 2 && (resultStr.contains(name.substring(0, 2)) || pinYinStr.contains(AppTools.convertPinYin(name.substring(0, 2))))) {//模糊匹配，开始2个字
-                        clientData.add(new BaseDataModel(clientModels.get(i).client_id, name));
-                    }
-
-                }
-            }
-            if (clientData.size() > 1) {
-                AppTools.selectDialog("识别到的客户", this, clientData, mHandler, 2);
-            } else if (clientData.size() == 1) {
-                showPop(clientData.get(0));
-            } else if (clientData.size() == 0) {
-                showPop(null);
-            }
-
-
-        } else {
-            AppTools.getToast("请输入内容");
-        }
-
-
-    }
 
     /**
      * 显示搜索框
