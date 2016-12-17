@@ -138,6 +138,7 @@
             android:exported="false" />
 
         <activity android:name=".login.SetActivity" />
+        <activity android:name=".voice.WaveActivity"/>
 
 
     </application>

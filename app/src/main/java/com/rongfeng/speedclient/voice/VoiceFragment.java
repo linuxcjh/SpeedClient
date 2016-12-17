@@ -41,6 +41,7 @@ import com.rongfeng.speedclient.common.utils.Utils;
 import com.rongfeng.speedclient.components.GuideViewDisplayUtil;
 import com.rongfeng.speedclient.components.MyDialog;
 import com.rongfeng.speedclient.components.SearchPopupWindow;
+import com.rongfeng.speedclient.components.WaveDrawable;
 import com.rongfeng.speedclient.entity.BaseDataModel;
 import com.rongfeng.speedclient.utils.JsonParser;
 
@@ -63,6 +64,8 @@ import static com.rongfeng.speedclient.common.Constant.ADD_CLIENT_INDEX;
 public class VoiceFragment extends BaseFragment implements View.OnTouchListener {
 
     public static final int SELECT_LANGUAGE_INDEX = 0x11;
+
+    private WaveDrawable mWaveDrawable;
 
 
     @Bind(R.id.select_language_tv)
@@ -89,6 +92,8 @@ public class VoiceFragment extends BaseFragment implements View.OnTouchListener 
     TextView voiceStatusTv;
     @Bind(R.id.root_layout)
     LinearLayout rootLayout;
+    @Bind(R.id.wave_view)
+    ImageView waveView;
 
 
     private SearchPopupWindow searchPopupWindow;
@@ -114,9 +119,16 @@ public class VoiceFragment extends BaseFragment implements View.OnTouchListener 
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_voice_layout, null);
         ButterKnife.bind(this, view);
+        initView();
         init();
         initVoice();
         return view;
+    }
+
+
+    private void initView() {
+        mWaveDrawable = new WaveDrawable(getActivity(), R.drawable.nav_bg);
+        waveView.setImageDrawable(mWaveDrawable);
     }
 
     /**
@@ -179,10 +191,7 @@ public class VoiceFragment extends BaseFragment implements View.OnTouchListener 
      */
     private void analysisVoice() {
         voiceStatusTv.setText("说完了");
-
-
     }
-
 
     @OnClick({R.id.input_to_schedule_tv, R.id.input_to_log_tv, R.id.input_confirm_tv, R.id.note_tv, R.id.input_cancel_tv, R.id.voice_bt, R.id.select_language_tv})
     public void onClick(View view) {
@@ -191,14 +200,16 @@ public class VoiceFragment extends BaseFragment implements View.OnTouchListener 
                 startActivity(new Intent(getActivity(), VoiceNoteActivity.class));
                 break;
             case R.id.input_cancel_tv:
-                contentEt.setText("");
+//                contentEt.setText("");
+                startActivity(new Intent(getActivity(), WaveActivity.class));
+
                 break;
             case R.id.input_confirm_tv:
                 AppTools.hideKeyboard(contentEt);
 
                 if (!TextUtils.isEmpty(contentEt.getText().toString())) {
 
-                    List<BaseDataModel> temp = VoiceAnalysisTools.getInstance().analysisData(contentEt,contentEt.getText().toString());
+                    List<BaseDataModel> temp = VoiceAnalysisTools.getInstance().analysisData(contentEt, contentEt.getText().toString());
 
                     if (temp.size() >= 1) {
                         AppTools.selectVoiceDialog("选择需要关联的客户：", getActivity(), temp, mHandler, 2);
@@ -227,7 +238,7 @@ public class VoiceFragment extends BaseFragment implements View.OnTouchListener 
                 data.add(new BaseDataModel("cantonese", "粤 语"));
                 data.add(new BaseDataModel("lmz", "四川话"));
                 data.add(new BaseDataModel("henanese", "河南话"));
-//                /普通话：mandarin(默认)
+//                //普通话：mandarin(默认)
 //                //粤 语：cantonese
 //                //四川话：lmz
 //                //河南话：henanese
@@ -263,7 +274,6 @@ public class VoiceFragment extends BaseFragment implements View.OnTouchListener 
             searchPopupWindow.mPopupWindow.showAtLocation(rootLayout, Gravity.TOP, 0, 0);
             searchPopupWindow.setContent(contentEt.getText().toString());
             searchPopupWindow.setSelectClient(model);
-
         }
     }
 
@@ -319,7 +329,7 @@ public class VoiceFragment extends BaseFragment implements View.OnTouchListener 
         public void onInit(int code) {
             Log.d(TAG, "SpeechRecognizer init() code = " + code);
             if (code != ErrorCode.SUCCESS) {
-//                AppTools.getToast("初始化失败，错误码：" + code);
+//          AppTools.getToast("初始化失败，错误码：" + code);
             }
         }
     };

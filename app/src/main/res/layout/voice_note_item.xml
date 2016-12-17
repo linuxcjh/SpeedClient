@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/root_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:id="@+id/root_layout"
     android:orientation="vertical">
 
 
@@ -95,8 +95,9 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:lineSpacingExtra="4dp"
-                android:text="今天拜访三一重工陕西公司许总，客户有意采购销售管理系统，主要关注业绩指标的日常执行过程"
+                android:text="今天拜访三一重工陕西公司许总"
                 android:textColor="@color/colorAssist"
+                android:textIsSelectable="true"
                 android:textSize="14sp" />
         </LinearLayout>
 
