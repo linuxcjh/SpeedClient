@@ -3,6 +3,7 @@ package com.rongfeng.speedclient.voice;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -18,17 +19,18 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.gson.reflect.TypeToken;
 import com.iflytek.cloud.ErrorCode;
 import com.iflytek.cloud.InitListener;
+import com.iflytek.cloud.RecognizerListener;
 import com.iflytek.cloud.RecognizerResult;
 import com.iflytek.cloud.SpeechConstant;
 import com.iflytek.cloud.SpeechError;
 import com.iflytek.cloud.SpeechRecognizer;
 import com.iflytek.cloud.ui.RecognizerDialog;
-import com.iflytek.cloud.ui.RecognizerDialogListener;
 import com.rongfeng.speedclient.API.XxbService;
 import com.rongfeng.speedclient.R;
 import com.rongfeng.speedclient.client.ClientRegisterActivity;
@@ -41,9 +43,9 @@ import com.rongfeng.speedclient.common.utils.Utils;
 import com.rongfeng.speedclient.components.GuideViewDisplayUtil;
 import com.rongfeng.speedclient.components.MyDialog;
 import com.rongfeng.speedclient.components.SearchPopupWindow;
-import com.rongfeng.speedclient.components.WaveDrawable;
 import com.rongfeng.speedclient.entity.BaseDataModel;
 import com.rongfeng.speedclient.utils.JsonParser;
+import com.rongfeng.speedclient.wave.WaveView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,8 +67,18 @@ public class VoiceFragment extends BaseFragment implements View.OnTouchListener 
 
     public static final int SELECT_LANGUAGE_INDEX = 0x11;
 
-    private WaveDrawable mWaveDrawable;
+    public static final int VOICE_RECORD_START_INDEX = 0;
+    public static final int VOICE_RECORD_END_INDEX = 1;
 
+
+    @Bind(R.id.top_layout)
+    RelativeLayout topLayout;
+    @Bind(R.id.time_second_tv)
+    TextView timeSecondTv;
+    @Bind(R.id.wave_layout)
+    LinearLayout waveLayout;
+    @Bind(R.id.wave_view)
+    WaveView waveView;
 
     @Bind(R.id.select_language_tv)
     TextView selectLanguageTv;
@@ -92,9 +104,6 @@ public class VoiceFragment extends BaseFragment implements View.OnTouchListener 
     TextView voiceStatusTv;
     @Bind(R.id.root_layout)
     LinearLayout rootLayout;
-    @Bind(R.id.wave_view)
-    ImageView waveView;
-
 
     private SearchPopupWindow searchPopupWindow;
     private int timeNum = 0;//录音时长
@@ -113,6 +122,8 @@ public class VoiceFragment extends BaseFragment implements View.OnTouchListener 
 
     private GuideViewDisplayUtil mGuideViewUtil;
 
+    private MediaPlayer mediaPlayer;//mediaPlayer对象
+
 
     @Nullable
     @Override
@@ -127,8 +138,6 @@ public class VoiceFragment extends BaseFragment implements View.OnTouchListener 
 
 
     private void initView() {
-        mWaveDrawable = new WaveDrawable(getActivity(), R.drawable.nav_bg);
-        waveView.setImageDrawable(mWaveDrawable);
     }
 
     /**
@@ -180,28 +189,21 @@ public class VoiceFragment extends BaseFragment implements View.OnTouchListener 
         mGuideViewUtil = new GuideViewDisplayUtil(getActivity(), view);
         selectLanguageTv.setText(AppConfig.getStringConfig("language_select_name", "普通话"));
 
-//        voiceBt.setOnTouchListener(this);
+        voiceBt.setOnTouchListener(this);
         searchPopupWindow = new SearchPopupWindow(getActivity(), Utils.getDeviceHeightPixels(getActivity()), mHandler);
         searchPopupWindow.getPopupWindow();
     }
 
 
-    /**
-     * 语音解析
-     */
-    private void analysisVoice() {
-        voiceStatusTv.setText("说完了");
-    }
-
-    @OnClick({R.id.input_to_schedule_tv, R.id.input_to_log_tv, R.id.input_confirm_tv, R.id.note_tv, R.id.input_cancel_tv, R.id.voice_bt, R.id.select_language_tv})
+    @OnClick({R.id.input_to_schedule_tv, R.id.input_to_log_tv, R.id.input_confirm_tv, R.id.note_tv, R.id.input_cancel_tv, R.id.select_language_tv})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.note_tv:
                 startActivity(new Intent(getActivity(), VoiceNoteActivity.class));
                 break;
             case R.id.input_cancel_tv:
-//                contentEt.setText("");
-                startActivity(new Intent(getActivity(), WaveActivity.class));
+                contentEt.setText("");
+//                startActivity(new Intent(getActivity(), WaveActivity.class));
 
                 break;
             case R.id.input_confirm_tv:
@@ -218,18 +220,6 @@ public class VoiceFragment extends BaseFragment implements View.OnTouchListener 
                     }
                 } else {
                     AppTools.getToast("请输入内容");
-                }
-                break;
-            case R.id.voice_bt:
-                // 设置参数
-                setParam();
-                boolean isShowDialog = mSharedPreferences.getBoolean(
-                        getString(R.string.pref_key_iat_show), true);
-                if (isShowDialog) {
-                    // 显示听写对话框
-                    mIatDialog.setListener(mRecognizerDialogListener);
-                    mIatDialog.show();
-                } else {
                 }
                 break;
             case R.id.select_language_tv:
@@ -283,11 +273,32 @@ public class VoiceFragment extends BaseFragment implements View.OnTouchListener 
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             switch (msg.what) {
-                case 0:
-                    hTimeTv.setText(timeNum++ + " s");
+                case VOICE_RECORD_START_INDEX:
+                    if (timeNum < 10) {
+                        timeSecondTv.setText("00:0" + timeNum++);
+                    } else if (timeNum < 59) {
+                        timeSecondTv.setText("00:" + timeNum++);
+                    } else {
+                        timeSecondTv.setText("01:0" + timeNum++ % 60);
+                    }
                     break;
-                case 1:
+                case VOICE_RECORD_END_INDEX:
+                    if (timeNum > 1) { //录音时长大于1秒开始解析
+                        mediaPlayer = MediaPlayer.create(getActivity(), R.raw.talkroom_begin);
+                        mediaPlayer.start();
+                    }
+
                     timeNum = 0;
+                    if (waveView.renderThread != null) {
+                        waveView.renderThread.setRun(false);
+                    }
+                    topLayout.setVisibility(View.VISIBLE);
+                    waveLayout.setVisibility(View.GONE);
+                    if (timerTask != null) {
+                        timerTask.cancel();
+                    }
+                    voiceStatusTv.setText("长按语音输入");
+
                     break;
                 case 2:
                     BaseDataModel m = (BaseDataModel) msg.obj;
@@ -327,7 +338,6 @@ public class VoiceFragment extends BaseFragment implements View.OnTouchListener 
 
         @Override
         public void onInit(int code) {
-            Log.d(TAG, "SpeechRecognizer init() code = " + code);
             if (code != ErrorCode.SUCCESS) {
 //          AppTools.getToast("初始化失败，错误码：" + code);
             }
@@ -368,15 +378,13 @@ public class VoiceFragment extends BaseFragment implements View.OnTouchListener 
         //视频:video
         //音乐:entrancemusic
 //            mIat.setParameter(SpeechConstant.DOMAIN, "travel");
-
-
 //        }
 
         // 设置语音前端点:静音超时时间，即用户多长时间不说话则当做超时处理0~10000
-        mIat.setParameter(SpeechConstant.VAD_BOS, mSharedPreferences.getString("iat_vadbos_preference", "3000"));
+        mIat.setParameter(SpeechConstant.VAD_BOS, mSharedPreferences.getString("iat_vadbos_preference", "10000"));
 
         // 设置语音后端点:后端点静音检测时间，即用户停止说话多长时间内即认为不再输入， 自动停止录音0~10000
-        mIat.setParameter(SpeechConstant.VAD_EOS, mSharedPreferences.getString("iat_vadeos_preference", "4000"));
+        mIat.setParameter(SpeechConstant.VAD_EOS, mSharedPreferences.getString("iat_vadeos_preference", "10000"));
 
         // 设置标点符号,设置为"0"返回结果无标点,设置为"1"返回结果有标点
         mIat.setParameter(SpeechConstant.ASR_PTT, mSharedPreferences.getString("iat_punc_preference", "1"));
@@ -386,23 +394,6 @@ public class VoiceFragment extends BaseFragment implements View.OnTouchListener 
         mIat.setParameter(SpeechConstant.AUDIO_FORMAT, "wav");
         mIat.setParameter(SpeechConstant.ASR_AUDIO_PATH, Environment.getExternalStorageDirectory() + "/msc/iat.wav");
     }
-
-    /**
-     * 听写UI监听器
-     */
-    private RecognizerDialogListener mRecognizerDialogListener = new RecognizerDialogListener() {
-        public void onResult(RecognizerResult results, boolean isLast) {
-            printResult(results);
-        }
-
-        /**
-         * 识别回调错误.
-         */
-        public void onError(SpeechError error) {
-            AppTools.getToast(error.getPlainDescription(true));
-        }
-
-    };
 
 
     private void printResult(RecognizerResult results) {
@@ -418,63 +409,106 @@ public class VoiceFragment extends BaseFragment implements View.OnTouchListener 
 
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
+                mediaPlayer = MediaPlayer.create(getActivity(), R.raw.qrcode_completed);
+                mediaPlayer.start();
+                topLayout.setVisibility(View.INVISIBLE);
+                waveLayout.setVisibility(View.VISIBLE);
+                // 设置参数
+                setParam();
+                // 不显示听写对话框
+                ret = mIat.startListening(mRecognizerListener);
+                if (waveView.renderThread != null) {
+                    waveView.renderThread.setRun(true);
+                }
                 timerTask = new TimerTask() {
+
                     @Override
                     public void run() {
-                        mHandler.sendEmptyMessage(0);
+                        mHandler.sendEmptyMessage(VOICE_RECORD_START_INDEX);
                     }
                 };
                 timer.schedule(timerTask, 0, 1000);
                 voiceStatusTv.setText("聆听中……");
-                // 设置参数
-                setParam();
-                boolean isShowDialog = mSharedPreferences.getBoolean(
-                        getString(R.string.pref_key_iat_show), true);
-                if (isShowDialog) {
-                    // 显示听写对话框
-                    mIatDialog.setListener(mRecognizerDialogListener);
-                    mIatDialog.show();
-//                    showTip(getString(R.string.text_begin));
-                } else {
-                    // 不显示听写对话框
-//                    ret = mIat.startListening(mRecognizerListener);
-                    if (ret != ErrorCode.SUCCESS) {
-//                        showTip("听写失败,错误码：" + ret);
-                    } else {
-//                        showTip(getString(R.string.text_begin));
-                    }
-                }
+
                 break;
             case MotionEvent.ACTION_MOVE:
 
                 break;
             case MotionEvent.ACTION_UP:
 
-                if (timerTask != null) {
-                    timerTask.cancel();
-                }
-                mHandler.sendEmptyMessage(1);
-
-                if (timeNum > 1) { //录音时长大于1秒开始解析
-                    analysisVoice();
-
-                } else {
-//                            AppTools.getToast("时间太短");
-                    voiceStatusTv.setText("长按语音输入");
-
-                }
+                mHandler.sendEmptyMessage(VOICE_RECORD_END_INDEX);
 
                 break;
         }
-
-
         return true;
     }
 
+    /**
+     * 听写监听器。
+     */
+    private RecognizerListener mRecognizerListener = new RecognizerListener() {
+
+        @Override
+        public void onBeginOfSpeech() {
+            // 此回调表示：sdk内部录音机已经准备好了，用户可以开始语音输入
+//            showTip("开始说话");
+        }
+
+        @Override
+        public void onError(SpeechError error) {
+            // Tips：
+            // 错误码：10118(您没有说话)，可能是录音机权限被禁，需要提示用户打开应用的录音权限。
+            // 如果使用本地功能（语记）需要提示用户开启语记的录音权限。
+//            showTip(error.getPlainDescription(true));
+        }
+
+        @Override
+        public void onEndOfSpeech() {
+            // 此回调表示：检测到了语音的尾端点，已经进入识别过程，不再接受语音输入
+//            showTip("结束说话");
+            mHandler.sendEmptyMessage(VOICE_RECORD_END_INDEX);//语音结束
+
+        }
+
+        @Override
+        public void onResult(RecognizerResult results, boolean isLast) {
+            Log.d(TAG, results.getResultString());
+            printResult(results);
+
+            if (isLast) {
+                // TODO 最后的结果
+            }
+        }
+
+        @Override
+        public void onVolumeChanged(int volume, byte[] data) {
+//            showTip("当前正在说话，音量大小：" + volume);
+//            Log.d("wave", "当前正在说话，音量大小：" + volume);
+
+            waveView.setAmplitudeValue((int) (volume / 30f * Utils.dip2px(AppConfig.getContext(), 14)));
+        }
+
+        @Override
+        public void onEvent(int eventType, int arg1, int arg2, Bundle obj) {
+            // 以下代码用于获取与云端的会话id，当业务出错时将会话id提供给技术支持人员，可用于查询会话日志，定位出错原因
+            // 若使用本地能力，会话id为null
+            //	if (SpeechEvent.EVENT_SESSION_ID == eventType) {
+            //		String sid = obj.getString(SpeechEvent.KEY_EVENT_SESSION_ID);
+            //		Log.d(TAG, "session id =" + sid);
+            //	}
+        }
+    };
+
     @Override
     public void onDestroyView() {
+        if (mediaPlayer.isPlaying()) {
+            mediaPlayer.stop();
+        }
+        mediaPlayer.release();//释放资源
         super.onDestroyView();
         ButterKnife.unbind(this);
+
+
     }
 
     @Override

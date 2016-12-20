@@ -1,8 +1,12 @@
 package com.rongfeng.speedclient.home;
 
+import android.app.Notification;
+import android.content.res.Resources;
 import android.graphics.PixelFormat;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Process;
+import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -16,6 +20,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.baidu.android.pushservice.CustomPushNotificationBuilder;
+import com.baidu.android.pushservice.PushConstants;
+import com.baidu.android.pushservice.PushManager;
 import com.rongfeng.speedclient.R;
 import com.rongfeng.speedclient.client.ClientFragment;
 import com.rongfeng.speedclient.common.BaseActivity;
@@ -27,6 +34,7 @@ import com.rongfeng.speedclient.dynamic.DynamicFragment;
 import com.rongfeng.speedclient.manage.ManageFragment;
 import com.rongfeng.speedclient.mine.MineFragment;
 import com.rongfeng.speedclient.permisson.PermissionsChecker;
+import com.rongfeng.speedclient.push.PushUtils;
 import com.rongfeng.speedclient.voice.VoiceFragment;
 
 import java.util.ArrayList;
@@ -101,6 +109,7 @@ public class MainTableActivity extends BaseActivity {
         setContentView(R.layout.activity_main_tab_layout);
         ButterKnife.bind(this);
         AppTools.clearPictureCache();
+        initPush();
         init();
         obtainDisplayHeight();
         defaultSelect();
@@ -126,6 +135,36 @@ public class MainTableActivity extends BaseActivity {
         fragments.add(dynamicFragment);
         transaction.add(R.id.container_layout, dynamicFragment);
         transaction.commit();
+
+    }
+
+    private void initPush() {
+        Resources resource = this.getResources();
+        String pkgName = this.getPackageName();
+        PushManager.startWork(getApplicationContext(),
+                PushConstants.LOGIN_TYPE_API_KEY,
+                PushUtils.getMetaValue(this, "api_key"));
+        // Push: 如果想基于地理位置推送，可以打开支持地理位置的推送的开关
+        // PushManager.enableLbs(getApplicationContext());
+
+        // Push: 设置自定义的通知样式，具体API介绍见用户手册，如果想使用系统默认的可以不加这段代码
+        // 请在通知推送界面中，高级设置->通知栏样式->自定义样式，选中并且填写值：1，
+        // 与下方代码中 PushManager.setNotificationBuilder(this, 1, cBuilder)中的第二个参数对应
+        CustomPushNotificationBuilder cBuilder = new CustomPushNotificationBuilder(
+                resource.getIdentifier(
+                        "notification_custom_builder", "layout", pkgName),
+                resource.getIdentifier("notification_icon", "id", pkgName),
+                resource.getIdentifier("notification_title", "id", pkgName),
+                resource.getIdentifier("notification_text", "id", pkgName));
+        cBuilder.setNotificationFlags(Notification.FLAG_AUTO_CANCEL);
+        cBuilder.setNotificationDefaults(Notification.DEFAULT_VIBRATE);
+        cBuilder.setStatusbarIcon(this.getApplicationInfo().icon);
+        cBuilder.setLayoutDrawable(resource.getIdentifier(
+                "simple_notification_icon", "drawable", pkgName));
+        cBuilder.setNotificationSound(Uri.withAppendedPath(
+                MediaStore.Audio.Media.INTERNAL_CONTENT_URI, "6").toString());
+        // 推送高级设置，通知栏样式设置为下面的ID
+        PushManager.setNotificationBuilder(this, 1, cBuilder);
 
     }
 

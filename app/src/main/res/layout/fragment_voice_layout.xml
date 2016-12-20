@@ -13,12 +13,14 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="50dp">
 
             <RelativeLayout
+                android:id="@+id/top_layout"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:background="@drawable/nav_bg">
+                android:background="@drawable/nav_bg"
+                android:visibility="visible">
 
                 <TextView
                     android:id="@+id/select_language_tv"
@@ -52,12 +54,34 @@
 
             </RelativeLayout>
 
-            <ImageView
-                android:id="@+id/wave_view"
+            <LinearLayout
+                android:id="@+id/wave_layout"
                 android:layout_width="match_parent"
-                android:layout_height="50dp" />
+                android:layout_height="50dp"
+                android:orientation="horizontal"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/time_second_tv"
+                    android:layout_width="60dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/colorBlue"
+                    android:gravity="center"
+                    android:text="0:00"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="13sp" />
+
+                <com.rongfeng.speedclient.wave.WaveView
+                    android:id="@+id/wave_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_weight="1" />
+
+
+            </LinearLayout>
 
         </RelativeLayout>
+
 
         <FrameLayout
             android:layout_width="match_parent"

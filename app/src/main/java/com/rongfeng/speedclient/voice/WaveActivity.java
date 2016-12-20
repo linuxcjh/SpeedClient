@@ -2,6 +2,7 @@ package com.rongfeng.speedclient.voice;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.SeekBar;
@@ -34,6 +35,7 @@ public class WaveActivity extends AppCompatActivity {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 mWaveDrawable.setLevel(progress);
+                Log.d("wave","Level-- "+progress+"");
             }
         });
 //
@@ -42,6 +44,8 @@ public class WaveActivity extends AppCompatActivity {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 mWaveDrawable.setWaveAmplitude(progress);
+                Log.d("wave","Amplitude-- "+progress+"");
+
             }
         });
 //
@@ -50,6 +54,8 @@ public class WaveActivity extends AppCompatActivity {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 mWaveDrawable.setWaveLength(progress);
+                Log.d("wave","Length-- "+progress+"");
+
             }
         });
 //
@@ -58,6 +64,8 @@ public class WaveActivity extends AppCompatActivity {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 mWaveDrawable.setWaveSpeed(progress);
+                Log.d("wave","Speed-- "+progress+"");
+
             }
         });
 //
