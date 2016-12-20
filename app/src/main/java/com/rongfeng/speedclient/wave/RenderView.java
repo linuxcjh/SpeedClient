@@ -68,6 +68,7 @@ public abstract class RenderView extends SurfaceView implements SurfaceHolder.Ca
     private final Object surfaceLock = new Object();
     public RenderThread renderThread;
 
+    public SurfaceHolder holder;
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
         renderer = onCreateRenderer();

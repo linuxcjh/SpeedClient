@@ -25,7 +25,7 @@
 
     <color name="colorVoiceBg">#CC000000</color>
     <color name="colorVoiceItemBg">#19FFFFFF</color>
-    <color name="colorVoiceWaveBg">#FFFFFFFF</color>
+    <color name="colorVoiceWaveBg">#EAFFFFFF</color>
 
 
     <color name="colorCallBg">#5A000000</color>

@@ -283,8 +283,12 @@ public class VoiceFragment extends BaseFragment implements View.OnTouchListener 
                     }
                     break;
                 case VOICE_RECORD_END_INDEX:
+
+
+                    mIat.stopListening();
+
                     if (timeNum > 1) { //录音时长大于1秒开始解析
-                        mediaPlayer = MediaPlayer.create(getActivity(), R.raw.talkroom_begin);
+                        mediaPlayer = MediaPlayer.create(getActivity(), R.raw.qrcode_completed);
                         mediaPlayer.start();
                     }
 
@@ -409,7 +413,7 @@ public class VoiceFragment extends BaseFragment implements View.OnTouchListener 
 
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                mediaPlayer = MediaPlayer.create(getActivity(), R.raw.qrcode_completed);
+                mediaPlayer = MediaPlayer.create(getActivity(), R.raw.talkroom_begin);
                 mediaPlayer.start();
                 topLayout.setVisibility(View.INVISIBLE);
                 waveLayout.setVisibility(View.VISIBLE);
@@ -466,7 +470,7 @@ public class VoiceFragment extends BaseFragment implements View.OnTouchListener 
         public void onEndOfSpeech() {
             // 此回调表示：检测到了语音的尾端点，已经进入识别过程，不再接受语音输入
 //            showTip("结束说话");
-            mHandler.sendEmptyMessage(VOICE_RECORD_END_INDEX);//语音结束
+//            mHandler.sendEmptyMessage(VOICE_RECORD_END_INDEX);//语音结束
 
         }
 

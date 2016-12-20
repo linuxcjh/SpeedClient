@@ -171,7 +171,7 @@ public class WaveView extends RenderView {
 
 
         //绘制下弦线
-        paint.setColor(ContextCompat.getColor(AppConfig.getContext(), R.color.colorVoiceInputItem));
+        paint.setColor(ContextCompat.getColor(AppConfig.getContext(), R.color.colorVoiceWaveBg));
         paint.setStyle(Paint.Style.STROKE);
         paint.setStrokeWidth(Utils.dip2px(AppConfig.getContext(), 1));
 
