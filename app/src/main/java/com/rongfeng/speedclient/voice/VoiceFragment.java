@@ -470,7 +470,7 @@ public class VoiceFragment extends BaseFragment implements View.OnTouchListener 
         public void onEndOfSpeech() {
             // 此回调表示：检测到了语音的尾端点，已经进入识别过程，不再接受语音输入
 //            showTip("结束说话");
-//            mHandler.sendEmptyMessage(VOICE_RECORD_END_INDEX);//语音结束
+            mHandler.sendEmptyMessage(VOICE_RECORD_END_INDEX);//语音结束
 
         }
 

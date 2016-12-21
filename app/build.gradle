@@ -81,5 +81,5 @@ dependencies {
     compile 'com.android.support:appcompat-v7:25.0.1'
     compile 'com.nineoldandroids:library:2.4.0'
     compile 'com.github.sd6352051.niftydialogeffects:niftydialogeffects:1.0.0@aar'
-    compile files('libs/pushservice-5.2.0.12.jar')
+    compile files('libs/pushservice-5.5.0.50.jar')
 }
