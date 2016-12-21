@@ -11,6 +11,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.rongfeng.speedclient.API.XxbAPI;
 import com.rongfeng.speedclient.API.XxbService;
+import com.rongfeng.speedclient.BuildConfig;
 import com.rongfeng.speedclient.common.utils.AppConfig;
 import com.rongfeng.speedclient.common.utils.AppTools;
 import com.rongfeng.speedclient.common.utils.DeviceInfoUtil;
@@ -91,6 +92,9 @@ public abstract class BasePresenter {
                 parameterMap = AppTools.toMap();
             }
 
+            if (BuildConfig.DEBUG) {
+                AppTools.ergodicParameters(parameterMap);
+            }
             Call<String> call = service.serviceAPI(methodName, parameterMap);
             call.enqueue(new Callback<String>() {
                 @Override

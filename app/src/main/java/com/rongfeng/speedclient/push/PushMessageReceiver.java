@@ -69,8 +69,8 @@ public class PushMessageReceiver extends com.baidu.android.pushservice.PushMessa
         if (errorCode == 0) {
             // 绑定成功
             Log.d(TAG, "绑定成功");
-//            pushPresenter.isShowProgressDialog = false;
-//            pushPresenter.pushDinding(channelId);
+            pushPresenter.isShowProgressDialog = false;
+            pushPresenter.pushDinding(channelId);
         }
         // Demo更新界面展示代码，应用请在这里加入自己的处理逻辑
 //        updateContent(context, responseString);
