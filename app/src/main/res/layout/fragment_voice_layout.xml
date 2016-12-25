@@ -157,10 +157,10 @@
                             android:layout_centerVertical="true"
                             android:layout_weight="1"
                             android:drawablePadding="8dp"
-                            android:drawableTop="@drawable/voice_worklog"
+                            android:drawableTop="@drawable/voice_worklog_grey"
                             android:gravity="center"
                             android:text="保存到日志"
-                            android:textColor="@color/colorBlue"
+                            android:textColor="@color/colorAssist"
                             android:textSize="11sp" />
 
 
@@ -172,10 +172,10 @@
                             android:layout_centerVertical="true"
                             android:layout_weight="1"
                             android:drawablePadding="8dp"
-                            android:drawableTop="@drawable/voice_schedule"
+                            android:drawableTop="@drawable/voice_find_grey"
                             android:gravity="center"
                             android:text="找客户"
-                            android:textColor="@color/colorBlue"
+                            android:textColor="@color/colorAssist"
                             android:textSize="11sp" />
 
 
@@ -187,10 +187,10 @@
                             android:layout_centerVertical="true"
                             android:layout_weight="1"
                             android:drawablePadding="8dp"
-                            android:drawableTop="@drawable/voice_customer"
+                            android:drawableTop="@drawable/voice_customer_grey"
                             android:gravity="center"
                             android:text="客户跟进"
-                            android:textColor="@color/colorBlue"
+                            android:textColor="@color/colorAssist"
                             android:textSize="11sp" />
 
                     </LinearLayout>

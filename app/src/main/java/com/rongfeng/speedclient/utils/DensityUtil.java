@@ -3,7 +3,6 @@ package com.rongfeng.speedclient.utils;
 import android.app.Activity;
 import android.content.Context;
 import android.view.WindowManager;
-import android.widget.Toast;
 
 public class DensityUtil {
 
@@ -58,8 +57,6 @@ public class DensityUtil {
     public static int px2sp(Context context, float pxValue) {
 
         final float fontScale = context.getResources().getDisplayMetrics().scaledDensity;
-
-        Toast.makeText(context,fontScale+"",Toast.LENGTH_SHORT).show();
 
         return (int) (pxValue / fontScale + 0.5f);
     }

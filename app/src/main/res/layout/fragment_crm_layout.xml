@@ -145,7 +145,7 @@
                     android:orientation="vertical"
                     android:paddingBottom="70dp">
 
-
+                    <include layout="@layout/fragment_crm_progress_layout" />
 
                     <include layout="@layout/fragment_crm_salesper_layout" />
 

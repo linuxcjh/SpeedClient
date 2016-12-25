@@ -1,0 +1,111 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+
+    <TextView
+        android:id="@+id/current_date_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/mine_label_bg"
+        android:gravity="center"
+        android:paddingBottom="8dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingTop="8dp"
+        android:text="今天 2016-12-04 星期五"
+        android:textColor="@color/colorAssist"
+        android:textSize="12sp"
+        android:visibility="gone" />
+
+    <LinearLayout
+        android:id="@+id/user_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:minHeight="70dp"
+        android:orientation="horizontal"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/user_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/cust_plus_visit" />
+
+        <TextView
+            android:id="@+id/user_entry_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:text="Robert进入了系统"
+            android:textColor="@color/colorAssist"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/user_entry_time_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:text="01:20AM"
+            android:textColor="@color/colorAssist"
+            android:textSize="12sp" />
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/type_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:minHeight="70dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp">
+
+        <ImageView
+            android:id="@+id/type_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/cust_plus_visit" />
+
+        <TextView
+            android:id="@+id/type_name_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:layout_toRightOf="@+id/type_image"
+            android:text="创建商机"
+            android:textColor="@color/colorListName"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/time_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/type_name_tv"
+            android:layout_marginLeft="16dp"
+            android:layout_toRightOf="@+id/type_name_tv"
+            android:text="08:10"
+            android:textColor="@color/colorAssist"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/content_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/type_name_tv"
+            android:layout_below="@+id/type_name_tv"
+            android:layout_marginTop="6dp"
+            android:text="三一重工项目"
+            android:textColor="@color/colorAssist"
+            android:textSize="13sp" />
+    </RelativeLayout>
+
+
+</LinearLayout>

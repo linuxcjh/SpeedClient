@@ -3,13 +3,17 @@ package com.rongfeng.speedclient.voice;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -198,8 +202,42 @@ public class VoiceFragment extends BaseFragment implements View.OnTouchListener 
         voiceBt.setOnTouchListener(this);
         searchPopupWindow = new SearchPopupWindow(getActivity(), Utils.getDeviceHeightPixels(getActivity()), mHandler);
         searchPopupWindow.getPopupWindow();
+
+        contentEt.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if (editable.toString().length() > 0) {
+
+                    changeStatus(inputToLogTv, R.drawable.voice_worklog, R.color.colorBlue);
+                    changeStatus(inputSearchClientTv, R.drawable.voice_find, R.color.colorBlue);
+                    changeStatus(inputConfirmTv, R.drawable.voice_customer, R.color.colorBlue);
+
+                } else {
+                    changeStatus(inputToLogTv, R.drawable.voice_worklog_grey, R.color.colorAssist);
+                    changeStatus(inputSearchClientTv, R.drawable.voice_find_grey, R.color.colorAssist);
+                    changeStatus(inputConfirmTv, R.drawable.voice_customer_grey, R.color.colorAssist);
+                }
+
+            }
+        });
     }
 
+    private void changeStatus(TextView textView, int drawableIndex, int color) {
+        Drawable drawable = getActivity().getResources().getDrawable(drawableIndex);
+        drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+        textView.setCompoundDrawables(null, drawable, null, null);
+        textView.setTextColor(ContextCompat.getColor(getActivity(), color));
+
+    }
 
     @OnClick({R.id.input_search_client_tv, R.id.input_to_log_tv, R.id.input_confirm_tv, R.id.note_tv, R.id.input_cancel_tv, R.id.select_language_tv})
     public void onClick(View view) {

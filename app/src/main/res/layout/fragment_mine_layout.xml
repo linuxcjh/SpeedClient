@@ -9,6 +9,14 @@
         android:layout_height="50dp"
         android:background="@drawable/nav_bg">
 
+        <ImageView
+            android:id="@+id/set_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:paddingLeft="16dp"
+            android:paddingRight="20dp"
+            android:src="@drawable/nav_setup" />
 
         <TextView
             style="@style/title_mid_text"
@@ -19,7 +27,6 @@
 
 
     </RelativeLayout>
-
 
 
     <LinearLayout
@@ -112,8 +119,8 @@
                 android:layout_weight="1"
                 android:drawableLeft="@drawable/me_notes"
                 android:drawablePadding="6dp"
-                android:text="我的日志"
                 android:gravity="center_vertical"
+                android:text="我的日志"
                 android:textColor="@color/colorListName"
                 android:textSize="14sp" />
 
@@ -191,8 +198,8 @@
                 android:layout_weight="1"
                 android:drawableLeft="@drawable/me_reminders"
                 android:drawablePadding="6dp"
-                android:text="我的提醒"
                 android:gravity="center_vertical"
+                android:text="我的提醒"
                 android:textColor="@color/colorListName"
                 android:textSize="14sp" />
 
@@ -251,7 +258,8 @@
         android:background="@drawable/blue_arround_bg"
         android:text="退出系统"
         android:textColor="@color/colorWhite"
-        android:textSize="14sp" />
+        android:textSize="14sp"
+        android:visibility="gone" />
 
 
 </LinearLayout>

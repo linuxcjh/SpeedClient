@@ -721,4 +721,6 @@ public interface XxbService {
     String UPDATECSRCONTACT="updateCsrContact";
 
     String SEARCHCSRGATHERING="searchCsrGathering";
+
+    String  SEARCHHOMEPAGEDYNAMIC="searchHomePageDynamic";
 }

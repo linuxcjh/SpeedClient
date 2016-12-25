@@ -42,7 +42,8 @@
                 android:layout_height="15dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:background="@color/colorVerLine" />
+                android:background="@color/colorVerLine"
+                android:visibility="gone"/>
 
             <TextView
                 android:id="@+id/sales_bulletin_person_num_tv"

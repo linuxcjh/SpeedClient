@@ -2,6 +2,7 @@ package com.rongfeng.speedclient.mine;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Process;
 import android.support.annotation.Nullable;
 import android.telephony.SmsManager;
 import android.view.LayoutInflater;
@@ -52,6 +53,8 @@ public class MineFragment extends BaseFragment {
     LinearLayout remindLayout;
     @Bind(R.id.mine_first_switch_bt)
     Button mineFirstSwitchBt;
+    @Bind(R.id.set_tv)
+    ImageView setTv;
 
     @Nullable
     @Override
@@ -74,7 +77,7 @@ public class MineFragment extends BaseFragment {
     }
 
 
-    @OnClick({R.id.note_layout, R.id.connect_layout, R.id.remind_layout, R.id.mine_first_switch_bt})
+    @OnClick({R.id.note_layout, R.id.connect_layout, R.id.remind_layout, R.id.mine_first_switch_bt, R.id.set_tv})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.note_layout:
@@ -94,7 +97,12 @@ public class MineFragment extends BaseFragment {
 
                 getActivity().finish();
                 break;
+
+            case R.id.set_tv:
+                startActivityForResult(new Intent(getActivity(), SetActivity.class), 0x11);
+                break;
         }
+
     }
 
     public void sendSMS(String phoneNumber, String message) {
@@ -107,4 +115,18 @@ public class MineFragment extends BaseFragment {
         }
 
     }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (data != null) {
+            AppConfig.setStringConfig("userModel", "");
+            AppConfig.setStringConfig("login", "0"); //启动页面
+            getActivity().finish();
+            Process.killProcess(Process.myPid());
+            System.exit(0);
+        }
+
+    }
+
 }

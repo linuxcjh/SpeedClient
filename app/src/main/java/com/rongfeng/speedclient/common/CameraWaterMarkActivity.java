@@ -33,12 +33,10 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationListener;
 import com.rongfeng.speedclient.R;
-import com.rongfeng.speedclient.common.utils.AppConfig;
 import com.rongfeng.speedclient.common.utils.AppTools;
 import com.rongfeng.speedclient.permisson.PermissionsActivity;
 import com.rongfeng.speedclient.permisson.PermissionsChecker;
@@ -127,7 +125,7 @@ public class CameraWaterMarkActivity extends Activity implements
                 camera.setDisplayOrientation(90);
                 camera.startPreview();
             }else{
-                Toast.makeText(AppConfig.getContext(),"请在 设置->应用管理->行销宝->权限管理 中开启拍照权限", Toast.LENGTH_LONG).show();
+//                Toast.makeText(AppConfig.getContext(),"请在 设置->应用管理->行销宝->权限管理 中开启拍照权限", Toast.LENGTH_LONG).show();
             }
         } catch (NullPointerException e) {
 //            AppTools.showNoSetDlg(this, "您好，摄像头权限未开启！");
