@@ -92,6 +92,8 @@ public interface Constant {
      * 对话框确定
      */
     public static final int CONFIRMDIALOG = 0x33;
+    public static final int DISMISS_DIALOG_INDEX = 0x331;
+
 
 
     /**

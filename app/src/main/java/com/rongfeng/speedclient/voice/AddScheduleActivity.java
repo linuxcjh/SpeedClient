@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ListView;
@@ -50,20 +49,10 @@ public class AddScheduleActivity extends BaseActivity implements CalendarListene
     TextView cancelIv;
     @Bind(R.id.add_iv)
     TextView addIv;
-    @Bind(R.id.one_tv)
-    TextView oneTv;
-    @Bind(R.id.one_select_tv)
-    TextView oneSelectTv;
-    @Bind(R.id.two_tv)
-    TextView twoTv;
-    @Bind(R.id.two_select_tv)
-    TextView twoSelectTv;
-    @Bind(R.id.three_tv)
-    TextView threeTv;
-    @Bind(R.id.three_select_tv)
-    TextView threeSelectTv;
     @Bind(R.id.root_layout)
     RelativeLayout rootLayout;
+    @Bind(R.id.time_tv)
+    TextView timeTv;
     private CalendarBroadCastReceiver broadCastReceiver;
     private String dateString;
     //    private WeekView weekView;
@@ -89,10 +78,8 @@ public class AddScheduleActivity extends BaseActivity implements CalendarListene
     }
 
     private void init() {
-        addRemindModel.setRemindType("1");
         if (!TextUtils.isEmpty(getIntent().getStringExtra("customerId"))) {
             addRemindModel.setCsrId(getIntent().getStringExtra("customerId"));
-
         }
         effectsCalendarView.isDisableWeekView(true);
         calendarView = effectsCalendarView.getCalendarView();
@@ -110,6 +97,8 @@ public class AddScheduleActivity extends BaseActivity implements CalendarListene
 
 
     private void invoke() {
+
+        addRemindModel.setRemindHour(timeTv.getText().toString());
         addRemindModel.setRemindContent(getIntent().getStringExtra("content"));
         commonPresenter.invokeInterfaceObtainData(XxbService.INSERTSKREMIND, addRemindModel, new TypeToken<List<BaseDataModel>>() {
         });
@@ -125,7 +114,7 @@ public class AddScheduleActivity extends BaseActivity implements CalendarListene
         }
     }
 
-    @OnClick({R.id.cancel_iv, R.id.add_iv, R.id.one_tv, R.id.two_tv, R.id.three_tv})
+    @OnClick({R.id.cancel_iv, R.id.add_iv, R.id.time_tv})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.cancel_iv:
@@ -138,41 +127,10 @@ public class AddScheduleActivity extends BaseActivity implements CalendarListene
 //                intent.putExtra("dateString", dateString);
 //                startActivityForResult(intent, 1001);
                 break;
-            case R.id.one_tv:
-                resetTopView();
-                oneSelectTv.setVisibility(View.VISIBLE);
-                addRemindModel.setRemindType("1");
-                oneSelectTv.setTextColor(ContextCompat.getColor(this,R.color.colorWhite));
-
-                break;
-            case R.id.two_tv:
-                resetTopView();
-                twoSelectTv.setVisibility(View.VISIBLE);
-                addRemindModel.setRemindType("3");
-                twoSelectTv.setTextColor(ContextCompat.getColor(this,R.color.colorWhite));
-
-                break;
-            case R.id.three_tv:
-                resetTopView();
-                threeSelectTv.setVisibility(View.VISIBLE);
-                addRemindModel.setRemindType("7");
-                threeSelectTv.setTextColor(ContextCompat.getColor(this,R.color.colorWhite));
-
+            case R.id.time_tv:
+                AppTools.obtainTime(this, timeTv);
                 break;
         }
-    }
-
-    private void resetTopView() {
-        oneSelectTv.setVisibility(View.GONE);
-        twoSelectTv.setVisibility(View.GONE);
-        threeSelectTv.setVisibility(View.GONE);
-
-        oneSelectTv.setTextColor(ContextCompat.getColor(this,R.color.colorAssist));
-        twoSelectTv.setTextColor(ContextCompat.getColor(this,R.color.colorAssist));
-        threeSelectTv.setTextColor(ContextCompat.getColor(this,R.color.colorAssist));
-
-
-
     }
 
 

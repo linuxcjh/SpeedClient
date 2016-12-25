@@ -33,7 +33,9 @@ import com.iflytek.cloud.SpeechRecognizer;
 import com.iflytek.cloud.ui.RecognizerDialog;
 import com.rongfeng.speedclient.API.XxbService;
 import com.rongfeng.speedclient.R;
+import com.rongfeng.speedclient.client.ClientPersonaActivity;
 import com.rongfeng.speedclient.client.ClientRegisterActivity;
+import com.rongfeng.speedclient.client.ClientVisitActivity;
 import com.rongfeng.speedclient.client.entry.AddClientTransModel;
 import com.rongfeng.speedclient.common.BaseFragment;
 import com.rongfeng.speedclient.common.Constant;
@@ -65,10 +67,14 @@ import static com.rongfeng.speedclient.common.Constant.ADD_CLIENT_INDEX;
  */
 public class VoiceFragment extends BaseFragment implements View.OnTouchListener {
 
-    public static final int SELECT_LANGUAGE_INDEX = 0x11;
+    public static final int SELECT_LANGUAGE_INDEX = 0x11;//选择语言
 
-    public static final int VOICE_RECORD_START_INDEX = 0;
-    public static final int VOICE_RECORD_END_INDEX = 1;
+    public static final int VOICE_RECORD_START_INDEX = 0;//录音开始
+    public static final int VOICE_RECORD_END_INDEX = 1;//录音结束
+
+    public static final int SEARCH_CLIENT_INDEX = 2; //查找客户
+
+    public static final int PROGRESS_CLIENT_INDEX = 3; //跟进客户
 
 
     @Bind(R.id.top_layout)
@@ -88,8 +94,8 @@ public class VoiceFragment extends BaseFragment implements View.OnTouchListener 
     EditText contentEt;
     @Bind(R.id.input_cancel_tv)
     TextView inputCancelTv;
-    @Bind(R.id.input_to_schedule_tv)
-    TextView inputToScheduleTv;
+    @Bind(R.id.input_search_client_tv)
+    TextView inputSearchClientTv;
     @Bind(R.id.input_to_log_tv)
     TextView inputToLogTv;
     @Bind(R.id.input_confirm_tv)
@@ -141,7 +147,7 @@ public class VoiceFragment extends BaseFragment implements View.OnTouchListener 
     }
 
     /**
-     * 获取类型
+     * 添加日志
      *
      * @param
      */
@@ -195,32 +201,21 @@ public class VoiceFragment extends BaseFragment implements View.OnTouchListener 
     }
 
 
-    @OnClick({R.id.input_to_schedule_tv, R.id.input_to_log_tv, R.id.input_confirm_tv, R.id.note_tv, R.id.input_cancel_tv, R.id.select_language_tv})
+    @OnClick({R.id.input_search_client_tv, R.id.input_to_log_tv, R.id.input_confirm_tv, R.id.note_tv, R.id.input_cancel_tv, R.id.select_language_tv})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.note_tv:
+
                 startActivity(new Intent(getActivity(), VoiceNoteActivity.class));
                 break;
             case R.id.input_cancel_tv:
                 contentEt.setText("");
-//                startActivity(new Intent(getActivity(), WaveActivity.class));
 
                 break;
             case R.id.input_confirm_tv:
-                AppTools.hideKeyboard(contentEt);
 
-                if (!TextUtils.isEmpty(contentEt.getText().toString())) {
+                connectClient(PROGRESS_CLIENT_INDEX);
 
-                    List<BaseDataModel> temp = VoiceAnalysisTools.getInstance().analysisData(contentEt, contentEt.getText().toString());
-
-                    if (temp.size() >= 1) {
-                        AppTools.selectVoiceDialog("选择需要关联的客户：", getActivity(), temp, mHandler, 2);
-                    } else if (temp.size() == 0) {
-                        AppTools.selectVoiceDialog("查找或新建需要关联的客户：", getActivity(), temp, mHandler, 2);
-                    }
-                } else {
-                    AppTools.getToast("请输入内容");
-                }
                 break;
             case R.id.select_language_tv:
                 List<BaseDataModel> data = new ArrayList<>();
@@ -235,13 +230,11 @@ public class VoiceFragment extends BaseFragment implements View.OnTouchListener 
                 AppTools.selectDialog("请选语言", getActivity(), data, mHandler, SELECT_LANGUAGE_INDEX);
 
                 break;
-            case R.id.input_to_schedule_tv:
-                if (TextUtils.isEmpty(contentEt.getText().toString())) {
-                    AppTools.getToast("请输入内容");
-                    return;
-                }
-                startActivity(new Intent(getActivity(), AddScheduleActivity.class).putExtra("content", contentEt.getText().toString()));
+            case R.id.input_search_client_tv:
 
+                connectClient(SEARCH_CLIENT_INDEX);
+
+//                startActivity(new Intent(getActivity(), AddScheduleActivity.class).putExtra("content", contentEt.getText().toString()));
 
                 break;
             case R.id.input_to_log_tv:
@@ -255,6 +248,27 @@ public class VoiceFragment extends BaseFragment implements View.OnTouchListener 
         }
     }
 
+
+    /**
+     * 查找、跟进客户
+     */
+    private void connectClient(int index) {
+        AppTools.hideKeyboard(contentEt);
+
+        if (!TextUtils.isEmpty(contentEt.getText().toString())) {
+
+            List<BaseDataModel> temp = VoiceAnalysisTools.getInstance().analysisData(contentEt, contentEt.getText().toString());
+
+            if (temp.size() >= 1) {
+                AppTools.selectVoiceDialog("选择需要关联的客户：", getActivity(), temp, mHandler, index);
+            } else if (temp.size() == 0) {
+                AppTools.selectVoiceDialog("查找或新建需要关联的客户：", getActivity(), temp, mHandler, index);
+            }
+        } else {
+            AppTools.getToast("请输入内容");
+        }
+
+    }
 
     /**
      * 显示搜索框
@@ -304,12 +318,20 @@ public class VoiceFragment extends BaseFragment implements View.OnTouchListener 
                     voiceStatusTv.setText("长按语音输入");
 
                     break;
-                case 2:
+                case SEARCH_CLIENT_INDEX:
                     BaseDataModel m = (BaseDataModel) msg.obj;
-                    showPop(m);
+//                    showPop(m);
+                    startActivity(new Intent(getActivity(), ClientPersonaActivity.class)
+                            .putExtra("customerId", m.getDictionaryId())
+                            .putExtra("customerName", m.getDictionaryName()));
                     break;
-                case 3:
-                    invoke();
+                case PROGRESS_CLIENT_INDEX:
+                    BaseDataModel proIndex = (BaseDataModel) msg.obj;
+                    startActivity(new Intent(getActivity(), ClientVisitActivity.class)
+                            .putExtra("customerId", proIndex.getDictionaryId())
+                            .putExtra("customerName", proIndex.getDictionaryName())
+                            .putExtra("content", contentEt.getText().toString()));
+
                     break;
                 case SELECT_LANGUAGE_INDEX:
                     BaseDataModel mm = (BaseDataModel) msg.obj;

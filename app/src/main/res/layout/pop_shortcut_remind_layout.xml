@@ -15,138 +15,64 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="40dp"
-            android:text="设置为跟进提醒："
+            android:text="选择提醒日期："
             android:textColor="@android:color/white"
             android:textSize="14sp" />
 
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_marginBottom="14dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/radar_bg"
-            android:orientation="horizontal"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:text="提醒时间："
-                android:textColor="@color/colorListName"
-                android:textSize="15sp" />
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:layout_gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1">
-
-                    <TextView
-                        android:id="@+id/one_tv"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:text="提前1天"
-                        android:textColor="@color/colorAssist"
-                        android:textSize="14sp" />
-
-                    <TextView
-                        android:id="@+id/one_select_tv"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@drawable/remide_top_item_bg"
-                        android:gravity="center"
-                        android:text="提前1天"
-                        android:textColor="@color/colorWhite"
-                        android:textSize="14sp"
-                        />
-
-                </RelativeLayout>
-
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1">
-
-                    <TextView
-                        android:id="@+id/two_tv"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:text="提前3天"
-                        android:textColor="@color/colorAssist"
-                        android:textSize="14sp" />
-
-                    <TextView
-                        android:id="@+id/two_select_tv"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@drawable/remide_top_item_bg"
-                        android:gravity="center"
-                        android:text="提前3天"
-                        android:textColor="@color/colorListName"
-                        android:textSize="14sp"
-                        android:visibility="gone" />
-
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1">
-
-                    <TextView
-                        android:id="@+id/three_tv"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:text="提前7天"
-                        android:textColor="@color/colorAssist"
-                        android:textSize="14sp" />
-
-                    <TextView
-                        android:id="@+id/three_select_tv"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@drawable/remide_top_item_bg"
-                        android:gravity="center"
-                        android:text="提前7天"
-                        android:textColor="@color/colorListName"
-                        android:textSize="14sp"
-                        android:visibility="gone" />
-
-                </RelativeLayout>
-            </LinearLayout>
-
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
+            android:layout_marginTop="10dp"
             android:background="@drawable/radar_bg"
             android:minHeight="310dp"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
             <com.rongfeng.speedclient.utils.calendar.EffectsCalendarView
                 android:id="@+id/effectsCalendarView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="10dp"></com.rongfeng.speedclient.utils.calendar.EffectsCalendarView>
+                android:paddingTop="10dp" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="10dp"
+                android:src="@drawable/divider" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="提醒时间"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/time_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="right|center_vertical"
+                    android:paddingRight="10dp"
+                    android:text="08:00"
+                    android:textSize="14sp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/list_arrow" />
+
+            </LinearLayout>
+
         </LinearLayout>
 
     </LinearLayout>
@@ -166,8 +92,8 @@
             android:layout_gravity="center"
             android:drawablePadding="8dp"
             android:drawableTop="@drawable/shortcut_close"
-            android:text="取消"
             android:gravity="center"
+            android:text="取消"
             android:textColor="@color/colorWhite"
             android:textSize="12sp" />
 
@@ -179,8 +105,8 @@
             android:layout_marginLeft="100dp"
             android:drawablePadding="8dp"
             android:drawableTop="@drawable/voice_finish"
-            android:text="确定"
             android:gravity="center"
+            android:text="确定"
             android:textColor="@color/colorWhite"
             android:textSize="12sp" />
 

@@ -287,7 +287,7 @@ public class AppTools {
             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                 textView.setText(inspectTime(hourOfDay, minute));
             }
-        }, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), false);
+        }, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), true);
         timePickerDialog.show();
     }
 

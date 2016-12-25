@@ -90,8 +90,8 @@ public class ClientFragment extends BaseFragment implements AdapterView.OnItemCl
         models.add(new BaseDataModel("老客户", "0 个"));
         models.add(new BaseDataModel("商机客户", "0 个"));
         models.add(new BaseDataModel("欠款客户", "0 个"));
-        models.add(new BaseDataModel("客户总数", "0 个"));
-        models.add(new BaseDataModel("关注客户", "0 个"));
+        models.add(new BaseDataModel("重点关注", "0 个"));
+        models.add(new BaseDataModel("0次跟进", "0 个"));
         adapter = new ClientAnalysisAdapter(getActivity(), R.layout.client_first_item, models);
         gridView.setAdapter(adapter);
         gridView.setOnItemClickListener(this);

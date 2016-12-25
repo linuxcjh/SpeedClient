@@ -24,8 +24,10 @@ import com.rongfeng.speedclient.common.utils.AppTools;
 import com.rongfeng.speedclient.common.utils.DateUtil;
 import com.rongfeng.speedclient.common.utils.SingleClickBt;
 import com.rongfeng.speedclient.components.AddVisitGridLayoutDisplayView;
+import com.rongfeng.speedclient.components.MyDialog;
 import com.rongfeng.speedclient.entity.BaseDataModel;
 import com.rongfeng.speedclient.selectpicture.SelectPictureActivity;
+import com.rongfeng.speedclient.voice.AddScheduleActivity;
 
 import java.util.List;
 
@@ -107,7 +109,10 @@ public class ClientVisitActivity extends BaseActivity implements IUpLoadPictureA
                 if (status == 1) {
                     AppTools.getToast("添加成功");
                     sendBroadcast(new Intent(Constant.CLIENT_REFRESH_PERSONA));
-                    finish();
+
+                    MyDialog dialog = new MyDialog(ClientVisitActivity.this, mHandler);
+                    dialog.buildDialog().setTitle("设置下次跟进提醒").setCancelText("取消").setConfirm("确定").setMessage("添加成功，是否设置下次跟进提醒时间?");
+
                 }
 
                 break;
@@ -134,6 +139,13 @@ public class ClientVisitActivity extends BaseActivity implements IUpLoadPictureA
                         intent.putExtra(SelectPictureActivity.HASCOUNT_PICTURE, SelectPictureActivity.MAX_SIZE - addPicLayout.list.size());
                         startActivityForResult(intent, Constant.SELECT_PICTURE);
                     }
+                    break;
+                case Constant.CONFIRMDIALOG:
+                    startActivity(new Intent(ClientVisitActivity.this, AddScheduleActivity.class).putExtra("content", remarkEt.getText().toString()));
+
+                    break;
+                case Constant.DISMISS_DIALOG_INDEX:
+                    finish();
                     break;
             }
         }
@@ -163,7 +175,7 @@ public class ClientVisitActivity extends BaseActivity implements IUpLoadPictureA
                 if (addPicLayout.getData().size() < 9) {
                     addPicLayout.setColumn(4);
                     addPicLayout.setWidth(addPicLayout.getWidth());
-                    AppTools.getCapturePath(this);
+                    AppTools.selectPhotoShow(this, mHandler, Constant.SINGLESELECTION);
 
                 } else {
                     AppTools.getToast("最多添加9张图片");

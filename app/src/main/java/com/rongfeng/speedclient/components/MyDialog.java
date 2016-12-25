@@ -108,6 +108,7 @@ public class MyDialog extends Dialog implements View.OnClickListener {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.cancel://取消
+                handler.sendMessage(handler.obtainMessage(Constant.DISMISS_DIALOG_INDEX));
                 this.dismiss();
                 break;
             case R.id.confirm:

@@ -10,10 +10,21 @@ public class AddRemindModel {
     private String remindContent;//提醒内容
     private String remindType;//    提醒类型（1,3,7提前几天） 直接传1,3,7
     private String remindDate;//提醒日期
+    private String remindHour;//提醒时间
+
     private String startHour;//开始时间 格式 20:23
     private String endHour;//开始时间 格式 20:23
 
     private String csrId;//
+
+
+    public String getRemindHour() {
+        return remindHour;
+    }
+
+    public void setRemindHour(String remindHour) {
+        this.remindHour = remindHour;
+    }
 
     public String getCsrId() {
         return csrId;

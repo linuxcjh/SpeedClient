@@ -81,7 +81,7 @@
                             android:button="@null"
                             android:checked="true"
                             android:gravity="center"
-                            android:text="过去7日已跟进"
+                            android:text="过去7日跟进记录"
                             android:textColor="@color/colorWhite"
                             android:textSize="14sp" />
 
@@ -93,7 +93,7 @@
                             android:background="@drawable/client_top_right_normal"
                             android:button="@null"
                             android:gravity="center"
-                            android:text="未来7日待跟进"
+                            android:text="未来7日跟进提醒"
                             android:textColor="@color/colorBlue"
                             android:textSize="14sp" />
                     </RadioGroup>
