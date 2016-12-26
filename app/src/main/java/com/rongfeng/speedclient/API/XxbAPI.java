@@ -21,7 +21,7 @@ import retrofit.http.Path;
 public interface XxbAPI {
 
 //   String URL = "http://192.168.2.87:8082/restful/xxbService/";
- String URL = "http://59.110.52.231:8108/restful/xxbService/";
+     String URL = "http://59.110.52.231:8108/restful/xxbService/";
 
     /**
      * 通用接口调用

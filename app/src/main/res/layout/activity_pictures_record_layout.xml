@@ -53,7 +53,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="拍照签到："
+            android:text="拍照记录："
             android:textColor="@color/colorAssist"
             android:textSize="14sp" />
 

@@ -51,7 +51,15 @@ import java.io.FileOutputStream;
  */
 public class CameraWaterMarkActivity extends Activity implements
         OnClickListener, Callback, AutoFocusCallback, AMapLocationListener {
+    {
 
+        if (PermissionsChecker.getPermissionsChecker().lacksPermissions(ConstantPermission.PERMISSIONS_LOCATION)) {
+            PermissionsChecker.getPermissionsChecker().startPermissionsActivity(this, ConstantPermission.PERMISSIONS_LOCATION);
+        } else {
+            AppTools.startLbsLocation(this, true);
+        }
+
+    }
     private SurfaceView surfaceView;
     private ImageButton button;
     private SurfaceHolder holder;
@@ -68,7 +76,6 @@ public class CameraWaterMarkActivity extends Activity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera_water_camera_layout);
         init();
-        startLocation();
 
     }
 
@@ -92,15 +99,6 @@ public class CameraWaterMarkActivity extends Activity implements
 
     }
 
-    public void startLocation() {
-
-        if (PermissionsChecker.getPermissionsChecker().lacksPermissions(ConstantPermission.PERMISSIONS_LOCATION)) {
-            PermissionsChecker.getPermissionsChecker().startPermissionsActivity(this, ConstantPermission.PERMISSIONS_LOCATION);
-        } else {
-            AppTools.startLbsLocation(this, true);
-        }
-
-    }
 
 
     private void setParameter() {

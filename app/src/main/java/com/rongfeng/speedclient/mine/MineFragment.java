@@ -18,7 +18,7 @@ import com.rongfeng.speedclient.R;
 import com.rongfeng.speedclient.common.BaseFragment;
 import com.rongfeng.speedclient.common.utils.AppConfig;
 import com.rongfeng.speedclient.common.utils.AppTools;
-import com.rongfeng.speedclient.organization.OrganizationActivity;
+import com.rongfeng.speedclient.contactindex.ContactsActivity;
 import com.rongfeng.speedclient.schedule.ScheduleActivity;
 import com.rongfeng.speedclient.voice.VoiceNoteActivity;
 
@@ -81,11 +81,12 @@ public class MineFragment extends BaseFragment {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.note_layout:
-
                 startActivity(new Intent(getActivity(), VoiceNoteActivity.class));
                 break;
             case R.id.connect_layout:
-                startActivity(new Intent(getActivity(), OrganizationActivity.class));
+                startActivity(new Intent(getActivity(), ContactsActivity.class));
+
+//                startActivity(new Intent(getActivity(), OrganizationActivity.class));
 
                 break;
             case R.id.remind_layout:

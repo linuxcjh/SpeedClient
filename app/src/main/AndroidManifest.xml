@@ -248,6 +248,7 @@
         <activity android:name=".mine.ClientSelectActivity" />
         <activity android:name=".mine.AboutActivity" />
         <activity android:name=".dynamic.RecordPicturesActivity" />
+        <activity android:name=".contactindex.ContactsActivity" />
 
     </application>
 
