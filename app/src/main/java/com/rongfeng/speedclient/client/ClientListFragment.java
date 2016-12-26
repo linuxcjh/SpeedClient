@@ -47,11 +47,11 @@ public class ClientListFragment extends BaseFragment implements ICommonPaginatio
     LinearLayout noDataLayout;
 
 
-    private ClientAdapter mAdapter;
+    public ClientAdapter mAdapter;
 
     public TransDataModel transDataModel = new TransDataModel();
 
-    private CommonPaginationPresenter commonPaginationPresenter = new CommonPaginationPresenter(this);
+    public CommonPaginationPresenter commonPaginationPresenter = new CommonPaginationPresenter(this);
 
     public static ClientListFragment newInstance(String clientType) {
 
@@ -121,7 +121,7 @@ public class ClientListFragment extends BaseFragment implements ICommonPaginatio
 
     }
 
-    private void invoke() {
+    public void invoke() {
         transDataModel.setClientType(getArguments().getString("clientType"));
         transDataModel.setPage(String.valueOf(commonPaginationPresenter.page));
         commonPaginationPresenter.invokeInterfaceObtainData(XxbService.SEARCHCSR, transDataModel, new TypeToken<List<AddClientTransModel>>() {

@@ -218,7 +218,6 @@ public class DynamicFragment extends BaseFragment implements ICommonPaginationAc
         if (data != null) {
             switch (requestCode) {
                 case Constant.CAMERA_REQUEST_CODE: //拍照
-
 //                    addPicLayout.setData(AppConfig.getStringConfig("cameraPath", ""));
                     break;
 

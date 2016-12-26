@@ -108,6 +108,7 @@
                         android:layout_marginTop="62dp" />
 
                     <LinearLayout
+                        android:id="@+id/bus_client_layout"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="4dp"
@@ -139,6 +140,7 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/focus_client_layout"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="4dp"
@@ -170,6 +172,7 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/new_client_layout"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
@@ -200,6 +203,7 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/debt_client_layout"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="-30dp"
@@ -231,6 +235,7 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/old_client_layout"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="-30dp"

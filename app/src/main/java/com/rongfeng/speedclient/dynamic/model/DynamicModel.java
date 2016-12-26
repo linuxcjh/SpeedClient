@@ -11,6 +11,42 @@ public class DynamicModel {
     private String dynamicTitle;//
     private String dynamicVal;//
     private String createTime;//
+    private String dynamicTypeName;
+    private String customerName;
+    private String csrId;
+    private String relevanceId;//对应的类型业务id
+
+    public String getCsrId() {
+        return csrId;
+    }
+
+    public void setCsrId(String csrId) {
+        this.csrId = csrId;
+    }
+
+    public String getRelevanceId() {
+        return relevanceId;
+    }
+
+    public void setRelevanceId(String relevanceId) {
+        this.relevanceId = relevanceId;
+    }
+
+    public String getCustomerName() {
+        return customerName;
+    }
+
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
+    }
+
+    public String getDynamicTypeName() {
+        return dynamicTypeName;
+    }
+
+    public void setDynamicTypeName(String dynamicTypeName) {
+        this.dynamicTypeName = dynamicTypeName;
+    }
 
     public int getDynamicType() {
         return dynamicType;

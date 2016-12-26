@@ -9,8 +9,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -61,6 +61,16 @@ public class ClientFragment extends BaseFragment implements AdapterView.OnItemCl
     RadioButton passRecord;
     @Bind(R.id.future_record)
     RadioButton futureRecord;
+    @Bind(R.id.bus_client_layout)
+    LinearLayout busClientLayout;
+    @Bind(R.id.focus_client_layout)
+    LinearLayout focusClientLayout;
+    @Bind(R.id.new_client_layout)
+    LinearLayout newClientLayout;
+    @Bind(R.id.debt_client_layout)
+    LinearLayout debtClientLayout;
+    @Bind(R.id.old_client_layout)
+    LinearLayout oldClientLayout;
 
     private ClientAnalysisAdapter adapter;
     private List<BaseDataModel> models = new ArrayList<>();
@@ -222,44 +232,62 @@ public class ClientFragment extends BaseFragment implements AdapterView.OnItemCl
     }
 
 
-    @OnClick({R.id.add_client_tv, R.id.old_client_tv})
+    @OnClick({R.id.add_client_tv, R.id.old_client_tv, R.id.bus_client_layout, R.id.focus_client_layout, R.id.new_client_layout, R.id.debt_client_layout, R.id.old_client_layout})
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.add_client_tv:
                 startActivity(new Intent(getActivity(), ClientRegisterActivity.class));
                 break;
-            case R.id.old_client_tv:
-//                startActivity(new Intent(getActivity(), ClientPersonaActivity.class));
+            case R.id.bus_client_layout:
+                if (transDataModel.getRadarType().equals("0")) {
+                    initStartActivity("8", "过去7日跟进商机客户");
+                } else {
+                    initStartActivity("13", "未来7日待跟进商机客户");
+
+                }
+                break;
+            case R.id.focus_client_layout:
+                if (transDataModel.getRadarType().equals("0")) {
+                    initStartActivity("11", "过去7日跟进关注客户");
+                } else {
+                    initStartActivity("16", "未来7日待跟进关注客户");
+
+                }
+                break;
+            case R.id.new_client_layout:
+                if (transDataModel.getRadarType().equals("0")) {
+                    initStartActivity("7", "过去7日跟进新客户");
+                } else {
+                    initStartActivity("12", "未来7日待跟进新客户");
+
+                }
+                break;
+            case R.id.debt_client_layout:
+                if (transDataModel.getRadarType().equals("0")) {
+                    initStartActivity("10", "过去7日跟进欠款客户");
+                } else {
+                    initStartActivity("15", "未来7日待跟进欠款客户");
+
+                }
+                break;
+            case R.id.old_client_layout:
+                if (transDataModel.getRadarType().equals("0")) {
+                    initStartActivity("9", "过去7日跟进老客户");
+                } else {
+                    initStartActivity("14", "未来7日待跟进老客户");
+                }
                 break;
         }
     }
 
-    /**
-     * 设置View状态
-     *
-     * @param button
-     */
-    private void setLayoutStatus(Button button, boolean isRight) {
-        resetLayout();
-        button.setTextColor(ContextCompat.getColor(getActivity(), R.color.colorWhite));
-        if (isRight) {
-            button.setBackgroundResource(R.drawable.client_top_right_fouces);
-        } else {
-            button.setBackgroundResource(R.drawable.client_top_left_fouces);
 
-        }
+    private void initStartActivity(String type, String typeName) {
+
+        startActivity(new Intent(getActivity(), ClientListActivity.class).putExtra("clientType", type).putExtra("title", typeName));
+
+
     }
 
-    private void resetLayout() {
-
-
-        passRecord.setTextColor(ContextCompat.getColor(getActivity(), R.color.colorBlue));
-        futureRecord.setTextColor(ContextCompat.getColor(getActivity(), R.color.colorBlue));
-
-        passRecord.setBackgroundResource(R.drawable.client_top_left_normal);
-        futureRecord.setBackgroundResource(R.drawable.client_top_right_normal);
-
-    }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -277,16 +305,14 @@ public class ClientFragment extends BaseFragment implements AdapterView.OnItemCl
                 startActivity(new Intent(getActivity(), ClientListActivity.class).putExtra("clientType", "4").putExtra("title", "欠款客户"));
                 break;
             case 4:
-                startActivity(new Intent(getActivity(), ClientListActivity.class).putExtra("clientType", "5").putExtra("title", "客户总数"));
+                startActivity(new Intent(getActivity(), ClientListActivity.class).putExtra("clientType", "6").putExtra("title", "重点关注客户"));
                 break;
             case 5:
-                startActivity(new Intent(getActivity(), ClientListActivity.class).putExtra("clientType", "6").putExtra("title", "关注客户"));
+                startActivity(new Intent(getActivity(), ClientListActivity.class).putExtra("clientType", "6").putExtra("title", "0次跟进客户"));//TODO
                 break;
 
         }
     }
 
-    @OnClick(R.id.pass_record)
-    public void onClick() {
-    }
+
 }

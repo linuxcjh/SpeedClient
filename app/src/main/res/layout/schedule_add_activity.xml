@@ -44,18 +44,51 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:animateLayoutChanges="true"
         android:background="@color/colorWhite"
         android:divider="@drawable/divider"
         android:dividerPadding="15dp"
         android:orientation="vertical"
-        android:animateLayoutChanges="true"
         android:showDividers="middle">
+
+        <LinearLayout
+            android:id="@+id/client_name_layout"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="关联客户"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/client_name_tv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="right|center_vertical"
+                android:paddingRight="10dp"
+                android:text=""
+                android:textSize="14sp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/list_arrow" />
+
+        </LinearLayout>
 
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="80dp"
-            android:background="@color/colorWhite"
+            android:layout_height="60dp"
+            android:gravity="center_vertical"
             android:orientation="horizontal"
             android:paddingLeft="16dp"
             android:paddingRight="16dp">
@@ -63,169 +96,25 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:text="提醒时间："
-                android:textColor="@color/colorListName"
-                android:textSize="15sp" />
+                android:text="提醒时间"
+                android:textSize="14sp" />
 
-
-            <LinearLayout
+            <TextView
+                android:id="@+id/time_tv"
                 android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:layout_gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1">
-
-                    <TextView
-                        android:id="@+id/one_tv"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:text="提前1天"
-                        android:textColor="@color/colorAssist"
-                        android:textSize="14sp" />
-
-                    <TextView
-                        android:id="@+id/one_select_tv"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@drawable/remide_top_item_add_bg"
-                        android:gravity="center"
-                        android:text="提前1天"
-                        android:textColor="@color/colorWhite"
-                        android:textSize="14sp" />
-
-                </RelativeLayout>
-
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1">
-
-                    <TextView
-                        android:id="@+id/two_tv"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:text="提前3天"
-                        android:textColor="@color/colorAssist"
-                        android:textSize="14sp" />
-
-                    <TextView
-                        android:id="@+id/two_select_tv"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@drawable/remide_top_item_add_bg"
-                        android:gravity="center"
-                        android:text="提前3天"
-                        android:textColor="@color/colorListName"
-                        android:textSize="14sp"
-                        android:visibility="gone" />
-
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1">
-
-                    <TextView
-                        android:id="@+id/three_tv"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:text="提前7天"
-                        android:textColor="@color/colorAssist"
-                        android:textSize="14sp" />
-
-                    <TextView
-                        android:id="@+id/three_select_tv"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@drawable/remide_top_item_add_bg"
-                        android:gravity="center"
-                        android:text="提前7天"
-                        android:textColor="@color/colorListName"
-                        android:textSize="14sp"
-                        android:visibility="gone" />
-
-                </RelativeLayout>
-            </LinearLayout>
-
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/start_time_layout"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/examine_approve_item"
-            android:gravity="center_vertical"
-            android:visibility="gone">
-
-            <TextView
-                style="@style/register_client_left_text_style"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/examine_approve_margin_left_right"
-                android:text="起始时间" />
-
-            <TextView
-                android:id="@+id/start_time_tv"
-                style="@style/register_edit_view_style"
-                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:gravity="center_vertical|right"
-                android:hint="选择起始时间"
-                android:singleLine="false" />
+                android:gravity="right|center_vertical"
+                android:paddingRight="10dp"
+                android:text="08:00"
+                android:textSize="14sp" />
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="@dimen/examine_approve_margin_left_right"
                 android:src="@drawable/list_arrow" />
 
         </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/end_time_layout"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/examine_approve_item"
-            android:gravity="center_vertical"
-            android:visibility="gone">
-
-            <TextView
-                style="@style/register_client_left_text_style"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/examine_approve_margin_left_right"
-                android:text="截止时间" />
-
-            <TextView
-                android:id="@+id/end_time_tv"
-                style="@style/register_edit_view_style"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center_vertical|right"
-                android:hint="选择成交日期"
-                android:singleLine="false" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="@dimen/examine_approve_margin_left_right"
-                android:src="@drawable/list_arrow" />
-
-        </LinearLayout>
-
 
         <LinearLayout
             android:layout_width="match_parent"
