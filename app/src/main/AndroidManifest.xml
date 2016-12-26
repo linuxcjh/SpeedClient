@@ -247,6 +247,7 @@
         <activity android:name=".mine.SetActivity" />
         <activity android:name=".mine.ClientSelectActivity" />
         <activity android:name=".mine.AboutActivity" />
+        <activity android:name=".dynamic.RecordPicturesActivity" />
 
     </application>
 

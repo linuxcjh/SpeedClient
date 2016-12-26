@@ -15,16 +15,20 @@ import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.amap.api.services.core.PoiItem;
 import com.google.gson.reflect.TypeToken;
 import com.rongfeng.speedclient.API.XxbService;
 import com.rongfeng.speedclient.R;
+import com.rongfeng.speedclient.client.ClientDotOverlayMapNewActivity;
 import com.rongfeng.speedclient.common.BaseFragment;
 import com.rongfeng.speedclient.common.CommonPaginationPresenter;
 import com.rongfeng.speedclient.common.Constant;
 import com.rongfeng.speedclient.common.ICommonPaginationAction;
+import com.rongfeng.speedclient.common.utils.AppConfig;
 import com.rongfeng.speedclient.common.utils.AppTools;
 import com.rongfeng.speedclient.dynamic.adapter.DynamicAdapter;
 import com.rongfeng.speedclient.dynamic.model.DynamicModel;
+import com.rongfeng.speedclient.entity.BaseDataModel;
 import com.rongfeng.speedclient.login.TransDataModel;
 import com.rongfeng.speedclient.xrecyclerview.OnItemClickViewListener;
 import com.rongfeng.speedclient.xrecyclerview.ProgressStyle;
@@ -41,6 +45,7 @@ import butterknife.OnClick;
  * 2016/1/13
  */
 public class DynamicFragment extends BaseFragment implements ICommonPaginationAction, OnItemClickViewListener, XRecyclerView.LoadingListener {
+    public static final int SELECT_POSITION_CLIENT_REQUEST_CODE = 0x13;
 
 
     @Bind(R.id.client_listView)
@@ -91,7 +96,17 @@ public class DynamicFragment extends BaseFragment implements ICommonPaginationAc
     public void obtainData(Object data, String methodIndex, int status) {
 
         if (data != null) {
-            mAdapter.setData((List<DynamicModel>) data);
+            switch (methodIndex) {
+                case XxbService.SEARCHHOMEPAGEDYNAMIC:
+                    mAdapter.setData((List<DynamicModel>) data);
+
+                    break;
+                case XxbService.INSERTRELATEDPOSITION:
+                    if (status == 1) {
+                        AppTools.getToast("位置记录成功");
+                    }
+                    break;
+            }
         }
     }
 
@@ -146,7 +161,6 @@ public class DynamicFragment extends BaseFragment implements ICommonPaginationAc
     }
 
 
-
     @OnClick({R.id.shortcut_camera_tv, R.id.shortcut_position_tv, R.id.plus_ib})
     public void onClick(View view) {
         switch (view.getId()) {
@@ -157,6 +171,8 @@ public class DynamicFragment extends BaseFragment implements ICommonPaginationAc
 
                 break;
             case R.id.shortcut_position_tv:
+                Intent intentMap = new Intent(getActivity(), ClientDotOverlayMapNewActivity.class);
+                startActivityForResult(intentMap, Constant.SELECT_POSITION_CLIENT_REQUEST_CODE);
                 endAnimation();
 
                 break;
@@ -169,6 +185,7 @@ public class DynamicFragment extends BaseFragment implements ICommonPaginationAc
                     endAnimation();
                 }
                 break;
+
         }
     }
 
@@ -218,7 +235,21 @@ public class DynamicFragment extends BaseFragment implements ICommonPaginationAc
         if (data != null) {
             switch (requestCode) {
                 case Constant.CAMERA_REQUEST_CODE: //拍照
+                    startActivityForResult(new Intent(getActivity(), RecordPicturesActivity.class).putExtra("cameraPath", AppConfig.getStringConfig("cameraPath", "")), 0x11);
 //                    addPicLayout.setData(AppConfig.getStringConfig("cameraPath", ""));
+                    break;
+                case SELECT_POSITION_CLIENT_REQUEST_CODE://选择位置
+
+                    TransDataModel transDataModel = new TransDataModel();
+                    PoiItem poiInfo = (PoiItem) data.getParcelableExtra("poiInfo");
+                    if (poiInfo != null) {
+                        transDataModel.setAddress(poiInfo.getSnippet() + " " + poiInfo.getTitle());
+                        transDataModel.setLongitude(poiInfo.getLatLonPoint().getLongitude() + "");
+                        transDataModel.setLatitude(poiInfo.getLatLonPoint().getLatitude() + "");
+                        transDataModel.setType("0");
+                        commonPaginationPresenter.invokeInterfaceObtainData(XxbService.INSERTRELATEDPOSITION, transDataModel, new TypeToken<BaseDataModel>() {
+                        });
+                    }
                     break;
 
             }

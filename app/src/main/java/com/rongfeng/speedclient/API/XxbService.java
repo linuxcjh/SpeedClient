@@ -723,4 +723,6 @@ public interface XxbService {
     String SEARCHCSRGATHERING="searchCsrGathering";
 
     String  SEARCHHOMEPAGEDYNAMIC="searchHomePageDynamic";
+
+    String INSERTRELATEDPOSITION="insertRelatedPosition";
 }

@@ -10,7 +10,7 @@ public class TransDataModel extends BaseTransModel {
 
 
     private String flg;
-    private String page ;//	当前页
+    private String page;//	当前页
     private String rows = "30";
 
     private String csrId;
@@ -34,6 +34,51 @@ public class TransDataModel extends BaseTransModel {
 
     private String attention;//0未关注 1 已关注
 
+    private String longitude;
+    private String latitude;
+    private String type; //类型（0位置1图片）
+    private String address;
+    private String fileId;
+
+    public String getFileId() {
+        return fileId;
+    }
+
+    public void setFileId(String fileId) {
+        this.fileId = fileId;
+    }
+
+    public String getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(String longitude) {
+        this.longitude = longitude;
+    }
+
+    public String getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(String latitude) {
+        this.latitude = latitude;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
 
     public String getAttention() {
         return attention;
