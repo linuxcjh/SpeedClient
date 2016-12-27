@@ -1,6 +1,7 @@
 package com.rongfeng.speedclient.contactindex;
 
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -72,6 +73,8 @@ public class InviteSortAdapter extends BaseAdapter implements SectionIndexer {
             viewHolder.tvLetter = (TextView) view.findViewById(R.id.catalog);
             viewHolder.msg_iv = (ImageView) view.findViewById(R.id.msg_iv);
             viewHolder.call_iv = (ImageView) view.findViewById(R.id.call_iv);
+            viewHolder.unactive_tv = (TextView) view.findViewById(R.id.unactive_tv);
+
 
             view.setTag(viewHolder);
         } else {
@@ -81,6 +84,19 @@ public class InviteSortAdapter extends BaseAdapter implements SectionIndexer {
 
         //根据position获取分类的首字母的Char ascii值
         final int section = getSectionForPosition(position);
+
+
+        if (mList.get(position).isForbidden.equals("2")) {//未激活
+            viewHolder.tvUser.setBackgroundResource(R.drawable.client_item_gray_bg);
+            viewHolder.tvUser.setTextColor(ContextCompat.getColor(mContext, R.color.colorAssist));
+            viewHolder.unactive_tv.setVisibility(View.VISIBLE);
+        } else {
+            viewHolder.tvUser.setBackgroundResource(R.drawable.client_item_bg);
+            viewHolder.tvUser.setTextColor(ContextCompat.getColor(mContext, R.color.colorBlue));
+            viewHolder.unactive_tv.setVisibility(View.GONE);
+
+
+        }
 
         //如果当前位置等于该分类首字母的Char的位置 ，则认为是第一次出现
         if (position == getPositionForSection(section)) {
@@ -93,11 +109,11 @@ public class InviteSortAdapter extends BaseAdapter implements SectionIndexer {
         }
 
 
-
         if (!TextUtils.isEmpty(this.mList.get(position).name)) {
             viewHolder.tvUser.setText(this.mList.get(position).name.substring(0, 1));
         }
         viewHolder.tvTitle.setText(this.mList.get(position).name);
+
         viewHolder.tvNumber.setText(this.mList.get(position).number);
         viewHolder.msg_iv.setTag(mList.get(position));
         viewHolder.call_iv.setTag(mList.get(position));
@@ -134,6 +150,7 @@ public class InviteSortAdapter extends BaseAdapter implements SectionIndexer {
 
     public static class ViewHolder {
 
+        public TextView unactive_tv;
         public TextView tvUser;
         public ImageView dividerIv;
         public TextView tvLetter;

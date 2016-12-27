@@ -78,9 +78,6 @@ public class ClientFragment extends BaseFragment implements AdapterView.OnItemCl
     private List<Double> radarData = new ArrayList<>();
 
 
-    private AnalysisClientModel leftData;
-    private AnalysisClientModel rightData;
-
 
     @Nullable
     @Override

@@ -87,7 +87,7 @@
                 android:singleLine="true"
                 android:text=""
                 android:textColor="@color/colorAssist"
-                android:textSize="12sp" />
+                android:textSize="11sp" />
         </LinearLayout>
 
         <Button

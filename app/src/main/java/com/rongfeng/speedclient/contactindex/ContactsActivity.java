@@ -220,6 +220,7 @@ public class ContactsActivity extends BaseActivity {
     public void obtainData(Object data, String methodIndex, int status) {
         super.obtainData(data, methodIndex, status);
         if (status == 1) {
+            selectModel.isForbidden="2";//未激活
             invitedList.add(selectModel);
             mAllContactsList.get(selectModel.position).isExist = true;
             adapter.updateListView(mAllContactsList);

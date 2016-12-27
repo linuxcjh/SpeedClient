@@ -10,6 +10,15 @@ public class InviteModel {
     private String inviteeUserId;
     private String inviteeUserName;
     private String inviteeUserPhone;
+    private String isForbidden;
+
+    public String getIsForbidden() {
+        return isForbidden;
+    }
+
+    public void setIsForbidden(String isForbidden) {
+        this.isForbidden = isForbidden;
+    }
 
     public String getInviteeUserId() {
         return inviteeUserId;

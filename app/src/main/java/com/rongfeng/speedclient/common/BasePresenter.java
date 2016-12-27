@@ -61,7 +61,7 @@ public abstract class BasePresenter {
      * String Convert
      */
     public Retrofit retrofit = new Retrofit.Builder()
-            .baseUrl(AppConfig.getStringConfig("url",XxbAPI.URL))
+            .baseUrl(XxbAPI.URL)
             .client(client())
             .addConverterFactory(new ToStringConverterFactory())
             .build();

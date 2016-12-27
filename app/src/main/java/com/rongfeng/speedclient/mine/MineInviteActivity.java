@@ -7,9 +7,11 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -62,6 +64,10 @@ public class MineInviteActivity extends BaseActivity {
     TextView dialog;
     @Bind(R.id.sidrbar)
     SideBar sideBar;
+    @Bind(R.id.invite_bottom_bt)
+    Button inviteBottomBt;
+    @Bind(R.id.no_layout)
+    LinearLayout noLayout;
 
 
     private List<SortModel> mAllContactsList;
@@ -72,12 +78,14 @@ public class MineInviteActivity extends BaseActivity {
      */
     private PinyinComparator pinyinComparator;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.acitvity_mine_invent_layout);
         ButterKnife.bind(this);
         init();
+
     }
 
     private void init() {
@@ -152,9 +160,14 @@ public class MineInviteActivity extends BaseActivity {
     }
 
 
-    @OnClick({R.id.cancel_tv, R.id.invent_tv})
+    @OnClick({R.id.cancel_tv, R.id.invent_tv, R.id.invite_bottom_bt})
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.invite_bottom_bt:
+
+                startActivityForResult(new Intent(MineInviteActivity.this, ContactsActivity.class).putExtra("list", ""), 0x11);
+
+                break;
             case R.id.cancel_tv:
                 finish();
                 break;
@@ -184,6 +197,11 @@ public class MineInviteActivity extends BaseActivity {
         if (data != null) {
 
             List<InviteModel> list = (List<InviteModel>) data;
+            if (list.size() == 0) {
+                noLayout.setVisibility(View.VISIBLE);
+            } else {
+                noLayout.setVisibility(View.GONE);
+            }
 
             for (InviteModel model : list) {
                 if (TextUtils.isEmpty(model.getInviteeUserPhone()))
@@ -191,6 +209,7 @@ public class MineInviteActivity extends BaseActivity {
                 SortModel sortModel = new SortModel(model.getInviteeUserName(), model.getInviteeUserPhone(), "");
                 sortModel.sortLetters = getSortLetter(model.getInviteeUserName());
                 sortModel.sortToken = parseSortKey(model.getInviteeUserName());
+                sortModel.isForbidden = model.getIsForbidden();
                 mAllContactsList.add(sortModel);
                 Collections.sort(mAllContactsList, pinyinComparator);// 根据a-z进行排序源数据
                 adapter = new InviteSortAdapter(this, mAllContactsList);
@@ -297,7 +316,6 @@ public class MineInviteActivity extends BaseActivity {
                     Collections.sort(mAllContactsList, pinyinComparator);// 根据a-z进行排序源数据
                     adapter.updateListView(mAllContactsList);
                 }
-
             }
         }
     }

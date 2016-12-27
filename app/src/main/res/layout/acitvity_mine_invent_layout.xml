@@ -1,126 +1,168 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorBg"
-    android:orientation="vertical">
+    android:background="@color/colorBg">
 
-    <RelativeLayout
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@drawable/nav_bg">
-
-        <ImageView
-            android:id="@+id/cancel_tv"
-            style="@style/title_side_text"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_centerVertical="true"
-            android:gravity="center_vertical"
-            android:paddingLeft="16dp"
-            android:paddingRight="20dp"
-            android:src="@drawable/nav_back" />
-
-
-        <TextView
-            style="@style/title_mid_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="我的邀请" />
-
-        <TextView
-            android:id="@+id/invent_tv"
-            style="@style/title_side_text"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:gravity="center_vertical"
-            android:paddingLeft="16dp"
-            android:paddingRight="20dp"
-            android:text="邀请" />
-
-    </RelativeLayout>
-
-    <FrameLayout
-        android:id="@+id/layoutContainer"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@color/colorDividerLine"
-        android:paddingBottom="10dp"
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp"
-        android:paddingTop="10dp">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <RelativeLayout
-            android:id="@+id/search_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/search_layout_bg"
-            android:focusable="true"
-            android:focusableInTouchMode="true">
-
-            <EditText
-                android:id="@+id/et_search"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_centerVertical="true"
-                android:background="@null"
-                android:drawableLeft="@drawable/segment_seach"
-                android:drawablePadding="5dp"
-                android:hint="搜索"
-                android:singleLine="true"
-                android:textSize="14sp" />
+            android:layout_height="50dp"
+            android:background="@drawable/nav_bg">
 
             <ImageView
-                android:id="@+id/ivClearText"
-                android:layout_width="18dp"
-                android:layout_height="18dp"
+                android:id="@+id/cancel_tv"
+                style="@style/title_side_text"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_centerVertical="true"
+                android:gravity="center_vertical"
+                android:paddingLeft="16dp"
+                android:paddingRight="20dp"
+                android:src="@drawable/nav_back" />
+
+
+            <TextView
+                style="@style/title_mid_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="我的邀请" />
+
+            <TextView
+                android:id="@+id/invent_tv"
+                style="@style/title_side_text"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:layout_gravity="right|center_vertical"
-                android:layout_marginRight="4dp"
-                android:background="@drawable/clear"
-                android:scaleType="fitXY"
-                android:visibility="invisible" />
+                android:gravity="center_vertical"
+                android:paddingLeft="16dp"
+                android:paddingRight="20dp"
+                android:text="邀请" />
 
         </RelativeLayout>
-    </FrameLayout>
 
-
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <ListView
-            android:id="@+id/lv_contacts"
+        <FrameLayout
+            android:id="@+id/layoutContainer"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:cacheColorHint="#000000"
-            android:divider="@null"
-            android:dividerHeight="0dp"
-            android:fadingEdge="none"
-            android:scrollbars="none"
-            android:scrollingCache="false"
-            android:visibility="visible" />
+            android:layout_height="50dp"
+            android:background="@color/colorDividerLine"
+            android:paddingBottom="10dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:paddingTop="10dp">
+
+            <RelativeLayout
+                android:id="@+id/search_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/search_layout_bg"
+                android:focusable="true"
+                android:focusableInTouchMode="true">
+
+                <EditText
+                    android:id="@+id/et_search"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_centerVertical="true"
+                    android:background="@null"
+                    android:drawableLeft="@drawable/segment_seach"
+                    android:drawablePadding="5dp"
+                    android:hint="搜索"
+                    android:singleLine="true"
+                    android:textSize="14sp" />
+
+                <ImageView
+                    android:id="@+id/ivClearText"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="right|center_vertical"
+                    android:layout_marginRight="4dp"
+                    android:background="@drawable/clear"
+                    android:scaleType="fitXY"
+                    android:visibility="invisible" />
+
+            </RelativeLayout>
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ListView
+                android:id="@+id/lv_contacts"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:cacheColorHint="#000000"
+                android:divider="@null"
+                android:dividerHeight="0dp"
+                android:fadingEdge="none"
+                android:scrollbars="none"
+                android:scrollingCache="false"
+                android:visibility="visible" />
+
+            <TextView
+                android:id="@+id/dialog"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_gravity="center"
+                android:background="@drawable/show_head_toast_bg"
+                android:gravity="center"
+                android:textColor="#ffffffff"
+                android:textSize="30sp"
+                android:visibility="invisible" />
+
+            <com.rongfeng.speedclient.contactindex.SideBar
+                android:id="@+id/sidrbar"
+                android:layout_width="30dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="right|center" />
+        </FrameLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/no_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="50dp"
+        android:background="@color/colorWhite"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/adbook_empty" />
 
         <TextView
-            android:id="@+id/dialog"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_gravity="center"
-            android:background="@drawable/show_head_toast_bg"
-            android:gravity="center"
-            android:textColor="#ffffffff"
-            android:textSize="30sp"
-            android:visibility="invisible" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="45dp"
+            android:text="一个人是不是很孤单？"
+            android:textColor="@color/colorListName"
+            android:textSize="15sp" />
 
-        <com.rongfeng.speedclient.contactindex.SideBar
-            android:id="@+id/sidrbar"
-            android:layout_width="30dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="right|center" />
-    </FrameLayout>
+        <Button
+            android:id="@+id/invite_bottom_bt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="45dp"
+            android:background="@drawable/adbook_invite_btn"
+            android:text="立即邀请小伙伴"
+            android:textColor="@color/colorWhite"
+            android:textSize="16sp" />
 
-</LinearLayout>
+
+    </LinearLayout>
+</FrameLayout>

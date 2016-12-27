@@ -37,14 +37,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="85dp"
-                android:background="@drawable/client_noclient" />
+                android:background="@drawable/empty" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="25dp"
-                android:text="目前还没有客户"
-                android:textColor="@color/colorListName" />
+                android:layout_marginTop="30dp"
+                android:text="空 的 哦 ~"
+                android:textColor="@color/colorListName"
+                android:textSize="15sp" />
 
             <TextView
                 android:id="@+id/add_data_tv"

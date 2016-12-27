@@ -18,4 +18,8 @@ public class SortModel extends Contact implements Serializable {
     public int position;
 
     public boolean isExist;
+
+    public String isForbidden; //是否激活( 0正常使用2未激活)
+
+
 }
