@@ -95,7 +95,7 @@ public class RecordPicturesActivity extends BaseActivity implements ICommonActio
     public void obtainFileId(int size) {
 
         if (addSelectPicLayout.getData().size() == size) {
-            transDataModel.setFileId(BasePresenter.gson.toJson(upLoadPicturePresenter.picIds));
+            transDataModel.setPositionImages(BasePresenter.gson.toJson(upLoadPicturePresenter.picIds));
             upLoadPicturePresenter.picIds.clear();
             commonPresenter.invokeInterfaceObtainData(XxbService.INSERTRELATEDPOSITION, transDataModel, new TypeToken<BaseDataModel>() {
             });

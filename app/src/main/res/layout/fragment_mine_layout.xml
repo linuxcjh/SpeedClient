@@ -95,171 +95,217 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginTop="20dp"
         android:orientation="horizontal">
 
 
-        <LinearLayout
+        <RelativeLayout
             android:id="@+id/note_layout"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="110dp"
             android:layout_weight="1"
-            android:background="@drawable/custshow_1_blue"
-            android:gravity="center"
-            android:orientation="horizontal"
+            android:background="@color/colorWhite"
+            android:orientation="vertical"
             android:paddingLeft="15dp"
             android:paddingRight="15dp">
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="1dp"
+                android:layout_centerHorizontal="true"
+                android:background="#489aff" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_weight="1"
-                android:drawableLeft="@drawable/me_notes"
-                android:drawablePadding="6dp"
-                android:gravity="center_vertical"
-                android:text="我的日志"
+                android:layout_centerInParent="true"
+                android:drawablePadding="14dp"
+                android:drawableTop="@drawable/me_worklog"
+                android:gravity="center"
+                android:text="日志记录"
                 android:textColor="@color/colorListName"
                 android:textSize="14sp" />
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/list_arrow" />
-
-
-        </LinearLayout>
+        </RelativeLayout>
 
         <View
-            android:layout_width="20dp"
-            android:layout_height="match_parent" />
+            android:layout_width="0.8dp"
+            android:layout_height="match_parent"
+            android:background="@color/divider_color" />
 
-        <LinearLayout
+        <RelativeLayout
             android:id="@+id/connect_layout"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="110dp"
             android:layout_weight="1"
-            android:background="@drawable/custshow_2_orange"
-            android:gravity="center"
-            android:orientation="horizontal"
+            android:background="@color/colorWhite"
             android:paddingLeft="15dp"
             android:paddingRight="15dp">
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="0.8dp"
+                android:layout_centerHorizontal="true"
+                android:background="#ffb34e" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_weight="1"
-                android:drawableLeft="@drawable/me_addressbook"
-                android:drawablePadding="6dp"
-                android:gravity="center_vertical"
+                android:layout_centerInParent="true"
+                android:drawablePadding="14dp"
+                android:drawableTop="@drawable/me_addressbook"
+                android:gravity="center"
                 android:text="我的邀请"
                 android:textColor="@color/colorListName"
                 android:textSize="14sp" />
 
+        </RelativeLayout>
+
+        <View
+            android:layout_width="0.8dp"
+            android:layout_height="match_parent"
+            android:background="@color/divider_color" />
+
+        <RelativeLayout
+            android:id="@+id/position_layout"
+            android:layout_width="match_parent"
+            android:layout_height="110dp"
+            android:layout_weight="1"
+            android:background="@color/colorWhite"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp">
+
             <ImageView
+                android:layout_width="30dp"
+                android:layout_height="0.8dp"
+                android:layout_centerHorizontal="true"
+                android:background="#1abeac" />
+
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/list_arrow" />
+                android:layout_centerInParent="true"
+                android:layout_weight="1"
+                android:drawablePadding="14dp"
+                android:drawableTop="@drawable/me_position"
+                android:gravity="center"
+                android:text="位置记录"
+                android:textColor="@color/colorListName"
+                android:textSize="14sp" />
 
-
-        </LinearLayout>
-
+        </RelativeLayout>
     </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.8dp"
+        android:background="@color/divider_color" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginTop="16dp"
         android:orientation="horizontal">
 
 
-        <LinearLayout
+        <RelativeLayout
             android:id="@+id/remind_layout"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="110dp"
             android:layout_weight="1"
-            android:background="@drawable/custshow_3_green"
-            android:gravity="center"
-            android:orientation="horizontal"
-
+            android:background="@color/colorWhite"
             android:paddingLeft="15dp"
             android:paddingRight="15dp">
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="0.8dp"
+                android:layout_centerHorizontal="true"
+                android:background="#ff6e72" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_gravity="center_vertical"
+                android:layout_centerInParent="true"
                 android:layout_weight="1"
-                android:drawableLeft="@drawable/me_reminders"
-                android:drawablePadding="6dp"
-                android:gravity="center_vertical"
-                android:text="我的提醒"
+                android:drawablePadding="14dp"
+                android:drawableTop="@drawable/me_followup"
+                android:gravity="center"
+                android:text="跟进提醒"
                 android:textColor="@color/colorListName"
                 android:textSize="14sp" />
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/list_arrow" />
-
-
-        </LinearLayout>
+        </RelativeLayout>
 
         <View
-            android:layout_width="20dp"
-            android:layout_height="match_parent" />
+            android:layout_width="0.8dp"
+            android:layout_height="match_parent"
+            android:background="@color/divider_color" />
 
-        <LinearLayout
+        <RelativeLayout
+            android:id="@+id/target_layout"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="110dp"
             android:layout_weight="1"
-            android:background="@drawable/custshow_1_blue"
-            android:gravity="center"
-            android:orientation="horizontal"
+            android:background="@color/colorWhite"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp">
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="0.8dp"
+                android:layout_centerHorizontal="true"
+                android:background="#489aff" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_weight="1"
+                android:drawablePadding="14dp"
+                android:drawableTop="@drawable/me_goal"
+                android:gravity="center"
+                android:text="我的目标"
+                android:textColor="@color/colorListName"
+                android:textSize="14sp" />
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="0.8dp"
+            android:layout_height="match_parent"
+            android:background="@color/divider_color" />
+
+        <RelativeLayout
+            android:id="@+id/performance_layout"
+            android:layout_width="match_parent"
+            android:layout_height="110dp"
+            android:layout_weight="1"
+            android:background="@color/colorWhite"
             android:paddingLeft="15dp"
             android:paddingRight="15dp"
             android:visibility="invisible">
 
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="0.8dp"
+                android:layout_centerHorizontal="true"
+                android:background="#a19eff" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
                 android:layout_centerVertical="true"
                 android:layout_weight="1"
-                android:drawableLeft="@drawable/voice_icon"
-                android:drawablePadding="6dp"
-                android:text="我的提醒"
+                android:drawablePadding="14dp"
+                android:drawableTop="@drawable/me_honor"
+                android:gravity="center"
+                android:text="我的业绩"
                 android:textColor="@color/colorListName"
                 android:textSize="14sp" />
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/list_arrow" />
+        </RelativeLayout>
 
-
-        </LinearLayout>
 
     </LinearLayout>
-
-    <Button
-        android:id="@+id/mine_first_switch_bt"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="50dp"
-        android:background="@drawable/blue_arround_bg"
-        android:text="退出系统"
-        android:textColor="@color/colorWhite"
-        android:textSize="14sp"
-        android:visibility="gone" />
-
 
 </LinearLayout>

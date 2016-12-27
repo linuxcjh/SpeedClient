@@ -21,6 +21,7 @@
             android:src="@drawable/nav_back" />
 
         <TextView
+            android:id="@+id/title_tv"
             style="@style/title_mid_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -58,9 +59,10 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="25dp"
-                android:text="暂无笔记"
-                android:textColor="@color/colorListName" />
+                android:layout_marginTop="30dp"
+                android:text="空 的 哦 ~"
+                android:textColor="@color/colorListName"
+                android:textSize="15sp" />
 
         </LinearLayout>
 

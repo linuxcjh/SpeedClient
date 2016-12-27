@@ -38,14 +38,14 @@ public class TransDataModel extends BaseTransModel {
     private String latitude;
     private String type; //类型（0位置1图片）
     private String address;
-    private String fileId;
+    private String positionImages;
 
-    public String getFileId() {
-        return fileId;
+    public String getPositionImages() {
+        return positionImages;
     }
 
-    public void setFileId(String fileId) {
-        this.fileId = fileId;
+    public void setPositionImages(String positionImages) {
+        this.positionImages = positionImages;
     }
 
     public String getLongitude() {

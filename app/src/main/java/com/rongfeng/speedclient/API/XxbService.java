@@ -729,4 +729,6 @@ public interface XxbService {
     String INSERTINVITER="insertInviter";
 
     String SEARCHINVITER="searchInviter";
+
+    String SEARCHRELATEDPOSITION="searchRelatedPosition";
 }

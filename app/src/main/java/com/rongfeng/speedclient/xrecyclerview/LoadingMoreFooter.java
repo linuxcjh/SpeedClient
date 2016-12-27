@@ -1,7 +1,9 @@
 package com.rongfeng.speedclient.xrecyclerview;
 
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,6 +53,8 @@ public class LoadingMoreFooter extends LinearLayout {
 
         addView(progressCon);
         mText = new TextView(context);
+        mText.setTextColor(ContextCompat.getColor(context,R.color.colorAssist));
+        mText.setTextSize(TypedValue.COMPLEX_UNIT_SP,13);
         mText.setText("正在加载...");
 
         LayoutParams layoutParams = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);

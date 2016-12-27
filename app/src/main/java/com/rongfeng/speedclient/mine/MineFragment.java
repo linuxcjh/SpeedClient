@@ -8,9 +8,7 @@ import android.telephony.SmsManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -45,15 +43,19 @@ public class MineFragment extends BaseFragment {
     @Bind(R.id.mine_first_name)
     TextView mineFirstName;
     @Bind(R.id.note_layout)
-    LinearLayout noteLayout;
+    RelativeLayout noteLayout;
     @Bind(R.id.connect_layout)
-    LinearLayout connectLayout;
+    RelativeLayout connectLayout;
     @Bind(R.id.remind_layout)
-    LinearLayout remindLayout;
-    @Bind(R.id.mine_first_switch_bt)
-    Button mineFirstSwitchBt;
+    RelativeLayout remindLayout;
     @Bind(R.id.set_tv)
     ImageView setTv;
+    @Bind(R.id.position_layout)
+    RelativeLayout positionLayout;
+    @Bind(R.id.performance_layout)
+    RelativeLayout performanceLayout;
+    @Bind(R.id.target_layout)
+    RelativeLayout targetLayout;
 
     @Nullable
     @Override
@@ -76,7 +78,7 @@ public class MineFragment extends BaseFragment {
     }
 
 
-    @OnClick({R.id.note_layout, R.id.connect_layout, R.id.remind_layout, R.id.mine_first_switch_bt, R.id.set_tv})
+    @OnClick({R.id.note_layout, R.id.connect_layout, R.id.remind_layout, R.id.set_tv, R.id.position_layout, R.id.performance_layout, R.id.target_layout})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.note_layout:
@@ -85,21 +87,23 @@ public class MineFragment extends BaseFragment {
             case R.id.connect_layout:
                 startActivity(new Intent(getActivity(), MineInviteActivity.class));
 
-//                startActivity(new Intent(getActivity(), OrganizationActivity.class));
-
                 break;
             case R.id.remind_layout:
                 startActivity(new Intent(getActivity(), ScheduleActivity.class));
                 break;
-            case R.id.mine_first_switch_bt:
-                AppConfig.setStringConfig("userModel", "");
-                AppConfig.setStringConfig("login", "0"); //启动页面
-
-                getActivity().finish();
-                break;
 
             case R.id.set_tv:
                 startActivityForResult(new Intent(getActivity(), SetActivity.class), 0x11);
+                break;
+            case R.id.position_layout:
+                startActivity(new Intent(getActivity(), MinePositionRecordActivity.class));
+
+                break;
+            case R.id.performance_layout:
+
+                break;
+            case R.id.target_layout:
+
                 break;
         }
 
@@ -113,7 +117,6 @@ public class MineFragment extends BaseFragment {
         for (String text : divideContents) {
             smsManager.sendTextMessage(phoneNumber, null, text, null, null);
         }
-
     }
 
     @Override
@@ -128,5 +131,4 @@ public class MineFragment extends BaseFragment {
         }
 
     }
-
 }

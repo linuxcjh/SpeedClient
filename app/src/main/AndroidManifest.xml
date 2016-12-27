@@ -254,6 +254,7 @@
         <activity
             android:name=".mine.MineInviteActivity"
             android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity android:name=".mine.MinePositionRecordActivity"/>
 
     </application>
 
