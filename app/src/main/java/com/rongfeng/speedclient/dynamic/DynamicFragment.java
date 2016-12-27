@@ -70,7 +70,6 @@ public class DynamicFragment extends BaseFragment implements ICommonPaginationAc
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_dynamic_layout, null);
         ButterKnife.bind(this, view);
-
         initViews();
         onRefresh();
         return view;
@@ -86,7 +85,7 @@ public class DynamicFragment extends BaseFragment implements ICommonPaginationAc
         mRecyclerView.setLaodingMoreProgressStyle(ProgressStyle.Pacman);
         mRecyclerView.setArrowImageView(R.drawable.refresh_pulldown);
         mRecyclerView.setLoadingListener(this);
-        mAdapter = new DynamicAdapter(getActivity(), R.layout.fragment_dynamic_item_layout);
+        mAdapter = new DynamicAdapter(getActivity(), R.layout.fragment_dynamic_item_new_layout);
         mAdapter.setOnRecyclerViewListener(this);
         mRecyclerView.setAdapter(mAdapter);
 

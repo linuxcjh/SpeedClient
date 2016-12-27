@@ -4,30 +4,87 @@
     android:orientation="vertical">
 
 
-    <TextView
-        android:id="@+id/current_date_tv"
+    <LinearLayout
+        android:id="@+id/top_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginBottom="10dp"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/dynamic_date_bg"
-        android:gravity="center"
-        android:paddingBottom="4dp"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        android:paddingTop="4dp"
-        android:text="今天 2016-12-04 星期五"
-        android:textColor="@color/colorAssist"
-        android:textSize="11sp"
-        android:visibility="gone"
+        android:orientation="vertical">
 
-        />
+        <RelativeLayout
+            android:id="@+id/top_content_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="26dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/main_notice_item"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp">
+
+            <TextView
+                android:id="@+id/data_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:drawableLeft="@drawable/main_notice_left_item"
+                android:drawablePadding="6dp"
+                android:text="2016-11-11"
+                android:textColor="@color/colorWhite"
+                android:textSize="12sp" />
+
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/top_iv"
+            android:layout_width="1dp"
+            android:layout_height="14dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="28dp"
+            android:background="@color/colorWhite" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/middle_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:layout_width="10dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="23dp">
+
+            <ImageView
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_centerHorizontal="true"
+                android:background="@color/divider_color" />
+
+            <ImageView
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:layout_centerInParent="true"
+                android:src="@drawable/client_item_bg" />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/time_process_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="6dp"
+            android:text="17:23"
+            android:textColor="@color/colorAssist"
+            android:textSize="12sp" />
+    </LinearLayout>
+
 
     <RelativeLayout
         android:id="@+id/type_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:background="@drawable/radar_bg"
         android:gravity="center_vertical"
         android:minHeight="70dp"
         android:paddingLeft="15dp"
@@ -35,8 +92,8 @@
 
         <ImageView
             android:id="@+id/type_image"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:src="@drawable/cust_plus_visit" />
 
         <TextView
@@ -67,7 +124,7 @@
             android:layout_alignLeft="@+id/type_name_tv"
             android:layout_below="@+id/type_name_tv"
             android:layout_marginTop="6dp"
-            android:text="三一重工项目"
+            android:text="客户名称：三一重工项目"
             android:textColor="@color/colorAssist"
             android:textSize="13sp" />
     </RelativeLayout>
@@ -76,12 +133,14 @@
         android:id="@+id/user_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:background="@drawable/radar_bg"
         android:gravity="center_vertical"
-        android:minHeight="70dp"
+        android:minHeight="50dp"
         android:orientation="horizontal"
         android:paddingLeft="15dp"
-        android:paddingRight="15dp"
-        android:visibility="gone">
+        android:paddingRight="15dp">
 
         <RelativeLayout
             android:id="@+id/relate_layout"
@@ -91,14 +150,20 @@
 
             <TextView
                 android:id="@+id/user_image"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
                 android:background="@drawable/client_item_bg"
                 android:gravity="center"
                 android:text=""
                 android:textColor="@color/colorBlue"
-                android:textSize="18sp" />
+                android:textSize="16sp" />
 
+            <ImageView
+                android:id="@+id/type_user_image"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/cust_plus_visit"
+                android:visibility="gone" />
 
         </RelativeLayout>
 

@@ -1,6 +1,8 @@
 package com.rongfeng.speedclient.dynamic.adapter;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
@@ -36,10 +38,63 @@ public class DynamicAdapter extends BaseRecyclerAdapter<DynamicModel> {
     protected void convert(ViewHolder holder, DynamicModel model, int position) {
 
         LinearLayout userLayout = holder.getView(R.id.user_layout);
-        TextView currentDateTv = holder.getView(R.id.current_date_tv);
         RelativeLayout typeLayout = holder.getView(R.id.type_layout);
         ImageView type_image = holder.getView(R.id.type_image);
         TextView user_image = holder.getView(R.id.user_image);
+
+        LinearLayout top_layout = holder.getView(R.id.top_layout);
+        LinearLayout middle_layout = holder.getView(R.id.middle_layout);
+        ImageView top_iv = holder.getView(R.id.top_iv);
+        ImageView type_user_image = holder.getView(R.id.type_user_image);
+
+
+        holder.setText(R.id.time_process_tv, model.getCreateTime().split(" ")[1]); //时间轴时间
+
+        if (position == 0) { //第一条布局
+            Drawable drawable = context.getResources().getDrawable(R.drawable.main_dynamic_left_item);
+            drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+            ((TextView) holder.getView(R.id.data_tv)).setCompoundDrawables(drawable, null, null, null);
+            holder.setText(R.id.data_tv, "今天 "+model.getCreateTime().split(" ")[1]);
+            top_layout.setVisibility(View.VISIBLE);
+            middle_layout.setVisibility(View.GONE);
+            top_iv.setVisibility(View.VISIBLE);
+            holder.setTextColor(R.id.data_tv, ContextCompat.getColor(context, R.color.colorBlue));
+            holder.setBackgroundRes(R.id.top_content_layout, R.drawable.main_notice_white_item);
+
+
+        } else {
+
+            if (data.get(position - 1).getCreateTime().split(" ")[0].equals(model.getCreateTime().split(" ")[0])) {//同一天
+                top_layout.setVisibility(View.GONE);
+                middle_layout.setVisibility(View.VISIBLE);
+            } else {
+                Drawable drawable = context.getResources().getDrawable(R.drawable.main_notice_left_item);
+                drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+                ((TextView) holder.getView(R.id.data_tv)).setCompoundDrawables(drawable, null, null, null);
+                holder.setText(R.id.data_tv, model.getCreateTime().split(" ")[0] + " " + DateUtil.getWeekByNow());
+                holder.setTextColor(R.id.data_tv, ContextCompat.getColor(context, R.color.colorWhite));
+                holder.setBackgroundRes(R.id.top_content_layout, R.drawable.main_notice_gray_item);
+                top_layout.setVisibility(View.VISIBLE);
+                middle_layout.setVisibility(View.VISIBLE);
+            }
+            top_iv.setVisibility(View.GONE); //隐藏第一条布局中的竖线
+
+
+        }
+
+        //初始化user布局 单一布局
+        type_user_image.setVisibility(View.GONE);
+        user_image.setVisibility(View.VISIBLE);
+
+        if (!TextUtils.isEmpty(AppTools.getUser().getUserName())) {
+            holder.setText(R.id.user_image, AppTools.getUser().getUserName().substring(0, 1));
+        }
+
+        holder.setText(R.id.user_entry_tv, model.getDynamicTitle());
+        holder.setText(R.id.user_entry_time_tv, model.getCreateTime());
+        holder.setText(R.id.type_name_tv, model.getDynamicTypeName());
+        holder.setText(R.id.time_tv, model.getCreateTime());
+        holder.setText(R.id.content_tv, model.getDynamicTitle());
 
         boolean isToday;
         //是不是当天
@@ -49,35 +104,18 @@ public class DynamicAdapter extends BaseRecyclerAdapter<DynamicModel> {
             isToday = false;
         }
 
-        if (!TextUtils.isEmpty(AppTools.getUser().getUserName())) {
-            holder.setText(R.id.user_image, AppTools.getUser().getUserName().substring(0, 1));
-        }
-        holder.setText(R.id.user_entry_tv, model.getDynamicTitle());
-        holder.setText(R.id.user_entry_time_tv, model.getCreateTime());
-        holder.setText(R.id.type_name_tv, model.getDynamicTypeName());
-        holder.setText(R.id.time_tv, model.getCreateTime());
-        holder.setText(R.id.content_tv, model.getDynamicTitle());
-
-        if (position == 0) {
-            currentDateTv.setText("今天 " + DateUtil.getDateTime(DateUtil.getDatePattern(), new Date()) + " " + DateUtil.getWeekByNow());
-            currentDateTv.setVisibility(View.VISIBLE);
-        } else {
-            if (data.get(position - 1).getCreateTime().split(" ")[0].equals(model.getCreateTime().split(" ")[0])) {
-                currentDateTv.setVisibility(View.GONE);
-            } else {
-                currentDateTv.setText(model.getCreateTime().split(" ")[0] + " " + DateUtil.getWeekByNow());
-                currentDateTv.setVisibility(View.VISIBLE);
-            }
-        }
 
         switch (model.getDynamicType()) {
+
             case 1:
                 userLayout.setVisibility(View.VISIBLE);
                 typeLayout.setVisibility(View.GONE);
                 if (isToday) {
-                    type_image.setImageResource(R.drawable.dynamic_cust_creat);
+                    user_image.setTextColor(ContextCompat.getColor(context, R.color.colorBlue));
+                    user_image.setBackgroundResource(R.drawable.client_item_bg);
                 } else {
-                    type_image.setImageResource(R.drawable.dynamic_cust_creat_h);
+                    user_image.setTextColor(ContextCompat.getColor(context, R.color.colorAssist));
+                    user_image.setBackgroundResource(R.drawable.client_item_gray_bg);
                 }
                 break;
             case 2://跟进客户
@@ -91,12 +129,16 @@ public class DynamicAdapter extends BaseRecyclerAdapter<DynamicModel> {
                 }
                 break;
             case 3:
-                userLayout.setVisibility(View.GONE);
-                typeLayout.setVisibility(View.VISIBLE);
+                type_user_image.setVisibility(View.VISIBLE);
+                user_image.setVisibility(View.GONE);
+                userLayout.setVisibility(View.VISIBLE);
+                typeLayout.setVisibility(View.GONE);
+                holder.setText(R.id.user_entry_tv, model.getDynamicTypeName());
                 if (isToday) {
-                    type_image.setImageResource(R.drawable.dynamic_log);
+
+                    type_user_image.setImageResource(R.drawable.dynamic_log);
                 } else {
-                    type_image.setImageResource(R.drawable.dynamic_log_h);
+                    type_user_image.setImageResource(R.drawable.dynamic_log_h);
                 }
                 break;
             case 4:
@@ -176,6 +218,15 @@ public class DynamicAdapter extends BaseRecyclerAdapter<DynamicModel> {
                 }
                 break;
             case 12:
+                userLayout.setVisibility(View.GONE);
+                typeLayout.setVisibility(View.VISIBLE);
+                if (isToday) {
+                    type_image.setImageResource(R.drawable.dynamic_position);
+                } else {
+                    type_image.setImageResource(R.drawable.dynamic_position_h);
+                }
+                break;
+            case 13:
                 userLayout.setVisibility(View.GONE);
                 typeLayout.setVisibility(View.VISIBLE);
                 if (isToday) {

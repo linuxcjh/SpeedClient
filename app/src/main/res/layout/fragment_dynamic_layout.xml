@@ -44,27 +44,11 @@
             android:background="@drawable/nav_bg_down" />
 
 
-        <RelativeLayout
+        <com.rongfeng.speedclient.xrecyclerview.XRecyclerView
+            android:id="@+id/client_listView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="13dp"
-            android:layout_marginRight="13dp"
-            android:background="@drawable/fragment_dynamic_bg">
-
-            <ImageView
-                android:layout_width="1dp"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="34dp"
-                android:layout_marginTop="80dp"
-                android:background="@color/colorDividerLine" />
-
-            <com.rongfeng.speedclient.xrecyclerview.XRecyclerView
-                android:id="@+id/client_listView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="4dp"
-                android:scrollbars="none" />
-        </RelativeLayout>
+            android:scrollbars="none" />
 
 
         <RelativeLayout
