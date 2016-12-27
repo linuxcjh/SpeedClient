@@ -27,8 +27,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="通讯录邀请" />
+            android:text="我的邀请" />
 
+        <TextView
+            android:id="@+id/invent_tv"
+            style="@style/title_side_text"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:gravity="center_vertical"
+            android:paddingLeft="16dp"
+            android:paddingRight="20dp"
+            android:text="邀请" />
 
     </RelativeLayout>
 
@@ -75,7 +86,6 @@
                 android:visibility="invisible" />
 
         </RelativeLayout>
-
     </FrameLayout>
 
 

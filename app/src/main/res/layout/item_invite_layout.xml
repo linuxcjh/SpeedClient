@@ -75,7 +75,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:singleLine="true"
-                android:text=""
+                android:text="水电费水"
                 android:textColor="@color/colorListName"
                 android:textSize="14sp" />
 
@@ -85,17 +85,29 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:singleLine="true"
-                android:text=""
+                android:text="123213123213"
                 android:textColor="@color/colorAssist"
-                android:textSize="12sp" />
+                android:textSize="10sp" />
         </LinearLayout>
 
-        <Button
-            android:id="@+id/invite_bt"
-            android:layout_width="55dp"
-            android:layout_height="25dp"
-            android:layout_marginRight="40dp"
-            android:background="@drawable/adbook_invite" />
+        <ImageView
+            android:id="@+id/msg_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
+            android:layout_toLeftOf="@+id/call_iv"
+            android:background="@drawable/address_msg" />
+
+        <ImageView
+            android:id="@+id/call_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="50dp"
+            android:background="@drawable/address_tel" />
     </LinearLayout>
 
 

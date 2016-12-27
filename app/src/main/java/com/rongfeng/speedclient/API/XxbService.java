@@ -725,4 +725,8 @@ public interface XxbService {
     String  SEARCHHOMEPAGEDYNAMIC="searchHomePageDynamic";
 
     String INSERTRELATEDPOSITION="insertRelatedPosition";
+
+    String INSERTINVITER="insertInviter";
+
+    String SEARCHINVITER="searchInviter";
 }

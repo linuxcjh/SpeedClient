@@ -1,10 +1,13 @@
 package com.rongfeng.speedclient.contactindex;
 
-import android.app.Activity;
 import android.content.ContentResolver;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.provider.ContactsContract.CommonDataKinds.Phone;
+import android.telephony.SmsManager;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -14,285 +17,390 @@ import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.reflect.TypeToken;
+import com.rongfeng.speedclient.API.XxbService;
 import com.rongfeng.speedclient.R;
+import com.rongfeng.speedclient.common.BaseActivity;
+import com.rongfeng.speedclient.common.BasePresenter;
+import com.rongfeng.speedclient.common.Constant;
+import com.rongfeng.speedclient.common.utils.AppTools;
+import com.rongfeng.speedclient.organization.model.TransOrganizationModel;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
-public class ContactsActivity extends Activity {
 
-	ListView mListView;
-	EditText etSearch;
-	ImageView ivClearText;
+public class ContactsActivity extends BaseActivity {
 
-	private SideBar sideBar;
-	private TextView dialog;
+    @Bind(R.id.cancel_tv)
+    ImageView cancelTv;
+    @Bind(R.id.et_search)
+    EditText etSearch;
+    @Bind(R.id.ivClearText)
+    ImageView ivClearText;
+    @Bind(R.id.search_layout)
+    RelativeLayout searchLayout;
+    @Bind(R.id.layoutContainer)
+    FrameLayout layoutContainer;
+    @Bind(R.id.lv_contacts)
+    ListView mListView;
+    @Bind(R.id.dialog)
+    TextView dialog;
+    @Bind(R.id.sidrbar)
+    SideBar sideBar;
 
-	private List<SortModel> mAllContactsList;
-	private ContactsSortAdapter adapter;
-	/**
-	 * 汉字转换成拼音的类
-	 */
-	private CharacterParser characterParser;
 
-	/**
-	 * 根据拼音来排列ListView里面的数据类
-	 */
-	private PinyinComparator pinyinComparator;
+    private List<SortModel> mAllContactsList;
+    private List<SortModel> invitedList = new ArrayList<>();//已邀请
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.layout_contacts);
-		init();
-	}
+    private ContactsSortAdapter adapter;
+    /**
+     * 汉字转换成拼音的类
+     */
+    private CharacterParser characterParser;
 
-	private void init() {
-		initView();
-		initListener();
-		loadContacts();
-	}
+    /**
+     * 根据拼音来排列ListView里面的数据类
+     */
+    private PinyinComparator pinyinComparator;
 
-	private void initListener() {
 
-		/**清除输入字符**/
-		ivClearText.setOnClickListener(new OnClickListener() {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.layout_contacts);
+        ButterKnife.bind(this);
+        init();
+    }
 
-			@Override
-			public void onClick(View v) {
-				etSearch.setText("");
-			}
-		});
-		etSearch.addTextChangedListener(new TextWatcher() {
+    private void init() {
+        initView();
+        initListener();
+        loadContacts();
+    }
 
-			@Override
-			public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
+    private void initListener() {
 
-			}
+        /**清除输入字符**/
+        ivClearText.setOnClickListener(new OnClickListener() {
 
-			@Override
-			public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
+            @Override
+            public void onClick(View v) {
+                etSearch.setText("");
+            }
+        });
+        etSearch.addTextChangedListener(new TextWatcher() {
 
-			}
+            @Override
+            public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
 
-			@Override
-			public void afterTextChanged(Editable e) {
+            }
 
-				String content = etSearch.getText().toString();
-				if ("".equals(content)) {
-					ivClearText.setVisibility(View.INVISIBLE);
-				} else {
-					ivClearText.setVisibility(View.VISIBLE);
-				}
-				if (content.length() > 0) {
-					ArrayList<SortModel> fileterList = (ArrayList<SortModel>) search(content);
-					adapter.updateListView(fileterList);
-					//mAdapter.updateData(mContacts);
-				} else {
-					adapter.updateListView(mAllContactsList);
-				}
-				mListView.setSelection(0);
+            @Override
+            public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
 
-			}
+            }
 
-		});
+            @Override
+            public void afterTextChanged(Editable e) {
 
-		//设置右侧[A-Z]快速导航栏触摸监听
-		sideBar.setOnTouchingLetterChangedListener(new SideBar.OnTouchingLetterChangedListener() {
+                String content = etSearch.getText().toString();
+                if ("".equals(content)) {
+                    ivClearText.setVisibility(View.INVISIBLE);
+                } else {
+                    ivClearText.setVisibility(View.VISIBLE);
+                }
+                if (content.length() > 0) {
+                    ArrayList<SortModel> fileterList = (ArrayList<SortModel>) search(content);
+                    adapter.updateListView(fileterList);
+                    //mAdapter.updateData(mContacts);
+                } else {
+                    adapter.updateListView(mAllContactsList);
+                }
+                mListView.setSelection(0);
 
-			@Override
-			public void onTouchingLetterChanged(String s) {
-				//该字母首次出现的位置
-				int position = adapter.getPositionForSection(s.charAt(0));
-				if (position != -1) {
-					mListView.setSelection(position);
-				}
-			}
-		});
-		mListView.setOnItemClickListener(new OnItemClickListener() {
+            }
 
-			@Override
-			public void onItemClick(AdapterView<?> adapterView, View view, int position, long arg3) {
-				ContactsSortAdapter.ViewHolder viewHolder = (ContactsSortAdapter.ViewHolder) view.getTag();
-				viewHolder.cbChecked.performClick();
-				adapter.toggleChecked(position);
-			}
-		});
+        });
 
-	}
+        //设置右侧[A-Z]快速导航栏触摸监听
+        sideBar.setOnTouchingLetterChangedListener(new SideBar.OnTouchingLetterChangedListener() {
 
-	private void initView() {
-		sideBar = (SideBar) findViewById(R.id.sidrbar);
-		dialog = (TextView) findViewById(R.id.dialog);
-		sideBar.setTextView(dialog);
-		ivClearText = (ImageView) findViewById(R.id.ivClearText);
-		etSearch = (EditText) findViewById(R.id.et_search);
-		mListView = (ListView) findViewById(R.id.lv_contacts);
+            @Override
+            public void onTouchingLetterChanged(String s) {
+                //该字母首次出现的位置
+                int position = adapter.getPositionForSection(s.charAt(0));
+                if (position != -1) {
+                    mListView.setSelection(position);
+                }
+            }
+        });
+        mListView.setOnItemClickListener(new OnItemClickListener() {
 
-		/** 给ListView设置adapter **/
-		characterParser = CharacterParser.getInstance();
-		mAllContactsList = new ArrayList<SortModel>();
-		pinyinComparator = new PinyinComparator();
-		Collections.sort(mAllContactsList, pinyinComparator);// 根据a-z进行排序源数据
-		adapter = new ContactsSortAdapter(this, mAllContactsList);
-		mListView.setAdapter(adapter);
-	}
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long arg3) {
+                ContactsSortAdapter.ViewHolder viewHolder = (ContactsSortAdapter.ViewHolder) view.getTag();
+                viewHolder.cbChecked.performClick();
+                adapter.toggleChecked(position);
+            }
+        });
 
-	private void loadContacts() {
-		new Thread(new Runnable() {
-			@Override
-			public void run() {
-				try {
-					ContentResolver resolver = getApplicationContext().getContentResolver();
-					Cursor phoneCursor = resolver.query(Phone.CONTENT_URI, new String[] { Phone.DISPLAY_NAME, Phone.NUMBER, "sort_key" }, null, null, "sort_key COLLATE LOCALIZED ASC");
-					if (phoneCursor == null || phoneCursor.getCount() == 0) {
-						Toast.makeText(getApplicationContext(), "未获得读取联系人权限 或 未获得联系人数据", Toast.LENGTH_SHORT).show();
-						return;
-					}
-					int PHONES_NUMBER_INDEX = phoneCursor.getColumnIndex(Phone.NUMBER);
-					int PHONES_DISPLAY_NAME_INDEX = phoneCursor.getColumnIndex(Phone.DISPLAY_NAME);
-					int SORT_KEY_INDEX = phoneCursor.getColumnIndex("sort_key");
-					if (phoneCursor.getCount() > 0) {
-						mAllContactsList = new ArrayList<SortModel>();
-						while (phoneCursor.moveToNext()) {
-							String phoneNumber = phoneCursor.getString(PHONES_NUMBER_INDEX);
-							if (TextUtils.isEmpty(phoneNumber))
-								continue;
-							String contactName = phoneCursor.getString(PHONES_DISPLAY_NAME_INDEX);
-							String sortKey = phoneCursor.getString(SORT_KEY_INDEX);
-							//System.out.println(sortKey);
-							SortModel sortModel = new SortModel(contactName, phoneNumber, sortKey);
-							//优先使用系统sortkey取,取不到再使用工具取
-							String sortLetters = getSortLetterBySortKey(sortKey);
-							if (sortLetters == null) {
-								sortLetters = getSortLetter(contactName);
-							}
-							sortModel.sortLetters = sortLetters;
-							sortModel.sortToken = parseSortKey(sortKey);
-							mAllContactsList.add(sortModel);
-						}
-					}
-					phoneCursor.close();
-					runOnUiThread(new Runnable() {
-						public void run() {
-							Collections.sort(mAllContactsList, pinyinComparator);
-							adapter.updateListView(mAllContactsList);
-						}
-					});
-				} catch (Exception e) {
-					Log.e("xbc", e.getLocalizedMessage());
-				}
-			}
-		}).start();
-	}
+    }
 
-	/**
-	 * 名字转拼音,取首字母
-	 * @param name
-	 * @return
-	 */
-	private String getSortLetter(String name) {
-		String letter = "#";
-		if (name == null) {
-			return letter;
-		}
-		//汉字转换成拼音
-		String pinyin = characterParser.getSelling(name);
-		String sortString = pinyin.substring(0, 1).toUpperCase(Locale.CHINESE);
+    private void initView() {
 
-		// 正则表达式，判断首字母是否是英文字母
-		if (sortString.matches("[A-Z]")) {
-			letter = sortString.toUpperCase(Locale.CHINESE);
-		}
-		return letter;
-	}
+        sideBar.setTextView(dialog);
 
-	/**
-	 * 取sort_key的首字母
-	 * @param sortKey
-	 * @return
-	 */
-	private String getSortLetterBySortKey(String sortKey) {
-		if (sortKey == null || "".equals(sortKey.trim())) {
-			return null;
-		}
-		String letter = "#";
-		//汉字转换成拼音
-		String sortString = sortKey.trim().substring(0, 1).toUpperCase(Locale.CHINESE);
-		// 正则表达式，判断首字母是否是英文字母
-		if (sortString.matches("[A-Z]")) {
-			letter = sortString.toUpperCase(Locale.CHINESE);
-		}
-		return letter;
-	}
+        /** 给ListView设置adapter **/
+        characterParser = CharacterParser.getInstance();
+        mAllContactsList = new ArrayList<SortModel>();
+        pinyinComparator = new PinyinComparator();
+        Collections.sort(mAllContactsList, pinyinComparator);// 根据a-z进行排序源数据
+        adapter = new ContactsSortAdapter(this, mAllContactsList, mHandler);
+        mListView.setAdapter(adapter);
+    }
 
-	/**
-	 * 模糊查询
-	 * @param str
-	 * @return
-	 */
-	private List<SortModel> search(String str) {
-		List<SortModel> filterList = new ArrayList<SortModel>();// 过滤后的list
-		//if (str.matches("^([0-9]|[/+])*$")) {// 正则表达式 匹配号码
-		if (str.matches("^([0-9]|[/+]).*")) {// 正则表达式 匹配以数字或者加号开头的字符串(包括了带空格及-分割的号码)
-			String simpleStr = str.replaceAll("\\-|\\s", "");
-			for (SortModel contact : mAllContactsList) {
-				if (contact.number != null && contact.name != null) {
-					if (contact.simpleNumber.contains(simpleStr) || contact.name.contains(str)) {
-						if (!filterList.contains(contact)) {
-							filterList.add(contact);
-						}
-					}
-				}
-			}
-		}else {
-			for (SortModel contact : mAllContactsList) {
-				if (contact.number != null && contact.name != null) {
-					//姓名全匹配,姓名首字母简拼匹配,姓名全字母匹配
-					if (contact.name.toLowerCase(Locale.CHINESE).contains(str.toLowerCase(Locale.CHINESE))
-							|| contact.sortKey.toLowerCase(Locale.CHINESE).replace(" ", "").contains(str.toLowerCase(Locale.CHINESE))
-							|| contact.sortToken.simpleSpell.toLowerCase(Locale.CHINESE).contains(str.toLowerCase(Locale.CHINESE))
-							|| contact.sortToken.wholeSpell.toLowerCase(Locale.CHINESE).contains(str.toLowerCase(Locale.CHINESE))) {
-						if (!filterList.contains(contact)) {
-							filterList.add(contact);
-						}
-					}
-				}
-			}
-		}
-		return filterList;
-	}
 
-	String chReg = "[\\u4E00-\\u9FA5]+";//中文字符串匹配
+    private SortModel selectModel;
+    Handler mHandler = new Handler() {
 
-	//String chReg="[^\\u4E00-\\u9FA5]";//除中文外的字符匹配
-	/**
-	 * 解析sort_key,封装简拼,全拼
-	 * @param sortKey
-	 * @return
-	 */
-	public SortToken parseSortKey(String sortKey) {
-		SortToken token = new SortToken();
-		if (sortKey != null && sortKey.length() > 0) {
-			//其中包含的中文字符
-			String[] enStrs = sortKey.replace(" ", "").split(chReg);
-			for (int i = 0, length = enStrs.length; i < length; i++) {
-				if (enStrs[i].length() > 0) {
-					//拼接简拼
-					token.simpleSpell += enStrs[i].charAt(0);
-					token.wholeSpell += enStrs[i];
-				}
-			}
-		}
-		return token;
-	}
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
 
+                case Constant.CONFIRMDIALOG:
+                    selectModel = (SortModel) msg.obj;
+                    sendSMS(selectModel.number, AppTools.getUser().getUserName() + "邀请您体验【速客】" +
+                            "邀请码:" + selectModel.number +
+                            "，App下载：http://t.cn/Rf8OoAJ" + "，欢迎体验。");//发送短信
+                    invoke(selectModel);
+                    break;
+            }
+        }
+
+    };
+
+    public void sendSMS(String phoneNumber, String message) {
+        //获取短信管理器
+        SmsManager smsManager = SmsManager.getDefault();
+        //拆分短信内容（手机短信长度限制）
+        List<String> divideContents = smsManager.divideMessage(message);
+        for (String text : divideContents) {
+            smsManager.sendTextMessage(phoneNumber, null, text, null, null);
+        }
+
+    }
+
+    /**
+     * 邀请
+     *
+     * @param selectModel
+     */
+    private void invoke(SortModel selectModel) {
+        TransOrganizationModel transModel = new TransOrganizationModel();
+        transModel.setPhone(selectModel.number);
+        transModel.setName(selectModel.name);
+        commonPresenter.invokeInterfaceObtainData(XxbService.INSERTINVITER, transModel, new TypeToken<TransOrganizationModel>() {
+        });
+    }
+
+    @Override
+    public void obtainData(Object data, String methodIndex, int status) {
+        super.obtainData(data, methodIndex, status);
+        if (status == 1) {
+            invitedList.add(selectModel);
+            mAllContactsList.get(selectModel.position).isExist = true;
+            adapter.updateListView(mAllContactsList);
+            AppTools.getToast("已成功邀请");
+        }
+    }
+
+    /**
+     * 加载通讯录
+     */
+    private void loadContacts() {
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    String exist = getIntent().getStringExtra("list");
+                    ContentResolver resolver = getApplicationContext().getContentResolver();
+                    Cursor phoneCursor = resolver.query(Phone.CONTENT_URI, new String[]{Phone.DISPLAY_NAME, Phone.NUMBER, "sort_key"}, null, null, "sort_key COLLATE LOCALIZED ASC");
+                    if (phoneCursor == null || phoneCursor.getCount() == 0) {
+                        Toast.makeText(getApplicationContext(), "未获得读取联系人权限 或 未获得联系人数据", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    int PHONES_NUMBER_INDEX = phoneCursor.getColumnIndex(Phone.NUMBER);
+                    int PHONES_DISPLAY_NAME_INDEX = phoneCursor.getColumnIndex(Phone.DISPLAY_NAME);
+                    int SORT_KEY_INDEX = phoneCursor.getColumnIndex("sort_key");
+                    if (phoneCursor.getCount() > 0) {
+                        mAllContactsList = new ArrayList<SortModel>();
+                        while (phoneCursor.moveToNext()) {
+                            String phoneNumber = phoneCursor.getString(PHONES_NUMBER_INDEX);
+                            if (TextUtils.isEmpty(phoneNumber))
+                                continue;
+                            String contactName = phoneCursor.getString(PHONES_DISPLAY_NAME_INDEX);
+                            String sortKey = phoneCursor.getString(SORT_KEY_INDEX);
+                            //System.out.println(sortKey);
+                            SortModel sortModel = new SortModel(contactName, phoneNumber, sortKey);
+                            //优先使用系统sortkey取,取不到再使用工具取
+                            String sortLetters = getSortLetterBySortKey(sortKey);
+                            if (sortLetters == null) {
+                                sortLetters = getSortLetter(contactName);
+                            }
+                            sortModel.sortLetters = sortLetters;
+                            sortModel.sortToken = parseSortKey(sortKey);
+
+                            if (exist.contains(sortModel.number)) {
+                                sortModel.isExist = true;
+                            }
+                            mAllContactsList.add(sortModel);
+                        }
+                    }
+                    phoneCursor.close();
+                    runOnUiThread(new Runnable() {
+                        public void run() {
+                            Collections.sort(mAllContactsList, pinyinComparator);
+                            adapter.updateListView(mAllContactsList);
+                        }
+                    });
+                } catch (Exception e) {
+                    Log.e("xbc", e.getLocalizedMessage());
+                }
+            }
+        }).start();
+    }
+
+    /**
+     * 名字转拼音,取首字母
+     *
+     * @param name
+     * @return
+     */
+    private String getSortLetter(String name) {
+        String letter = "#";
+        if (name == null) {
+            return letter;
+        }
+        //汉字转换成拼音
+        String pinyin = characterParser.getSelling(name);
+        String sortString = pinyin.substring(0, 1).toUpperCase(Locale.CHINESE);
+
+        // 正则表达式，判断首字母是否是英文字母
+        if (sortString.matches("[A-Z]")) {
+            letter = sortString.toUpperCase(Locale.CHINESE);
+        }
+        return letter;
+    }
+
+    /**
+     * 取sort_key的首字母
+     *
+     * @param sortKey
+     * @return
+     */
+    private String getSortLetterBySortKey(String sortKey) {
+        if (sortKey == null || "".equals(sortKey.trim())) {
+            return null;
+        }
+        String letter = "#";
+        //汉字转换成拼音
+        String sortString = sortKey.trim().substring(0, 1).toUpperCase(Locale.CHINESE);
+        // 正则表达式，判断首字母是否是英文字母
+        if (sortString.matches("[A-Z]")) {
+            letter = sortString.toUpperCase(Locale.CHINESE);
+        }
+        return letter;
+    }
+
+    /**
+     * 模糊查询
+     *
+     * @param str
+     * @return
+     */
+    private List<SortModel> search(String str) {
+        List<SortModel> filterList = new ArrayList<SortModel>();// 过滤后的list
+        //if (str.matches("^([0-9]|[/+])*$")) {// 正则表达式 匹配号码
+        if (str.matches("^([0-9]|[/+]).*")) {// 正则表达式 匹配以数字或者加号开头的字符串(包括了带空格及-分割的号码)
+            String simpleStr = str.replaceAll("\\-|\\s", "");
+            for (SortModel contact : mAllContactsList) {
+                if (contact.number != null && contact.name != null) {
+                    if (contact.simpleNumber.contains(simpleStr) || contact.name.contains(str)) {
+                        if (!filterList.contains(contact)) {
+                            filterList.add(contact);
+                        }
+                    }
+                }
+            }
+        } else {
+            for (SortModel contact : mAllContactsList) {
+                if (contact.number != null && contact.name != null) {
+                    //姓名全匹配,姓名首字母简拼匹配,姓名全字母匹配
+                    if (contact.name.toLowerCase(Locale.CHINESE).contains(str.toLowerCase(Locale.CHINESE))
+                            || contact.sortKey.toLowerCase(Locale.CHINESE).replace(" ", "").contains(str.toLowerCase(Locale.CHINESE))
+                            || contact.sortToken.simpleSpell.toLowerCase(Locale.CHINESE).contains(str.toLowerCase(Locale.CHINESE))
+                            || contact.sortToken.wholeSpell.toLowerCase(Locale.CHINESE).contains(str.toLowerCase(Locale.CHINESE))) {
+                        if (!filterList.contains(contact)) {
+                            filterList.add(contact);
+                        }
+                    }
+                }
+            }
+        }
+        return filterList;
+    }
+
+    String chReg = "[\\u4E00-\\u9FA5]+";//中文字符串匹配
+
+    //String chReg="[^\\u4E00-\\u9FA5]";//除中文外的字符匹配
+
+    /**
+     * 解析sort_key,封装简拼,全拼
+     *
+     * @param sortKey
+     * @return
+     */
+    public SortToken parseSortKey(String sortKey) {
+        SortToken token = new SortToken();
+        if (sortKey != null && sortKey.length() > 0) {
+            //其中包含的中文字符
+            String[] enStrs = sortKey.replace(" ", "").split(chReg);
+            for (int i = 0, length = enStrs.length; i < length; i++) {
+                if (enStrs[i].length() > 0) {
+                    //拼接简拼
+                    token.simpleSpell += enStrs[i].charAt(0);
+                    token.wholeSpell += enStrs[i];
+                }
+            }
+        }
+        return token;
+    }
+
+
+    @OnClick(R.id.cancel_tv)
+    public void onClick() {
+
+        setResult(RESULT_OK, new Intent().putExtra("list", BasePresenter.gson.toJson(invitedList)));
+        finish();
+    }
+
+    @Override
+    public void onBackPressed() {
+        setResult(RESULT_OK, new Intent().putExtra("list", BasePresenter.gson.toJson(invitedList)));
+        super.onBackPressed();
+    }
 }

@@ -45,8 +45,8 @@ import butterknife.OnClick;
  * 2016/1/13
  */
 public class DynamicFragment extends BaseFragment implements ICommonPaginationAction, OnItemClickViewListener, XRecyclerView.LoadingListener {
-    public static final int SELECT_POSITION_CLIENT_REQUEST_CODE = 0x13;
 
+    public static final int SELECT_POSITION_CLIENT_REQUEST_CODE = 0x13;
 
     @Bind(R.id.client_listView)
     XRecyclerView mRecyclerView;

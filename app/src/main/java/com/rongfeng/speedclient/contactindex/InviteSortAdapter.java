@@ -1,39 +1,31 @@
 package com.rongfeng.speedclient.contactindex;
 
 import android.content.Context;
-import android.os.Handler;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.SectionIndexer;
 import android.widget.TextView;
 
 import com.rongfeng.speedclient.R;
 import com.rongfeng.speedclient.common.utils.AppTools;
-import com.rongfeng.speedclient.components.MyDialog;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
 
-public class ContactsSortAdapter extends BaseAdapter implements SectionIndexer {
+public class InviteSortAdapter extends BaseAdapter implements SectionIndexer {
     private List<SortModel> mList;
-    private List<SortModel> mSelectedList;
     private Context mContext;
     LayoutInflater mInflater;
-    private Handler mHandler;
 
 
-    public ContactsSortAdapter(Context mContext, List<SortModel> list, Handler handler) {
-        this.mHandler = handler;
+    public InviteSortAdapter(Context mContext, List<SortModel> list) {
         this.mContext = mContext;
-        mSelectedList = new ArrayList<>();
         if (list == null) {
             this.mList = new ArrayList<>();
         } else {
@@ -72,25 +64,20 @@ public class ContactsSortAdapter extends BaseAdapter implements SectionIndexer {
         final SortModel mContent = mList.get(position);
         if (view == null) {
             viewHolder = new ViewHolder();
-            view = LayoutInflater.from(mContext).inflate(R.layout.item_contact, null);
-            viewHolder.invite_bt = (Button) view.findViewById(R.id.invite_bt);
+            view = LayoutInflater.from(mContext).inflate(R.layout.item_invite_layout, null);
             viewHolder.tvUser = (TextView) view.findViewById(R.id.user_tv);
             viewHolder.dividerIv = (ImageView) view.findViewById(R.id.divider_iv);
             viewHolder.tvTitle = (TextView) view.findViewById(R.id.title);
             viewHolder.tvNumber = (TextView) view.findViewById(R.id.number);
             viewHolder.tvLetter = (TextView) view.findViewById(R.id.catalog);
-            viewHolder.cbChecked = (CheckBox) view.findViewById(R.id.cbChecked);
+            viewHolder.msg_iv = (ImageView) view.findViewById(R.id.msg_iv);
+            viewHolder.call_iv = (ImageView) view.findViewById(R.id.call_iv);
+
             view.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) view.getTag();
         }
-        mList.get(position).position = position;//记录位置
 
-        if (mList.get(position).isExist) {//已存在
-            viewHolder.invite_bt.setBackgroundResource(R.drawable.adbook_already);
-        } else {
-            viewHolder.invite_bt.setBackgroundResource(R.drawable.adbook_invite);
-        }
 
         //根据position获取分类的首字母的Char ascii值
         final int section = getSectionForPosition(position);
@@ -105,30 +92,41 @@ public class ContactsSortAdapter extends BaseAdapter implements SectionIndexer {
             viewHolder.dividerIv.setVisibility(View.VISIBLE);
         }
 
+
+
         if (!TextUtils.isEmpty(this.mList.get(position).name)) {
             viewHolder.tvUser.setText(this.mList.get(position).name.substring(0, 1));
         }
         viewHolder.tvTitle.setText(this.mList.get(position).name);
         viewHolder.tvNumber.setText(this.mList.get(position).number);
-        viewHolder.cbChecked.setChecked(isSelected(mContent));
+        viewHolder.msg_iv.setTag(mList.get(position));
+        viewHolder.call_iv.setTag(mList.get(position));
 
-        viewHolder.invite_bt.setTag(this.mList.get(position));
-        viewHolder.invite_bt.setOnClickListener(new View.OnClickListener() {
+        viewHolder.msg_iv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                SortModel selectModel = (SortModel) v.getTag();
-                if (selectModel.isExist) {
-                    AppTools.getToast("已邀请");
-                    return;
+                SortModel model = (SortModel) v.getTag();
+                if (!TextUtils.isEmpty(model.number)) {
+                    AppTools.sendSMS(mContext, model.number);
+                } else {
+                    AppTools.getToast("暂无电话号码");
                 }
-                MyDialog dialog = new MyDialog(mContext, mHandler);
-                dialog.setMsgObject(selectModel);
-                dialog.buildDialog().setTitle("提示").setCancelText("取消").setConfirm("确定")
-                        .setMessage("是否发送短信邀请 " + selectModel.name + " " + selectModel.number + " ?");
-
             }
         });
+
+        viewHolder.call_iv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SortModel model = (SortModel) v.getTag();
+
+                if (!TextUtils.isEmpty(model.number)) {
+                    AppTools.callPhone(mContext, model.number);
+                } else {
+                    AppTools.getToast("暂无电话号码");
+                }
+            }
+        });
+
 
         return view;
 
@@ -136,13 +134,14 @@ public class ContactsSortAdapter extends BaseAdapter implements SectionIndexer {
 
     public static class ViewHolder {
 
-        public Button invite_bt;
         public TextView tvUser;
         public ImageView dividerIv;
         public TextView tvLetter;
         public TextView tvTitle;
         public TextView tvNumber;
-        public CheckBox cbChecked;
+        public ImageView msg_iv;
+        public ImageView call_iv;
+
     }
 
     /**
@@ -171,36 +170,6 @@ public class ContactsSortAdapter extends BaseAdapter implements SectionIndexer {
     @Override
     public Object[] getSections() {
         return null;
-    }
-
-    private boolean isSelected(SortModel model) {
-        return mSelectedList.contains(model);
-        //return true;
-    }
-
-    public void toggleChecked(int position) {
-        if (isSelected(mList.get(position))) {
-            removeSelected(position);
-        } else {
-            setSelected(position);
-        }
-
-    }
-
-    private void setSelected(int position) {
-        if (!mSelectedList.contains(mList.get(position))) {
-            mSelectedList.add(mList.get(position));
-        }
-    }
-
-    private void removeSelected(int position) {
-        if (mSelectedList.contains(mList.get(position))) {
-            mSelectedList.remove(mList.get(position));
-        }
-    }
-
-    public List<SortModel> getSelectedList() {
-        return mSelectedList;
     }
 
 

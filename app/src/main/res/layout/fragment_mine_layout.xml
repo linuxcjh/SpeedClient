@@ -155,7 +155,7 @@
                 android:drawableLeft="@drawable/me_addressbook"
                 android:drawablePadding="6dp"
                 android:gravity="center_vertical"
-                android:text="组织结构"
+                android:text="我的邀请"
                 android:textColor="@color/colorListName"
                 android:textSize="14sp" />
 

@@ -112,10 +112,24 @@ public class MyDialog extends Dialog implements View.OnClickListener {
                 this.dismiss();
                 break;
             case R.id.confirm:
-                handler.sendMessage(handler.obtainMessage(Constant.CONFIRMDIALOG));
+                if (object != null) {
+                    handler.sendMessage(handler.obtainMessage(Constant.CONFIRMDIALOG, object));
+                } else {
+                    handler.sendMessage(handler.obtainMessage(Constant.CONFIRMDIALOG));
+                }
                 this.dismiss();
                 break;
         }
+    }
+
+    private Object object;
+
+    /**
+     * 添加返回值
+     * @param obj
+     */
+    public void setMsgObject(Object obj) {
+        this.object = obj;
     }
 
     public MyDialog setCancel(boolean cancel) {

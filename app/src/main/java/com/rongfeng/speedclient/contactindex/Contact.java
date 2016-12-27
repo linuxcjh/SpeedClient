@@ -1,10 +1,12 @@
 package com.rongfeng.speedclient.contactindex;
 
+import java.io.Serializable;
+
 /**
  *@author xiaobo.cui 2014年11月24日 下午5:36:29
  *
  */
-public class Contact {
+public class Contact implements Serializable{
 	public Contact() {
 
 	}
@@ -22,6 +24,8 @@ public class Contact {
 	public String number;
 	public String simpleNumber;
 	public String sortKey;
+
+
 
 
 	@Override

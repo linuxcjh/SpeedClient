@@ -248,7 +248,12 @@
         <activity android:name=".mine.ClientSelectActivity" />
         <activity android:name=".mine.AboutActivity" />
         <activity android:name=".dynamic.RecordPicturesActivity" />
-        <activity android:name=".contactindex.ContactsActivity" />
+        <activity
+            android:name=".contactindex.ContactsActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity
+            android:name=".mine.MineInviteActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
 
     </application>
 
