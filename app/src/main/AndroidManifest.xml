@@ -254,8 +254,12 @@
         <activity
             android:name=".mine.MineInviteActivity"
             android:windowSoftInputMode="adjustPan|stateHidden" />
-        <activity android:name=".mine.MinePositionRecordActivity"/>
-        <activity android:name=".manage.ManageSearchDateActivity"/>
+        <activity android:name=".mine.MinePositionRecordActivity" />
+        <activity android:name=".manage.ManageSearchDateActivity" />
+        <activity android:name=".manage.ManageClientListActivity" />
+        <activity android:name=".manage.ManageFollowActivity" />
+        <activity android:name=".manage.ManageBusinessActivity" />
+        <activity android:name=".manage.ManageBargainActivity" />
 
     </application>
 

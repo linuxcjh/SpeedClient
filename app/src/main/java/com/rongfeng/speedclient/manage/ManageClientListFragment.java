@@ -1,4 +1,4 @@
-package com.rongfeng.speedclient.client;
+package com.rongfeng.speedclient.manage;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.google.gson.reflect.TypeToken;
 import com.rongfeng.speedclient.API.XxbService;
 import com.rongfeng.speedclient.R;
+import com.rongfeng.speedclient.client.ClientPersonaActivity;
 import com.rongfeng.speedclient.client.adapter.ClientAdapter;
 import com.rongfeng.speedclient.client.entry.AddClientTransModel;
 import com.rongfeng.speedclient.common.BaseFragment;
@@ -27,14 +28,13 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 /**
  * Client list
  * <p/>
  * Alex
  */
-public class ClientListFragment extends BaseFragment implements ICommonPaginationAction, OnItemClickViewListener, XRecyclerView.LoadingListener {
+public class ManageClientListFragment extends BaseFragment implements ICommonPaginationAction, OnItemClickViewListener, XRecyclerView.LoadingListener {
 
 
     @Bind(R.id.client_listView)
@@ -53,11 +53,12 @@ public class ClientListFragment extends BaseFragment implements ICommonPaginatio
 
     public CommonPaginationPresenter commonPaginationPresenter = new CommonPaginationPresenter(this);
 
-    public static ClientListFragment newInstance(String clientType) {
+    public static ManageClientListFragment newInstance(String startDate, String endDate) {
 
         Bundle args = new Bundle();
-        args.putString("clientType", clientType);
-        ClientListFragment fragment = new ClientListFragment();
+        args.putString("startDate", startDate);
+        args.putString("endDate", endDate);
+        ManageClientListFragment fragment = new ManageClientListFragment();
         fragment.setArguments(args);
         return fragment;
     }
@@ -75,6 +76,8 @@ public class ClientListFragment extends BaseFragment implements ICommonPaginatio
 
     private void initViews() {
 
+        transDataModel.setManageStartDate(getArguments().getString("startDate"));
+        transDataModel.setManageEndDate(getArguments().getString("endDate"));
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -122,7 +125,6 @@ public class ClientListFragment extends BaseFragment implements ICommonPaginatio
     }
 
     public void invoke() {
-        transDataModel.setClientType(getArguments().getString("clientType"));
         transDataModel.setPage(String.valueOf(commonPaginationPresenter.page));
         commonPaginationPresenter.invokeInterfaceObtainData(XxbService.SEARCHCSR, transDataModel, new TypeToken<List<AddClientTransModel>>() {
         });
@@ -149,27 +151,6 @@ public class ClientListFragment extends BaseFragment implements ICommonPaginatio
     }
 
 
-    @OnClick({R.id.add_data_tv})
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.add_data_tv:
-//                Intent intent = new Intent(getActivity(), ClientRegisterActivity.class);
-//                getActivity().startActivityForResult(intent, ClientFragment.REGISTER_CLIENT_REQUEST_CODE);
-
-                break;
-        }
-    }
-
-    /**
-     * 显示搜索框
-     */
-//    public void showPop() {
-//        SearchPopupWindow searchPopupWindow = new SearchPopupWindow(getActivity(), Utils.getDeviceHeightPixels(getActivity()), mHandler);
-//        searchPopupWindow.actionSearch = true;
-//        searchPopupWindow.getPopupWindow().showAsDropDown(view, 0, -Utils.dip2px(getActivity(), 50));
-//        searchPopupWindow.intContent("ManageClientListFragment");
-//
-//    }
     @Override
     public void onDestroyView() {
         super.onDestroyView();

@@ -259,7 +259,7 @@ public class ManageFragment extends BaseFragment implements SwipeRefreshLayout.O
     }
 
 
-    @OnClick({R.id.today_bt, R.id.month_bt, R.id.quarter_bt, R.id.year_bt, R.id.custome_bt})
+    @OnClick({R.id.today_bt, R.id.month_bt, R.id.quarter_bt, R.id.year_bt, R.id.custome_bt, R.id.bulletin_new_client_layout, R.id.bulletin_new_opp_layout, R.id.bulletin_new_visit_layout, R.id.bulletin_opp_status_change_layout})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.today_bt:
@@ -286,6 +286,29 @@ public class ManageFragment extends BaseFragment implements SwipeRefreshLayout.O
                 resetButtons(customeBt);
                 startActivityForResult(new Intent(getActivity(), ManageSearchDateActivity.class), 0x11);
 
+                break;
+            case R.id.bulletin_new_client_layout:
+
+                startActivity(new Intent(getActivity(), ManageClientListActivity.class)
+                        .putExtra("title", "新增客户")
+                        .putExtra("startDate", transDataModel.getStartDate())
+                        .putExtra("endDate", transDataModel.getEndDate()));
+
+                break;
+            case R.id.bulletin_new_opp_layout:
+                startActivity(new Intent(getActivity(), ManageBusinessActivity.class)
+                        .putExtra("startDate", transDataModel.getStartDate())
+                        .putExtra("endDate", transDataModel.getEndDate()));
+                break;
+            case R.id.bulletin_new_visit_layout:
+                startActivity(new Intent(getActivity(), ManageFollowActivity.class)
+                        .putExtra("startDate", transDataModel.getStartDate())
+                        .putExtra("endDate", transDataModel.getEndDate()));
+                break;
+            case R.id.bulletin_opp_status_change_layout:
+                startActivity(new Intent(getActivity(), ManageBargainActivity.class)
+                        .putExtra("startDate", transDataModel.getStartDate())
+                        .putExtra("endDate", transDataModel.getEndDate()));
                 break;
         }
     }
@@ -331,5 +354,4 @@ public class ManageFragment extends BaseFragment implements SwipeRefreshLayout.O
         super.onDestroyView();
         ButterKnife.unbind(this);
     }
-
 }

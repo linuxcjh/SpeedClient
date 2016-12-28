@@ -733,4 +733,10 @@ public interface XxbService {
     String SEARCHRELATEDPOSITION="searchRelatedPosition";
 
     String  SEARCHUSERSYSTEM="searchUserSystem";
+
+    String SEARCHUSERSYSTEMFOLLOWUP="searchUserSystemFollowup";
+
+    String SEARCHUSERSYSTEMCSRBUSINESS="searchUserSystemCsrBusiness";
+
+    String SEARCHUSERSYSTEMCSRCON="searchUserSystemCsrCon";
 }

@@ -45,6 +45,25 @@ public class TransDataModel extends BaseTransModel {
     private String startDate;//查询月后边加-01
     private String endDate;//查询月后边加-01
 
+    private String manageStartDate;
+    private String manageEndDate;
+
+    public String getManageStartDate() {
+        return manageStartDate;
+    }
+
+    public void setManageStartDate(String manageStartDate) {
+        this.manageStartDate = manageStartDate;
+    }
+
+    public String getManageEndDate() {
+        return manageEndDate;
+    }
+
+    public void setManageEndDate(String manageEndDate) {
+        this.manageEndDate = manageEndDate;
+    }
+
     public String getQueryId() {
         return queryId;
     }
