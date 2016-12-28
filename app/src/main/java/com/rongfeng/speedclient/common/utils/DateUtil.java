@@ -54,7 +54,6 @@ public class DateUtil {
     public static String DD_HH_mm = "dd天 HH:mm";
 
 
-
     /**
      * 获取当前时间
      */
@@ -282,6 +281,7 @@ public class DateUtil {
         calendar.set(Calendar.DAY_OF_MONTH, 1);
         return calendar.getTime();
     }
+
 
     public static final String convertDate2String(Date date, String format) {
         SimpleDateFormat df = null;
@@ -724,17 +724,101 @@ public class DateUtil {
      * @return
      */
 
-    public static String obtainBeforeMonthsDays(int index,String pattern) {
+    public static String obtainBeforeMonthsDays(int index, String pattern) {
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.MONTH, -index);
-        calendar.set(Calendar.DAY_OF_MONTH,1);
+        calendar.set(Calendar.DAY_OF_MONTH, 1);
         SimpleDateFormat format = new SimpleDateFormat(pattern);
-
 
 
         return format.format(calendar.getTime());
     }
 
+    /**
+     * 当前季度的开始时间
+     *
+     * @return
+     */
+    public static Date getCurrentQuarterStartTime() {
+        SimpleDateFormat format = new SimpleDateFormat();
 
+        Calendar c = Calendar.getInstance();
+        int currentMonth = c.get(Calendar.MONTH) + 1;
+        Date now = null;
+        try {
+            if (currentMonth >= 1 && currentMonth <= 3)
+                c.set(Calendar.MONTH, 1);
+            else if (currentMonth >= 4 && currentMonth <= 6)
+                c.set(Calendar.MONTH, 3);
+            else if (currentMonth >= 7 && currentMonth <= 9)
+                c.set(Calendar.MONTH, 4);
+            else if (currentMonth >= 10 && currentMonth <= 12)
+                c.set(Calendar.MONTH, 9);
+            c.set(Calendar.DATE, 1);
+            now = format.parse(format.format(c.getTime()) + " 00:00:00");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return now;
+    }
 
+    /**
+     * 当前季度的结束时间
+     *
+     * @return
+     */
+    public static Date getCurrentQuarterEndTime() {
+        SimpleDateFormat format = new SimpleDateFormat();
+
+        Calendar c = Calendar.getInstance();
+        int currentMonth = c.get(Calendar.MONTH) + 1;
+        Date now = null;
+        try {
+            if (currentMonth >= 1 && currentMonth <= 3) {
+                c.set(Calendar.MONTH, 2);
+                c.set(Calendar.DATE, 31);
+            } else if (currentMonth >= 4 && currentMonth <= 6) {
+                c.set(Calendar.MONTH, 5);
+                c.set(Calendar.DATE, 30);
+            } else if (currentMonth >= 7 && currentMonth <= 9) {
+                c.set(Calendar.MONTH, 8);
+                c.set(Calendar.DATE, 30);
+            } else if (currentMonth >= 10 && currentMonth <= 12) {
+                c.set(Calendar.MONTH, 11);
+                c.set(Calendar.DATE, 31);
+            }
+            now = format.parse(format.format(c.getTime()) + " 23:59:59");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return now;
+    }
+
+    /**
+     * 获取某年第一天日期
+     * @param year 年份
+     * @return Date
+     */
+    public static Date getYearFirst(int year){
+        Calendar calendar = Calendar.getInstance();
+        calendar.clear();
+        calendar.set(Calendar.YEAR, year);
+        Date currYearFirst = calendar.getTime();
+        return currYearFirst;
+    }
+
+    /**
+     * 获取某年最后一天日期
+     * @param year 年份
+     * @return Date
+     */
+    public static Date getYearLast(int year){
+        Calendar calendar = Calendar.getInstance();
+        calendar.clear();
+        calendar.set(Calendar.YEAR, year);
+        calendar.roll(Calendar.DAY_OF_YEAR, -1);
+        Date currYearLast = calendar.getTime();
+
+        return currYearLast;
+    }
 }

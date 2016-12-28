@@ -255,6 +255,7 @@
             android:name=".mine.MineInviteActivity"
             android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity android:name=".mine.MinePositionRecordActivity"/>
+        <activity android:name=".manage.ManageSearchDateActivity"/>
 
     </application>
 

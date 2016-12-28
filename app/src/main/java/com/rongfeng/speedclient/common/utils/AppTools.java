@@ -1065,13 +1065,7 @@ public class AppTools {
         datePickerDialog = new DatePickerDialog(activity, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                int isFore = DateUtil.compareDate(DateUtil.getStringByDate(new Date(), DateUtil.yyyy_MM_dd), AppTools.inspectDateSlip(year, monthOfYear, dayOfMonth), DateUtil.yyyy_MM_dd);
-                if (isFore != -1) {
-                    textView.setText(AppTools.inspectDateSlip(year, monthOfYear, dayOfMonth));
-                } else {
-                    AppTools.getToast("不能大于当前日期");
-                    textView.setText("");
-                }
+                textView.setText(AppTools.inspectDateSlip(year, monthOfYear, dayOfMonth));
             }
         }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
         datePickerDialog.show();

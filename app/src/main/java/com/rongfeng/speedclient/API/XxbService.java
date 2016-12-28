@@ -731,4 +731,6 @@ public interface XxbService {
     String SEARCHINVITER="searchInviter";
 
     String SEARCHRELATEDPOSITION="searchRelatedPosition";
+
+    String  SEARCHUSERSYSTEM="searchUserSystem";
 }

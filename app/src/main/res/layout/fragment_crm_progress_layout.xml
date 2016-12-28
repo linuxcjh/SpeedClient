@@ -37,21 +37,23 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:background="@color/colorVerLine"
-            android:visibility="gone"/>
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/progress_person_num_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text=""
             android:layout_weight="1"
+            android:gravity="right"
             android:textColor="@color/colorAssistLight"
-            android:textSize="14sp" />
+            android:textSize="12sp" />
+
         <ImageView
             android:id="@+id/sales_progress_check_arrow_iv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/list_arrow"/>
+            android:src="@drawable/list_arrow"
+            android:visibility="gone" />
     </LinearLayout>
 
     <ImageView
@@ -92,7 +94,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
-        android:layout_marginRight="10dp"
-        />
+        android:layout_marginRight="10dp" />
 </LinearLayout>
 

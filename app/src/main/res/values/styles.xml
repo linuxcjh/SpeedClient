@@ -85,4 +85,14 @@
         <item name="@android:windowExitAnimation">@anim/selection_dialog_exit</item>
         //退出时的动画
     </style>
+
+    <style name="examine_approve_left_text">
+        <item name="android:textColor">@color/colorListName</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="examine_approve_right_text">
+        <item name="android:textColor">@color/colorAssist</item>
+        <item name="android:textSize">14sp</item>
+    </style>
 </resources>

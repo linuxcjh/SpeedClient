@@ -43,22 +43,23 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:background="@color/colorVerLine"
-                android:visibility="gone"/>
+                android:visibility="gone" />
+
 
             <TextView
                 android:id="@+id/sales_bulletin_person_num_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text=""
+                android:gravity="right"
                 android:textColor="@color/colorAssistLight"
-                android:textSize="14sp" />
-
+                android:textSize="12sp" />
             <ImageView
                 android:id="@+id/bulletin_check_arrow_iv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/list_arrow" />
+                android:src="@drawable/list_arrow"
+                android:visibility="gone" />
         </LinearLayout>
 
         <ImageView
@@ -289,7 +290,7 @@
                         android:layout_marginLeft="15dp"
                         android:layout_marginTop="10dp"
                         android:layout_toRightOf="@+id/image6"
-                        android:text="商机状态变化"
+                        android:text="新增成交"
                         android:textColor="@color/colorAssist"
                         android:textSize="10sp" />
                 </RelativeLayout>

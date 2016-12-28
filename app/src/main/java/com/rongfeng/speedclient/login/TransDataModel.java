@@ -40,6 +40,35 @@ public class TransDataModel extends BaseTransModel {
     private String address;
     private String positionImages;
 
+    //管理查询
+    private String queryId;//查询人目标用户ID
+    private String startDate;//查询月后边加-01
+    private String endDate;//查询月后边加-01
+
+    public String getQueryId() {
+        return queryId;
+    }
+
+    public void setQueryId(String queryId) {
+        this.queryId = queryId;
+    }
+
+    public String getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(String startDate) {
+        this.startDate = startDate;
+    }
+
+    public String getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(String endDate) {
+        this.endDate = endDate;
+    }
+
     public String getPositionImages() {
         return positionImages;
     }
