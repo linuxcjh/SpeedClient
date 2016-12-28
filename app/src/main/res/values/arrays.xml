@@ -48,4 +48,21 @@
 
     </string-array>
 
+
+    <string-array name="target_person">
+        <item>1月目标(元)</item>
+        <item>2月目标(元)</item>
+        <item>3月目标(元)</item>
+        <item>4月目标(元)</item>
+        <item>5月目标(元)</item>
+        <item>6月目标(元)</item>
+        <item>7月目标(元)</item>
+        <item>8月目标(元)</item>
+        <item>9月目标(元)</item>
+        <item>10月目标(元)</item>
+        <item>11月目标(元)</item>
+        <item>12月目标(元)</item>
+
+    </string-array>
+
 </resources>

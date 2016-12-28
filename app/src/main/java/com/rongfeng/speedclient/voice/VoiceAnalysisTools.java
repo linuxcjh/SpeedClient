@@ -564,7 +564,7 @@ public class VoiceAnalysisTools {
 
 
     //过滤公司名 需要排除的词
-    private String word = "公司 股份 证券 有限 责任 咨询 设备 信息 科技 实业 中国 国际 地产 房地产 客户 " +
+    private String word = "公司 股份 证券 有限 责任 咨询 设备 信息 科技 实业 中国 国际 地产 房地产 客户 个人 集团 文化" +
             "0 1 2 3 4 5 6 7 8 9";
 
 

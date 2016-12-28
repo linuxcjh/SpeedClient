@@ -29,7 +29,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="客户管理" />
+            android:text="统计" />
 
         <TextView
             android:id="@+id/check_tv"
@@ -85,8 +85,8 @@
                 android:layout_height="24dp"
                 android:layout_weight="1"
                 android:background="@drawable/stats_tab_active"
-                android:text="本月"
                 android:paddingBottom="2dp"
+                android:text="本月"
                 android:textColor="@color/colorWhite"
                 android:textSize="12sp" />
 
@@ -114,9 +114,9 @@
                 android:id="@+id/year_bt"
                 android:layout_width="50dp"
                 android:layout_height="24dp"
-                android:paddingBottom="2dp"
                 android:layout_weight="1"
                 android:background="@drawable/stats_tab_normal"
+                android:paddingBottom="2dp"
                 android:text="本年"
                 android:textColor="@color/colorAssist"
                 android:textSize="12sp" />
@@ -130,8 +130,8 @@
                 android:layout_width="50dp"
                 android:layout_height="24dp"
                 android:layout_weight="1"
-                android:paddingBottom="2dp"
                 android:background="@drawable/stats_tab_normal"
+                android:paddingBottom="2dp"
                 android:text="自定义"
                 android:textColor="@color/colorAssist"
                 android:textSize="12sp" />

@@ -75,7 +75,6 @@ public class ClientListFragment extends BaseFragment implements ICommonPaginatio
 
     private void initViews() {
 
-
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(layoutManager);

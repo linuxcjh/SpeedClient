@@ -17,6 +17,9 @@ import java.util.List;
  */
 public class ClientRecordAdapter extends BaseRecyclerAdapter<ClientRecordModel> {
 
+    List<String> pathsUrl = new ArrayList<>();
+    List<String> pathsMinUrl = new ArrayList<>();
+
     public ClientRecordAdapter(Context context, int layoutResId, List<ClientRecordModel> data) {
         super(context, layoutResId, data);
     }
@@ -32,8 +35,8 @@ public class ClientRecordAdapter extends BaseRecyclerAdapter<ClientRecordModel> 
 
         if (item.getFollowUpInImageJSONArray() != null && item.getFollowUpInImageJSONArray().size() > 0) {
 
-            List<String> pathsUrl = new ArrayList<>();
-            List<String> pathsMinUrl = new ArrayList<>();
+            pathsUrl.clear();
+            pathsMinUrl.clear();
 
             for (ImageListModel picm : item.getFollowUpInImageJSONArray()) {
                 pathsUrl.add(picm.getFileUrl());

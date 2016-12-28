@@ -55,8 +55,6 @@ public class PositionRecordAdapter extends BaseRecyclerAdapter<PositionModel> {
                     dataLayout.setVisibility(View.VISIBLE);
                 }
             }
-
-
         }
 
         if (model.getType().equals("1")) {
@@ -74,6 +72,8 @@ public class PositionRecordAdapter extends BaseRecyclerAdapter<PositionModel> {
                 addPicLayout.setWidth(addPicLayout.getWidth());
                 addPicLayout.setImageLayout(pathsUrl, pathsMinUrl, true);
 
+            }else{
+                addPicLayout.setVisibility(View.GONE);
             }
         } else {
             addPicLayout.setVisibility(View.GONE);

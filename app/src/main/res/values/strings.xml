@@ -14,7 +14,7 @@
 
     <string name="tab_bottom_client">客户</string>
     <string name="tab_bottom_workstation">动态</string>
-    <string name="tab_bottom_app">管理</string>
+    <string name="tab_bottom_app">统计</string>
     <string name="tab_bottom_mine">我的</string>
 
     <string name="settings">设置</string>

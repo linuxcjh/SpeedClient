@@ -260,6 +260,8 @@
         <activity android:name=".manage.ManageFollowActivity" />
         <activity android:name=".manage.ManageBusinessActivity" />
         <activity android:name=".manage.ManageBargainActivity" />
+        <activity android:name=".mine.MineSalesTargetActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
 
     </application>
 

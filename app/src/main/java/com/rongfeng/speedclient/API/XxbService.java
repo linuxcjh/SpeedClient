@@ -739,4 +739,8 @@ public interface XxbService {
     String SEARCHUSERSYSTEMCSRBUSINESS="searchUserSystemCsrBusiness";
 
     String SEARCHUSERSYSTEMCSRCON="searchUserSystemCsrCon";
+
+    String SEARCHPERFORMANCEOBJECTIVES="searchPerformanceObjectives";
+
+    String SETPERFORMANCEOBJECTIVES="setPerformanceObjectives";
 }
