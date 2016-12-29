@@ -25,7 +25,9 @@ import com.rongfeng.speedclient.common.BaseActivity;
 import com.rongfeng.speedclient.common.Constant;
 import com.rongfeng.speedclient.common.utils.AppTools;
 import com.rongfeng.speedclient.common.utils.SingleClickBt;
+import com.rongfeng.speedclient.contactindex.SortModel;
 import com.rongfeng.speedclient.entity.BaseDataModel;
+import com.rongfeng.speedclient.product.ProductActivity;
 import com.rongfeng.speedclient.utils.DensityUtil;
 import com.rongfeng.speedclient.utils.FlowLayout;
 
@@ -183,13 +185,15 @@ public class ClientAddContractActivity extends BaseActivity {
                 break;
             case R.id.commit_tv:
                 if (TextUtils.isEmpty(contractNameTv.getText().toString())) {
-                    AppTools.getToast("请填写合同名称");
+                    AppTools.getToast("请填写成交名称");
                     return;
                 }
                 invoke();
                 break;
             case R.id.product_layout:
-                invoke("6");
+//                invoke("6");
+                startActivityForResult(new Intent(this, ProductActivity.class), 0x11);
+
                 break;
             case R.id.contact_bargain_time_layout:
                 AppTools.obtainData(this, contactBargainTimeTv);
@@ -269,5 +273,13 @@ public class ClientAddContractActivity extends BaseActivity {
         generationLabels(this, dataLabel, flowLayoutLayout);
     }
 
-
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (data != null) {
+            SortModel model = (SortModel) data.getSerializableExtra("model");
+            contractProductTv.setText(model.name);
+            transModel.setProductId(model.number);
+        }
+    }
 }

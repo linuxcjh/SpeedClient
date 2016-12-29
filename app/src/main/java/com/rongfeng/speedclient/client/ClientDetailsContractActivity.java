@@ -90,7 +90,7 @@ public class ClientDetailsContractActivity extends BaseActivity {
 
     private void initViews() {
 
-        titleTv.setText("合同详情");
+        titleTv.setText("成交详情");
         contactFirstPayTv.setEnabled(false);
         contractNameTv.setEnabled(false);
         resValueTv.setEnabled(false);

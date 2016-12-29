@@ -28,7 +28,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="合同详情"
+            android:text="成交详情"
             android:textColor="@color/colorWhite" />
 
         <TextView
@@ -79,7 +79,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/examine_approve_margin_left_right"
-                        android:text="合同名称" />
+                        android:text="成交名称" />
 
                     <EditText
                         android:id="@+id/contract_name_tv"
@@ -87,7 +87,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:gravity="center_vertical|right" />
+                        android:gravity="center_vertical|right"
+                        android:paddingLeft="30dp"
+                        android:singleLine="false" />
 
 
                 </LinearLayout>
@@ -139,7 +141,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/examine_approve_margin_left_right"
-                        android:text="合同金额(元)" />
+                        android:text="成交金额(元)" />
 
                     <EditText
                         android:id="@+id/res_value_tv"

@@ -743,4 +743,11 @@ public interface XxbService {
     String SEARCHPERFORMANCEOBJECTIVES="searchPerformanceObjectives";
 
     String SETPERFORMANCEOBJECTIVES="setPerformanceObjectives";
+
+
+    String SEARCHPUSHNOTIFICATIONS="searchPushNotifications";
+
+    String  SEARCHPRODUCT="searchProduct";
+
+    String INSERTPRODUCT="insertProduct";
 }

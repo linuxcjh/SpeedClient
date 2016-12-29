@@ -48,6 +48,18 @@ public class TransDataModel extends BaseTransModel {
     private String manageStartDate;
     private String manageEndDate;
 
+
+    private String productName; //新增产品
+
+
+    public String getProductName() {
+        return productName;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
+
     public String getManageStartDate() {
         return manageStartDate;
     }

@@ -268,14 +268,12 @@ public class VoiceAnalysisTools {
 
     public void analysisData(List<SyncClientInfoModel> list) {
 
-        String contactStr = AppConfig.getStringConfig(Constant.SAVE_UPLOAD_CONTACTS_FLAG, "");
+        String contactStr = AppConfig.getStringConfig(Constant.SAVE_UPLOAD_CONTACTS_FLAG, "");//已经存在的联系人词表
         StringBuilder builder = new StringBuilder(contactStr);
 
         DBManager dbManager = new DBManager(AppConfig.getContext());
 
         if (list != null && list.size() > 0) {
-//            uploadWords(list);
-//            uploadClientContact(list);
             for (int i = 0; i < list.size(); i++) {
                 SyncClientInfoModel model = list.get(i);
                 ClientModel m = dbManager.queryTheClient(model.getCsrId());
@@ -484,7 +482,7 @@ public class VoiceAnalysisTools {
 
                 if (contactModels != null && contactModels.size() > 0) {//联系人匹配
                     for (int k = 0; k < contactModels.size(); k++) {
-                        if (resultStr.indexOf(contactModels.get(k).getName()) != -1) {
+                        if (resultStr.indexOf(contactModels.get(k).getName()) != -1 || pinYinStr.indexOf(AppTools.convertPinYin(contactModels.get(k).getName())) != -1) {
                             clientData.add(resultModel.getClient_id() + "," + name + "  " + contactModels.get(k).getName() + "," + contactModels.get(k).getName());
                             resultStrs.add(contactModels.get(k).getName());
                         }

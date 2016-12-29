@@ -142,7 +142,7 @@ public class ClientVisitActivity extends BaseActivity implements IUpLoadPictureA
                     break;
                 case Constant.CONFIRMDIALOG:
                     startActivity(new Intent(ClientVisitActivity.this, AddScheduleActivity.class).putExtra("content", remarkEt.getText().toString()));
-
+                    finish();
                     break;
                 case Constant.DISMISS_DIALOG_INDEX:
                     finish();

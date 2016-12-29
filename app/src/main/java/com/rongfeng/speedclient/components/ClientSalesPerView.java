@@ -33,7 +33,7 @@ public class ClientSalesPerView extends View {
 
     private int offSet;
 
-    String[] str = {"目标", "预测", "合同", "回款"};
+    String[] str = {"目标", "预测", "成交", "回款"};
     float[] value = {0, 0, 0, 0};
 
 

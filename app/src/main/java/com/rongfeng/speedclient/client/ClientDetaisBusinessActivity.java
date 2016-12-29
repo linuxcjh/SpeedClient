@@ -26,7 +26,9 @@ import com.rongfeng.speedclient.common.BaseActivity;
 import com.rongfeng.speedclient.common.Constant;
 import com.rongfeng.speedclient.common.utils.AppTools;
 import com.rongfeng.speedclient.common.utils.SingleClickBt;
+import com.rongfeng.speedclient.contactindex.SortModel;
 import com.rongfeng.speedclient.entity.BaseDataModel;
+import com.rongfeng.speedclient.product.ProductActivity;
 import com.rongfeng.speedclient.utils.DensityUtil;
 import com.rongfeng.speedclient.utils.FlowLayout;
 
@@ -222,8 +224,10 @@ public class ClientDetaisBusinessActivity extends BaseActivity {
                 AppTools.obtainData(this, resBargainTimeTv);
                 break;
             case R.id.product_layout:
-                flag = true;
-                invoke("6");
+//                flag = true;
+//                invoke("6");
+                startActivityForResult(new Intent(this, ProductActivity.class), 0x11);
+
                 break;
             case R.id.stage_one_image:
             case R.id.stage_one_tv:
@@ -344,5 +348,13 @@ public class ClientDetaisBusinessActivity extends BaseActivity {
         generationLabels(this, dataLabel, flowLayoutLayout);
     }
 
-
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (data != null) {
+            SortModel model = (SortModel) data.getSerializableExtra("model");
+            contractProductTv.setText(model.name);
+            transModel.setProductId(model.number);
+        }
+    }
 }

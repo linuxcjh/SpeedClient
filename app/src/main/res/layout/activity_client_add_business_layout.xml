@@ -378,7 +378,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:background="@color/colorBlue"
-        android:text="添加合同"
+        android:text="添加成交"
         android:textColor="@color/colorWhite"
         android:textSize="16sp"
         android:visibility="gone" />

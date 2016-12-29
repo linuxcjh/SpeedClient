@@ -77,7 +77,7 @@ public class ScheduleActivity extends BaseActivity implements CalendarListener, 
         weekView.setWeekListener(this);
         calendarView = effectsCalendarView.getCalendarView();
         listView = effectsCalendarView.getListView();
-        effectsCalendarView.setIsShrink(false);
+        effectsCalendarView.setIsShrink(true);
         calendarView.setCalendarListener(this);
         calendarView.getCalendart().getAdapter().setDaySelected(false, calendarView.getmDay());
 

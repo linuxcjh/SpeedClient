@@ -12,10 +12,12 @@ import com.google.gson.reflect.TypeToken;
 import com.rongfeng.speedclient.API.XxbService;
 import com.rongfeng.speedclient.R;
 import com.rongfeng.speedclient.common.BaseActivity;
+import com.rongfeng.speedclient.common.BasePresenter;
 import com.rongfeng.speedclient.common.utils.AppTools;
 import com.rongfeng.speedclient.common.utils.DateUtil;
 import com.rongfeng.speedclient.mine.adapter.MineTargetAdapter;
 import com.rongfeng.speedclient.mine.adapter.MineTargetModel;
+import com.rongfeng.speedclient.mine.adapter.MineTargetTransAllModel;
 import com.rongfeng.speedclient.mine.adapter.MineTargetTransModel;
 
 import java.util.ArrayList;
@@ -38,8 +40,6 @@ public class MineSalesTargetActivity extends BaseActivity {
     ImageView cancelTv;
     @Bind(R.id.client_listView)
     RecyclerView mRecyclerView;
-    @Bind(R.id.edit_iv)
-    ImageView editIv;
     @Bind(R.id.already_count_tv)
     TextView alreadyCountTv;
 
@@ -47,7 +47,7 @@ public class MineSalesTargetActivity extends BaseActivity {
     private List<MineTargetModel> models = new ArrayList<>();
     private List<MineTargetModel> results = new ArrayList<>();
 
-    private MineTargetTransModel transModel = new MineTargetTransModel();
+    private MineTargetTransAllModel transModel = new MineTargetTransAllModel();
 
     String year;
 
@@ -70,13 +70,14 @@ public class MineSalesTargetActivity extends BaseActivity {
             models.add(m);
         }
 
+
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(layoutManager);
         mAdapter = new MineTargetAdapter(this, R.layout.target_item_layout, models, false);
         mRecyclerView.setAdapter(mAdapter);
-
         invoke();
+
     }
 
     @Override
@@ -86,10 +87,14 @@ public class MineSalesTargetActivity extends BaseActivity {
         switch (methodIndex) {
             case XxbService.SEARCHPERFORMANCEOBJECTIVES:
                 if (data != null) {
+
+                    float sum = 0f;
                     results = (List<MineTargetModel>) data;
                     for (int i = 0; i < results.size(); i++) {
                         models.get(i).setMonthTarget(results.get(i).getMonthTarget());
+                        sum += Float.parseFloat(results.get(i).getMonthTarget());
                     }
+                    alreadyCountTv.setText(AppTools.getNumKbDot(sum + "") + " 元");
                     mAdapter.setData(models);
                 }
                 break;
@@ -97,22 +102,17 @@ public class MineSalesTargetActivity extends BaseActivity {
 
                 if (status == 1) {
                     AppTools.getToast("设置成功");
+                    finish();
                 }
                 break;
 
         }
     }
-    /**
-     * 更新数据
-     * @param position
-     * @param text
-     */
-    public void upDateData(int position,String text){
-        models.get(position).setMonthTarget(text);
-    }
+
 
     public void invoke() {
-        commonPresenter.invokeInterfaceObtainData(XxbService.SEARCHPERFORMANCEOBJECTIVES, new TypeToken<List<MineTargetModel>>() {
+        transModel.setTargetUserId(AppTools.getUser().getUserId());
+        commonPresenter.invokeInterfaceObtainData(XxbService.SEARCHPERFORMANCEOBJECTIVES, transModel, new TypeToken<List<MineTargetModel>>() {
         });
     }
 
@@ -123,26 +123,37 @@ public class MineSalesTargetActivity extends BaseActivity {
     }
 
 
-    @OnClick({R.id.cancel_tv, R.id.edit_iv})
+    @OnClick({R.id.cancel_tv, R.id.commit_tv})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.cancel_tv:
                 finish();
                 break;
-            case R.id.edit_iv:
+            case R.id.commit_tv:
+
+                List<MineTargetTransModel> transList = new ArrayList<>();
 
                 for (int i = 0; i < models.size(); i++) {
 
                     if (!TextUtils.isEmpty(models.get(i).getMonthTarget())) {
-                        transModel.setMonthTarget(models.get(i).getMonthTarget());
+                        MineTargetTransModel m = new MineTargetTransModel();
+                        m.setMonthTarget(models.get(i).getMonthTarget());
 
-                        if (i < 10) {
-                            transModel.setTargetMonth(year + "-0" + i);
+                        if (i < 9) {
+                            m.setTargetMonth(year + "-0" + (i + 1));
                         } else {
-                            transModel.setTargetMonth(year + "-" + i);
+                            m.setTargetMonth(year + "-" + (i + 1));
                         }
-                        addInvoke();
+
+                        transList.add(m);
                     }
+                }
+
+                if (transList.size() > 0) {
+                    transModel.setTargetUserId(AppTools.getUser().getUserId());
+                    transModel.setTargetJSONArray(BasePresenter.gson.toJson(transList));
+                    addInvoke();
+
                 }
                 break;
         }

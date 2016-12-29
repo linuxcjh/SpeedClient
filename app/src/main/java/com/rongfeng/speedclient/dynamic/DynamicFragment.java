@@ -58,6 +58,8 @@ public class DynamicFragment extends BaseFragment implements ICommonPaginationAc
     RelativeLayout shortcutLayout;
     @Bind(R.id.plus_ib)
     ImageButton plusIb;
+    @Bind(R.id.notice_tv)
+    TextView noticeTv;
 
     private DynamicAdapter mAdapter;
 
@@ -71,7 +73,6 @@ public class DynamicFragment extends BaseFragment implements ICommonPaginationAc
         View view = inflater.inflate(R.layout.fragment_dynamic_layout, null);
         ButterKnife.bind(this, view);
         initViews();
-        onRefresh();
         return view;
     }
 
@@ -89,6 +90,12 @@ public class DynamicFragment extends BaseFragment implements ICommonPaginationAc
         mAdapter.setOnRecyclerViewListener(this);
         mRecyclerView.setAdapter(mAdapter);
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        onRefresh();
     }
 
     @Override
@@ -160,7 +167,7 @@ public class DynamicFragment extends BaseFragment implements ICommonPaginationAc
     }
 
 
-    @OnClick({R.id.shortcut_camera_tv, R.id.shortcut_position_tv, R.id.plus_ib})
+    @OnClick({R.id.shortcut_camera_tv, R.id.shortcut_position_tv, R.id.plus_ib, R.id.notice_tv})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.shortcut_camera_tv:
@@ -183,6 +190,9 @@ public class DynamicFragment extends BaseFragment implements ICommonPaginationAc
                     shortcutLayout.setVisibility(View.GONE);
                     endAnimation();
                 }
+                break;
+            case R.id.notice_tv:
+                startActivity(new Intent(getActivity(), NoticeActivity.class));
                 break;
 
         }

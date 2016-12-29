@@ -170,7 +170,7 @@
                 android:drawableLeft="@drawable/shortcut_hand"
                 android:drawablePadding="10dp"
                 android:gravity="center_vertical"
-                android:text="添加合同"
+                android:text="添加成交"
                 android:textColor="@android:color/white"
                 android:textSize="14sp" />
 

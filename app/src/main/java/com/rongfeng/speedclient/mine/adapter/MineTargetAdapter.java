@@ -7,7 +7,6 @@ import android.text.TextWatcher;
 import android.widget.EditText;
 
 import com.rongfeng.speedclient.R;
-import com.rongfeng.speedclient.common.utils.AppTools;
 import com.rongfeng.speedclient.xrecyclerview.BaseRecyclerAdapter;
 import com.rongfeng.speedclient.xrecyclerview.ViewHolder;
 
@@ -34,15 +33,14 @@ public class MineTargetAdapter extends BaseRecyclerAdapter<MineTargetModel> {
     protected void convert(ViewHolder holder, MineTargetModel model, final int position) {
 
         holder.setText(R.id.left_tv, model.getTargetMonth());
-        if (!TextUtils.isEmpty(model.getMonthTarget())) {
-            holder.setText(R.id.sales_target_tv, AppTools.getNumKbDot(model.getMonthTarget()));
-        } else {
-            holder.setText(R.id.sales_target_tv, "");
-
-        }
-
         final EditText editText = holder.getView(R.id.sales_target_tv);
         editText.setTag(position);
+        if (!TextUtils.isEmpty(model.getMonthTarget())) {
+            editText.setText(model.getMonthTarget());
+        } else {
+            editText.setText("");
+        }
+
         editText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {

@@ -203,7 +203,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
                         android:layout_toRightOf="@+id/image3"
-                        android:text="合同"
+                        android:text="成交"
                         android:textColor="@color/colorAssist"
                         android:textSize="10sp" />
 

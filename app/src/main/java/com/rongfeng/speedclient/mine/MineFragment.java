@@ -16,6 +16,7 @@ import com.rongfeng.speedclient.R;
 import com.rongfeng.speedclient.common.BaseFragment;
 import com.rongfeng.speedclient.common.utils.AppConfig;
 import com.rongfeng.speedclient.common.utils.AppTools;
+import com.rongfeng.speedclient.product.ProductActivity;
 import com.rongfeng.speedclient.schedule.ScheduleActivity;
 import com.rongfeng.speedclient.voice.VoiceNoteActivity;
 
@@ -104,8 +105,9 @@ public class MineFragment extends BaseFragment {
                 break;
             case R.id.target_layout:
 
-                startActivity(new Intent(getActivity(), MineSalesTargetActivity.class));
+//                startActivity(new Intent(getActivity(), MineSalesTargetActivity.class));
 
+                startActivity(new Intent(getActivity(), ProductActivity.class));
 
                 break;
         }

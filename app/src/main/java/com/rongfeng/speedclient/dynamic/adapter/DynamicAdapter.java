@@ -112,10 +112,10 @@ public class DynamicAdapter extends BaseRecyclerAdapter<DynamicModel> {
                 typeLayout.setVisibility(View.GONE);
                 if (isToday) {
                     user_image.setTextColor(ContextCompat.getColor(context, R.color.colorBlue));
-                    user_image.setBackgroundResource(R.drawable.client_item_bg);
+                    user_image.setBackgroundResource(R.drawable.dynamic_item_bg);
                 } else {
                     user_image.setTextColor(ContextCompat.getColor(context, R.color.colorAssist));
-                    user_image.setBackgroundResource(R.drawable.client_item_gray_bg);
+                    user_image.setBackgroundResource(R.drawable.dynamic_item_gray_bg);
                 }
                 break;
             case 2://跟进客户
