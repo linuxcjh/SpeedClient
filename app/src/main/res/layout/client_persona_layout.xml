@@ -75,8 +75,7 @@
                     android:layout_height="70dp"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="20dp"
-                    android:src="@drawable/custshow_personal"
-                    />
+                    android:src="@drawable/custshow_personal" />
 
 
                 <TextView
@@ -98,7 +97,7 @@
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="6dp"
                     android:src="@drawable/cust_focus"
-                    android:visibility="invisible"/>
+                    android:visibility="invisible" />
 
                 <LinearLayout
                     android:id="@+id/contact_layout"
@@ -396,13 +395,28 @@
         android:visibility="gone">
 
         <TextView
-            android:id="@+id/shortcut_contract_tv"
+            android:id="@+id/shortcut_connect_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
             android:layout_marginBottom="26dp"
             android:layout_marginRight="90dp"
+            android:drawablePadding="10dp"
+            android:drawableRight="@drawable/cust_plus_contact"
+            android:gravity="center_vertical"
+            android:text="添加联系人"
+            android:textColor="@color/colorClientRadar"
+            android:textSize="14sp" />
+
+
+        <TextView
+            android:id="@+id/shortcut_contract_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/shortcut_connect_tv"
+            android:layout_alignRight="@+id/shortcut_connect_tv"
+            android:layout_marginBottom="25dp"
             android:drawablePadding="10dp"
             android:drawableRight="@drawable/cust_plus_deal"
             android:gravity="center_vertical"
@@ -420,7 +434,7 @@
             android:drawablePadding="10dp"
             android:drawableRight="@drawable/cust_plus_opportunity"
             android:gravity="center_vertical"
-            android:text="添加商机"
+            android:text="新增商机"
             android:textColor="@color/colorClientRadar"
             android:textSize="14sp" />
 
@@ -434,7 +448,7 @@
             android:drawablePadding="10dp"
             android:drawableRight="@drawable/cust_plus_visit"
             android:gravity="center_vertical"
-            android:text="添加跟进记录"
+            android:text="客户跟进"
             android:textColor="@color/colorClientRadar"
             android:textSize="14sp" />
     </RelativeLayout>

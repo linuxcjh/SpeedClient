@@ -105,9 +105,7 @@ public class MineFragment extends BaseFragment {
                 break;
             case R.id.target_layout:
 
-//                startActivity(new Intent(getActivity(), MineSalesTargetActivity.class));
-
-                startActivity(new Intent(getActivity(), ProductActivity.class));
+                startActivity(new Intent(getActivity(), MineSalesTargetActivity.class));
 
                 break;
         }

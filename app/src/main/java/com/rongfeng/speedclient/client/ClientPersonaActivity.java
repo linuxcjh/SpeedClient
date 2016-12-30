@@ -24,7 +24,6 @@ import android.widget.TextView;
 import com.google.gson.reflect.TypeToken;
 import com.rongfeng.speedclient.API.XxbService;
 import com.rongfeng.speedclient.R;
-import com.rongfeng.speedclient.client.adapter.ClientPersonaLabelAdapter;
 import com.rongfeng.speedclient.client.entry.RecievedClientTransModel;
 import com.rongfeng.speedclient.common.BaseActivity;
 import com.rongfeng.speedclient.common.Constant;
@@ -120,9 +119,9 @@ public class ClientPersonaActivity extends BaseActivity {
     TextView clientNameTv;
     @Bind(R.id.focus_bt)
     ImageView focusBt;
+    @Bind(R.id.shortcut_connect_tv)
+    TextView shortcutConnectTv;
 
-    private ClientPersonaLabelAdapter adapter;
-    private List<BaseDataModel> models = new ArrayList<>();
 
     private ClientPersonaLabelFragment labelFragment;
     private ClientPersonaBusinessFragment businessFragment;
@@ -155,7 +154,7 @@ public class ClientPersonaActivity extends BaseActivity {
         filter.addAction(Constant.CLIENT_REFRESH_PERSONA_LABEL);
         registerReceiver(refreshBroadCastReceiver, filter);
 
-         //语音界面跳转过来
+        //语音界面跳转过来
         int flag = getIntent().getIntExtra("flag", 0);
         contentViewPager.setCurrentItem(flag, true);
     }
@@ -307,7 +306,7 @@ public class ClientPersonaActivity extends BaseActivity {
     }
 
 
-    @OnClick({R.id.cancel_tv, R.id.add_client_tv, R.id.contact_layout, R.id.shortcut_contract_tv, R.id.shortcut_bus_tv, R.id.shortcut_record_tv, shortcut_layout, R.id.plus_ib, R.id.client_record_layout, R.id.label_layout, R.id.bus_layout, R.id.bargain_layout, R.id.debt_layout, R.id.focus_bt})
+    @OnClick({R.id.cancel_tv, R.id.add_client_tv, R.id.contact_layout, R.id.shortcut_contract_tv, R.id.shortcut_bus_tv, R.id.shortcut_record_tv, shortcut_layout, R.id.plus_ib, R.id.client_record_layout, R.id.label_layout, R.id.bus_layout, R.id.bargain_layout, R.id.debt_layout, R.id.focus_bt, R.id.shortcut_connect_tv})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.cancel_tv:
@@ -325,7 +324,6 @@ public class ClientPersonaActivity extends BaseActivity {
                     startActivity(new Intent(this, ClientContactsActivity.class).putExtra("customerId", transDataModel.getCsrId()).putExtra("customerName", clientNameTv.getText().toString()));
 
                 }
-                endAnimation();
 
                 break;
             case R.id.shortcut_contract_tv:
@@ -340,6 +338,13 @@ public class ClientPersonaActivity extends BaseActivity {
                 break;
             case R.id.shortcut_record_tv:
                 startActivity(new Intent(this, ClientVisitActivity.class).putExtra("customerId", transDataModel.getCsrId()).putExtra("customerName", clientNameTv.getText().toString()));
+                endAnimation();
+
+                break;
+            case R.id.shortcut_connect_tv:
+                Intent intent = new Intent(this, ClientAddContactUpLoadActivity.class);
+                intent.putExtra("customerId", getIntent().getStringExtra("customerId"));
+                startActivityForResult(intent, Constant.ADD_CONTACT_REQUEST_CODE);
                 endAnimation();
 
                 break;

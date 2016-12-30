@@ -7,6 +7,8 @@ package com.rongfeng.speedclient.manage.model;
 
 public class ManageFollowModel {
 
+    private String csrId;
+
     private String followUpId;//跟进ID
     private String followUpTime;//跟进日期
     private String customerName;//客户名称
@@ -22,6 +24,13 @@ public class ManageFollowModel {
     private String remainingBalance;//剩余
     private String moneyReceipt;//已收款
 
+    public String getCsrId() {
+        return csrId;
+    }
+
+    public void setCsrId(String csrId) {
+        this.csrId = csrId;
+    }
 
     public String getConId() {
         return conId;

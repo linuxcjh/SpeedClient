@@ -1,5 +1,6 @@
 package com.rongfeng.speedclient.manage;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 import com.google.gson.reflect.TypeToken;
 import com.rongfeng.speedclient.API.XxbService;
 import com.rongfeng.speedclient.R;
+import com.rongfeng.speedclient.client.ClientRecordsActivity;
 import com.rongfeng.speedclient.common.BaseActivity;
 import com.rongfeng.speedclient.common.CommonPaginationPresenter;
 import com.rongfeng.speedclient.common.ICommonPaginationAction;
@@ -48,7 +50,6 @@ public class ManageFollowActivity extends BaseActivity implements ICommonPaginat
     public TransDataModel transDataModel = new TransDataModel();
 
     public CommonPaginationPresenter commonPaginationPresenter = new CommonPaginationPresenter(this);
-
 
 
     @Override
@@ -141,11 +142,8 @@ public class ManageFollowActivity extends BaseActivity implements ICommonPaginat
 
     @Override
     public void onItemClick(int position, Object object) {
-//        ManageFollowModel model = (ManageFollowModel) object;
-//        Intent intent = new Intent(this, ClientPersonaActivity.class);
-//        intent.putExtra("customerId", model.getCsrId());
-//        intent.putExtra("customerName", model.getCustomerName());
-//        startActivity(intent);
+        ManageFollowModel m = (ManageFollowModel) object;
+        startActivity(new Intent(this, ClientRecordsActivity.class).putExtra("customerId", m.getCsrId()).putExtra("customerName", m.getCustomerName()));
     }
 
     @OnClick(R.id.cancel_tv)

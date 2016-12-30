@@ -48,8 +48,7 @@ import butterknife.OnClick;
 public class ClientAddBusinessActivity extends BaseActivity {
 
     public static final int SELECT_PRODUCT_INDEX = 1;
-
-
+    
     @Bind(R.id.cancel_tv)
     TextView cancelTv;
     @Bind(R.id.commit_tv)

@@ -62,8 +62,6 @@ public class NoticeActivity extends BaseActivity implements ICommonPaginationAct
 
     private void initViews() {
 
-
-
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(layoutManager);

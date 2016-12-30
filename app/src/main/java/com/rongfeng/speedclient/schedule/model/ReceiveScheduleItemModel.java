@@ -14,6 +14,26 @@ public class ReceiveScheduleItemModel {
     private String remindId;
     private String remindTypeName;
 
+    private String remindTime;
+    private String createTime;
+
+
+    public String getRemindTime() {
+        return remindTime;
+    }
+
+    public void setRemindTime(String remindTime) {
+        this.remindTime = remindTime;
+    }
+
+    public String getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(String createTime) {
+        this.createTime = createTime;
+    }
+
     public String getRemindContent() {
         return remindContent;
     }
@@ -39,9 +59,13 @@ public class ReceiveScheduleItemModel {
     }
 
 
-    public String getScheduleState() {return scheduleState;}
+    public String getScheduleState() {
+        return scheduleState;
+    }
 
-    public void setScheduleState(String scheduleState) {this.scheduleState = scheduleState;}
+    public void setScheduleState(String scheduleState) {
+        this.scheduleState = scheduleState;
+    }
 
 
     public String getScheduleId() {

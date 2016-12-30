@@ -20,7 +20,15 @@ public class AddBusinessTransModel implements Serializable{
     private String businessStageId;
     private String businessStageName;
     private String productName;//商机产品名称
+    private String customerName;
 
+    public String getCustomerName() {
+        return customerName;
+    }
+
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
+    }
 
     public String getBusinessId() {
         return businessId;

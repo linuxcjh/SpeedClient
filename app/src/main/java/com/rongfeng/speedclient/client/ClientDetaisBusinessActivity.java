@@ -90,6 +90,22 @@ public class ClientDetaisBusinessActivity extends BaseActivity {
     TextView titleTv;
     @Bind(add_contract_bt)
     Button addContractBt;
+    @Bind(R.id.stage_one_image_layout)
+    LinearLayout stageOneImageLayout;
+    @Bind(R.id.stage_two_image_layout)
+    LinearLayout stageTwoImageLayout;
+    @Bind(R.id.stage_three_image_layout)
+    LinearLayout stageThreeImageLayout;
+    @Bind(R.id.stage_four_image_layout)
+    LinearLayout stageFourImageLayout;
+    @Bind(R.id.stage_one_tv_layout)
+    RelativeLayout stageOneTvLayout;
+    @Bind(R.id.stage_two_tv_layout)
+    RelativeLayout stageTwoTvLayout;
+    @Bind(R.id.stage_three_tv_layout)
+    RelativeLayout stageThreeTvLayout;
+    @Bind(R.id.stage_four_tv_layout)
+    RelativeLayout stageFourTvLayout;
 
 
     private List<BaseDataModel> dataLabel = new ArrayList<>();
@@ -211,7 +227,7 @@ public class ClientDetaisBusinessActivity extends BaseActivity {
         }
     };
 
-    @OnClick({R.id.cancel_tv, R.id.commit_tv, R.id.res_bargain_time_tv, R.id.product_layout, R.id.stage_one_image, R.id.stage_two_image, R.id.stage_three_image, R.id.stage_four_image, R.id.stage_one_tv, R.id.stage_two_tv, R.id.stage_three_tv, R.id.stage_four_tv, R.id.add_contract_bt})
+    @OnClick({R.id.cancel_tv, R.id.commit_tv, R.id.res_bargain_time_tv, R.id.product_layout, R.id.add_contract_bt, R.id.stage_one_image_layout, R.id.stage_two_image_layout, R.id.stage_three_image_layout, R.id.stage_four_image_layout, R.id.stage_one_tv_layout, R.id.stage_two_tv_layout, R.id.stage_three_tv_layout, R.id.stage_four_tv_layout})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.cancel_tv:
@@ -229,26 +245,26 @@ public class ClientDetaisBusinessActivity extends BaseActivity {
                 startActivityForResult(new Intent(this, ProductActivity.class), 0x11);
 
                 break;
-            case R.id.stage_one_image:
-            case R.id.stage_one_tv:
+            case R.id.stage_one_tv_layout:
+            case R.id.stage_one_image_layout:
                 setFocusStatus(stageOneTv, stageOneImage);
                 transModel.setBusinessStage(stageModels.get(0).getDictionaryId());
 
                 break;
-            case R.id.stage_two_image:
-            case R.id.stage_two_tv:
+            case R.id.stage_two_image_layout:
+            case R.id.stage_two_tv_layout:
                 setFocusStatus(stageTwoTv, stageTwoImage);
                 transModel.setBusinessStage(stageModels.get(1).getDictionaryId());
 
                 break;
-            case R.id.stage_three_image:
-            case R.id.stage_three_tv:
+            case R.id.stage_three_image_layout:
+            case R.id.stage_three_tv_layout:
                 setFocusStatus(stageThreeTv, stageThreeImage);
                 transModel.setBusinessStage(stageModels.get(2).getDictionaryId());
 
                 break;
-            case R.id.stage_four_image:
-            case R.id.stage_four_tv:
+            case R.id.stage_four_tv_layout:
+            case R.id.stage_four_image_layout:
 
                 setFocusStatus(stageFourTv, stageFourImage);
                 transModel.setBusinessStage(stageModels.get(3).getDictionaryId());
@@ -256,7 +272,7 @@ public class ClientDetaisBusinessActivity extends BaseActivity {
                 break;
 
             case R.id.add_contract_bt:
-                startActivity(new Intent(this, ClientAddContractActivity.class).putExtra("busId",transModel.getBusinessId()).putExtra("customerId", transModel.getCsrId()).putExtra("model", transModel));
+                startActivity(new Intent(this, ClientAddContractActivity.class).putExtra("busId", transModel.getBusinessId()).putExtra("customerId", transModel.getCsrId()).putExtra("model", transModel));
                 break;
 
 
@@ -357,4 +373,5 @@ public class ClientDetaisBusinessActivity extends BaseActivity {
             transModel.setProductId(model.number);
         }
     }
+
 }

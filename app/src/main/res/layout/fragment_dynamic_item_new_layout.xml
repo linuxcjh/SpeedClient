@@ -127,6 +127,25 @@
             android:text="客户名称：三一重工项目"
             android:textColor="@color/colorAssist"
             android:textSize="13sp" />
+
+        <TextView
+            android:id="@+id/position_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/dynamic_date_bg"
+            android:drawableLeft="@drawable/cust_visit_position"
+            android:drawablePadding="2dp"
+            android:gravity="center"
+            android:paddingBottom="4dp"
+            android:paddingLeft="14dp"
+            android:paddingRight="14dp"
+            android:paddingTop="4dp"
+            android:text="当前位置"
+            android:textColor="@color/colorAssist"
+            android:textSize="11sp"
+            android:visibility="gone" />
     </RelativeLayout>
 
     <LinearLayout

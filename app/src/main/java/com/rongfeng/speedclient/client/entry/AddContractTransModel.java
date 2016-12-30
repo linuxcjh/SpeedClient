@@ -23,7 +23,15 @@ public class AddContractTransModel implements Serializable{
     private String transactionDate;//成交日期
     private String conId;
     private String moneyReceipt ;//已收款
+    private String customerName;
 
+    public String getCustomerName() {
+        return customerName;
+    }
+
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
+    }
 
     public String getMoneyReceipt() {
         return moneyReceipt;

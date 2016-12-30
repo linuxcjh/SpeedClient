@@ -3,8 +3,8 @@ package com.rongfeng.speedclient.manage.adapter;
 import android.content.Context;
 
 import com.rongfeng.speedclient.R;
+import com.rongfeng.speedclient.client.entry.AddContractTransModel;
 import com.rongfeng.speedclient.common.utils.AppTools;
-import com.rongfeng.speedclient.manage.model.ManageFollowModel;
 import com.rongfeng.speedclient.xrecyclerview.BaseRecyclerAdapter;
 import com.rongfeng.speedclient.xrecyclerview.ViewHolder;
 
@@ -13,10 +13,10 @@ import java.util.List;
 /**
  * Created by Alex on 2016/1/11.
  */
-public class ManageBargainAdapter extends BaseRecyclerAdapter<ManageFollowModel> {
+public class ManageBargainAdapter extends BaseRecyclerAdapter<AddContractTransModel> {
 
 
-    public ManageBargainAdapter(Context context, int layoutResId, List<ManageFollowModel> data) {
+    public ManageBargainAdapter(Context context, int layoutResId, List<AddContractTransModel> data) {
         super(context, layoutResId, data);
     }
 
@@ -25,7 +25,7 @@ public class ManageBargainAdapter extends BaseRecyclerAdapter<ManageFollowModel>
     }
 
     @Override
-    protected void convert(ViewHolder holder, ManageFollowModel model, int position) {
+    protected void convert(ViewHolder holder, AddContractTransModel model, int position) {
 
         holder.setText(R.id.client_name_tv, model.getConName());
         holder.setText(R.id.create_time_tv, model.getCustomerName());

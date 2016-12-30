@@ -1,6 +1,7 @@
 package com.rongfeng.speedclient.schedule.adapter;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.View;
 
 import com.rongfeng.speedclient.R;
@@ -28,8 +29,17 @@ public class ScheduleListAdapter extends QuickAdapter<ReceiveScheduleItemModel> 
 
     @Override
     protected void convert(BaseAdapterHelper helper, final ReceiveScheduleItemModel item, final int position) {
+        helper.setText(R.id.date_tv, item.getRemindTime().split(" ")[0]);
+        helper.setText(R.id.time_tv, item.getRemindTime().split(" ")[1]);
+
+        if(TextUtils.isEmpty(item.getCustomerName())){
+            helper.setVisible(R.id.client_tv,false);
+        }else{
+            helper.setVisible(R.id.client_tv,true);
+            helper.setText(R.id.client_tv,"关联客户："+item.getCustomerName());
+        }
+
         helper.setText(R.id.content_tv, item.getRemindContent());
-        helper.setText(R.id.remind_type, item.getRemindTypeName());
 
         SwipeView swipeView = helper.getView(R.id.swipeview);
         swipeView.setOnSwipeStatusChangeListener(this);
