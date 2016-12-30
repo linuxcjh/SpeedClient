@@ -24,6 +24,15 @@ public class DynamicModel {
     private String latitude;
     private String address;
 
+    private String pushNotificationsCount;
+
+    public String getPushNotificationsCount() {
+        return pushNotificationsCount;
+    }
+
+    public void setPushNotificationsCount(String pushNotificationsCount) {
+        this.pushNotificationsCount = pushNotificationsCount;
+    }
 
     public String getLongitude() {
         return longitude;

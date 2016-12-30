@@ -96,6 +96,7 @@ public class DynamicFragment extends BaseFragment implements ICommonPaginationAc
     public void onResume() {
         super.onResume();
         onRefresh();
+        invokeNoticeCount();
     }
 
     @Override
@@ -110,6 +111,16 @@ public class DynamicFragment extends BaseFragment implements ICommonPaginationAc
                 case XxbService.INSERTRELATEDPOSITION:
                     if (status == 1) {
                         AppTools.getToast("位置记录成功");
+                        onRefresh();
+                    }
+                    break;
+                case XxbService.SEARCHPUSHNOTIFICATIONSCOUNT:
+
+                    DynamicModel m = (DynamicModel) data;
+                    if (!m.getPushNotificationsCount().equals("0")) {
+                        noticeTv.setText(m.getPushNotificationsCount());
+                    } else {
+                        noticeTv.setText("");
                     }
                     break;
             }
@@ -138,6 +149,17 @@ public class DynamicFragment extends BaseFragment implements ICommonPaginationAc
         commonPaginationPresenter.invokeInterfaceObtainData(XxbService.SEARCHHOMEPAGEDYNAMIC, transDataModel, new TypeToken<List<DynamicModel>>() {
         });
     }
+
+
+    /**
+     * 提醒数量
+     */
+    private void invokeNoticeCount() {
+        commonPresenter.isShowProgressDialog = false;
+        commonPresenter.invokeInterfaceObtainData(XxbService.SEARCHPUSHNOTIFICATIONSCOUNT, new TypeToken<DynamicModel>() {
+        });
+    }
+
 
     @Override
     public void noMoreData() {

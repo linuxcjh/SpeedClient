@@ -750,4 +750,6 @@ public interface XxbService {
     String  SEARCHPRODUCT="searchProduct";
 
     String INSERTPRODUCT="insertProduct";
+
+    String SEARCHPUSHNOTIFICATIONSCOUNT="searchPushNotificationsCount";
 }
