@@ -14,7 +14,15 @@ public class NoticeModel {
     private String csrName;
     private String isRead;
     private String createTime;
+    private String content;
 
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
 
     public String getPushId() {
         return pushId;

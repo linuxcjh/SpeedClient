@@ -83,7 +83,9 @@ public class ScheduleAddEditActivity extends BaseActivity {
         super.obtainData(data, methodIndex, status);
 
         if (status == 1) {
+
             AppTools.getToast("添加成功");
+            setResult(RESULT_OK);
             finish();
         }
     }

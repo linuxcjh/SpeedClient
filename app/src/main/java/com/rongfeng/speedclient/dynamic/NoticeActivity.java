@@ -70,7 +70,7 @@ public class NoticeActivity extends BaseActivity implements ICommonPaginationAct
         mRecyclerView.setArrowImageView(R.drawable.refresh_pulldown);
         mRecyclerView.setLoadingListener(this);
         mRecyclerView.initListAndStly(this, 0, 10, 0);
-        mAdapter = new NoticeAdapter(this, R.layout.manage_bargain_item_layout);
+        mAdapter = new NoticeAdapter(this, R.layout.notice_item_layout);
         mAdapter.setOnRecyclerViewListener(this);
         mRecyclerView.setAdapter(mAdapter);
 
@@ -83,7 +83,6 @@ public class NoticeActivity extends BaseActivity implements ICommonPaginationAct
             mAdapter.setData((List<NoticeModel>) data);
             if (commonPaginationPresenter.data != null && commonPaginationPresenter.data.size() == 0) {
                 noDataLayout.setVisibility(View.VISIBLE);
-
             } else {
                 noDataLayout.setVisibility(View.GONE);
             }
