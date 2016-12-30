@@ -1,6 +1,7 @@
 package com.rongfeng.speedclient.dynamic.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
@@ -11,12 +12,19 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.rongfeng.speedclient.R;
+import com.rongfeng.speedclient.client.ClientDistributeActivity;
+import com.rongfeng.speedclient.client.ClientPersonaActivity;
+import com.rongfeng.speedclient.client.ClientRecordsActivity;
+import com.rongfeng.speedclient.client.entry.ImageListModel;
+import com.rongfeng.speedclient.client.entry.RecievedClientTransModel;
 import com.rongfeng.speedclient.common.utils.AppTools;
 import com.rongfeng.speedclient.common.utils.DateUtil;
+import com.rongfeng.speedclient.components.AddVisitGridLayoutDisplayView;
 import com.rongfeng.speedclient.dynamic.model.DynamicModel;
 import com.rongfeng.speedclient.xrecyclerview.BaseRecyclerAdapter;
 import com.rongfeng.speedclient.xrecyclerview.ViewHolder;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -35,8 +43,10 @@ public class DynamicAdapter extends BaseRecyclerAdapter<DynamicModel> {
     }
 
     @Override
-    protected void convert(ViewHolder holder, DynamicModel model, int position) {
-
+    protected void convert(final ViewHolder holder, DynamicModel model, int position) {
+        AddVisitGridLayoutDisplayView addPicLayout = holder.getView(R.id.add_pic_layout);
+        addPicLayout.setVisibility(View.GONE);
+        holder.setVisible(R.id.content_tv, true);
         LinearLayout userLayout = holder.getView(R.id.user_layout);
         RelativeLayout typeLayout = holder.getView(R.id.type_layout);
         ImageView type_image = holder.getView(R.id.type_image);
@@ -54,7 +64,7 @@ public class DynamicAdapter extends BaseRecyclerAdapter<DynamicModel> {
             Drawable drawable = context.getResources().getDrawable(R.drawable.main_dynamic_left_item);
             drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
             ((TextView) holder.getView(R.id.data_tv)).setCompoundDrawables(drawable, null, null, null);
-            holder.setText(R.id.data_tv, "今天 "+model.getCreateTime().split(" ")[1]);
+            holder.setText(R.id.data_tv, "今天 " + model.getCreateTime().split(" ")[1]);
             top_layout.setVisibility(View.VISIBLE);
             middle_layout.setVisibility(View.GONE);
             top_iv.setVisibility(View.VISIBLE);
@@ -229,13 +239,112 @@ public class DynamicAdapter extends BaseRecyclerAdapter<DynamicModel> {
             case 13:
                 userLayout.setVisibility(View.GONE);
                 typeLayout.setVisibility(View.VISIBLE);
+
+                if (TextUtils.isEmpty(model.getAddress())) {
+                    holder.setVisible(R.id.content_tv, false);
+                } else {
+                    holder.setVisible(R.id.content_tv, true);
+                    holder.setText(R.id.content_tv, model.getAddress());
+
+                }
+
                 if (isToday) {
                     type_image.setImageResource(R.drawable.dynamic_position);
                 } else {
                     type_image.setImageResource(R.drawable.dynamic_position_h);
                 }
+                if (model.getJsonArrayPositionImg() != null && model.getJsonArrayPositionImg().size() > 0) {
+                    addPicLayout.setVisibility(View.VISIBLE);
+                    List<String> pathsUrl = new ArrayList<>();
+                    List<String> pathsMinUrl = new ArrayList<>();
+
+                    for (ImageListModel picm : model.getJsonArrayPositionImg()) {
+                        pathsUrl.add(picm.getFileUrl());
+                        pathsMinUrl.add(picm.getMinUrl());
+                    }
+                    addPicLayout.setColumn(4);
+                    addPicLayout.setWidth(addPicLayout.getWidth());
+                    addPicLayout.setImageLayout(pathsUrl, pathsMinUrl, true);
+
+                } else {
+                    addPicLayout.setVisibility(View.GONE);
+                }
                 break;
         }
+
+
+        holder.getView().setTag(model);
+        holder.getView().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                DynamicModel model = (DynamicModel) holder.getView().getTag();
+
+                switch (model.getDynamicType()) {
+
+                    case 1:
+
+                        break;
+                    case 2://跟进客户
+                        context.startActivity(new Intent(context, ClientRecordsActivity.class).putExtra("customerId", model.getCsrId()).putExtra("customerName", model.getCustomerName()));
+                        break;
+                    case 5:
+                        context.startActivity(new Intent(context, ClientPersonaActivity.class).putExtra("customerId", model.getCsrId()).putExtra("customerName", model.getCustomerName()));
+
+                        break;
+                    case 6:
+                        context.startActivity(new Intent(context, ClientPersonaActivity.class).putExtra("customerId", model.getCsrId()).putExtra("customerName", model.getCustomerName()));
+
+                        break;
+                    case 7:
+                        context.startActivity(new Intent(context, ClientPersonaActivity.class)
+                                .putExtra("customerId", model.getCsrId())
+                                .putExtra("customerName", model.getCustomerName())
+                                .putExtra("flag", 1)
+                        );
+
+                        break;
+                    case 8:
+                        context.startActivity(new Intent(context, ClientPersonaActivity.class)
+                                .putExtra("customerId", model.getCsrId())
+                                .putExtra("customerName", model.getCustomerName())
+                                .putExtra("flag", 1)
+                        );
+                        break;
+                    case 9:
+                        context.startActivity(new Intent(context, ClientPersonaActivity.class)
+                                .putExtra("customerId", model.getCsrId())
+                                .putExtra("customerName", model.getCustomerName())
+                                .putExtra("flag", 2)
+                        );
+                        break;
+                    case 10:
+                        context.startActivity(new Intent(context, ClientPersonaActivity.class)
+                                .putExtra("customerId", model.getCsrId())
+                                .putExtra("customerName", model.getCustomerName())
+                                .putExtra("flag", 2)
+                        );
+                        break;
+                    case 11:
+
+                        context.startActivity(new Intent(context, ClientPersonaActivity.class).putExtra("customerId", model.getCsrId()).putExtra("customerName", model.getCustomerName()));
+
+                        break;
+                    case 12:
+                    case 13:
+
+
+                        RecievedClientTransModel recievedClientTransModel = new RecievedClientTransModel();
+                        recievedClientTransModel.setLatitude(model.getLatitude());
+                        recievedClientTransModel.setLongitude(model.getLongitude());
+                        recievedClientTransModel.setCustomerAddress(model.getAddress());
+                        context.startActivity(new Intent(context, ClientDistributeActivity.class).putExtra("model", recievedClientTransModel));
+
+
+                        break;
+                }
+            }
+        });
     }
 
 }

@@ -87,8 +87,10 @@
         android:background="@drawable/radar_bg"
         android:gravity="center_vertical"
         android:minHeight="70dp"
+        android:paddingBottom="10dp"
         android:paddingLeft="15dp"
-        android:paddingRight="15dp">
+        android:paddingRight="15dp"
+        android:paddingTop="10dp">
 
         <ImageView
             android:id="@+id/type_image"
@@ -117,6 +119,7 @@
             android:textColor="@color/colorAssist"
             android:textSize="12sp" />
 
+
         <TextView
             android:id="@+id/content_tv"
             android:layout_width="wrap_content"
@@ -127,6 +130,14 @@
             android:text="客户名称：三一重工项目"
             android:textColor="@color/colorAssist"
             android:textSize="13sp" />
+
+        <com.rongfeng.speedclient.components.AddVisitGridLayoutDisplayView
+            android:id="@+id/add_pic_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/type_name_tv"
+            android:layout_below="@+id/content_tv"
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/position_tv"

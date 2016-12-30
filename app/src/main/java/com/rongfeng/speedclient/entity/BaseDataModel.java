@@ -20,6 +20,15 @@ public class BaseDataModel implements Serializable {
     private boolean isSelect;//1 选中 0为选中
 
     private String indexStr;//标识颜色 voice用
+    private String contact;//联系人
+
+    public String getContact() {
+        return contact;
+    }
+
+    public void setContact(String contact) {
+        this.contact = contact;
+    }
 
     public String getIndexStr() {
         return indexStr;
@@ -37,7 +46,7 @@ public class BaseDataModel implements Serializable {
         isSelect = select;
     }
 
-    public BaseDataModel(){
+    public BaseDataModel() {
 
     }
 
@@ -46,10 +55,17 @@ public class BaseDataModel implements Serializable {
         this.dictionaryName = dictionaryName;
     }
 
-    public BaseDataModel(String dictionaryId,String dictionaryName, String indexStr) {
+    public BaseDataModel(String dictionaryId, String dictionaryName, String indexStr) {
         this.indexStr = indexStr;
         this.dictionaryName = dictionaryName;
         this.dictionaryId = dictionaryId;
+    }
+
+    public BaseDataModel(String dictionaryId, String dictionaryName, String contact, String indexStr) {
+        this.dictionaryId = dictionaryId;
+        this.dictionaryName = dictionaryName;
+        this.indexStr = indexStr;
+        this.contact = contact;
     }
 
     public void setDictionaryId(String dictionaryId) {
@@ -68,7 +84,6 @@ public class BaseDataModel implements Serializable {
     public String getDictionaryName() {
         return dictionaryName;
     }
-
 
 
 }

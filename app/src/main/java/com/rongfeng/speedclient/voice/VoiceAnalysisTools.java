@@ -483,7 +483,7 @@ public class VoiceAnalysisTools {
                 if (contactModels != null && contactModels.size() > 0) {//联系人匹配
                     for (int k = 0; k < contactModels.size(); k++) {
                         if (resultStr.indexOf(contactModels.get(k).getName()) != -1 || pinYinStr.indexOf(AppTools.convertPinYin(contactModels.get(k).getName())) != -1) {
-                            clientData.add(resultModel.getClient_id() + "," + name + "  " + contactModels.get(k).getName() + "," + contactModels.get(k).getName());
+                            clientData.add(resultModel.getClient_id() + "," + name + " " + contactModels.get(k).getName() + "," + contactModels.get(k).getName());
                             resultStrs.add(contactModels.get(k).getName());
                         }
                     }
@@ -499,6 +499,12 @@ public class VoiceAnalysisTools {
     }
 
 
+    /**
+     * 设置关键字颜色
+     *
+     * @param editText
+     * @param resultStrs
+     */
     private void setContentColor(EditText editText, List<String> resultStrs) {
         SpannableString ss = new SpannableString(editText.getText().toString());
 
@@ -531,7 +537,7 @@ public class VoiceAnalysisTools {
     }
 
     /**
-     * 去掉重复
+     * 去掉重复客户信息
      *
      * @param clientData
      * @param
@@ -539,22 +545,40 @@ public class VoiceAnalysisTools {
      */
     private List<BaseDataModel> obtainWithoutDup(List<String> clientData) {
 
-        List<String> listWithoutDup = new ArrayList<>(new HashSet<>(clientData));
+        clientData = new ArrayList<>(new HashSet<>(clientData));//去掉重复
         List<BaseDataModel> temp = new ArrayList<>();
         List<BaseDataModel> result = new ArrayList<>();
 
-        for (int i = 0; i < listWithoutDup.size(); i++) {
-            temp.add(new BaseDataModel(listWithoutDup.get(i).split(",")[0], listWithoutDup.get(i).split(",")[1], listWithoutDup.get(i).split(",")[2]));
+        for (int i = 0; i < clientData.size(); i++) {
+            temp.add(new BaseDataModel(clientData.get(i).split(",")[0], clientData.get(i).split(",")[1], clientData.get(i).split(",")[2]));
         }
 
-        for (int i = 0; i < temp.size(); i++) { //去掉客户名称重复
-            if (i != 0) {
-                if (!temp.get(i).getDictionaryName().equals(temp.get(i - 1).getDictionaryName())) {
-                    result.add(temp.get(i));
+        BaseDataModel baseModel;
+        for (int i = 0; i < temp.size(); i++) { //找出重复客户，取包含联系人的客户
+            baseModel = temp.get(i);
+            for (int j = 0; j < temp.size(); j++) {
+                if (baseModel.getDictionaryId().equals(temp.get(j).getDictionaryId())) {
+                    if (baseModel.getDictionaryName().length() < temp.get(j).getDictionaryName().length()) {
+                        baseModel = temp.get(j);
+                    }
                 }
-            } else {
-                result.add(temp.get(i));
             }
+            result.add(baseModel);
+        }
+        List<Integer> index = new ArrayList<>();
+        for (int i = 0; i < result.size(); i++) {//记录重复位置
+            baseModel = result.get(i);
+            for (int j = i + 1; j < result.size(); j++) {
+                if (baseModel.getDictionaryId().equals(result.get(j).getDictionaryId())) {
+                    index.add(j);
+                }
+            }
+        }
+
+        index = new ArrayList<>(new HashSet<>(index));//去掉重复
+        for (int i = 0; i < index.size(); i++) {
+            int pos = index.get(i);
+            result.remove(pos);
         }
 
         return result;

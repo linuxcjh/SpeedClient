@@ -1,5 +1,9 @@
 package com.rongfeng.speedclient.dynamic.model;
 
+import com.rongfeng.speedclient.client.entry.ImageListModel;
+
+import java.util.List;
+
 /**
  * AUTHOR: Alex
  * DATE: 25/12/2016 21:59
@@ -15,6 +19,43 @@ public class DynamicModel {
     private String customerName;
     private String csrId;
     private String relevanceId;//对应的类型业务id
+    private List<ImageListModel> jsonArrayPositionImg;
+    private String longitude;
+    private String latitude;
+    private String address;
+
+
+    public String getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(String longitude) {
+        this.longitude = longitude;
+    }
+
+    public String getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(String latitude) {
+        this.latitude = latitude;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public List<ImageListModel> getJsonArrayPositionImg() {
+        return jsonArrayPositionImg;
+    }
+
+    public void setJsonArrayPositionImg(List<ImageListModel> jsonArrayPositionImg) {
+        this.jsonArrayPositionImg = jsonArrayPositionImg;
+    }
 
     public String getCsrId() {
         return csrId;
