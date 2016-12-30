@@ -1,19 +1,14 @@
 package com.rongfeng.speedclient.voice;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
-import android.text.Editable;
 import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -36,22 +31,15 @@ import com.iflytek.cloud.SpeechRecognizer;
 import com.iflytek.cloud.ui.RecognizerDialog;
 import com.rongfeng.speedclient.API.XxbService;
 import com.rongfeng.speedclient.R;
-import com.rongfeng.speedclient.client.ClientPersonaActivity;
-import com.rongfeng.speedclient.client.ClientRegisterActivity;
-import com.rongfeng.speedclient.client.ClientVisitActivity;
+import com.rongfeng.speedclient.client.entry.AddVisitRecordModel;
 import com.rongfeng.speedclient.common.BaseFragment;
-import com.rongfeng.speedclient.common.Constant;
 import com.rongfeng.speedclient.common.utils.AppConfig;
 import com.rongfeng.speedclient.common.utils.AppTools;
 import com.rongfeng.speedclient.common.utils.Utils;
-import com.rongfeng.speedclient.components.GuideViewDisplayUtil;
-import com.rongfeng.speedclient.components.MyDialog;
 import com.rongfeng.speedclient.entity.BaseDataModel;
 import com.rongfeng.speedclient.utils.JsonParser;
 import com.rongfeng.speedclient.wave.WaveView;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -60,22 +48,22 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 import static android.content.ContentValues.TAG;
-import static com.rongfeng.speedclient.common.Constant.ADD_CLIENT_INDEX;
 
 /**
  * 语音
  * 2016/1/13
  */
-public class VoiceFragment extends BaseFragment implements View.OnTouchListener {
+public class CallFragment extends BaseFragment implements View.OnTouchListener {
 
-    public static final int SELECT_LANGUAGE_INDEX = 0x11;//选择语言
 
     public static final int VOICE_RECORD_START_INDEX = 0;//录音开始
     public static final int VOICE_RECORD_END_INDEX = 1;//录音结束
 
-    public static final int SEARCH_CLIENT_INDEX = 2; //查找客户
 
-    public static final int PROGRESS_CLIENT_INDEX = 3; //跟进客户
+    @Bind(R.id.cancel_bt)
+    TextView cancelBt;
+    @Bind(R.id.confirm_bt)
+    TextView confirmBt;
 
 
     @Bind(R.id.top_layout)
@@ -86,32 +74,6 @@ public class VoiceFragment extends BaseFragment implements View.OnTouchListener 
     LinearLayout waveLayout;
     @Bind(R.id.wave_view)
     WaveView waveView;
-
-    @Bind(R.id.select_language_tv)
-    TextView selectLanguageTv;
-    @Bind(R.id.note_tv)
-    TextView noteTv;
-    @Bind(R.id.content_et)
-    EditText contentEt;
-    @Bind(R.id.input_cancel_tv)
-    TextView inputCancelTv;
-    @Bind(R.id.input_search_client_tv)
-    TextView inputSearchClientTv;
-    @Bind(R.id.input_to_log_tv)
-    TextView inputToLogTv;
-    @Bind(R.id.input_confirm_tv)
-    TextView inputConfirmTv;
-    @Bind(R.id.voice_input_layout)
-    LinearLayout voiceInputLayout;
-    @Bind(R.id.h_time_tv)
-    TextView hTimeTv;
-    @Bind(R.id.voice_bt)
-    ImageView voiceBt;
-    @Bind(R.id.voice_status_tv)
-    TextView voiceStatusTv;
-    @Bind(R.id.root_layout)
-    LinearLayout rootLayout;
-
     public int timeNum = 0;//录音时长
 
 
@@ -126,52 +88,36 @@ public class VoiceFragment extends BaseFragment implements View.OnTouchListener 
     public SharedPreferences mSharedPreferences;
     int ret = 0; // 函数调用返回值
 
-    public GuideViewDisplayUtil mGuideViewUtil;
 
     public MediaPlayer mediaPlayer;//mediaPlayer对象
+    @Bind(R.id.content_et)
+    EditText contentEt;
+    @Bind(R.id.voice_bt)
+    ImageView voiceBt;
+    @Bind(R.id.tip_tv)
+    TextView tipTv;
 
+    private AddVisitRecordModel visitRecordModel = new AddVisitRecordModel();
+
+    public static CallFragment newInstance(String clientName, String contactName, String clientId) {
+
+        Bundle args = new Bundle();
+        args.putString("clientName", clientName);
+        args.putString("contactName", contactName);
+        args.putString("clientId", clientId);
+        CallFragment fragment = new CallFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_voice_layout, null);
+        View view = inflater.inflate(R.layout.activity_alert_layout, null);
         ButterKnife.bind(this, view);
-        initView();
         init();
         initVoice();
         return view;
-    }
-
-
-    public void initView() {
-    }
-
-    /**
-     * 添加日志
-     *
-     * @param
-     */
-    public void invoke() {
-
-        transDataModel.setNoteContent(contentEt.getText().toString());
-        commonPresenter.invokeInterfaceObtainData(XxbService.INSERTNOTE, transDataModel,
-                new TypeToken<BaseDataModel>() {
-                });
-
-    }
-
-    @Override
-    public void obtainData(Object data, String methodIndex, int status) {
-        super.obtainData(data, methodIndex, status);
-        switch (methodIndex) {
-            case XxbService.INSERTNOTE:
-                if (status == 1) {
-                    MyDialog dialog = new MyDialog(getActivity(), mHandler);
-                    dialog.buildDialog().setTitle("保存成功").setCancelText("留在当前页").setConfirm("查看日志").setMessage("是否跳转到日志页?");
-
-                }
-                break;
-        }
     }
 
     /**
@@ -189,117 +135,34 @@ public class VoiceFragment extends BaseFragment implements View.OnTouchListener 
 
 
     public void init() {
-
-        View view = getActivity().getLayoutInflater().inflate(R.layout.tips_view_layout, null);
-
-        mGuideViewUtil = new GuideViewDisplayUtil(getActivity(), view);
-        selectLanguageTv.setText(AppConfig.getStringConfig("language_select_name", "普通话"));
-
+        tipTv.setText("录入\"" + getArguments().getString("clientName") + " " + getArguments().getString("contactName") + "\"的跟进内容：");
         voiceBt.setOnTouchListener(this);
 
-        contentEt.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+    }
 
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                if (editable.toString().length() > 0) {
-
-                    changeStatus(inputToLogTv, R.drawable.voice_worklog, R.color.colorBlue);
-                    changeStatus(inputSearchClientTv, R.drawable.voice_find, R.color.colorBlue);
-                    changeStatus(inputConfirmTv, R.drawable.voice_customer, R.color.colorBlue);
-
-                } else {
-                    changeStatus(inputToLogTv, R.drawable.voice_worklog_grey, R.color.colorAssist);
-                    changeStatus(inputSearchClientTv, R.drawable.voice_find_grey, R.color.colorAssist);
-                    changeStatus(inputConfirmTv, R.drawable.voice_customer_grey, R.color.colorAssist);
-                }
-
-            }
+    private void invoke() {
+        visitRecordModel.setCsrId(getArguments().getString("clientId"));
+        visitRecordModel.setContent(contentEt.getText().toString());
+        commonPresenter.invokeInterfaceObtainData(XxbService.INSERTFOLLOWUP, visitRecordModel, new TypeToken<BaseDataModel>() {
         });
     }
 
-    public void changeStatus(TextView textView, int drawableIndex, int color) {
-        Drawable drawable = getActivity().getResources().getDrawable(drawableIndex);
-        drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
-        textView.setCompoundDrawables(null, drawable, null, null);
-        textView.setTextColor(ContextCompat.getColor(getActivity(), color));
-
-    }
-
-    @OnClick({R.id.input_search_client_tv, R.id.input_to_log_tv, R.id.input_confirm_tv, R.id.note_tv, R.id.input_cancel_tv, R.id.select_language_tv})
+    @OnClick({R.id.cancel_bt, R.id.confirm_bt})
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.note_tv:
-
-                startActivity(new Intent(getActivity(), VoiceNoteActivity.class));
+            case R.id.cancel_bt:
+                getActivity().finish();
                 break;
-            case R.id.input_cancel_tv:
-                contentEt.setText("");
+            case R.id.confirm_bt:
 
-                break;
-            case R.id.input_confirm_tv:
-
-                connectClient(PROGRESS_CLIENT_INDEX);
-
-                break;
-            case R.id.select_language_tv:
-                List<BaseDataModel> data = new ArrayList<>();
-                data.add(new BaseDataModel("mandarin", "普通话"));
-                data.add(new BaseDataModel("cantonese", "粤 语"));
-                data.add(new BaseDataModel("lmz", "四川话"));
-                data.add(new BaseDataModel("henanese", "河南话"));
-//                //普通话：mandarin(默认)
-//                //粤 语：cantonese
-//                //四川话：lmz
-//                //河南话：henanese
-                AppTools.selectDialog("请选语言", getActivity(), data, mHandler, SELECT_LANGUAGE_INDEX);
-
-                break;
-            case R.id.input_search_client_tv:
-
-                connectClient(SEARCH_CLIENT_INDEX);
-
-//                startActivity(new Intent(getActivity(), AddScheduleActivity.class).putExtra("content", contentEt.getText().toString()));
-
-                break;
-            case R.id.input_to_log_tv:
-
-                if (TextUtils.isEmpty(contentEt.getText().toString())) {
+                if (!TextUtils.isEmpty(contentEt.getText().toString())) {
+                    invoke();
+                } else {
                     AppTools.getToast("请输入内容");
-                    return;
                 }
-                invoke();
+
                 break;
         }
-    }
-
-
-    /**
-     * 查找、跟进客户
-     */
-    public void connectClient(int index) {
-        AppTools.hideKeyboard(contentEt);
-
-        if (!TextUtils.isEmpty(contentEt.getText().toString())) {
-
-            List<BaseDataModel> temp = VoiceAnalysisTools.getInstance().analysisData(contentEt);
-
-            if (temp.size() >= 1) {
-                AppTools.selectVoiceDialog("选择需要关联的客户：", getActivity(), temp, mHandler, index);
-            } else if (temp.size() == 0) {
-                AppTools.selectVoiceDialog("查找或新建需要关联的客户：", getActivity(), temp, mHandler, index);
-            }
-        } else {
-            AppTools.getToast("请输入内容");
-        }
-
     }
 
     public Handler mHandler = new Handler() {
@@ -335,41 +198,7 @@ public class VoiceFragment extends BaseFragment implements View.OnTouchListener 
                     if (timerTask != null) {
                         timerTask.cancel();
                     }
-                    voiceStatusTv.setText("长按语音输入");
 
-                    break;
-                case SEARCH_CLIENT_INDEX:
-                    BaseDataModel m = (BaseDataModel) msg.obj;
-//                    showPop(m);
-                    startActivity(new Intent(getActivity(), ClientPersonaActivity.class)
-                            .putExtra("customerId", m.getDictionaryId())
-                            .putExtra("customerName", m.getDictionaryName()));
-                    break;
-                case PROGRESS_CLIENT_INDEX:
-                    BaseDataModel proIndex = (BaseDataModel) msg.obj;
-                    startActivity(new Intent(getActivity(), ClientVisitActivity.class)
-                            .putExtra("customerId", proIndex.getDictionaryId())
-                            .putExtra("customerName", proIndex.getDictionaryName())
-                            .putExtra("content", contentEt.getText().toString()));
-
-                    break;
-                case SELECT_LANGUAGE_INDEX:
-                    BaseDataModel mm = (BaseDataModel) msg.obj;
-                    selectLanguageTv.setText(mm.getDictionaryName());
-                    AppConfig.setStringConfig("language_select_name", mm.getDictionaryName());
-                    AppConfig.setStringConfig("language_select_id", mm.getDictionaryId());
-                    setParam();
-                    AppTools.getToast(mm.getDictionaryName());
-                    break;
-                case Constant.SEARCH_CLIENT_INDEX:
-
-                    break;
-                case Constant.ADD_CLIENT_INDEX:
-                    startActivityForResult(new Intent(getActivity(), ClientRegisterActivity.class), ADD_CLIENT_INDEX);
-                    break;
-                case Constant.CONFIRMDIALOG:
-
-                    startActivity(new Intent(getActivity(), VoiceNoteActivity.class));
                     break;
             }
 
@@ -404,27 +233,8 @@ public class VoiceFragment extends BaseFragment implements View.OnTouchListener 
         mIat.setParameter(SpeechConstant.ENGINE_TYPE, SpeechConstant.TYPE_CLOUD);
         // 设置返回结果格式
         mIat.setParameter(SpeechConstant.RESULT_TYPE, "json");
-//        String lag = mSharedPreferences.getString("iat_language_preference",
-//                "mandarin");
-        String language = AppConfig.getStringConfig("language_select_id", "mandarin");
-//        if (language.equals("en_us")) {
-//            // 设置语言 // 简体中文:"zh_cn", 美式英文:"en_us"
-//            mIat.setParameter(SpeechConstant.LANGUAGE, "en_us");
-//        } else {
-        // 设置语言
         mIat.setParameter(SpeechConstant.LANGUAGE, "zh_cn");
-        // 设置语言区域
-        //普通话：mandarin(默认)
-        //粤 语：cantonese
-        //四川话：lmz
-        //河南话：henanese
-        mIat.setParameter(SpeechConstant.ACCENT, language);
-        //目前提供三个垂直领域的听写模型：商旅、视频和音乐
-        //商旅:travel
-        //视频:video
-        //音乐:entrancemusic
-//            mIat.setParameter(SpeechConstant.DOMAIN, "travel");
-//        }
+        mIat.setParameter(SpeechConstant.ACCENT, "mandarin");
 
         // 设置语音前端点:静音超时时间，即用户多长时间不说话则当做超时处理0~10000
         mIat.setParameter(SpeechConstant.VAD_BOS, mSharedPreferences.getString("iat_vadbos_preference", "10000"));
@@ -474,7 +284,6 @@ public class VoiceFragment extends BaseFragment implements View.OnTouchListener 
                     }
                 };
                 timer.schedule(timerTask, 0, 1000);
-                voiceStatusTv.setText("聆听中……");
 
                 break;
             case MotionEvent.ACTION_MOVE:
@@ -547,26 +356,16 @@ public class VoiceFragment extends BaseFragment implements View.OnTouchListener 
 
     @Override
     public void onDestroyView() {
-        if (mediaPlayer.isPlaying()) {
+        if (mediaPlayer != null && mediaPlayer.isPlaying()) {
             mediaPlayer.stop();
         }
-        mediaPlayer.release();//释放资源
+        if (mediaPlayer != null) {
+            mediaPlayer.release();//释放资源
+        }
         super.onDestroyView();
         ButterKnife.unbind(this);
 
 
     }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (data != null) {
-            switch (requestCode) {
-                case Constant.ADD_CLIENT_INDEX:
-//                    AddClientTransModel transModel = (AddClientTransModel) data.getSerializableExtra("model");
-//                    showPop(new BaseDataModel(transModel.getCsrId(), transModel.getCustomerName()));//TODO 新增接口需返回客户ID
-                    break;
-            }
-        }
-    }
 }
+
