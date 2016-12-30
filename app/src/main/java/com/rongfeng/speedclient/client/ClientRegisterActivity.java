@@ -246,7 +246,7 @@ public class ClientRegisterActivity extends BaseActivity {
             case XxbService.INSERTCSR:
 
                 if (status == 1) {
-                    AppTools.getToast("新增成功");
+                    AppTools.getToast("新建成功");
                     List<SyncClientInfoModel> list = new ArrayList<>();
                     SyncClientInfoModel m = (SyncClientInfoModel) data;
                     list.add(m);

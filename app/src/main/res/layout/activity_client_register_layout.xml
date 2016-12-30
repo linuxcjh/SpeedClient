@@ -24,7 +24,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="新增客户" />
+            android:text="新建客户" />
 
         <com.rongfeng.speedclient.common.utils.SingleClickBt
             android:id="@+id/commit_tv"

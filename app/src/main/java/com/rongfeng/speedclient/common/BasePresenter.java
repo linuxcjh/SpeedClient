@@ -3,6 +3,7 @@ package com.rongfeng.speedclient.common;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Handler;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.google.gson.FieldNamingPolicy;
@@ -119,6 +120,7 @@ public abstract class BasePresenter {
                     dialogDismiss();
                     BasePresenter.this.onFailure(methodName);
                     isShowFlag = true;
+                    Log.d("Retrofit",methodName);
                     Toast.makeText(AppConfig.getContext(), "数据加载异常！", Toast.LENGTH_SHORT).show();
                 }
             });

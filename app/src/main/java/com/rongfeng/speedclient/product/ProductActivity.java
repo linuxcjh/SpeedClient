@@ -262,7 +262,7 @@ public class ProductActivity extends BaseActivity {
             case XxbService.INSERTPRODUCT:
 
                 if (status == 1) {
-                    AppTools.getToast("新增成功");
+                    AppTools.getToast("新建成功");
                     invoke();
                 }
 

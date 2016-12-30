@@ -16,7 +16,6 @@ import com.rongfeng.speedclient.R;
 import com.rongfeng.speedclient.common.BaseActivity;
 import com.rongfeng.speedclient.common.CommonPaginationPresenter;
 import com.rongfeng.speedclient.common.ICommonPaginationAction;
-import com.rongfeng.speedclient.common.utils.AppTools;
 import com.rongfeng.speedclient.common.utils.Utils;
 import com.rongfeng.speedclient.components.SearchPopupWindow;
 import com.rongfeng.speedclient.entity.BaseDataModel;
@@ -122,14 +121,14 @@ public class VoiceNoteActivity extends BaseActivity implements ICommonPagination
     @Override
     public void onItemClick(int position, Object object) {
 
-        receivedModel = (VoiceNoteModel) object;
-        List<BaseDataModel> temp = VoiceAnalysisTools.getInstance().analysisData(null, receivedModel.getNoteContent());
-
-        if (temp.size() >= 1) {
-            AppTools.selectVoiceDialog("选择需要关联的客户：", this, temp, mHandler, 2);
-        } else if (temp.size() == 0) {
-            AppTools.selectVoiceDialog("查找或新建需要关联的客户：", this, temp, mHandler, 2);
-        }
+//        receivedModel = (VoiceNoteModel) object;
+//        List<BaseDataModel> temp = VoiceAnalysisTools.getInstance().analysisData(null, receivedModel.getNoteContent());
+//
+//        if (temp.size() >= 1) {
+//            AppTools.selectVoiceDialog("选择需要关联的客户：", this, temp, mHandler, 2);
+//        } else if (temp.size() == 0) {
+//            AppTools.selectVoiceDialog("查找或新建需要关联的客户：", this, temp, mHandler, 2);
+//        }
     }
 
     @Override

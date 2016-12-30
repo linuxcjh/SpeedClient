@@ -208,7 +208,7 @@ public class ClientAddContactUpLoadActivity extends BaseActivity implements IUpL
                         m.setUpdateTime(clientModel.getClient_update_time());
 
                         list.add(m);
-                        VoiceAnalysisTools.getInstance().analysisData(list);//新增联系人插入数据库
+                        VoiceAnalysisTools.getInstance().analysisData(list);// 新增联系人插入数据库
                     }
 
                     sendBroadcast(new Intent(Constant.CLIENT_REFRESH_PERSONA)); //刷新客户画像

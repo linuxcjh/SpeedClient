@@ -71,12 +71,13 @@ public class ClientFragment extends BaseFragment implements AdapterView.OnItemCl
     LinearLayout debtClientLayout;
     @Bind(R.id.old_client_layout)
     LinearLayout oldClientLayout;
+    @Bind(R.id.title_tv)
+    TextView titleTv;
 
     private ClientAnalysisAdapter adapter;
     private List<BaseDataModel> models = new ArrayList<>();
     private AnalysisClientModel model = new AnalysisClientModel();
     private List<Double> radarData = new ArrayList<>();
-
 
 
     @Nullable
@@ -91,6 +92,7 @@ public class ClientFragment extends BaseFragment implements AdapterView.OnItemCl
 
 
     private void init() {
+
 
         transDataModel.setRadarType("0");
         models.add(new BaseDataModel("新客户", "0 个"));
@@ -153,9 +155,10 @@ public class ClientFragment extends BaseFragment implements AdapterView.OnItemCl
                     models.get(1).setDictionaryName(model.getStatisticBargainClient() + " 个");
                     models.get(2).setDictionaryName(model.getStatisticBusinessClient() + " 个");
                     models.get(3).setDictionaryName(model.getStatisticDebtClient() + " 个");
-                    models.get(4).setDictionaryName(model.getStatisticTotalClient() + " 个");
-                    models.get(5).setDictionaryName(model.getStatisticFocusClient() + " 个");
+                    models.get(4).setDictionaryName(model.getStatisticFocusClient() + " 个");
+                    models.get(5).setDictionaryName(model.getNotFollowCount() + " 个");
 
+                    titleTv.setText("客户(共" + model.getStatisticTotalClient() + "个)");
                     adapter.setData(models);
                 }
 
@@ -305,7 +308,7 @@ public class ClientFragment extends BaseFragment implements AdapterView.OnItemCl
                 startActivity(new Intent(getActivity(), ClientListActivity.class).putExtra("clientType", "6").putExtra("title", "重点关注客户"));
                 break;
             case 5:
-                startActivity(new Intent(getActivity(), ClientListActivity.class).putExtra("clientType", "6").putExtra("title", "0次跟进客户"));//TODO
+                startActivity(new Intent(getActivity(), ClientListActivity.class).putExtra("clientType", "17").putExtra("title", "0次跟进客户"));//TODO
                 break;
 
         }

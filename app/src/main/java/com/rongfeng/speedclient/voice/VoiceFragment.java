@@ -295,7 +295,7 @@ public class VoiceFragment extends BaseFragment implements View.OnTouchListener 
 
         if (!TextUtils.isEmpty(contentEt.getText().toString())) {
 
-            List<BaseDataModel> temp = VoiceAnalysisTools.getInstance().analysisData(contentEt, contentEt.getText().toString());
+            List<BaseDataModel> temp = VoiceAnalysisTools.getInstance().analysisData(contentEt);
 
             if (temp.size() >= 1) {
                 AppTools.selectVoiceDialog("选择需要关联的客户：", getActivity(), temp, mHandler, index);

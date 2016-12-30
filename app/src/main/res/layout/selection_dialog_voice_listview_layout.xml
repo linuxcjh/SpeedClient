@@ -63,7 +63,7 @@
             android:drawableLeft="@drawable/voice_sel_cust_add"
             android:drawablePadding="10dp"
             android:gravity="center_vertical"
-            android:text="新增客户"
+            android:text="新建客户"
             android:textColor="@color/colorVoiceInput"
             android:textSize="14sp" />
     </RelativeLayout>

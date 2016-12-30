@@ -13,12 +13,24 @@ public class AnalysisClientModel {
     private String statisticBargainClient;//老客户
     private String statisticBusinessClient;//商机客户
     private String statisticTotalClient;//客户总数
+    private String notFollowCount;//0次客户总数
+
+
 
     private String analysisNewClient;//新客户
     private String analysisFocusClient;//关注客户
     private String analysisDebtClient;//欠款客户
     private String analysisBargainClient;//老客户
     private String analysisBusinessClient;//商机客户
+
+
+    public String getNotFollowCount() {
+        return notFollowCount;
+    }
+
+    public void setNotFollowCount(String notFollowCount) {
+        this.notFollowCount = notFollowCount;
+    }
 
     public String getStatisticNewClient() {
         return statisticNewClient;

@@ -434,7 +434,7 @@
             android:drawablePadding="10dp"
             android:drawableRight="@drawable/cust_plus_opportunity"
             android:gravity="center_vertical"
-            android:text="新增商机"
+            android:text="新建商机"
             android:textColor="@color/colorClientRadar"
             android:textSize="14sp" />
 

@@ -36,10 +36,14 @@ import org.json.JSONObject;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.IdentityHashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 /**
@@ -431,18 +435,49 @@ public class VoiceAnalysisTools {
 
 
     /**
+     * 错误纠正
+     *
+     * @param editText
+     * @param resultStr
+     * @param name
+     * @param namePY
+     */
+    private void errorCorrection(EditText editText, String resultStr, String name, String namePY) {
+
+        if (!isChineseChar(name)) {
+            return;
+        }
+        int pos = 0;
+        StringBuilder builder = new StringBuilder();
+        for (int j = 0; j < resultStr.length(); j++) {
+            builder.append(AppTools.convertPinYin(resultStr.substring(j, j + 1)));
+            if (builder.toString().indexOf(namePY) != -1) {
+                pos = j;
+                break;
+            }
+        }
+
+        if (pos - name.length() + 1 >= 0 && pos + 1 <= resultStr.length()) {
+            String str = resultStr.substring(pos - name.length() + 1, pos + 1);
+            String result = resultStr.replace(str, name);
+            editText.setText(result);
+        }
+
+    }
+
+    /**
      * 解析数据
      */
-    public List<BaseDataModel> analysisData(@Nullable EditText editText, String resultStr) {
+    public List<BaseDataModel> analysisData(@Nullable EditText editText) {
 
 
-        if (TextUtils.isEmpty(resultStr)) {
+        if (TextUtils.isEmpty(editText.getText().toString())) {
             return null;
         }
 
         List<String> resultStrs = new ArrayList<>();
 
-        String pinYinStr = AppTools.convertPinYin(resultStr);
+        String pinYinStr = AppTools.convertPinYin(editText.getText().toString());
 
         List<ClientModel> clientModels = VoiceAnalysisTools.getInstance().queryClientDataToDB();
 
@@ -459,10 +494,17 @@ public class VoiceAnalysisTools {
                 }.getType());
                 ArrayList<CsrContactJSONArray> contactModels = BasePresenter.gson.fromJson(resultModel.getContact_name(), new TypeToken<List<CsrContactJSONArray>>() {
                 }.getType());
-                if (resultStr.indexOf(name) != -1 || pinYinStr.indexOf(namePY) != -1) {//客户全名匹配
-                    clientData.add(resultModel.getClient_id() + "," + name + "," + name);
-                    resultStrs.add(name);
+                if (editText.getText().toString().indexOf(name) != -1 || pinYinStr.indexOf(namePY) != -1) {//客户全名匹配
+                    if (isChineseChar(name)) {//是否是汉字
+                        clientData.add(resultModel.getClient_id() + "," + name + "," + name);
+                        resultStrs.add(name);
+                    }
+
+                    if (editText.getText().toString().indexOf(name) == -1 && pinYinStr.indexOf(namePY) != -1) {//汉字不匹配拼音匹配
+                        errorCorrection(editText, editText.getText().toString(), name, namePY);
+                    }
                 }
+
 
                 if (splitWordModels != null && splitWordModels.size() > 0) {//客户名称分词匹配
 
@@ -471,7 +513,7 @@ public class VoiceAnalysisTools {
                         if (j == 0 && !TextUtils.isEmpty(splitWordModels.get(j).getCont()) && dupArea(splitWordModels.get(j).getCont())) {
 
                         } else {
-                            if (!word.contains(splitWordModels.get(j).getCont()) && resultStr.indexOf(splitWordModels.get(j).getCont()) != -1) {
+                            if (!word.contains(splitWordModels.get(j).getCont()) && editText.getText().toString().indexOf(splitWordModels.get(j).getCont()) != -1) {
                                 clientData.add(resultModel.getClient_id() + "," + name + "," + splitWordModels.get(j).getCont());
                                 resultStrs.add(splitWordModels.get(j).getCont());
                             }
@@ -481,10 +523,18 @@ public class VoiceAnalysisTools {
                 }
 
                 if (contactModels != null && contactModels.size() > 0) {//联系人匹配
+                    String contactNamePY;
                     for (int k = 0; k < contactModels.size(); k++) {
-                        if (resultStr.indexOf(contactModels.get(k).getName()) != -1 || pinYinStr.indexOf(AppTools.convertPinYin(contactModels.get(k).getName())) != -1) {
-                            clientData.add(resultModel.getClient_id() + "," + name + " " + contactModels.get(k).getName() + "," + contactModels.get(k).getName());
-                            resultStrs.add(contactModels.get(k).getName());
+                        contactNamePY = AppTools.convertPinYin(contactModels.get(k).getName());
+                        if (editText.getText().toString().indexOf(contactModels.get(k).getName()) != -1 || pinYinStr.indexOf(contactNamePY) != -1) {
+                            if (isChineseChar(contactModels.get(k).getName())) {////是否是汉字
+                                clientData.add(resultModel.getClient_id() + "," + name + " " + contactModels.get(k).getName() + "," + contactModels.get(k).getName());
+                                resultStrs.add(contactModels.get(k).getName());
+                            }
+                            if (editText.getText().toString().indexOf(contactModels.get(k).getName()) == -1 && pinYinStr.indexOf(contactNamePY) != -1) {//汉字不匹配拼音匹配
+
+                                errorCorrection(editText, editText.getText().toString(), contactModels.get(k).getName(), contactNamePY);
+                            }
                         }
                     }
                 }
@@ -566,6 +616,7 @@ public class VoiceAnalysisTools {
             result.add(baseModel);
         }
         List<Integer> index = new ArrayList<>();
+
         for (int i = 0; i < result.size(); i++) {//记录重复位置
             baseModel = result.get(i);
             for (int j = i + 1; j < result.size(); j++) {
@@ -575,13 +626,53 @@ public class VoiceAnalysisTools {
             }
         }
 
-        index = new ArrayList<>(new HashSet<>(index));//去掉重复
-        for (int i = 0; i < index.size(); i++) {
-            int pos = index.get(i);
-            result.remove(pos);
+        HashMap<Integer, BaseDataModel> map = new HashMap<>();
+
+        for (int i = 0; i < result.size(); i++) {
+            map.put(i, result.get(i));
         }
 
-        return result;
+
+        index = new ArrayList<>(new HashSet<>(index));//去掉重复
+
+        for (int i = 0; i < index.size(); i++) {
+            int pos = index.get(i);
+//            result.remove(pos);
+            map.remove(pos);
+        }
+
+        List<BaseDataModel> outData = new ArrayList<>();
+        Iterator<Map.Entry<Integer, BaseDataModel>> entries = map.entrySet().iterator();
+        while (entries.hasNext()) {
+            Map.Entry<Integer, BaseDataModel> entry = entries.next();
+            outData.add(entry.getValue());
+        }
+
+//
+//        for (int i = 0; i < result.size(); i++) {
+//            if (!result.get(i).isSelect()) {
+//                outData.add(result.get(i));
+//            }
+//        }
+
+
+        return outData;
+    }
+
+    /**
+     * 判断是不是汉字
+     *
+     * @param str
+     * @return
+     */
+    public static boolean isChineseChar(String str) {
+        boolean temp = false;
+        Pattern p = Pattern.compile("[\u4e00-\u9fa5]");
+        Matcher m = p.matcher(str);
+        if (m.find()) {
+            temp = true;
+        }
+        return temp;
     }
 
 

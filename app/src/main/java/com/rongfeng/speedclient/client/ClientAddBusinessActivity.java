@@ -24,7 +24,6 @@ import com.rongfeng.speedclient.API.XxbService;
 import com.rongfeng.speedclient.R;
 import com.rongfeng.speedclient.client.entry.AddBusinessTransModel;
 import com.rongfeng.speedclient.common.BaseActivity;
-import com.rongfeng.speedclient.common.BasePresenter;
 import com.rongfeng.speedclient.common.Constant;
 import com.rongfeng.speedclient.common.utils.AppTools;
 import com.rongfeng.speedclient.common.utils.SingleClickBt;
@@ -87,6 +86,14 @@ public class ClientAddBusinessActivity extends BaseActivity {
     TextView stageFourTv;
     @Bind(R.id.add_contract_bt)
     Button addContractBt;
+    @Bind(R.id.stage_one_tv_layout)
+    RelativeLayout stageOneTvLayout;
+    @Bind(R.id.stage_two_tv_layout)
+    RelativeLayout stageTwoTvLayout;
+    @Bind(R.id.stage_three_tv_layout)
+    RelativeLayout stageThreeTvLayout;
+    @Bind(R.id.stage_four_tv_layout)
+    RelativeLayout stageFourTvLayout;
     private List<BaseDataModel> dataLabel = new ArrayList<>();
 
     private List<BaseDataModel> stageModels = new ArrayList<>();
@@ -178,7 +185,7 @@ public class ClientAddBusinessActivity extends BaseActivity {
         }
     };
 
-    @OnClick({R.id.cancel_tv, R.id.commit_tv, R.id.res_bargain_time_tv, R.id.product_layout, R.id.stage_one_image, R.id.stage_two_image, R.id.stage_three_image, R.id.stage_four_image, R.id.stage_one_tv, R.id.stage_two_tv, R.id.add_contract_bt, R.id.stage_three_tv, R.id.stage_four_tv})
+    @OnClick({R.id.cancel_tv, R.id.commit_tv, R.id.res_bargain_time_tv, R.id.product_layout, R.id.add_contract_bt, R.id.stage_one_tv_layout, R.id.stage_two_tv_layout, R.id.stage_three_tv_layout, R.id.stage_four_tv_layout})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.cancel_tv:
@@ -199,26 +206,22 @@ public class ClientAddBusinessActivity extends BaseActivity {
 //                invoke("6");
                 startActivityForResult(new Intent(this, ProductActivity.class), 0x11);
                 break;
-            case R.id.stage_one_image:
-            case R.id.stage_one_tv:
+            case R.id.stage_one_tv_layout:
                 setFocusStatus(stageOneTv, stageOneImage);
                 transModel.setBusinessStage(stageModels.get(0).getDictionaryId());
 
                 break;
-            case R.id.stage_two_image:
-            case R.id.stage_two_tv:
+            case R.id.stage_two_tv_layout:
                 setFocusStatus(stageTwoTv, stageTwoImage);
                 transModel.setBusinessStage(stageModels.get(1).getDictionaryId());
 
                 break;
-            case R.id.stage_three_image:
-            case R.id.stage_three_tv:
+            case R.id.stage_three_tv_layout:
                 setFocusStatus(stageThreeTv, stageThreeImage);
                 transModel.setBusinessStage(stageModels.get(2).getDictionaryId());
 
                 break;
-            case R.id.stage_four_image:
-            case R.id.stage_four_tv:
+            case R.id.stage_four_tv_layout:
 
                 setFocusStatus(stageFourTv, stageFourImage);
                 transModel.setBusinessStage(stageModels.get(3).getDictionaryId());
