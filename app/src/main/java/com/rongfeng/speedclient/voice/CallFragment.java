@@ -165,6 +165,15 @@ public class CallFragment extends BaseFragment implements View.OnTouchListener {
         }
     }
 
+    @Override
+    public void obtainData(Object data, String methodIndex, int status) {
+        super.obtainData(data, methodIndex, status);
+        if (status == 1) {
+            AppTools.getToast("成功跟进");
+            getActivity().finish();
+        }
+    }
+
     public Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {

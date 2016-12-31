@@ -1,6 +1,7 @@
 package com.rongfeng.speedclient.home;
 
 import android.app.Notification;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.PixelFormat;
 import android.net.Uri;
@@ -108,6 +109,7 @@ public class MainTableActivity extends BaseActivity {
         getWindow().setFormat(PixelFormat.TRANSLUCENT);
         setContentView(R.layout.activity_main_tab_layout);
         ButterKnife.bind(this);
+        startService(new Intent(this, UpdateClientInfoService.class));//启动数据服务
         AppTools.clearPictureCache();
         initPush();
         init();

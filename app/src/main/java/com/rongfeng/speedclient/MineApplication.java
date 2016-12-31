@@ -20,7 +20,6 @@ public class MineApplication extends Application {
     public void onCreate() {
         super.onCreate();
         AppConfig.setContext(this);
-        startService(new Intent(this, UpdateClientInfoService.class));//启动数据服务
         Stetho.initializeWithDefaults(this);
         SpeechUtility.createUtility(this, SpeechConstant.APPID + "=5814610b");
     }

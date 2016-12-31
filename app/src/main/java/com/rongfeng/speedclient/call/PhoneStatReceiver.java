@@ -70,9 +70,9 @@ public class PhoneStatReceiver extends BroadcastReceiver {
 //                        judgeIsExist(AppConfig.getStringConfig(NUMBER, ""));
 //                    }
 
-//                    judgeIsExist(AppConfig.getStringConfig(NUMBER, ""));
+                    judgeIsExist(AppConfig.getStringConfig(NUMBER, ""));
 
-                    setAlarActivity();
+//                    setAlarActivity();
 
                     break;
             }
@@ -88,6 +88,7 @@ public class PhoneStatReceiver extends BroadcastReceiver {
         if (TextUtils.isEmpty(phoneNum)) {
             return;
         }
+        AppConfig.setStringConfig(NUMBER, "");
 
         List<ClientModel> clientModels = VoiceAnalysisTools.getInstance().queryClientDataToDB();
         for (int i = 0; i < clientModels.size(); i++) {
