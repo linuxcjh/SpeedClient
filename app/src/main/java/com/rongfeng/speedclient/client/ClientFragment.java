@@ -23,6 +23,7 @@ import com.rongfeng.speedclient.client.entry.AnalysisClientModel;
 import com.rongfeng.speedclient.common.BaseFragment;
 import com.rongfeng.speedclient.components.MyGridView;
 import com.rongfeng.speedclient.components.RadarChartView;
+import com.rongfeng.speedclient.contactindex.ContactsBatchActivity;
 import com.rongfeng.speedclient.entity.BaseDataModel;
 
 import java.util.ArrayList;
@@ -73,6 +74,8 @@ public class ClientFragment extends BaseFragment implements AdapterView.OnItemCl
     LinearLayout oldClientLayout;
     @Bind(R.id.title_tv)
     TextView titleTv;
+    @Bind(R.id.entry_tv)
+    TextView entryTv;
 
     private ClientAnalysisAdapter adapter;
     private List<BaseDataModel> models = new ArrayList<>();
@@ -92,7 +95,6 @@ public class ClientFragment extends BaseFragment implements AdapterView.OnItemCl
 
 
     private void init() {
-
 
         transDataModel.setRadarType("0");
         models.add(new BaseDataModel("新客户", "0 个"));
@@ -232,7 +234,7 @@ public class ClientFragment extends BaseFragment implements AdapterView.OnItemCl
     }
 
 
-    @OnClick({R.id.add_client_tv, R.id.old_client_tv, R.id.bus_client_layout, R.id.focus_client_layout, R.id.new_client_layout, R.id.debt_client_layout, R.id.old_client_layout})
+    @OnClick({R.id.entry_tv, R.id.add_client_tv, R.id.old_client_tv, R.id.bus_client_layout, R.id.focus_client_layout, R.id.new_client_layout, R.id.debt_client_layout, R.id.old_client_layout, R.id.title_tv})
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.add_client_tv:
@@ -276,6 +278,13 @@ public class ClientFragment extends BaseFragment implements AdapterView.OnItemCl
                 } else {
                     initStartActivity("14", "未来7日待跟进老客户");
                 }
+                break;
+            case R.id.title_tv:
+                startActivity(new Intent(getActivity(), ClientListActivity.class).putExtra("clientType", "5").putExtra("title", titleTv.getText().toString()));
+
+                break;
+            case R.id.entry_tv:
+                startActivityForResult(new Intent(getActivity(), ContactsBatchActivity.class), 0x11);
                 break;
         }
     }

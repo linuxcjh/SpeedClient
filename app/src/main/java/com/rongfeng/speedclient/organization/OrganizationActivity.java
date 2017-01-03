@@ -65,7 +65,7 @@ public class OrganizationActivity extends BaseActivity implements BackHandledInt
 
     private RefreshBroadCastReceiver refreshBroadCastReceiver;
 
-//    String SMSContent = "您的好友陈建化邀请您加入【语音速客】\n用户名：2342342343  密码：123456 。\n快去体验吧，手机App下载地址：http://www.3swin.com/download";
+//    String SMSContent = "您的好友陈建化邀请您加入【语音快脑】\n用户名：2342342343  密码：123456 。\n快去体验吧，手机App下载地址：http://www.3swin.com/download";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -159,7 +159,7 @@ public class OrganizationActivity extends BaseActivity implements BackHandledInt
                     break;
 
                 case Constant.CONFIRMDIALOG:
-                    sendSMS(selectPersonInfo.getPhone(), AppTools.getUser().getUserName() + "邀请您加入【速客】" +
+                    sendSMS(selectPersonInfo.getPhone(), AppTools.getUser().getUserName() + "邀请您加入【快脑】" +
                             "用户名:" + selectPersonInfo.getPhone() + " 密码:123456" +
                             "，App下载：http://t.cn/Rf8OoAJ"+"，欢迎体验。");//发送短信
                     invoke(selectPersonInfo);

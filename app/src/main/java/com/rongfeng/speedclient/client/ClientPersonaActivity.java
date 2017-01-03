@@ -118,7 +118,7 @@ public class ClientPersonaActivity extends BaseActivity {
     @Bind(R.id.client_name_tv)
     TextView clientNameTv;
     @Bind(R.id.focus_bt)
-    ImageView focusBt;
+    TextView focusBt;
     @Bind(R.id.shortcut_connect_tv)
     TextView shortcutConnectTv;
 
@@ -205,9 +205,9 @@ public class ClientPersonaActivity extends BaseActivity {
                     debtLayoutValueTv.setText("￥ " + AppTools.getNumKbDot(recievedClientTransModel.getArrearsMoney()));
 
                     if (recievedClientTransModel != null && recievedClientTransModel.getAttention().equals("1")) {
-                        focusBt.setImageResource(R.drawable.cust_focused);
+                        focusBt.setText("已重点关注");
                     } else {
-                        focusBt.setImageResource(R.drawable.cust_focus);
+                        focusBt.setText("+ 重点关注");
                     }
                     focusBt.setVisibility(View.VISIBLE);
 
@@ -218,13 +218,13 @@ public class ClientPersonaActivity extends BaseActivity {
                     if (recievedClientTransModel != null && recievedClientTransModel.getAttention().equals("1")) {
                         recievedClientTransModel.setAttention("0");
 //                        focusBt.setText("未关注");
-                        focusBt.setImageResource(R.drawable.cust_focus);
+                        focusBt.setText("+ 重点关注");
                         AppTools.getToast("已取消关注");
                     } else {
                         recievedClientTransModel.setAttention("1");
 //                        focusBt.setText("已关注");
                         AppTools.getToast("已关注");
-                        focusBt.setImageResource(R.drawable.cust_focused);
+                        focusBt.setText("已重点关注");
 
                     }
 

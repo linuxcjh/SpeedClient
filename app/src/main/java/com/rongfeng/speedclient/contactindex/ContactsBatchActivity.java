@@ -1,13 +1,9 @@
 package com.rongfeng.speedclient.contactindex;
 
 import android.content.ContentResolver;
-import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.provider.ContactsContract.CommonDataKinds.Phone;
-import android.telephony.SmsManager;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -27,11 +23,11 @@ import android.widget.Toast;
 import com.google.gson.reflect.TypeToken;
 import com.rongfeng.speedclient.API.XxbService;
 import com.rongfeng.speedclient.R;
+import com.rongfeng.speedclient.client.entry.AddClientTransModel;
 import com.rongfeng.speedclient.common.BaseActivity;
-import com.rongfeng.speedclient.common.BasePresenter;
-import com.rongfeng.speedclient.common.Constant;
-import com.rongfeng.speedclient.common.utils.AppTools;
-import com.rongfeng.speedclient.organization.model.TransOrganizationModel;
+import com.rongfeng.speedclient.common.utils.AppConfig;
+import com.rongfeng.speedclient.common.utils.SingleClickBt;
+import com.rongfeng.speedclient.voice.model.SyncClientInfoModel;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -42,8 +38,13 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static com.rongfeng.speedclient.R.id.commit_tv;
 
-public class ContactsActivity extends BaseActivity {
+
+/**
+ * 批量导入
+ */
+public class ContactsBatchActivity extends BaseActivity {
 
     @Bind(R.id.cancel_tv)
     ImageView cancelTv;
@@ -61,12 +62,14 @@ public class ContactsActivity extends BaseActivity {
     TextView dialog;
     @Bind(R.id.sidrbar)
     SideBar sideBar;
+    @Bind(R.id.title_tv)
+    TextView titleTv;
+    @Bind(commit_tv)
+    SingleClickBt commitTv;
 
+    private List<SortModel> mAllContactsList = new ArrayList<>();
 
-    private List<SortModel> mAllContactsList;
-    private List<SortModel> invitedList = new ArrayList<>();//已邀请
-
-    private ContactsSortAdapter adapter;
+    private BatchSortAdapter adapter;
     /**
      * 汉字转换成拼音的类
      */
@@ -77,23 +80,25 @@ public class ContactsActivity extends BaseActivity {
      */
     private PinyinComparator pinyinComparator;
 
+    private Toast toast;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.layout_contacts);
+        setContentView(R.layout.layout_batch_contacts);
         ButterKnife.bind(this);
         init();
     }
 
     private void init() {
         initView();
-        initListener();
         loadContacts();
+        initListener();
     }
 
     private void initListener() {
-
+        toast = Toast.makeText(AppConfig.getContext(), "", Toast.LENGTH_SHORT);
         /**清除输入字符**/
         ivClearText.setOnClickListener(new OnClickListener() {
 
@@ -126,7 +131,6 @@ public class ContactsActivity extends BaseActivity {
                 if (content.length() > 0) {
                     ArrayList<SortModel> fileterList = (ArrayList<SortModel>) search(content);
                     adapter.updateListView(fileterList);
-                    //mAdapter.updateData(mContacts);
                 } else {
                     adapter.updateListView(mAllContactsList);
                 }
@@ -152,13 +156,15 @@ public class ContactsActivity extends BaseActivity {
 
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long arg3) {
-                ContactsSortAdapter.ViewHolder viewHolder = (ContactsSortAdapter.ViewHolder) view.getTag();
+                BatchSortAdapter.ViewHolder viewHolder = (BatchSortAdapter.ViewHolder) view.getTag();
                 viewHolder.cbChecked.performClick();
                 adapter.toggleChecked(position);
+                commitTv.setText("完成(" + adapter.getSelectedList().size() + ")");
             }
         });
 
     }
+
 
     private void initView() {
 
@@ -166,66 +172,50 @@ public class ContactsActivity extends BaseActivity {
 
         /** 给ListView设置adapter **/
         characterParser = CharacterParser.getInstance();
-        mAllContactsList = new ArrayList<SortModel>();
         pinyinComparator = new PinyinComparator();
-        Collections.sort(mAllContactsList, pinyinComparator);// 根据a-z进行排序源数据
-        adapter = new ContactsSortAdapter(this, mAllContactsList, mHandler);
+        adapter = new BatchSortAdapter(this);
         mListView.setAdapter(adapter);
     }
 
 
-    private SortModel selectModel;
-    Handler mHandler = new Handler() {
-
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
-
-                case Constant.CONFIRMDIALOG:
-                    selectModel = (SortModel) msg.obj;
-                    sendSMS(selectModel.number, AppTools.getUser().getUserName() + "邀请您体验【快脑】" +
-                            "邀请码:" + selectModel.number +
-                            "，App下载：http://t.cn/Rf8OoAJ" + "，欢迎体验。");//发送短信
-                    invoke(selectModel);
-                    break;
-            }
-        }
-
-    };
-
-    public void sendSMS(String phoneNumber, String message) {
-        //获取短信管理器
-        SmsManager smsManager = SmsManager.getDefault();
-        //拆分短信内容（手机短信长度限制）
-        List<String> divideContents = smsManager.divideMessage(message);
-        for (String text : divideContents) {
-            smsManager.sendTextMessage(phoneNumber, null, text, null, null);
-        }
-
-    }
-
     /**
-     * 邀请
+     * 添加客户
      *
      * @param selectModel
      */
     private void invoke(SortModel selectModel) {
-        TransOrganizationModel transModel = new TransOrganizationModel();
-        transModel.setPhone(selectModel.number);
-        transModel.setName(selectModel.name);
-        commonPresenter.invokeInterfaceObtainData(XxbService.INSERTINVITER, transModel, new TypeToken<TransOrganizationModel>() {
-        });
+        AddClientTransModel transModel = new AddClientTransModel();
+        transModel.setCustomerType("2");//客户类型【1企业客户；2个人客户】
+        transModel.setCustomerName(selectModel.name);
+        transModel.setCustomerTel(selectModel.number);
+        commonPresenter.invokeInterfaceObtainData(XxbService.INSERTCSR, transModel,
+                new TypeToken<SyncClientInfoModel>() {
+                });
+
     }
+
+    int i = 0;
 
     @Override
     public void obtainData(Object data, String methodIndex, int status) {
         super.obtainData(data, methodIndex, status);
-        if (status == 1) {
-            selectModel.isForbidden = "2";//未激活
-            invitedList.add(selectModel);
-            mAllContactsList.get(selectModel.position).isExist = true;
-            adapter.updateListView(mAllContactsList);
-            AppTools.getToast("已成功邀请");
+        switch (methodIndex) {
+            case XxbService.INSERTCSR:
+
+                if (status == 1) {
+                    i++;
+                    toast.setText("导入成功");
+                    toast.show();
+                    if (i == adapter.getSelectedList().size()) {
+                        finish();
+                    }
+                }
+
+                break;
+
+
         }
+
     }
 
     /**
@@ -237,7 +227,6 @@ public class ContactsActivity extends BaseActivity {
             @Override
             public void run() {
                 try {
-                    String exist = getIntent().getStringExtra("list");
                     ContentResolver resolver = getApplicationContext().getContentResolver();
                     Cursor phoneCursor = resolver.query(Phone.CONTENT_URI, new String[]{Phone.DISPLAY_NAME, Phone.NUMBER, "sort_key"}, null, null, "sort_key COLLATE LOCALIZED ASC");
                     if (phoneCursor == null || phoneCursor.getCount() == 0) {
@@ -248,14 +237,13 @@ public class ContactsActivity extends BaseActivity {
                     int PHONES_DISPLAY_NAME_INDEX = phoneCursor.getColumnIndex(Phone.DISPLAY_NAME);
                     int SORT_KEY_INDEX = phoneCursor.getColumnIndex("sort_key");
                     if (phoneCursor.getCount() > 0) {
-                        mAllContactsList = new ArrayList<SortModel>();
+                        mAllContactsList.clear();
                         while (phoneCursor.moveToNext()) {
                             String phoneNumber = phoneCursor.getString(PHONES_NUMBER_INDEX);
                             if (TextUtils.isEmpty(phoneNumber))
                                 continue;
                             String contactName = phoneCursor.getString(PHONES_DISPLAY_NAME_INDEX);
                             String sortKey = phoneCursor.getString(SORT_KEY_INDEX);
-                            //System.out.println(sortKey);
                             SortModel sortModel = new SortModel(contactName, phoneNumber, sortKey);
                             //优先使用系统sortkey取,取不到再使用工具取
                             String sortLetters = getSortLetterBySortKey(sortKey);
@@ -265,9 +253,9 @@ public class ContactsActivity extends BaseActivity {
                             sortModel.sortLetters = sortLetters;
                             sortModel.sortToken = parseSortKey(sortKey);
 
-                            if (!TextUtils.isEmpty(exist) && exist.contains(sortModel.number)) {
-                                sortModel.isExist = true;
-                            }
+//                            if (!TextUtils.isEmpty(invited) && invited.contains(sortModel.number)) {//一存在
+//                                sortModel.isExist = true;
+//                            }
                             mAllContactsList.add(sortModel);
                         }
                     }
@@ -392,16 +380,17 @@ public class ContactsActivity extends BaseActivity {
     }
 
 
-    @OnClick(R.id.cancel_tv)
-    public void onClick() {
-
-        setResult(RESULT_OK, new Intent().putExtra("list", BasePresenter.gson.toJson(invitedList)));
-        finish();
-    }
-
-    @Override
-    public void onBackPressed() {
-        setResult(RESULT_OK, new Intent().putExtra("list", BasePresenter.gson.toJson(invitedList)));
-        super.onBackPressed();
+    @OnClick({R.id.cancel_tv, commit_tv})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.cancel_tv:
+                finish();
+                break;
+            case commit_tv:
+                for (SortModel m : adapter.getSelectedList()) {
+                    invoke(m);
+                }
+                break;
+        }
     }
 }

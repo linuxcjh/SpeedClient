@@ -69,7 +69,7 @@
                 android:layout_below="@+id/image"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="15dp"
-                android:text="速客 V1.0"
+                android:text="快脑 V1.0"
                 android:textColor="@color/colorAssist"
                 android:textSize="12sp" />
 

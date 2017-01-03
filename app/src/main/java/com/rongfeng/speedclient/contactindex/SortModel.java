@@ -21,5 +21,7 @@ public class SortModel extends Contact implements Serializable {
 
     public String isForbidden; //是否激活( 0正常使用2未激活)
 
+    public boolean isSelected;//是否被选中
+
 
 }

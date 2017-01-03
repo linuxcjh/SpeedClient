@@ -20,6 +20,7 @@
             android:text="取消" />
 
         <TextView
+            android:id="@+id/title_tv"
             style="@style/title_mid_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -169,8 +170,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/examine_approve_item"
-                    android:gravity="center_vertical"
-                    android:paddingRight="16dp">
+                    android:gravity="center_vertical">
 
                     <TextView
                         style="@style/register_client_left_text_style"
@@ -184,7 +184,6 @@
                         style="@style/register_edit_view_style"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:layout_marginRight="10dp"
                         android:layout_weight="1"
                         android:gravity="center_vertical|right"
                         android:hint="输入客户名称">
@@ -192,6 +191,15 @@
                         <requestFocus />
                     </EditText>
 
+                    <ImageView
+                        android:id="@+id/add_book_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="12dp"
+                        android:paddingLeft="2dp"
+                        android:paddingRight="16dp"
+                        android:paddingTop="12dp"
+                        android:src="@drawable/me_addressbook" />
 
                 </LinearLayout>
 
@@ -214,8 +222,9 @@
                         style="@style/register_edit_view_style"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:layout_marginRight="10dp"
+                        android:layout_marginRight="28dp"
                         android:layout_weight="1"
+
                         android:gravity="center_vertical|right"
                         android:hint="输入客户电话"
                         android:inputType="number" />

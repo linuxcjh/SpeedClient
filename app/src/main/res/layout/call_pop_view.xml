@@ -33,7 +33,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:text="语音速客"
+                android:text="语音快脑"
                 android:textColor="@color/colorClientRadar"
                 android:textSize="16sp" />
 

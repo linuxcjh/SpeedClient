@@ -246,6 +246,7 @@ public class ClientAddContactActivity extends BaseActivity implements IUpLoadPic
                     }
                     break;
 
+
             }
         }
         //拒绝定位权限退出

@@ -181,6 +181,27 @@ public class ClientListFragment extends BaseFragment implements ICommonPaginatio
         Intent intent = new Intent(getActivity(), ClientPersonaActivity.class);
         intent.putExtra("customerId", model.getCsrId());
         intent.putExtra("customerName", model.getCustomerName());
+
+        switch (getArguments().getString("clientType")) {
+            case "2":
+            case "9":
+            case "14":
+                intent.putExtra("flag", ClientPersonaActivity.CLIENT_BARGAIN_INDEX);
+                break;
+            case "3":
+            case "8":
+            case "13":
+
+                intent.putExtra("flag", ClientPersonaActivity.CLIENT_BUSINESS_INDEX);
+                break;
+            case "4":
+            case "10":
+            case "15":
+                intent.putExtra("flag", ClientPersonaActivity.CLIENT_DEBT_INDEX);
+                break;
+
+        }
+
         startActivity(intent);
     }
 

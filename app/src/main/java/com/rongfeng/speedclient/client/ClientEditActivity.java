@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.provider.ContactsContract;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.TypedValue;
@@ -32,10 +33,14 @@ import com.rongfeng.speedclient.client.entry.RecievedClientTransModel;
 import com.rongfeng.speedclient.common.BaseActivity;
 import com.rongfeng.speedclient.common.BasePresenter;
 import com.rongfeng.speedclient.common.Constant;
+import com.rongfeng.speedclient.common.ConstantPermission;
 import com.rongfeng.speedclient.common.utils.AppConfig;
 import com.rongfeng.speedclient.common.utils.AppTools;
+import com.rongfeng.speedclient.common.utils.GetCustomerContactNum;
 import com.rongfeng.speedclient.common.utils.SingleClickBt;
 import com.rongfeng.speedclient.entity.BaseDataModel;
+import com.rongfeng.speedclient.entity.ContactDetail;
+import com.rongfeng.speedclient.permisson.PermissionsChecker;
 import com.rongfeng.speedclient.utils.DensityUtil;
 import com.rongfeng.speedclient.utils.FlowLayout;
 
@@ -131,6 +136,10 @@ public class ClientEditActivity extends BaseActivity {
     TextView resClientSourceTv;
     @Bind(R.id.res_client_source_layout)
     LinearLayout resClientSourceLayout;
+    @Bind(R.id.title_tv)
+    TextView titleTv;
+    @Bind(R.id.add_book_tv)
+    ImageView addBookTv;
 
     private List<ContactPersonModel> linkmanModels = new ArrayList<>();
     private List<BaseDataModel> dataLabel = new ArrayList<>();
@@ -151,6 +160,7 @@ public class ClientEditActivity extends BaseActivity {
     }
 
     private void initViews() {
+        titleTv.setText("编辑客户");
 
         recievedClientTransModel = (RecievedClientTransModel) getIntent().getSerializableExtra("model");
         transModel.setCustomerType(recievedClientTransModel.getCustomerType());//客户类型【1企业客户；2个人客户】
@@ -290,7 +300,7 @@ public class ClientEditActivity extends BaseActivity {
         }
     }
 
-    @OnClick({R.id.cancel_tv, R.id.commit_tv, R.id.res_map_iv, R.id.res_business_client_layout, R.id.res_personal_client_layout, R.id.res_company_addr_detail_tv, R.id.res_client_vocation_layout, R.id.res_client_level_layout, R.id.res_client_source_layout})
+    @OnClick({R.id.cancel_tv, R.id.commit_tv, R.id.res_map_iv, R.id.res_business_client_layout, R.id.res_personal_client_layout, R.id.res_company_addr_detail_tv, R.id.res_client_vocation_layout, R.id.res_client_level_layout, R.id.res_client_source_layout,R.id.add_book_tv})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.cancel_tv:
@@ -339,6 +349,16 @@ public class ClientEditActivity extends BaseActivity {
             case R.id.res_client_source_layout:
                 selectType = CLIENT_SOURCE_INDEX;
                 invoke("4");
+                break;
+            case R.id.add_book_tv:
+                if (PermissionsChecker.getPermissionsChecker().lacksPermissions(ConstantPermission.PERMISSIONS_READ_CONTACTS)) {
+                    PermissionsChecker.getPermissionsChecker().startPermissionsActivity(this, ConstantPermission.PERMISSIONS_READ_CONTACTS);
+                } else {
+
+                    Intent intent = new Intent(Intent.ACTION_PICK,
+                            ContactsContract.Contacts.CONTENT_URI);
+                    startActivityForResult(intent, Constant.CONTACT_SELECT_RESULT);
+                }
                 break;
         }
     }
@@ -459,6 +479,11 @@ public class ClientEditActivity extends BaseActivity {
 
 
                     break;
+                case Constant.CONTACT_SELECT_RESULT://从通讯录选择
+                    new GetCustomerContactNum(ClientEditActivity.this,
+                            mHandler, Constant.CONTACT_SELECT_RESULT)
+                            .getPhone(data);
+                    break;
 
 
             }
@@ -552,6 +577,26 @@ public class ClientEditActivity extends BaseActivity {
                     int index = (int) msg.obj;
                     linkmanModels.remove(index);
                     setApprovalFlowData(linkmanModels);
+                    break;
+                case Constant.CONTACT_SELECT_RESULT:
+
+                    ContactDetail detail = (ContactDetail) msg.obj;
+                    if (!TextUtils.isEmpty(detail.getOnlyPhone())) {
+                        ContactPersonModel modelCon = new ContactPersonModel();
+                        modelCon.setName(detail.getName());
+                        String result = detail.getOnlyPhone().replace(" ", "");
+                        if (result.length() > 11) {
+                            modelCon.setPhone(result.substring(detail
+                                    .getOnlyPhone().length() - 11));
+
+                        } else {
+                            modelCon.setPhone(result.replace(" ", ""));
+
+                        }
+                        resCompanyNameTv.setText(modelCon.getName());
+                        resPhoneTv.setText(modelCon.getPhone());
+                    }
+
                     break;
 
 

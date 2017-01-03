@@ -146,8 +146,9 @@ public class MainTableActivity extends BaseActivity {
                             waveView = new WaveView(MainTableActivity.this);
                             waveLayout.addView(waveView);
                         } else {
-                            waveView.renderThread.setRun(true);
-//                            waveView.renderThread.run();
+                            if (waveView != null && waveView.renderThread != null) {
+                                waveView.renderThread.setRun(true);
+                            }
                         }
 
                         voiceRecord = new VoiceRecord(MainTableActivity.this, waveView, timeSecondTv, mHandler);
@@ -162,7 +163,9 @@ public class MainTableActivity extends BaseActivity {
                         break;
                     case MotionEvent.ACTION_UP:
                         waveLayout.setVisibility(View.GONE);
-                        waveView.renderThread.setRun(false);
+                        if (waveView != null && waveView.renderThread != null) {
+                            waveView.renderThread.setRun(false);
+                        }
                         tabPlusIv.setImageResource(R.drawable.tabbar_voice);
                         voiceRecord.mHandler.sendEmptyMessage(VOICE_RECORD_END_INDEX);
                         break;
