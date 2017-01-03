@@ -41,21 +41,24 @@ public abstract class RenderView extends SurfaceView implements SurfaceHolder.Ca
         public void run() {
             long startAt = System.currentTimeMillis();
             while (true) {
-                synchronized (surfaceLock) {
-                    if (!running) {
-                        continue;
+                if (running) {
+                    synchronized (surfaceLock) {
+
+                        Canvas canvas = surfaceHolder.lockCanvas();
+                        if (canvas != null) {
+                            render(canvas, System.currentTimeMillis() - startAt);  //这里做真正绘制的事情
+                            surfaceHolder.unlockCanvasAndPost(canvas);
+                        }
                     }
-                    Canvas canvas = surfaceHolder.lockCanvas();
-                    if (canvas != null) {
-                        render(canvas, System.currentTimeMillis() - startAt);  //这里做真正绘制的事情
-                        surfaceHolder.unlockCanvasAndPost(canvas);
-                    }
+
                 }
+
                 try {
                     Thread.sleep(SLEEP_TIME);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
+
             }
         }
 
@@ -69,6 +72,7 @@ public abstract class RenderView extends SurfaceView implements SurfaceHolder.Ca
     public RenderThread renderThread;
 
     public SurfaceHolder holder;
+
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
         renderer = onCreateRenderer();

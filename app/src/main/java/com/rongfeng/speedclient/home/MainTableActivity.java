@@ -6,6 +6,8 @@ import android.content.res.Resources;
 import android.graphics.PixelFormat;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.os.Process;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
@@ -13,6 +15,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -37,6 +40,8 @@ import com.rongfeng.speedclient.mine.MineFragment;
 import com.rongfeng.speedclient.permisson.PermissionsChecker;
 import com.rongfeng.speedclient.push.PushUtils;
 import com.rongfeng.speedclient.voice.VoiceFragment;
+import com.rongfeng.speedclient.voice.VoiceRecord;
+import com.rongfeng.speedclient.wave.WaveView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,11 +50,15 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+
 /**
  * AUTHOR: Alex
  * DATE: 21/10/2015 19:16
  */
 public class MainTableActivity extends BaseActivity {
+
+    public static final int VOICE_RECORD_START_INDEX = 0;//录音开始
+    public static final int VOICE_RECORD_END_INDEX = 1;//录音结束
 
 
     @Bind(R.id.container_layout)
@@ -68,8 +77,6 @@ public class MainTableActivity extends BaseActivity {
     public LinearLayout tabClientLayout;
     @Bind(R.id.tab_plus_iv)
     ImageView tabPlusIv;
-    @Bind(R.id.tab_plus_layout)
-    LinearLayout tabPlusLayout;
     @Bind(R.id.tab_app_iv)
     ImageView tabAppIv;
     @Bind(R.id.tab_app_tv)
@@ -82,12 +89,17 @@ public class MainTableActivity extends BaseActivity {
     LinearLayout tabMineLayout;
     @Bind(R.id.bottom_layout)
     LinearLayout bottomLayout;
-    @Bind(R.id.top_view)
-    ImageView topView;
-    @Bind(R.id.root_layout)
-    LinearLayout rootLayout;
     @Bind(R.id.tab_app_new_layout)
     RelativeLayout tabAppNewLayout;
+
+    @Bind(R.id.time_second_tv)
+    TextView timeSecondTv;
+    //    @Bind(R.id.wave_view)
+    WaveView waveView;
+    @Bind(R.id.wave_layout)
+    LinearLayout waveLayout;
+    @Bind(R.id.app_layout)
+    LinearLayout appLayout;
 
     MineFragment mineFirstFragment;
     DynamicFragment dynamicFragment;
@@ -95,12 +107,10 @@ public class MainTableActivity extends BaseActivity {
     ManageFragment manageFragment;
     VoiceFragment voiceFragment;
 
-    @Bind(R.id.middle_container_layout)
-    FrameLayout middleContainerLayout;
-
-
     private FragmentManager fragmentManager;
     private List<Fragment> fragments = new ArrayList<>();
+
+    public VoiceRecord voiceRecord;
 
 
     @Override
@@ -120,10 +130,46 @@ public class MainTableActivity extends BaseActivity {
 
     private void init() {
 
+
         fragmentManager = getSupportFragmentManager();
         if (PermissionsChecker.getPermissionsChecker().lacksPermissions(ConstantPermission.PERMISSIONS_LOGIN)) {
             PermissionsChecker.getPermissionsChecker().startPermissionsActivity(this, ConstantPermission.PERMISSIONS_LOGIN);
         }
+
+        tabPlusIv.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent event) {
+
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        if (waveView == null) {
+                            waveView = new WaveView(MainTableActivity.this);
+                            waveLayout.addView(waveView);
+                        } else {
+                            waveView.renderThread.setRun(true);
+//                            waveView.renderThread.run();
+                        }
+
+                        voiceRecord = new VoiceRecord(MainTableActivity.this, waveView, timeSecondTv, mHandler);
+                        waveLayout.setVisibility(View.VISIBLE);
+
+                        displayVoiceFragment();
+                        tabPlusIv.setImageResource(R.drawable.tabbar_voice_active);
+                        voiceRecord.startPlay();
+                        break;
+                    case MotionEvent.ACTION_MOVE:
+
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        waveLayout.setVisibility(View.GONE);
+                        waveView.renderThread.setRun(false);
+                        tabPlusIv.setImageResource(R.drawable.tabbar_voice);
+                        voiceRecord.mHandler.sendEmptyMessage(VOICE_RECORD_END_INDEX);
+                        break;
+                }
+                return true;
+            }
+        });
     }
 
 
@@ -170,7 +216,7 @@ public class MainTableActivity extends BaseActivity {
 
     }
 
-    @OnClick({R.id.tab_plus_iv, R.id.tab_ws_layout, R.id.tab_app_new_layout, R.id.tab_plus_layout, R.id.tab_client_layout, R.id.tab_mine_layout, R.id.bottom_layout})
+    @OnClick({R.id.tab_plus_iv, R.id.tab_ws_layout, R.id.tab_app_new_layout, R.id.tab_client_layout, R.id.tab_mine_layout, R.id.bottom_layout})
     public void onClick(View view) {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
 
@@ -201,7 +247,6 @@ public class MainTableActivity extends BaseActivity {
 
                 break;
 
-            case R.id.tab_plus_layout:
             case R.id.tab_plus_iv:
                 changeStatus(view.getId());
                 hideFragments(transaction);
@@ -248,6 +293,39 @@ public class MainTableActivity extends BaseActivity {
 
 
     /**
+     * 显示语音Fragment
+     */
+    private void displayVoiceFragment() {
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+
+        changeStatus(R.id.tab_plus_iv);
+        hideFragments(transaction);
+
+        if (voiceFragment == null) {
+            voiceFragment = new VoiceFragment();
+            fragments.add(voiceFragment);
+            transaction.add(R.id.container_layout, voiceFragment);
+        } else {
+            transaction.show(voiceFragment);
+        }
+        transaction.commit();
+    }
+
+
+    Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            if (msg.what == VoiceRecord.VOICE_RECORD_SEND_RESULT_INDEX) {
+                if (voiceFragment != null && voiceFragment.contentEt != null) {
+                    voiceFragment.contentEt.setText((String) msg.obj);
+                    voiceFragment.contentEt.setSelection(voiceFragment.contentEt.getText().toString().length());
+                }
+            }
+        }
+    };
+
+    /**
      * Change navigation status
      *
      * @param resId
@@ -261,9 +339,6 @@ public class MainTableActivity extends BaseActivity {
                 break;
             case R.id.tab_client_layout:
                 setStatus(tabClientIv, tabClientTv, R.drawable.tabbar_client_select);
-                break;
-            case R.id.tab_plus_layout:
-
                 break;
             case R.id.tab_app_new_layout:
                 setStatus(tabAppIv, tabAppTv, R.drawable.tabbar_application_select);
@@ -279,7 +354,6 @@ public class MainTableActivity extends BaseActivity {
      * 保存屏幕高度、宽度
      */
     private void obtainDisplayHeight() {
-
         AppConfig.setIntConfig("HEIGHT", Utils.getDeviceHeightPixels(this));
         AppConfig.setIntConfig("WIDTH", Utils.getDeviceWidthPixels(this));
 
@@ -345,10 +419,6 @@ public class MainTableActivity extends BaseActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            if (middleContainerLayout.getVisibility() == View.VISIBLE) {
-                middleContainerLayout.setVisibility(View.GONE);
-                return true;
-            }
 
             if ((System.currentTimeMillis() - mExitTime) > 2000) {
                 Toast.makeText(AppConfig.getContext(), "再按一次退出程序", Toast.LENGTH_SHORT).show();
@@ -364,4 +434,9 @@ public class MainTableActivity extends BaseActivity {
     }
 
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        voiceRecord.stopPlay();
+    }
 }

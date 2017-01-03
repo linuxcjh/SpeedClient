@@ -98,11 +98,6 @@ public class WaveView extends RenderView {
      */
     public void setAmplitudeValue(int amplitude) {
         this.amplitude = Utils.dip2px(AppConfig.getContext(), 6) + amplitude;
-//        Log.d("wave", "amplitude: " + amplitude + "");
-//        Log.d("wave","amplitude: "+this.amplitude+"");
-//        Log.d("wave","height: "+height+"");
-
-
     }
 
 

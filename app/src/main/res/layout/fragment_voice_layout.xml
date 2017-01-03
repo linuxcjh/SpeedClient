@@ -8,6 +8,7 @@
         android:id="@+id/root_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginBottom="20dp"
         android:orientation="vertical">
 
 
@@ -54,63 +55,38 @@
 
             </RelativeLayout>
 
-            <LinearLayout
-                android:id="@+id/wave_layout"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:orientation="horizontal"
-                android:visibility="gone">
-
-                <TextView
-                    android:id="@+id/time_second_tv"
-                    android:layout_width="60dp"
-                    android:layout_height="match_parent"
-                    android:background="@color/colorBlue"
-                    android:gravity="center"
-                    android:text="0:00"
-                    android:textColor="@color/colorWhite"
-                    android:textSize="13sp" />
-
-                <com.rongfeng.speedclient.wave.WaveView
-                    android:id="@+id/wave_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_weight="1" />
-
-
-            </LinearLayout>
 
         </RelativeLayout>
 
 
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent">
 
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/nav_bg_down" />
 
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="290dp"
+                android:layout_height="match_parent"
                 android:layout_marginBottom="14dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="12dp"
                 android:layout_marginTop="10dp"
-                android:background="@drawable/radar_bg">
+                android:background="@drawable/radar_bg"
+                android:orientation="vertical">
 
                 <EditText
                     android:id="@+id/content_et"
                     android:layout_width="match_parent"
-                    android:layout_height="190dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
                     android:background="@null"
                     android:gravity="top|left"
                     android:hint="点击下方语音按钮或手动输入"
-                    android:paddingLeft="20dp"
-                    android:paddingRight="20dp"
-                    android:paddingTop="20dp"
+                    android:padding="20dp"
                     android:scrollbars="vertical"
                     android:textColor="@color/colorListName"
                     android:textColorHint="@color/colorAssist"
@@ -120,8 +96,8 @@
                     android:id="@+id/input_cancel_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_below="@+id/content_et"
+                    android:layout_gravity="right"
+                    android:layout_marginBottom="20dp"
                     android:layout_marginRight="15dp"
                     android:drawableLeft="@drawable/clear"
                     android:drawablePadding="6dp"
@@ -131,9 +107,7 @@
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_alignParentRight="true">
+                    android:layout_height="wrap_content">
 
 
                     <ImageView
@@ -149,6 +123,7 @@
                         android:layout_marginRight="15dp"
                         android:gravity="center"
                         android:orientation="horizontal">
+
                         <TextView
                             android:id="@+id/input_to_log_tv"
                             android:layout_width="match_parent"
@@ -196,49 +171,10 @@
                     </LinearLayout>
 
                 </RelativeLayout>
-            </RelativeLayout>
+            </LinearLayout>
 
 
         </FrameLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:background="@drawable/radar_bg"
-            android:gravity="center">
-
-            <TextView
-                android:id="@+id/h_time_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="10dp"
-                android:text="剩余60s"
-                android:visibility="gone" />
-
-            <ImageView
-                android:id="@+id/voice_bt"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:layout_centerHorizontal="true"
-                android:src="@drawable/voice_btn" />
-
-            <TextView
-                android:id="@+id/voice_status_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/voice_bt"
-                android:layout_centerInParent="true"
-                android:layout_marginTop="12dp"
-                android:text="点击开始语音输入"
-                android:textColor="@color/colorVoiceInput"
-                android:textSize="13sp" />
-
-
-        </RelativeLayout>
-
 
     </LinearLayout>
 
