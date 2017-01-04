@@ -230,7 +230,8 @@ public class ContactsBatchActivity extends BaseActivity {
                     ContentResolver resolver = getApplicationContext().getContentResolver();
                     Cursor phoneCursor = resolver.query(Phone.CONTENT_URI, new String[]{Phone.DISPLAY_NAME, Phone.NUMBER, "sort_key"}, null, null, "sort_key COLLATE LOCALIZED ASC");
                     if (phoneCursor == null || phoneCursor.getCount() == 0) {
-                        Toast.makeText(getApplicationContext(), "未获得读取联系人权限 或 未获得联系人数据", Toast.LENGTH_SHORT).show();
+                        toast.setText("未获得读取联系人权限 或 未获得联系人数据");
+                        toast.show();
                         return;
                     }
                     int PHONES_NUMBER_INDEX = phoneCursor.getColumnIndex(Phone.NUMBER);

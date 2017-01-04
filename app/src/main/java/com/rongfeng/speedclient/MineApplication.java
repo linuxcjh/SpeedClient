@@ -1,13 +1,12 @@
 package com.rongfeng.speedclient;
 
 import android.app.Application;
-import android.content.Intent;
 
+import com.bugtags.library.Bugtags;
 import com.facebook.stetho.Stetho;
 import com.iflytek.cloud.SpeechConstant;
 import com.iflytek.cloud.SpeechUtility;
 import com.rongfeng.speedclient.common.utils.AppConfig;
-import com.rongfeng.speedclient.home.UpdateClientInfoService;
 
 /**
  * AUTHOR: Alex
@@ -22,5 +21,7 @@ public class MineApplication extends Application {
         AppConfig.setContext(this);
         Stetho.initializeWithDefaults(this);
         SpeechUtility.createUtility(this, SpeechConstant.APPID + "=5814610b");
+        Bugtags.start("83bf6b6cc2a026ce5c5771ba055d21b9", this, Bugtags.BTGInvocationEventBubble);
+
     }
 }

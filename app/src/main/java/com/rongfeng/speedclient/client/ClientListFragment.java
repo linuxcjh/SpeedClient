@@ -191,8 +191,7 @@ public class ClientListFragment extends BaseFragment implements ICommonPaginatio
             case "3":
             case "8":
             case "13":
-
-                intent.putExtra("flag", ClientPersonaActivity.CLIENT_BUSINESS_INDEX);
+                 intent.putExtra("flag", ClientPersonaActivity.CLIENT_BUSINESS_INDEX);
                 break;
             case "4":
             case "10":
