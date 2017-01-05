@@ -1,4 +1,4 @@
-package com.rongfeng.speedclient.voice;
+package com.rongfeng.speedclient.call;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
@@ -170,7 +170,8 @@ public class CallFragment extends BaseFragment implements View.OnTouchListener {
         super.obtainData(data, methodIndex, status);
         if (status == 1) {
             AppTools.getToast("成功跟进");
-            getActivity().finish();
+            AppTools.hideKeyboard(contentEt);
+            ((AlertActivity) getActivity()).convertFragment();
         }
     }
 

@@ -86,7 +86,7 @@ public class VoiceFragment extends BaseFragment implements MaterialIntroListener
 
 
     public void initView() {
-        showIntro(inputSearchClientTv, INTRO_CARD1, "快速查找客户~", FocusGravity.CENTER);
+        showIntro(inputSearchClientTv, INTRO_CARD1, "根据录入内容快速查找客户~", FocusGravity.CENTER);
     }
 
     /**

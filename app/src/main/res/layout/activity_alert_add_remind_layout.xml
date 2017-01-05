@@ -46,7 +46,7 @@
                         android:layout_width="70dp"
                         android:layout_height="20dp"
                         android:layout_centerInParent="true"
-                        android:src="@drawable/login_logo"/>
+                        android:src="@drawable/login_logo" />
 
                     <TextView
                         android:id="@+id/confirm_bt"
@@ -61,31 +61,6 @@
 
                 </RelativeLayout>
 
-                <LinearLayout
-                    android:id="@+id/wave_layout"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:orientation="horizontal"
-                    android:visibility="gone">
-
-                    <TextView
-                        android:id="@+id/time_second_tv"
-                        android:layout_width="60dp"
-                        android:layout_height="match_parent"
-                        android:background="@color/colorBlue"
-                        android:gravity="center"
-                        android:text="0:00"
-                        android:textColor="@color/colorWhite"
-                        android:textSize="13sp" />
-
-                    <com.rongfeng.speedclient.wave.WaveView
-                        android:id="@+id/wave_view"
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:layout_weight="1" />
-
-
-                </LinearLayout>
 
                 <ImageView
                     android:layout_width="match_parent"
@@ -102,42 +77,27 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="14dp"
-                android:text="记录通话内容："
+                android:text="设置下次跟进时间："
                 android:textColor="@color/colorAssist"
                 android:textSize="14sp" />
 
-            <EditText
+            <TextView
                 android:id="@+id/content_et"
                 android:layout_width="match_parent"
-                android:layout_height="130dp"
+                android:layout_height="60dp"
+                android:layout_marginBottom="60dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:layout_marginTop="14dp"
                 android:background="@drawable/call_add_bg"
-                android:gravity="top|left"
-                android:hint="请录入内容"
+                android:gravity="center_vertical"
+                android:hint="选择时间"
                 android:padding="10dp"
                 android:textColor="@color/colorAssist"
                 android:textColorHint="@color/colorAssistLight"
                 android:textSize="14sp" />
 
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center">
-
-                <ImageView
-                    android:id="@+id/voice_bt"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginBottom="16dp"
-                    android:layout_marginTop="16dp"
-                    android:src="@drawable/tabbar_voice" />
-
-
-            </LinearLayout>
         </LinearLayout>
 
     </ScrollView>

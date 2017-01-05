@@ -266,7 +266,7 @@ public class AppTools {
                             textView.setText(inspectDate(year, monthOfYear, dayOfMonth) + "  " + inspectTime(hourOfDay, minute));
 
                         }
-                    }, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), false);
+                    }, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), true);
 
                     timePickerDialog.show();
                     flag = false;

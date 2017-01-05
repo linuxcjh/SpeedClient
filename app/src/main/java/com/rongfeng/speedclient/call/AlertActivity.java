@@ -6,7 +6,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.Window;
 
 import com.rongfeng.speedclient.R;
-import com.rongfeng.speedclient.voice.CallFragment;
 
 import butterknife.ButterKnife;
 
@@ -19,9 +18,9 @@ public class AlertActivity extends FragmentActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        this.requestWindowFeature(Window.FEATURE_NO_TITLE);//去掉标题栏，一定要在setContentView之前
 
         super.onCreate(savedInstanceState);
-        this.requestWindowFeature(Window.FEATURE_NO_TITLE);//去掉标题栏，一定要在setContentView之前
 
         setContentView(R.layout.activity_alert_new_layout);
         ButterKnife.bind(this);
@@ -31,8 +30,17 @@ public class AlertActivity extends FragmentActivity {
     private void initViews() {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.add(R.id.container_layout, CallFragment.newInstance(getIntent()
-                .getStringExtra("clientName"),
-                getIntent().getStringExtra("contactName"),getIntent().getStringExtra("clientId")));
+                        .getStringExtra("clientName"),
+                getIntent().getStringExtra("contactName"), getIntent().getStringExtra("clientId")));
+        transaction.commit();
+    }
+
+
+    public void convertFragment() {
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.container_layout, CallAddRemindFragment.newInstance(getIntent()
+                        .getStringExtra("clientName"),
+                getIntent().getStringExtra("contactName"), getIntent().getStringExtra("clientId")));
         transaction.commit();
     }
 
