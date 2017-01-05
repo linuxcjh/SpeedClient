@@ -321,7 +321,8 @@ public class MainTableActivity extends BaseActivity {
             super.handleMessage(msg);
             if (msg.what == VoiceRecord.VOICE_RECORD_SEND_RESULT_INDEX) {
                 if (voiceFragment != null && voiceFragment.contentEt != null) {
-                    voiceFragment.contentEt.setText((String) msg.obj);
+                    voiceFragment.contentEt.setText(voiceFragment.contentEt.getText().toString() +
+                            (String) msg.obj);
                     voiceFragment.contentEt.setSelection(voiceFragment.contentEt.getText().toString().length());
                 }
             }

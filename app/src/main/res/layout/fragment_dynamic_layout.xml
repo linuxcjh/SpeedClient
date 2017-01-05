@@ -9,7 +9,15 @@
         android:layout_height="50dp"
         android:background="@drawable/nav_bg">
 
-
+        <ImageView
+            android:id="@+id/search_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:gravity="center_vertical"
+            android:paddingLeft="16dp"
+            android:paddingRight="20dp"
+            android:src="@drawable/nav_search" />
         <TextView
             style="@style/title_mid_text"
             android:layout_width="wrap_content"

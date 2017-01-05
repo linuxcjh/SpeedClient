@@ -190,15 +190,15 @@ public class ManageFragment extends BaseFragment implements SwipeRefreshLayout.O
                 break;
             case 1://本月
                 transDataModel.setStartDate(DateUtil.convertDate2String(DateUtil.getFirstDayOfMonth(new Date()), DateUtil.getDatePattern()));
-                transDataModel.setEndDate(DateUtil.convertDate2String(new Date(), DateUtil.getDatePattern()));
+                transDataModel.setEndDate(DateUtil.convertDate2String(DateUtil.getLastDayOfMonth(new Date()), DateUtil.getDatePattern()));
                 break;
             case 2://本季
                 transDataModel.setStartDate(DateUtil.convertDate2String(DateUtil.getCurrentQuarterStartTime(), DateUtil.getDatePattern()));
-                transDataModel.setEndDate(DateUtil.convertDate2String(new Date(), DateUtil.getDatePattern()));
+                transDataModel.setEndDate(DateUtil.convertDate2String(DateUtil.getCurrentQuarterEndTime(), DateUtil.getDatePattern()));
                 break;
             case 3://本年
                 transDataModel.setStartDate(DateUtil.convertDate2String(DateUtil.getYearFirst(Integer.parseInt(DateUtil.getYear(DateUtil.convertDateToString(new Date())))), DateUtil.getDatePattern()));
-                transDataModel.setEndDate(DateUtil.convertDate2String(new Date(), DateUtil.getDatePattern()));
+                transDataModel.setEndDate(DateUtil.convertDate2String(DateUtil.getYearLast(Integer.parseInt(DateUtil.getYear(DateUtil.convertDateToString(new Date())))), DateUtil.getDatePattern()));
                 break;
         }
 
@@ -259,7 +259,7 @@ public class ManageFragment extends BaseFragment implements SwipeRefreshLayout.O
     }
 
 
-    @OnClick({R.id.today_bt, R.id.month_bt, R.id.quarter_bt, R.id.year_bt, R.id.custome_bt, R.id.bulletin_new_client_layout, R.id.bulletin_new_opp_layout, R.id.bulletin_new_visit_layout, R.id.bulletin_opp_status_change_layout})
+    @OnClick({R.id.today_bt, R.id.month_bt, R.id.quarter_bt, R.id.year_bt, R.id.custome_bt, R.id.bulletin_new_client_layout, R.id.bulletin_new_opp_layout, R.id.bulletin_new_visit_layout, R.id.bulletin_opp_status_change_layout, R.id.sales_progress_check_layout})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.today_bt:
@@ -309,6 +309,9 @@ public class ManageFragment extends BaseFragment implements SwipeRefreshLayout.O
                 startActivity(new Intent(getActivity(), ManageBargainActivity.class)
                         .putExtra("startDate", transDataModel.getStartDate())
                         .putExtra("endDate", transDataModel.getEndDate()));
+                break;
+            case R.id.sales_progress_check_layout:
+                startActivity(new Intent(getActivity(), ManageSalesProgressDetailActivity.class));
                 break;
         }
     }

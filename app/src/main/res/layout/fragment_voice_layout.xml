@@ -85,7 +85,7 @@
                     android:layout_weight="1"
                     android:background="@null"
                     android:gravity="top|left"
-                    android:hint="点击下方语音按钮或手动输入"
+                    android:hint="长按下方语音按钮或手动输入"
                     android:padding="20dp"
                     android:scrollbars="vertical"
                     android:textColor="@color/colorListName"

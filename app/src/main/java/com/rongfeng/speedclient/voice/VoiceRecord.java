@@ -54,7 +54,6 @@ public class VoiceRecord {
     public MediaPlayer mediaPlayer;//mediaPlayer对象
 
 
-    public StringBuilder contentBuilder = new StringBuilder();
     public TextView timeSecondTv;
 
     public Context mContext;
@@ -173,8 +172,7 @@ public class VoiceRecord {
 
     public void printResult(RecognizerResult results) {
         String text = JsonParser.parseIatResult(results.getResultString());
-        contentBuilder.append(text);
-        transHandler.sendMessage(transHandler.obtainMessage(VOICE_RECORD_SEND_RESULT_INDEX, contentBuilder.toString()));
+        transHandler.sendMessage(transHandler.obtainMessage(VOICE_RECORD_SEND_RESULT_INDEX, text));
 
     }
 
@@ -234,14 +232,6 @@ public class VoiceRecord {
             //	}
         }
     };
-
-
-    /**
-     * 获取识别出的内容
-     */
-    public void getVoiceTextContent() {
-        contentBuilder.toString();
-    }
 
 
     /**

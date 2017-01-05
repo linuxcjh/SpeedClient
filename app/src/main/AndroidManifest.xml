@@ -267,6 +267,8 @@
         <activity android:name=".dynamic.NoticeActivity" />
         <activity android:name=".product.ProductActivity" />
         <activity android:name=".contactindex.ContactsBatchActivity" />
+        <activity android:name=".dynamic.GlobalSearchActivity"/>
+        <activity android:name=".manage.ManageSalesProgressDetailActivity"/>
 
     </application>
 

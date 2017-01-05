@@ -1,5 +1,6 @@
 package com.rongfeng.speedclient.voice;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -18,6 +19,7 @@ import com.rongfeng.speedclient.common.CommonPaginationPresenter;
 import com.rongfeng.speedclient.common.ICommonPaginationAction;
 import com.rongfeng.speedclient.common.utils.Utils;
 import com.rongfeng.speedclient.components.SearchPopupWindow;
+import com.rongfeng.speedclient.dynamic.GlobalSearchActivity;
 import com.rongfeng.speedclient.entity.BaseDataModel;
 import com.rongfeng.speedclient.voice.adapter.VoiceNoteAdapter;
 import com.rongfeng.speedclient.voice.model.VoiceNoteModel;
@@ -47,6 +49,8 @@ public class VoiceNoteActivity extends BaseActivity implements ICommonPagination
     LinearLayout noDataLayout;
     @Bind(R.id.root_layout)
     RelativeLayout rootLayout;
+    @Bind(R.id.search_iv)
+    ImageView searchIv;
     private SearchPopupWindow searchPopupWindow;
 
     private VoiceNoteAdapter mAdapter;
@@ -148,11 +152,6 @@ public class VoiceNoteActivity extends BaseActivity implements ICommonPagination
 
     }
 
-    @OnClick(R.id.cancel_tv)
-    public void onClick() {
-        finish();
-    }
-
     /**
      * 解析数据
      */
@@ -187,4 +186,15 @@ public class VoiceNoteActivity extends BaseActivity implements ICommonPagination
     };
 
 
+    @OnClick({R.id.cancel_tv, R.id.search_iv})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.cancel_tv:
+                finish();
+                break;
+            case R.id.search_iv:
+                startActivity(new Intent(this, GlobalSearchActivity.class));
+                break;
+        }
+    }
 }

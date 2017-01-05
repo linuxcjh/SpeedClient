@@ -1,5 +1,9 @@
 package com.rongfeng.speedclient.manage.model;
 
+import com.rongfeng.speedclient.client.entry.ImageListModel;
+
+import java.util.List;
+
 /**
  * AUTHOR: Alex
  * DATE: 28/12/2016 14:36
@@ -12,6 +16,11 @@ public class ManageFollowModel {
     private String followUpId;//跟进ID
     private String followUpTime;//跟进日期
     private String customerName;//客户名称
+    private String content;//
+    private String longitude;//
+    private String latitude;//
+    private List<ImageListModel> followUpInImageJSONArray;
+
 
     private String businessId;//商机ID
     private String businessName;//商机标题
@@ -23,6 +32,39 @@ public class ManageFollowModel {
     private String conRental;//总额
     private String remainingBalance;//剩余
     private String moneyReceipt;//已收款
+
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public String getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(String longitude) {
+        this.longitude = longitude;
+    }
+
+    public String getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(String latitude) {
+        this.latitude = latitude;
+    }
+
+    public List<ImageListModel> getFollowUpInImageJSONArray() {
+        return followUpInImageJSONArray;
+    }
+
+    public void setFollowUpInImageJSONArray(List<ImageListModel> followUpInImageJSONArray) {
+        this.followUpInImageJSONArray = followUpInImageJSONArray;
+    }
 
     public String getCsrId() {
         return csrId;

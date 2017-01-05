@@ -11,7 +11,7 @@ public class TransDataModel extends BaseTransModel {
 
     private String flg;
     private String page;//	当前页
-    private String rows = "30";
+    private String rows = "20";
 
     private String csrId;
 
@@ -51,6 +51,26 @@ public class TransDataModel extends BaseTransModel {
 
     private String productName; //新增产品
 
+    private String keyword; //全局搜索
+
+    private String targetYear;
+
+
+    public String getTargetYear() {
+        return targetYear;
+    }
+
+    public void setTargetYear(String targetYear) {
+        this.targetYear = targetYear;
+    }
+
+    public String getKeyword() {
+        return keyword;
+    }
+
+    public void setKeyword(String keyword) {
+        this.keyword = keyword;
+    }
 
     public String getProductName() {
         return productName;

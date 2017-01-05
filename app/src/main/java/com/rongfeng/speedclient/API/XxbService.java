@@ -752,4 +752,8 @@ public interface XxbService {
     String INSERTPRODUCT="insertProduct";
 
     String SEARCHPUSHNOTIFICATIONSCOUNT="searchPushNotificationsCount";
+
+    String GLOBALSEARCH="globalSearch";
+
+    String SEARCHSELLINGSTAGE="searchSellingStage";
 }

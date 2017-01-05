@@ -9,25 +9,16 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:background="@drawable/radar_bg"
         android:gravity="center_vertical"
         android:orientation="vertical"
-        android:paddingLeft="14dp">
-
-
-        <TextView
-            android:id="@+id/client_name_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:singleLine="true"
-            android:text="荣华集团西北总部"
-            android:textColor="@color/colorTitleText"
-            android:textSize="16sp" />
+        android:paddingLeft="14dp"
+        android:paddingRight="15dp"
+        android:paddingBottom="10dp">
 
 
         <LinearLayout
@@ -37,16 +28,19 @@
             android:orientation="horizontal">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:id="@+id/client_name_tv"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ellipsize="end"
                 android:singleLine="true"
-                android:text="跟进时间："
-                android:textColor="@color/colorListName"
-                android:textSize="12sp" />
+                android:text="荣华集团西北总部"
+                android:textColor="@color/colorTitleText"
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/create_time_tv"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="4dp"
                 android:singleLine="true"
@@ -57,6 +51,46 @@
 
         </LinearLayout>
 
+        <LinearLayout
+            android:id="@+id/base_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/content_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text=""
+                android:textColor="@color/colorAssist"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/addr_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/client_record_item_addr_bg"
+                android:drawableLeft="@drawable/cust_visit_position"
+                android:drawablePadding="4dp"
+                android:gravity="center_vertical"
+                android:paddingBottom="3dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="15dp"
+                android:paddingTop="3dp"
+                android:text="陕西省西安市雁塔区"
+                android:textColor="@color/colorAssist"
+                android:textSize="10sp"
+                android:visibility="gone" />
+
+            <com.rongfeng.speedclient.components.AddVisitGridLayoutDisplayView
+                android:id="@+id/add_pic_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
 
     </LinearLayout>
 </LinearLayout>

@@ -29,8 +29,8 @@ import com.rongfeng.speedclient.common.Constant;
 import com.rongfeng.speedclient.common.utils.AppTools;
 import com.rongfeng.speedclient.components.GuideViewDisplayUtil;
 import com.rongfeng.speedclient.components.MyDialog;
+import com.rongfeng.speedclient.dynamic.GlobalSearchActivity;
 import com.rongfeng.speedclient.entity.BaseDataModel;
-import com.rongfeng.speedclient.home.MainTableActivity;
 
 import java.util.List;
 
@@ -72,6 +72,7 @@ public class VoiceFragment extends BaseFragment {
     public GuideViewDisplayUtil mGuideViewUtil;
 
     private int currentIndex;
+
 
 
     @Nullable
@@ -164,13 +165,10 @@ public class VoiceFragment extends BaseFragment {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.note_tv:
-
                 startActivity(new Intent(getActivity(), VoiceNoteActivity.class));
                 break;
             case R.id.input_cancel_tv:
                 contentEt.setText("");
-                VoiceRecord voiceRecord = ((MainTableActivity) getActivity()).voiceRecord;
-                voiceRecord.contentBuilder.delete(0, voiceRecord.contentBuilder.toString().length());
                 break;
             case R.id.input_confirm_tv:
 
@@ -236,7 +234,7 @@ public class VoiceFragment extends BaseFragment {
 
                     break;
                 case Constant.SEARCH_CLIENT_INDEX:
-
+                    startActivity(new Intent(getActivity(), GlobalSearchActivity.class));
                     break;
                 case Constant.ADD_CLIENT_INDEX:
                     startActivityForResult(new Intent(getActivity(), ClientRegisterActivity.class), ADD_CLIENT_INDEX);
@@ -255,8 +253,6 @@ public class VoiceFragment extends BaseFragment {
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
-
-
     }
 
     @Override
@@ -266,17 +262,14 @@ public class VoiceFragment extends BaseFragment {
             switch (requestCode) {
                 case Constant.ADD_CLIENT_INDEX:
                     AddClientTransModel transModel = (AddClientTransModel) data.getSerializableExtra("model");
-//                    showPop(new BaseDataModel(transModel.getCsrId(), transModel.getCustomerName()));//TODO 新增接口需返回客户ID
-//                    temp.add(new BaseDataModel(transModel.getCsrId(), transModel.getCustomerName()));
-//                    AppTools.selectVoiceDialog("选择需要关联的客户：", getActivity(), temp, mHandler, currentIndex);
 
                     switch (currentIndex) {
-                        case SEARCH_CLIENT_INDEX:
+                        case SEARCH_CLIENT_INDEX://查找
                             startActivity(new Intent(getActivity(), ClientPersonaActivity.class)
                                     .putExtra("customerId", transModel.getCsrId())
                                     .putExtra("customerName", transModel.getCustomerName()));
                             break;
-                        case PROGRESS_CLIENT_INDEX:
+                        case PROGRESS_CLIENT_INDEX://拜访
                             startActivity(new Intent(getActivity(), ClientVisitActivity.class)
                                     .putExtra("customerId", transModel.getCsrId())
                                     .putExtra("customerName", transModel.getCustomerName())

@@ -24,6 +24,7 @@ import com.rongfeng.speedclient.common.BaseFragment;
 import com.rongfeng.speedclient.components.MyGridView;
 import com.rongfeng.speedclient.components.RadarChartView;
 import com.rongfeng.speedclient.contactindex.ContactsBatchActivity;
+import com.rongfeng.speedclient.dynamic.GlobalSearchActivity;
 import com.rongfeng.speedclient.entity.BaseDataModel;
 
 import java.util.ArrayList;
@@ -76,6 +77,8 @@ public class ClientFragment extends BaseFragment implements AdapterView.OnItemCl
     TextView titleTv;
     @Bind(R.id.entry_tv)
     TextView entryTv;
+    @Bind(R.id.search_tv)
+    ImageView searchTv;
 
     private ClientAnalysisAdapter adapter;
     private List<BaseDataModel> models = new ArrayList<>();
@@ -234,7 +237,7 @@ public class ClientFragment extends BaseFragment implements AdapterView.OnItemCl
     }
 
 
-    @OnClick({R.id.entry_tv, R.id.add_client_tv, R.id.old_client_tv, R.id.bus_client_layout, R.id.focus_client_layout, R.id.new_client_layout, R.id.debt_client_layout, R.id.old_client_layout, R.id.title_tv})
+    @OnClick({R.id.entry_tv, R.id.add_client_tv, R.id.old_client_tv, R.id.bus_client_layout, R.id.focus_client_layout, R.id.new_client_layout, R.id.debt_client_layout, R.id.old_client_layout, R.id.title_tv,R.id.search_tv})
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.add_client_tv:
@@ -281,10 +284,12 @@ public class ClientFragment extends BaseFragment implements AdapterView.OnItemCl
                 break;
             case R.id.title_tv:
                 startActivity(new Intent(getActivity(), ClientListActivity.class).putExtra("clientType", "5").putExtra("title", titleTv.getText().toString()));
-
                 break;
             case R.id.entry_tv:
                 startActivityForResult(new Intent(getActivity(), ContactsBatchActivity.class), 0x11);
+                break;
+            case R.id.search_tv:
+                startActivity(new Intent(getActivity(), GlobalSearchActivity.class));
                 break;
         }
     }

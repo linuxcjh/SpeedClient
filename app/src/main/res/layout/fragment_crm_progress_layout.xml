@@ -52,8 +52,7 @@
             android:id="@+id/sales_progress_check_arrow_iv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/list_arrow"
-            android:visibility="gone" />
+            android:src="@drawable/list_arrow" />
     </LinearLayout>
 
     <ImageView

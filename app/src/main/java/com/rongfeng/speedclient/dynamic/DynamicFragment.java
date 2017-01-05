@@ -12,6 +12,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LinearInterpolator;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -60,6 +61,8 @@ public class DynamicFragment extends BaseFragment implements ICommonPaginationAc
     ImageButton plusIb;
     @Bind(R.id.notice_tv)
     TextView noticeTv;
+    @Bind(R.id.search_tv)
+    ImageView searchTv;
 
     private DynamicAdapter mAdapter;
 
@@ -189,7 +192,7 @@ public class DynamicFragment extends BaseFragment implements ICommonPaginationAc
     }
 
 
-    @OnClick({R.id.shortcut_camera_tv, R.id.shortcut_position_tv, R.id.plus_ib, R.id.notice_tv})
+    @OnClick({R.id.shortcut_camera_tv, R.id.shortcut_position_tv, R.id.plus_ib, R.id.notice_tv,R.id.search_tv})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.shortcut_camera_tv:
@@ -215,6 +218,9 @@ public class DynamicFragment extends BaseFragment implements ICommonPaginationAc
                 break;
             case R.id.notice_tv:
                 startActivity(new Intent(getActivity(), NoticeActivity.class));
+                break;
+            case R.id.search_tv:
+                startActivity(new Intent(getActivity(), GlobalSearchActivity.class));
                 break;
 
         }
