@@ -21,6 +21,8 @@ import com.rongfeng.speedclient.R;
 import com.rongfeng.speedclient.client.adapter.ClientAnalysisAdapter;
 import com.rongfeng.speedclient.client.entry.AnalysisClientModel;
 import com.rongfeng.speedclient.common.BaseFragment;
+import com.rongfeng.speedclient.common.Constant;
+import com.rongfeng.speedclient.common.utils.AppTools;
 import com.rongfeng.speedclient.components.MyGridView;
 import com.rongfeng.speedclient.components.RadarChartView;
 import com.rongfeng.speedclient.contactindex.ContactsBatchActivity;
@@ -92,12 +94,12 @@ public class ClientFragment extends BaseFragment implements AdapterView.OnItemCl
         View view = inflater.inflate(R.layout.fragment_client_layout, null);
         ButterKnife.bind(this, view);
         init();
-
         return view;
     }
 
 
     private void init() {
+        AppTools.showIntro(getActivity(), addClientTv, Constant.TAB_CLIENT_ADD_TIPS_TAG, "在这里\"新建\"或\"批量导入\"客户");
 
         transDataModel.setRadarType("0");
         models.add(new BaseDataModel("新客户", "0 个"));
@@ -237,7 +239,7 @@ public class ClientFragment extends BaseFragment implements AdapterView.OnItemCl
     }
 
 
-    @OnClick({R.id.entry_tv, R.id.add_client_tv, R.id.old_client_tv, R.id.bus_client_layout, R.id.focus_client_layout, R.id.new_client_layout, R.id.debt_client_layout, R.id.old_client_layout, R.id.title_tv,R.id.search_tv})
+    @OnClick({R.id.entry_tv, R.id.add_client_tv, R.id.old_client_tv, R.id.bus_client_layout, R.id.focus_client_layout, R.id.new_client_layout, R.id.debt_client_layout, R.id.old_client_layout, R.id.title_tv, R.id.search_tv})
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.add_client_tv:
@@ -298,7 +300,6 @@ public class ClientFragment extends BaseFragment implements AdapterView.OnItemCl
     private void initStartActivity(String type, String typeName) {
 
         startActivity(new Intent(getActivity(), ClientListActivity.class).putExtra("clientType", type).putExtra("title", typeName));
-
 
     }
 

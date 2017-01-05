@@ -27,7 +27,6 @@ import com.rongfeng.speedclient.client.entry.AddClientTransModel;
 import com.rongfeng.speedclient.common.BaseFragment;
 import com.rongfeng.speedclient.common.Constant;
 import com.rongfeng.speedclient.common.utils.AppTools;
-import com.rongfeng.speedclient.components.GuideViewDisplayUtil;
 import com.rongfeng.speedclient.components.MyDialog;
 import com.rongfeng.speedclient.dynamic.GlobalSearchActivity;
 import com.rongfeng.speedclient.entity.BaseDataModel;
@@ -37,6 +36,10 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import co.mbiwise.materialintro.animation.MaterialIntroListener;
+import co.mbiwise.materialintro.shape.Focus;
+import co.mbiwise.materialintro.shape.FocusGravity;
+import co.mbiwise.materialintro.view.MaterialIntroView;
 
 import static com.rongfeng.speedclient.common.Constant.ADD_CLIENT_INDEX;
 
@@ -44,12 +47,11 @@ import static com.rongfeng.speedclient.common.Constant.ADD_CLIENT_INDEX;
  * 语音
  * 2016/1/13
  */
-public class VoiceFragment extends BaseFragment {
+public class VoiceFragment extends BaseFragment implements MaterialIntroListener {
 
 
     public static final int SEARCH_CLIENT_INDEX = 2; //查找客户
     public static final int PROGRESS_CLIENT_INDEX = 3; //跟进客户
-
 
     @Bind(R.id.select_language_tv)
     public TextView selectLanguageTv;
@@ -69,10 +71,7 @@ public class VoiceFragment extends BaseFragment {
     public LinearLayout voiceInputLayout;
 
 
-    public GuideViewDisplayUtil mGuideViewUtil;
-
     private int currentIndex;
-
 
 
     @Nullable
@@ -87,7 +86,7 @@ public class VoiceFragment extends BaseFragment {
 
 
     public void initView() {
-
+        showIntro(inputSearchClientTv, INTRO_CARD1, "快速查找客户~", FocusGravity.CENTER);
     }
 
     /**
@@ -121,9 +120,6 @@ public class VoiceFragment extends BaseFragment {
 
     public void init() {
 
-        View view = getActivity().getLayoutInflater().inflate(R.layout.tips_view_layout, null);
-
-        mGuideViewUtil = new GuideViewDisplayUtil(getActivity(), view);
 
         contentEt.addTextChangedListener(new TextWatcher() {
             @Override
@@ -248,6 +244,32 @@ public class VoiceFragment extends BaseFragment {
         }
     };
 
+
+    static final String INTRO_CARD1 = "intro_card_1";
+    static final String INTRO_CARD2 = "intro_card_2";
+
+    @Override
+    public void onUserClicked(String materialIntroViewId) {
+        if (materialIntroViewId == INTRO_CARD1) {
+            showIntro(inputConfirmTv, INTRO_CARD2, "可以将录入内容关联到客户跟进记录~", FocusGravity.CENTER);
+        }
+    }
+
+    public void showIntro(View view, String id, String text, FocusGravity focusGravity) {
+        new MaterialIntroView.Builder(getActivity())
+                .enableDotAnimation(false)
+                .setTargetPadding(20)
+                .setFocusGravity(focusGravity)
+                .setFocusType(Focus.MINIMUM)
+                .setDelayMillis(200)
+                .enableFadeAnimation(true)
+                .performClick(true)
+                .setInfoText(text)
+                .setTarget(view)
+                .setListener(this)
+                .setUsageId(id) //THIS SHOULD BE UNIQUE ID
+                .show();
+    }
 
     @Override
     public void onDestroyView() {

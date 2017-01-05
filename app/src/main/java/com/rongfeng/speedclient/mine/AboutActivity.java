@@ -25,7 +25,6 @@ import butterknife.OnClick;
  */
 public class AboutActivity extends BaseActivity {
 
-    TextView titleMidTv;
     @Bind(R.id.version_tv)
     TextView versionTv;
     @Bind(R.id.about_bj_layout)
@@ -55,8 +54,7 @@ public class AboutActivity extends BaseActivity {
 
     private void initViews() {
 
-        titleMidTv.setText("关于行销宝");
-        versionTv.setText("行销宝V" + DeviceInfoUtil.instance().getAppInfo());
+        versionTv.setText("快脑 V" + DeviceInfoUtil.instance().getAppInfo());
 
     }
 

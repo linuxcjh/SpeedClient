@@ -16,6 +16,7 @@ import com.rongfeng.speedclient.common.BaseActivity;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import co.mbiwise.materialintro.prefs.PreferencesManager;
 
 /**
  * 账号与安全
@@ -88,7 +89,8 @@ public class SetActivity extends BaseActivity {
 
                 break;
             case R.id.about_layout:
-                startActivity(new Intent(this, AboutActivity.class));
+                new PreferencesManager(getApplicationContext()).resetAll();
+//                startActivity(new Intent(this, AboutActivity.class));
 
                 break;
         }

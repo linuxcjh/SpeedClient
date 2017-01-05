@@ -259,7 +259,7 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="15dp"
-        android:text="荣峰科技 © 2012-2016"
+        android:text="荣峰科技 © 2012-2017"
         android:textColor="@color/colorAssist"
         android:textSize="14sp" />
 </RelativeLayout>

@@ -94,6 +94,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import co.mbiwise.materialintro.shape.Focus;
+import co.mbiwise.materialintro.shape.FocusGravity;
+import co.mbiwise.materialintro.shape.ShapeType;
+import co.mbiwise.materialintro.view.MaterialIntroView;
+
 
 /**
  * AUTHOR: Alex
@@ -1595,5 +1600,29 @@ public class AppTools {
         db.close();
 
         return data;
+    }
+
+
+    /**
+     * 提示信息
+     *
+     * @param activity
+     * @param view
+     * @param usageId
+     * @param text
+     */
+    public static void showIntro(Activity activity, View view, String usageId, String text) {
+        new MaterialIntroView.Builder(activity)
+                .enableDotAnimation(false)
+                .setFocusGravity(FocusGravity.CENTER)
+                .setFocusType(Focus.NORMAL)
+                .setDelayMillis(200)
+                .enableFadeAnimation(true)
+                .performClick(true)
+                .setInfoText(text)
+                .setTarget(view)
+                .setShape(ShapeType.CIRCLE)
+                .setUsageId(usageId) //THIS SHOULD BE UNIQUE ID
+                .show();
     }
 }

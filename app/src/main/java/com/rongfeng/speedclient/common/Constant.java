@@ -95,7 +95,6 @@ public interface Constant {
     public static final int DISMISS_DIALOG_INDEX = 0x331;
 
 
-
     /**
      * 搜索popuwindos 选中项返回
      */
@@ -293,6 +292,13 @@ public interface Constant {
      * 上传客户词表
      */
     String UPLOAD_CLIENT_FLAG = "userword";
+
+
+    String TAB_VOICE_TIPS_TAG = "tab_voice_tips_tag";
+    String TAB_CLIENT_TIPS_TAG = "tab_client_tips_tag";
+    String TAB_CLIENT_ADD_TIPS_TAG = "tab_client_add_tips_tag";
+
+
 
 
 }

@@ -30,6 +30,7 @@ import com.baidu.android.pushservice.PushManager;
 import com.rongfeng.speedclient.R;
 import com.rongfeng.speedclient.client.ClientFragment;
 import com.rongfeng.speedclient.common.BaseActivity;
+import com.rongfeng.speedclient.common.Constant;
 import com.rongfeng.speedclient.common.ConstantPermission;
 import com.rongfeng.speedclient.common.utils.AppConfig;
 import com.rongfeng.speedclient.common.utils.AppTools;
@@ -125,6 +126,9 @@ public class MainTableActivity extends BaseActivity {
         init();
         obtainDisplayHeight();
         defaultSelect();
+        AppTools.showIntro(MainTableActivity.this, tabClientLayout, Constant.TAB_CLIENT_TIPS_TAG, "快去导入客户吧\n导入客户后既可通过语音识别\n快速跟进客户");
+
+//        AppTools.showIntro(MainTableActivity.this, tabPlusIv, Constant.TAB_VOICE_TIPS_TAG, "长安语音按钮可以快速语音输入\n公司客户尽量说出公司全称");
     }
 
 
@@ -443,4 +447,6 @@ public class MainTableActivity extends BaseActivity {
         super.onDestroy();
         voiceRecord.stopPlay();
     }
+
+
 }
