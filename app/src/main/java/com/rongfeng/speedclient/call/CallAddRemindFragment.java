@@ -99,7 +99,7 @@ public class CallAddRemindFragment extends BaseFragment {
     public void obtainData(Object data, String methodIndex, int status) {
         super.obtainData(data, methodIndex, status);
         if (status == 1) {
-            AppTools.getToast("已成功设置下次跟进提醒");
+            AppTools.getToast("已成功设置下次跟进时间");
             getActivity().finish();
         }
     }

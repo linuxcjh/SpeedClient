@@ -12,13 +12,13 @@
         android:layout_width="match_parent"
         android:layout_height="110dp"
         android:layout_gravity="center"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
+        android:layout_marginLeft="14dp"
+        android:layout_marginRight="14dp"
         android:layout_marginTop="10dp"
         android:background="@drawable/radar_bg"
         android:gravity="center_vertical"
         android:orientation="vertical"
-        android:paddingLeft="14dp">
+        android:paddingLeft="12dp">
 
 
         <TextView
@@ -46,7 +46,7 @@
                 android:drawablePadding="5dp"
                 android:text="商机"
                 android:textColor="@color/colorListName"
-                android:textSize="12sp" />
+                android:textSize="11sp" />
 
             <TextView
                 android:id="@+id/client_visited_count_tv"
@@ -57,7 +57,7 @@
                 android:drawablePadding="5dp"
                 android:text="跟进999次"
                 android:textColor="@color/colorListName"
-                android:textSize="12sp" />
+                android:textSize="11sp" />
 
 
 
@@ -85,7 +85,7 @@
                 android:singleLine="true"
                 android:text="创建时间"
                 android:textColor="@color/colorListName"
-                android:textSize="12sp" />
+                android:textSize="11sp" />
 
             <TextView
                 android:id="@+id/client_last_tv"
@@ -97,7 +97,7 @@
                 android:singleLine="true"
                 android:text="上次跟进 2015-09-13"
                 android:textColor="@color/colorListName"
-                android:textSize="12sp" />
+                android:textSize="11sp" />
 
 
         </LinearLayout>

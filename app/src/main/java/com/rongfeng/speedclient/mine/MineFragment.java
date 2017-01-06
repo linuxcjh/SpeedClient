@@ -68,7 +68,6 @@ public class MineFragment extends BaseFragment {
 
     private void init() {
         mineFirstName.setText(AppTools.getUser().getUserName());
-
     }
 
 
@@ -101,9 +100,23 @@ public class MineFragment extends BaseFragment {
 
                 break;
             case R.id.performance_layout:
-//
+
+//                WebView webView = new WebView(getActivity());
+//                webView.getSettings().setJavaScriptEnabled(true);
+//                webView.loadUrl("http://q.url.cn/s/SuW45Vm");
+//                webView.setWebViewClient(new WebViewClient(){
+//                    public boolean shouldOverrideUrlLoading(WebView view, String url) {
+//                        if (url.startsWith("http:") || url.startsWith("https:")) {
+//                            return false;
+//                        }
+//                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+//                        startActivity(intent);
+//                        return true;
+//                    }
+//                });
+
+
                 startActivity(new Intent(getActivity(), RebackActivity.class));
-//
                 break;
             case R.id.target_layout:
 

@@ -5,12 +5,14 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ImageView;
 
 import com.rongfeng.speedclient.R;
 import com.rongfeng.speedclient.common.BaseActivity;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * 意见反馈
@@ -21,6 +23,8 @@ public class RebackActivity extends BaseActivity {
 
     @Bind(R.id.web_view)
     WebView mWebView;
+    @Bind(R.id.cancel_tv)
+    ImageView cancelTv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,9 +36,14 @@ public class RebackActivity extends BaseActivity {
 
     private void initViews() {
         mWebView.getSettings().setJavaScriptEnabled(true);
-        mWebView.loadUrl("http://192.168.2.87:8083/2.html");
+        mWebView.loadUrl("http://59.110.52.231:8108/qidian/qidian_web.html");
         mWebView.setWebViewClient(new DemoWebViewClient());
 
+    }
+
+    @OnClick(R.id.cancel_tv)
+    public void onClick() {
+        finish();
     }
 
     class DemoWebViewClient extends WebViewClient {

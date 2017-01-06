@@ -297,7 +297,7 @@
                 android:drawablePadding="14dp"
                 android:drawableTop="@drawable/me_honor"
                 android:gravity="center"
-                android:text="意见反馈"
+                android:text="在线咨询"
                 android:textColor="@color/colorListName"
                 android:textSize="14sp" />
 

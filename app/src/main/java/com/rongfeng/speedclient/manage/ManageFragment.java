@@ -174,8 +174,6 @@ public class ManageFragment extends BaseFragment implements SwipeRefreshLayout.O
         transDataModel.setQueryId(AppTools.getUser().getUserId());
         commonPresenter.invokeInterfaceObtainData(XxbService.SEARCHUSERSYSTEM, transDataModel, new TypeToken<ReceivedManageModel>() {
         });
-
-
     }
 
     private void setStartEndDate(int index) {

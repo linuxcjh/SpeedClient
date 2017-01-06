@@ -82,7 +82,7 @@ public class ClientListFragment extends BaseFragment implements ICommonPaginatio
         mRecyclerView.setLaodingMoreProgressStyle(ProgressStyle.Pacman);
         mRecyclerView.setArrowImageView(R.drawable.refresh_pulldown);
         mRecyclerView.setLoadingListener(this);
-        mAdapter = new ClientAdapter(getActivity(), R.layout.fragment_client_item_other_layout);
+        mAdapter = new ClientAdapter(getActivity(), R.layout.fragment_client_item_other_layout,getArguments().getString("clientType"));
         mAdapter.setOnRecyclerViewListener(this);
         mRecyclerView.setAdapter(mAdapter);
 

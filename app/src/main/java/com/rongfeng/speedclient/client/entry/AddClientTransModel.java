@@ -22,6 +22,7 @@ public class AddClientTransModel implements Serializable {
     private String regionId;//
     private String csrTeamJsonArray;//   协
     private String csrContactJsonArray;
+    private String remindTime;//最近提醒时间
 //    private List<TeamUserModel> csrTeamJsonArray;//   协作人 teamUserName ，teamUserId
 //    private List<ContactModel> csrContactJsonArray;//
 
@@ -39,6 +40,15 @@ public class AddClientTransModel implements Serializable {
     private String fixationJsonArray;
 
     private String clientNameWordsSplit; //分词
+
+
+    public String getRemindTime() {
+        return remindTime;
+    }
+
+    public void setRemindTime(String remindTime) {
+        this.remindTime = remindTime;
+    }
 
     public String getClientNameWordsSplit() {
         return clientNameWordsSplit;
