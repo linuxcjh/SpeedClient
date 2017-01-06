@@ -255,13 +255,13 @@ public class VoiceFragment extends BaseFragment implements MaterialIntroListener
 
     public void showIntro(View view, String id, String text, FocusGravity focusGravity) {
         new MaterialIntroView.Builder(getActivity())
-                .enableDotAnimation(false)
+                .enableDotAnimation(true)
                 .setTargetPadding(20)
                 .setFocusGravity(focusGravity)
                 .setFocusType(Focus.MINIMUM)
                 .setDelayMillis(200)
                 .enableFadeAnimation(true)
-                .performClick(true)
+                .performClick(false)
                 .setInfoText(text)
                 .setTarget(view)
                 .setListener(this)

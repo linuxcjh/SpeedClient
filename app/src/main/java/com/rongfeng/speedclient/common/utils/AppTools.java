@@ -1613,7 +1613,7 @@ public class AppTools {
      */
     public static void showIntro(Activity activity, View view, String usageId, String text) {
         new MaterialIntroView.Builder(activity)
-                .enableDotAnimation(false)
+                .enableDotAnimation(true)
                 .setFocusGravity(FocusGravity.CENTER)
                 .setFocusType(Focus.NORMAL)
                 .setDelayMillis(200)

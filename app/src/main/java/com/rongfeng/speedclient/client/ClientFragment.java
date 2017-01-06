@@ -31,6 +31,7 @@ import com.rongfeng.speedclient.components.RadarChartView;
 import com.rongfeng.speedclient.contactindex.ContactsBatchActivity;
 import com.rongfeng.speedclient.dynamic.GlobalSearchActivity;
 import com.rongfeng.speedclient.entity.BaseDataModel;
+import com.rongfeng.speedclient.home.MainTableActivity;
 import com.rongfeng.speedclient.utils.DensityUtil;
 
 import java.util.ArrayList;
@@ -248,6 +249,7 @@ public class ClientFragment extends BaseFragment implements AdapterView.OnItemCl
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.add_client_tv:
+                ((MainTableActivity) getActivity()).introVoice();
                 popupWindow.showAsDropDown(addClientTv, DensityUtil.dip2px(getActivity(), -103), DensityUtil.dip2px(getActivity(), -12));
                 transBackgroundAlpha(1f);
                 break;

@@ -133,11 +133,15 @@ public class MainTableActivity extends BaseActivity {
         init();
         obtainDisplayHeight();
         defaultSelect();
-        AppTools.showIntro(MainTableActivity.this, tabClientLayout, Constant.TAB_CLIENT_TIPS_TAG, "快去导入客户吧\n导入客户后既可通过语音识别\n快速跟进客户");
+        AppTools.showIntro(MainTableActivity.this, tabClientLayout, Constant.TAB_CLIENT_TIPS_TAG, "快去导入客户吧\n导入后可通过语音识别\n快速跟进客户");
 
-//        AppTools.showIntro(MainTableActivity.this, tabPlusIv, Constant.TAB_VOICE_TIPS_TAG, "长安语音按钮可以快速语音输入\n公司客户尽量说出公司全称");
     }
 
+
+    public void introVoice() {
+        AppTools.showIntro(MainTableActivity.this, tabPlusIv, Constant.TAB_VOICE_TIPS_TAG, "长安语音按钮可以快速语音输入\n涉及到客户请尽可能说出全称");
+
+    }
 
     private void invokeLogin() {
         if (!TextUtils.isEmpty(AppTools.getUser().getUserId())) {
