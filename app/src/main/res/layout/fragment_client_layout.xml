@@ -81,8 +81,8 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="280dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
                     android:layout_marginTop="6dp"
                     android:background="@drawable/radar_bg">
 
@@ -296,8 +296,8 @@
                     android:id="@+id/grid_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
                     android:layout_marginTop="15dp"
                     android:horizontalSpacing="12dp"
                     android:numColumns="2"
@@ -307,10 +307,5 @@
 
     </FrameLayout>
 
-    <!--<com.rongfeng.speedclient.components.SiriView-->
-    <!--android:id="@+id/siri_view"-->
-    <!--android:layout_width="match_parent"-->
-
-    <!--android:layout_height="100dp" />-->
 
 </LinearLayout>

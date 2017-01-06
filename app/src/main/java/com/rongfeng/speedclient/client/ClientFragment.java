@@ -1,6 +1,7 @@
 package com.rongfeng.speedclient.client;
 
 import android.content.Intent;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
@@ -8,9 +9,11 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -28,6 +31,7 @@ import com.rongfeng.speedclient.components.RadarChartView;
 import com.rongfeng.speedclient.contactindex.ContactsBatchActivity;
 import com.rongfeng.speedclient.dynamic.GlobalSearchActivity;
 import com.rongfeng.speedclient.entity.BaseDataModel;
+import com.rongfeng.speedclient.utils.DensityUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -94,6 +98,7 @@ public class ClientFragment extends BaseFragment implements AdapterView.OnItemCl
         View view = inflater.inflate(R.layout.fragment_client_layout, null);
         ButterKnife.bind(this, view);
         init();
+        initPopupWindow();
         return view;
     }
 
@@ -243,7 +248,8 @@ public class ClientFragment extends BaseFragment implements AdapterView.OnItemCl
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.add_client_tv:
-                startActivity(new Intent(getActivity(), ClientRegisterActivity.class));
+                popupWindow.showAsDropDown(addClientTv, DensityUtil.dip2px(getActivity(), -103), DensityUtil.dip2px(getActivity(), -12));
+                transBackgroundAlpha(1f);
                 break;
             case R.id.bus_client_layout:
                 if (transDataModel.getRadarType().equals("0")) {
@@ -329,5 +335,76 @@ public class ClientFragment extends BaseFragment implements AdapterView.OnItemCl
         }
     }
 
+
+    /**
+     * 初始化popupwindow
+     */
+    private void initPopupWindow() {
+
+        popupWindow = new PopupWindow(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        popupWindow.setContentView(popupWindowContentView());
+        popupWindow.setTouchable(true);
+        popupWindow.setFocusable(true);
+        popupWindow.setBackgroundDrawable(new BitmapDrawable(getResources()));
+        popupWindow.setOutsideTouchable(true);
+        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+
+            @Override
+            public void onDismiss() {
+                transBackgroundAlpha(1f);
+            }
+        });
+
+    }
+
+
+    PopupWindow popupWindow;
+
+    /**
+     * popupwindow Content view
+     *
+     * @return
+     */
+    private View popupWindowContentView() {
+
+        View view = LayoutInflater.from(getActivity()).inflate(R.layout.client_add_popup_layout, null);
+
+        TextView addClient = (TextView) view.findViewById(R.id.add_client_tv);
+        TextView addClue = (TextView) view.findViewById(R.id.add_clue_tv);
+        addClient.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), ContactsBatchActivity.class);
+                startActivity(intent);
+                popupWindow.dismiss();
+            }
+        });
+
+        addClue.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), ClientRegisterActivity.class);
+                startActivity(intent);
+                popupWindow.dismiss();
+
+            }
+        });
+
+        return view;
+
+    }
+
+
+    /**
+     * 改变窗口透明度
+     *
+     * @param alphaValue
+     */
+    private void transBackgroundAlpha(float alphaValue) {
+        WindowManager.LayoutParams lp = getActivity().getWindow().getAttributes();
+        lp.alpha = alphaValue;
+        getActivity().getWindow().setAttributes(lp);
+
+    }
 
 }

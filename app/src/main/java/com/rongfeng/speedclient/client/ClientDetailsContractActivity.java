@@ -99,9 +99,9 @@ public class ClientDetailsContractActivity extends BaseActivity {
 
     private void invoke() {
         transModel = (AddContractTransModel) getIntent().getSerializableExtra("model");
-        if (transModel.getRemainingBalance().equals("0")) {
-            commitTv.setVisibility(View.GONE);
-        }
+//        if (transModel.getRemainingBalance().equals("0")) {
+//            commitTv.setVisibility(View.GONE);
+//        }
         commonPresenter.invokeInterfaceObtainData(XxbService.SEARCHCSRCONBYID, transModel, new TypeToken<AddContractTransModel>() {
         });
     }
@@ -131,7 +131,9 @@ public class ClientDetailsContractActivity extends BaseActivity {
                     contactRebackTv.setText(AppTools.getNumKbDot(transModel.getMoneyReceipt()));
                     contractDebtTv.setText(AppTools.getNumKbDot(transModel.getRemainingBalance()));
                     contactFirstPayTv.setText(AppTools.getNumKbDot(transModel.getReturnedMoney()));
-
+                    if (transModel.getRemainingBalance().equals("0")) {
+                        commitTv.setVisibility(View.GONE);
+                    }
                 }
                 break;
             case XxbService.SEARCHCSRGATHERING:

@@ -279,10 +279,8 @@
             android:layout_width="match_parent"
             android:layout_height="110dp"
             android:layout_weight="1"
-            android:background="@color/colorWhite"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp"
-            android:visibility="invisible">
+            android:background="@color/colorWhite">
+
 
             <ImageView
                 android:layout_width="30dp"
@@ -299,7 +297,7 @@
                 android:drawablePadding="14dp"
                 android:drawableTop="@drawable/me_honor"
                 android:gravity="center"
-                android:text="我的业绩"
+                android:text="意见反馈"
                 android:textColor="@color/colorListName"
                 android:textSize="14sp" />
 
@@ -307,5 +305,6 @@
 
 
     </LinearLayout>
+
 
 </LinearLayout>

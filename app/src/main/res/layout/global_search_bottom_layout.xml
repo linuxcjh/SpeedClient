@@ -13,14 +13,14 @@
             android:id="@+id/type_name_tv"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:drawableLeft="@drawable/nav_search"
+            android:drawableLeft="@drawable/search_more"
             android:drawablePadding="4dp"
             android:gravity="center_vertical"
             android:paddingLeft="15dp"
             android:paddingRight="15dp"
             android:singleLine="true"
             android:text="查找更多"
-            android:textColor="@color/colorBlueLight"
+            android:textColor="@color/colorVoiceInput"
             android:textSize="13sp" />
     </LinearLayout>
 </LinearLayout>

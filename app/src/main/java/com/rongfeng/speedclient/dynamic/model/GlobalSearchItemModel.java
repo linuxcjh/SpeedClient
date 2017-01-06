@@ -9,7 +9,16 @@ public class GlobalSearchItemModel {
 
     private String id;
     private String title;
+    private String csrId;
     private String globalType;//1 客户2 联系人3商4成交5跟进6日志
+
+    public String getCsrId() {
+        return csrId;
+    }
+
+    public void setCsrId(String csrId) {
+        this.csrId = csrId;
+    }
 
     public String getId() {
         return id;

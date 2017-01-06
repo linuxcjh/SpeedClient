@@ -1,7 +1,9 @@
 package com.rongfeng.speedclient.dynamic;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.SpannableString;
@@ -13,6 +15,7 @@ import android.util.TypedValue;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -23,7 +26,12 @@ import com.google.gson.reflect.TypeToken;
 import com.rongfeng.speedclient.API.XxbService;
 import com.rongfeng.speedclient.R;
 import com.rongfeng.speedclient.client.ClientAddContactDetailsActivity;
+import com.rongfeng.speedclient.client.ClientDetailsContractActivity;
+import com.rongfeng.speedclient.client.ClientDetaisBusinessActivity;
 import com.rongfeng.speedclient.client.ClientPersonaActivity;
+import com.rongfeng.speedclient.client.ClientRecordsActivity;
+import com.rongfeng.speedclient.client.entry.AddBusinessTransModel;
+import com.rongfeng.speedclient.client.entry.AddContractTransModel;
 import com.rongfeng.speedclient.common.BaseActivity;
 import com.rongfeng.speedclient.common.utils.AppConfig;
 import com.rongfeng.speedclient.common.utils.AppTools;
@@ -66,6 +74,8 @@ public class GlobalSearchActivity extends BaseActivity {
     LinearLayout noteLayout;
     @Bind(R.id.follow_layout)
     LinearLayout followLayout;
+
+    Handler mHandler = new Handler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,12 +120,37 @@ public class GlobalSearchActivity extends BaseActivity {
             public void afterTextChanged(Editable s) {
                 if (!TextUtils.isEmpty(s.toString())) {
                     clearBt.setVisibility(View.VISIBLE);
+                    transDataModel.setKeyword(s.toString());
+                    invoke();
                 } else {
                     clearBt.setVisibility(View.GONE);
+                    clientLayout.setVisibility(View.GONE);
+                    contactLayout.setVisibility(View.GONE);
+                    businessLayout.setVisibility(View.GONE);
+                    bargainLayout.setVisibility(View.GONE);
+                    noteLayout.setVisibility(View.GONE);
+                    followLayout.setVisibility(View.GONE);
                 }
             }
         });
+        openKeyboard(mHandler, 200);
+    }
 
+
+    /**
+     * 弹出键盘
+     *
+     * @param mHandler
+     * @param s
+     */
+    private void openKeyboard(Handler mHandler, int s) {
+        mHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+            }
+        }, s);
     }
 
     @Override
@@ -183,7 +218,7 @@ public class GlobalSearchActivity extends BaseActivity {
                         switch (m.getGlobalType()) {
                             case "1"://客户
                                 startActivity(new Intent(GlobalSearchActivity.this, ClientPersonaActivity.class)
-                                        .putExtra("customerId", m.getId())
+                                        .putExtra("customerId", m.getCsrId())
                                         .putExtra("customerName", m.getTitle()));
                                 break;
                             case "2"://客户联系人
@@ -191,17 +226,26 @@ public class GlobalSearchActivity extends BaseActivity {
                                         .putExtra("contactId", m.getId()));
 
                                 break;
-                            case "3"://成交
+                            case "3"://商机
+                                AddBusinessTransModel mb = new AddBusinessTransModel();
+                                mb.setBusinessId(m.getId());
+                                mb.setBusinessName(m.getTitle());
+                                startActivity(new Intent(GlobalSearchActivity.this, ClientDetaisBusinessActivity.class).putExtra("model", mb).putExtra("customerId", m.getCsrId()));
 
                                 break;
-                            case "4"://商机
+                            case "4"://成交
+                                AddContractTransModel model = new AddContractTransModel();
+                                model.setConId(m.getId());
+                                model.setCsrId(m.getCsrId());
+                                startActivity(new Intent(GlobalSearchActivity.this, ClientDetailsContractActivity.class).putExtra("model", model).putExtra("customerId", m.getCsrId()));
 
                                 break;
                             case "5"://客户跟进
-
+                                startActivity(new Intent(GlobalSearchActivity.this, ClientRecordsActivity.class).putExtra("customerId", m.getCsrId()).putExtra("customerName", m.getTitle()));
                                 break;
                             case "6"://日志
-
+                                startActivity(new Intent(GlobalSearchActivity.this, NoticeDetailActivity.class)
+                                        .putExtra("content", m.getTitle()));
                                 break;
                         }
                     }
@@ -224,6 +268,8 @@ public class GlobalSearchActivity extends BaseActivity {
                 });
                 specialLayout.addView(moreView);
             }
+        } else {
+            specialLayout.setVisibility(View.GONE);
         }
     }
 

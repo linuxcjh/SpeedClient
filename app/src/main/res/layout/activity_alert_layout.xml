@@ -52,11 +52,12 @@
                         android:id="@+id/confirm_bt"
                         style="@style/title_side_text"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
+                        android:gravity="center_vertical"
                         android:paddingRight="20dp"
-                        android:text="保存"
+                        android:text="保存跟进记录"
                         android:textColor="@color/colorBlue" />
 
                 </RelativeLayout>
@@ -104,7 +105,7 @@
                 android:layout_marginTop="14dp"
                 android:text="记录通话内容："
                 android:textColor="@color/colorAssist"
-                android:textSize="14sp" />
+                android:textSize="15sp" />
 
             <EditText
                 android:id="@+id/content_et"
@@ -115,7 +116,7 @@
                 android:layout_marginTop="14dp"
                 android:background="@drawable/call_add_bg"
                 android:gravity="top|left"
-                android:hint="请录入内容"
+                android:hint="长按下方语音按钮或手动输入"
                 android:padding="10dp"
                 android:textColor="@color/colorAssist"
                 android:textColorHint="@color/colorAssistLight"

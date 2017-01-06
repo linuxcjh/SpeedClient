@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="150dp"
-    android:layout_height="131dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:gravity="center"
-    android:background="@color/colorVoiceItemBg"
     android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="120dp"
-        android:layout_marginTop="10dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/cust_add_popover"
         android:gravity="center"
         android:orientation="vertical">
 
@@ -17,14 +16,14 @@
         <TextView
             android:id="@+id/add_client_tv"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:drawableLeft="@drawable/nav_add_cust"
+            android:layout_height="50dp"
+            android:drawableLeft="@drawable/cust_add_import"
             android:drawablePadding="10dp"
+            android:layout_marginTop="8dp"
             android:gravity="center"
-            android:text="添加客户"
+            android:text="批量导入客户"
             android:textColor="@color/colorListName"
-            android:textSize="15sp" />
+            android:textSize="13sp" />
 
         <ImageView
             android:layout_width="130dp"
@@ -34,14 +33,13 @@
         <TextView
             android:id="@+id/add_clue_tv"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:drawableLeft="@drawable/nav_add_clues"
+            android:layout_height="50dp"
+            android:drawableLeft="@drawable/cust_add_creat"
             android:drawablePadding="10dp"
             android:gravity="center"
-            android:text="添加线索"
+            android:text="手动创建客户"
             android:textColor="@color/colorListName"
-            android:textSize="15sp" />
+            android:textSize="13sp" />
 
     </LinearLayout>
 </LinearLayout>

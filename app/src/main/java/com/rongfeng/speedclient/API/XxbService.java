@@ -756,4 +756,6 @@ public interface XxbService {
     String GLOBALSEARCH="globalSearch";
 
     String SEARCHSELLINGSTAGE="searchSellingStage";
+
+    String SEARCHCSRBUSINESSBYID="searchCsrBusinessById";
 }

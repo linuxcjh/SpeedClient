@@ -8,7 +8,11 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
+import android.text.SpannableString;
+import android.text.Spanned;
 import android.text.TextUtils;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -135,8 +139,15 @@ public class CallFragment extends BaseFragment implements View.OnTouchListener {
 
 
     public void init() {
-        tipTv.setText("录入\"" + getArguments().getString("clientName") + " " + getArguments().getString("contactName") + "\"的跟进内容：");
+        tipTv.setText("录入客户\" " + getArguments().getString("clientName") + " " + getArguments().getString("contactName") + " \"的跟进内容：");
         voiceBt.setOnTouchListener(this);
+
+        SpannableString ss = new SpannableString(tipTv.getText().toString());
+        int pos = tipTv.getText().toString().indexOf(getArguments().getString("clientName") + " " + getArguments().getString("contactName"));
+        if (pos != -1) {
+            ss.setSpan(new ForegroundColorSpan(ContextCompat.getColor(AppConfig.getContext(), R.color.btg_global_black)), pos, pos + (getArguments().getString("clientName") + " " + getArguments().getString("contactName")).length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            tipTv.setText(ss);
+        }
 
     }
 

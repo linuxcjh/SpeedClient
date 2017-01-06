@@ -30,7 +30,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="日程安排" />
+            android:text="跟进提醒" />
 
         <ImageButton
             android:id="@+id/add_bt"

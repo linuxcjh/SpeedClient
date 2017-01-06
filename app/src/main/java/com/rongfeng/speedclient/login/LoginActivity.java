@@ -47,7 +47,6 @@ public class LoginActivity extends BaseActivity implements ICommonAction {
     }
 
     private void init() {
-
         isLogin();
     }
 
@@ -55,11 +54,12 @@ public class LoginActivity extends BaseActivity implements ICommonAction {
      * 判断是否登录
      */
     public void isLogin() {
-        if (!TextUtils.isEmpty(AppTools.getUser().getUserId())) {
-            gotoActivity();
-        }
         inputPhoneEt.setText(AppConfig.getStringConfig("userName", ""));
         inputPhoneEt.setSelection(inputPhoneEt.getText().toString().length());
+        if (!TextUtils.isEmpty(AppTools.getUser().getUserId())) {
+            gotoActivity();
+//            loginBt.performClick();
+        }
 
     }
 

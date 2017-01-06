@@ -14,6 +14,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -27,6 +28,8 @@ import android.widget.Toast;
 import com.baidu.android.pushservice.CustomPushNotificationBuilder;
 import com.baidu.android.pushservice.PushConstants;
 import com.baidu.android.pushservice.PushManager;
+import com.google.gson.reflect.TypeToken;
+import com.rongfeng.speedclient.API.XxbService;
 import com.rongfeng.speedclient.R;
 import com.rongfeng.speedclient.client.ClientFragment;
 import com.rongfeng.speedclient.common.BaseActivity;
@@ -36,6 +39,9 @@ import com.rongfeng.speedclient.common.utils.AppConfig;
 import com.rongfeng.speedclient.common.utils.AppTools;
 import com.rongfeng.speedclient.common.utils.Utils;
 import com.rongfeng.speedclient.dynamic.DynamicFragment;
+import com.rongfeng.speedclient.login.Enterprise;
+import com.rongfeng.speedclient.login.LoginModel;
+import com.rongfeng.speedclient.login.User;
 import com.rongfeng.speedclient.manage.ManageFragment;
 import com.rongfeng.speedclient.mine.MineFragment;
 import com.rongfeng.speedclient.permisson.PermissionsChecker;
@@ -96,9 +102,9 @@ public class MainTableActivity extends BaseActivity {
     @Bind(R.id.time_second_tv)
     TextView timeSecondTv;
     //    @Bind(R.id.wave_view)
-    WaveView waveView;
+    public WaveView waveView;
     @Bind(R.id.wave_layout)
-    LinearLayout waveLayout;
+    public LinearLayout waveLayout;
     @Bind(R.id.app_layout)
     LinearLayout appLayout;
 
@@ -120,6 +126,7 @@ public class MainTableActivity extends BaseActivity {
         getWindow().setFormat(PixelFormat.TRANSLUCENT);
         setContentView(R.layout.activity_main_tab_layout);
         ButterKnife.bind(this);
+        invokeLogin();
         startService(new Intent(this, UpdateClientInfoService.class));//启动数据服务
         AppTools.clearPictureCache();
         initPush();
@@ -132,8 +139,16 @@ public class MainTableActivity extends BaseActivity {
     }
 
 
-    private void init() {
+    private void invokeLogin() {
+        if (!TextUtils.isEmpty(AppTools.getUser().getUserId())) {
+            LoginModel model = new LoginModel();
+            model.setUserAccount(AppConfig.getStringConfig("userName", ""));
+            commonPresenter.invokeInterfaceObtainData(XxbService.LOGINPHONE, model, new TypeToken<Enterprise>() {
+            });
+        }
+    }
 
+    private void init() {
 
         fragmentManager = getSupportFragmentManager();
         if (PermissionsChecker.getPermissionsChecker().lacksPermissions(ConstantPermission.PERMISSIONS_LOGIN)) {
@@ -367,6 +382,29 @@ public class MainTableActivity extends BaseActivity {
 
     }
 
+    @Override
+    public void obtainData(Object data, String methodIndex, int status) {
+        super.obtainData(data, methodIndex, status);
+        switch (methodIndex) {
+            case XxbService.LOGINPHONE:
+                Enterprise model = (Enterprise) data;
+                AppTools.saveEnterpriseModel(model);
+                List<User> arr = model.getArr();
+                if (arr != null) {
+                    int len = arr.size();
+                    if (len > 1) {
+                    } else if (len == 1) {
+                        if (!AppTools.verifyLoginInfo(model.getArr().get(0).getIsLose(), false)) {
+                        } else if (!AppTools.verifyLoginNoEffect(model.getArr().get(0).getIsEffect(), false)) {
+                        } else {
+                            AppTools.saveUserModel(model.getArr().get(0));
+                        }
+
+                    }
+                }
+                break;
+        }
+    }
 
     /**
      * Set navigation status

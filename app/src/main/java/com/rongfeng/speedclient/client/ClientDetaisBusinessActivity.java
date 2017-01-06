@@ -122,21 +122,19 @@ public class ClientDetaisBusinessActivity extends BaseActivity {
         setContentView(R.layout.activity_client_add_business_layout);
         ButterKnife.bind(this);
         initViews();
-        invoke("5");
+
+        detailInvoke();
     }
 
     private void initViews() {
         addContractBt.setVisibility(View.VISIBLE);
         titleTv.setText("商机编辑");
-        transModel = (AddBusinessTransModel) getIntent().getSerializableExtra("model");
-        transModel.setCsrId(getIntent().getStringExtra("customerId"));
 
         flowLayoutLayout.setVisibility(View.GONE);
         productLayout.setVisibility(View.VISIBLE);
-//        if (TextUtils.isEmpty(transModel.getProductId())) {
-//            dataLabel.add(new BaseDataModel("0", "+ 产品"));
-//            generationLabels(this, dataLabel, flowLayoutLayout);
-//        }
+
+        transModel = (AddBusinessTransModel) getIntent().getSerializableExtra("model");
+        transModel.setCsrId(getIntent().getStringExtra("customerId"));
         resBusNameTv.setText(transModel.getBusinessName());
         resValueTv.setText(transModel.getPredictMoney());
         resBargainTimeTv.setText(transModel.getPredictTime());
@@ -144,6 +142,13 @@ public class ClientDetaisBusinessActivity extends BaseActivity {
 
 
     }
+
+    private void detailInvoke() {
+
+        commonPresenter.invokeInterfaceObtainData(XxbService.SEARCHCSRBUSINESSBYID, transModel, new TypeToken<AddBusinessTransModel>() {
+        });
+    }
+
 
     private void invoke() {
         transModel.setBusinessName(resBusNameTv.getText().toString());
@@ -170,6 +175,18 @@ public class ClientDetaisBusinessActivity extends BaseActivity {
     public void obtainData(Object data, String methodIndex, int status) {
         super.obtainData(data, methodIndex, status);
         switch (methodIndex) {
+            case XxbService.SEARCHCSRBUSINESSBYID:
+                if (data != null) {
+                    transModel = (AddBusinessTransModel) data;
+                    resBusNameTv.setText(transModel.getBusinessName());
+                    resValueTv.setText(transModel.getPredictMoney());
+                    resBargainTimeTv.setText(transModel.getPredictTime());
+                    contractProductTv.setText(transModel.getProductName());
+                    invoke("5");
+
+                }
+
+                break;
             case XxbService.UPDATECSRBUSINESS:
                 if (status == 1) {
                     AppTools.getToast("更新成功");
@@ -188,19 +205,19 @@ public class ClientDetaisBusinessActivity extends BaseActivity {
 
                         switch (transModel.getBusinessStageName()) {
                             case "意向":
-                                stageOneTv.performClick();
+                                stageOneTvLayout.performClick();
                                 break;
                             case "洽谈":
-                                stageTwoTv.performClick();
+                                stageTwoTvLayout.performClick();
                                 break;
                             case "商务":
-                                stageThreeTv.performClick();
+                                stageThreeTvLayout.performClick();
                                 break;
                             case "成交":
-                                stageFourTv.performClick();
+                                stageFourTvLayout.performClick();
                                 break;
                             default:
-                                stageOneTv.performClick();
+                                stageOneTvLayout.performClick();
                                 break;
                         }
                     }
