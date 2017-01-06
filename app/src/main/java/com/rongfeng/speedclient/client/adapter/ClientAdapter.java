@@ -38,7 +38,7 @@ public class ClientAdapter extends BaseRecyclerAdapter<AddClientTransModel> {
         holder.setText(R.id.client_bus_count_tv, "商机 ￥" + AppTools.getNumKbDot(model.getBusinessMoney()) + "元");
         holder.setText(R.id.client_visited_count_tv, "跟进 " + model.getFollowCount() + " 次");
         if (!TextUtils.isEmpty(clientType)&&(clientType.equals("12") || clientType.equals("13") || clientType.equals("14") || clientType.equals("15") || clientType.equals("16"))) {
-            holder.setText(R.id.client_last_tv, "跟进计划 " + model.getRemindTime());
+            holder.setText(R.id.client_last_tv, "计划跟进 " + model.getRemindTime());
         } else {
             holder.setText(R.id.client_last_tv, "上次跟进 " + model.getLastTime());
         }
