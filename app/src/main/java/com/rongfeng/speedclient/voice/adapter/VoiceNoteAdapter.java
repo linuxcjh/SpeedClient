@@ -1,13 +1,19 @@
 package com.rongfeng.speedclient.voice.adapter;
 
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
+import android.text.SpannableString;
+import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
+import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.rongfeng.speedclient.R;
+import com.rongfeng.speedclient.common.utils.AppConfig;
 import com.rongfeng.speedclient.common.utils.DateUtil;
 import com.rongfeng.speedclient.voice.model.VoiceNoteModel;
 import com.rongfeng.speedclient.xrecyclerview.BaseRecyclerAdapter;
@@ -22,6 +28,7 @@ import java.util.List;
  */
 public class VoiceNoteAdapter extends BaseRecyclerAdapter<VoiceNoteModel> {
 
+    private String keyWords;
     private static OnItemClickViewListener onRecyclerViewListener;
 
     public void setOnRecyclerViewListener(OnItemClickViewListener onRecyclerViewListener) {
@@ -30,6 +37,11 @@ public class VoiceNoteAdapter extends BaseRecyclerAdapter<VoiceNoteModel> {
 
     public VoiceNoteAdapter(Context context, int layoutResId, List<VoiceNoteModel> data) {
         super(context, layoutResId, data);
+    }
+
+    public void setKeyWords(String keyWords) {
+
+        this.keyWords = keyWords;
     }
 
     public VoiceNoteAdapter(Context context, int layoutResId) {
@@ -70,7 +82,20 @@ public class VoiceNoteAdapter extends BaseRecyclerAdapter<VoiceNoteModel> {
             }
 
         }
-        holder.setText(R.id.content_tv, model.getNoteContent());
+
+        TextView contentTv = holder.getView(R.id.content_tv);
+        if (TextUtils.isEmpty(keyWords)) {
+            contentTv.setText(model.getNoteContent());
+        } else {
+            SpannableString ss = new SpannableString(model.getNoteContent());
+            int pos = model.getNoteContent().indexOf(keyWords);
+            if (pos != -1) {
+                ss.setSpan(new ForegroundColorSpan(ContextCompat.getColor(AppConfig.getContext(), R.color.colorBlue)), pos, pos + keyWords.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                contentTv.setText(ss);
+            }
+        }
+
+
     }
 
 }

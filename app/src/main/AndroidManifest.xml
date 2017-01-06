@@ -272,6 +272,7 @@
 
         <activity android:name=".mine.RebackActivity" />
         <activity android:name=".dynamic.NoticeDetailActivity" />
+        <activity android:name=".voice.VoiceNoteSearchActivity" />
     </application>
 
 </manifest>
