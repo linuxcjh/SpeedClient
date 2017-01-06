@@ -1,4 +1,4 @@
-package com.rongfeng.speedclient.dynamic;
+package com.rongfeng.speedclient.client;
 
 import android.content.Context;
 import android.content.Intent;
@@ -25,13 +25,7 @@ import android.widget.TextView;
 import com.google.gson.reflect.TypeToken;
 import com.rongfeng.speedclient.API.XxbService;
 import com.rongfeng.speedclient.R;
-import com.rongfeng.speedclient.client.ClientAddContactDetailsActivity;
-import com.rongfeng.speedclient.client.ClientDetailsContractActivity;
-import com.rongfeng.speedclient.client.ClientDetaisBusinessActivity;
-import com.rongfeng.speedclient.client.ClientPersonaActivity;
-import com.rongfeng.speedclient.client.ClientRecordsActivity;
-import com.rongfeng.speedclient.client.entry.AddBusinessTransModel;
-import com.rongfeng.speedclient.client.entry.AddContractTransModel;
+import com.rongfeng.speedclient.client.entry.AddClientTransModel;
 import com.rongfeng.speedclient.common.BaseActivity;
 import com.rongfeng.speedclient.common.utils.AppConfig;
 import com.rongfeng.speedclient.common.utils.AppTools;
@@ -49,7 +43,7 @@ import butterknife.OnClick;
  * <p/>
  * Alex
  */
-public class GlobalSearchActivity extends BaseActivity {
+public class ClientSearchActivity extends BaseActivity {
 
 
     @Bind(R.id.left_icon)
@@ -90,7 +84,13 @@ public class GlobalSearchActivity extends BaseActivity {
         });
     }
 
+
     private void initViews() {
+        contactLayout.setVisibility(View.GONE);
+        businessLayout.setVisibility(View.GONE);
+        bargainLayout.setVisibility(View.GONE);
+        noteLayout.setVisibility(View.GONE);
+        followLayout.setVisibility(View.GONE);
         searchEt.setImeOptions(EditorInfo.IME_ACTION_SEARCH);
         searchEt.setOnEditorActionListener(new TextView.OnEditorActionListener() {
 
@@ -125,11 +125,7 @@ public class GlobalSearchActivity extends BaseActivity {
                 } else {
                     clearBt.setVisibility(View.GONE);
                     clientLayout.setVisibility(View.GONE);
-                    contactLayout.setVisibility(View.GONE);
-                    businessLayout.setVisibility(View.GONE);
-                    bargainLayout.setVisibility(View.GONE);
-                    noteLayout.setVisibility(View.GONE);
-                    followLayout.setVisibility(View.GONE);
+
                 }
             }
         });
@@ -174,11 +170,11 @@ public class GlobalSearchActivity extends BaseActivity {
     private void setDataToLayout(GlobalSearchModel model) {
 
         initLayout(model.getCsrJsonArray(), clientLayout, "客户");
-        initLayout(model.getCsrcontactJsonArray(), contactLayout, "客户联系人");
-        initLayout(model.getCsrconJsonArray(), bargainLayout, "成交");
-        initLayout(model.getCsrbusinessJsonArray(), businessLayout, "商机");
-        initLayout(model.getFollowUpJsonArray(), followLayout, "客户跟进");
-        initLayout(model.getNoteJsonArray(), noteLayout, "日志");
+//        initLayout(model.getCsrcontactJsonArray(), contactLayout, "客户联系人");
+//        initLayout(model.getCsrconJsonArray(), bargainLayout, "成交");
+//        initLayout(model.getCsrbusinessJsonArray(), businessLayout, "商机");
+//        initLayout(model.getFollowUpJsonArray(), followLayout, "客户跟进");
+//        initLayout(model.getNoteJsonArray(), noteLayout, "日志");
 
     }
 
@@ -207,10 +203,6 @@ public class GlobalSearchActivity extends BaseActivity {
                     contentTv.setText(ss);
                 }
 
-
-                if (i > 2) {
-                    contentView.setVisibility(View.GONE);
-                }
                 specialLayout.addView(contentView);
 
 
@@ -222,56 +214,16 @@ public class GlobalSearchActivity extends BaseActivity {
 
                         switch (m.getGlobalType()) {
                             case "1"://客户
-                                startActivity(new Intent(GlobalSearchActivity.this, ClientPersonaActivity.class)
-                                        .putExtra("customerId", m.getCsrId())
-                                        .putExtra("customerName", m.getTitle()));
-                                break;
-                            case "2"://客户联系人
-                                startActivity(new Intent(GlobalSearchActivity.this, ClientAddContactDetailsActivity.class)
-                                        .putExtra("contactId", m.getId()));
-
-                                break;
-                            case "3"://商机
-                                AddBusinessTransModel mb = new AddBusinessTransModel();
-                                mb.setBusinessId(m.getId());
-                                mb.setBusinessName(m.getTitle());
-                                startActivity(new Intent(GlobalSearchActivity.this, ClientDetaisBusinessActivity.class).putExtra("model", mb).putExtra("customerId", m.getCsrId()));
-
-                                break;
-                            case "4"://成交
-                                AddContractTransModel model = new AddContractTransModel();
-                                model.setConId(m.getId());
+                                AddClientTransModel model = new AddClientTransModel();
                                 model.setCsrId(m.getCsrId());
-                                startActivity(new Intent(GlobalSearchActivity.this, ClientDetailsContractActivity.class).putExtra("model", model).putExtra("customerId", m.getCsrId()));
+                                model.setCustomerName(m.getTitle());
+                                setResult(RESULT_OK, new Intent().putExtra("model", model));
+                                ClientSearchActivity.this.finish();
+                                break;
 
-                                break;
-                            case "5"://客户跟进
-                                startActivity(new Intent(GlobalSearchActivity.this, ClientRecordsActivity.class).putExtra("customerId", m.getCsrId()).putExtra("customerName", m.getTitle()));
-                                break;
-                            case "6"://日志
-                                startActivity(new Intent(GlobalSearchActivity.this, NoticeDetailActivity.class)
-                                        .putExtra("content", m.getTitle()));
-                                break;
                         }
                     }
                 });
-            }
-            if (specialList.size() > 3) {
-                View moreView = getLayoutInflater().inflate(R.layout.global_search_bottom_layout, null);
-                moreView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        for (int i = 0; i < specialLayout.getChildCount(); i++) {
-
-                            if (specialLayout.getChildAt(i).getVisibility() == View.GONE) {
-                                specialLayout.getChildAt(i).setVisibility(View.VISIBLE);
-                            }
-                        }
-                        specialLayout.removeView(specialLayout.getChildAt(specialLayout.getChildCount() - 1));
-
-                    }
-                });
-                specialLayout.addView(moreView);
             }
         } else {
             specialLayout.setVisibility(View.GONE);

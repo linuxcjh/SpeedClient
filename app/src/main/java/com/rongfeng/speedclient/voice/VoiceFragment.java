@@ -22,13 +22,13 @@ import com.rongfeng.speedclient.API.XxbService;
 import com.rongfeng.speedclient.R;
 import com.rongfeng.speedclient.client.ClientPersonaActivity;
 import com.rongfeng.speedclient.client.ClientRegisterActivity;
+import com.rongfeng.speedclient.client.ClientSearchActivity;
 import com.rongfeng.speedclient.client.ClientVisitActivity;
 import com.rongfeng.speedclient.client.entry.AddClientTransModel;
 import com.rongfeng.speedclient.common.BaseFragment;
 import com.rongfeng.speedclient.common.Constant;
 import com.rongfeng.speedclient.common.utils.AppTools;
 import com.rongfeng.speedclient.components.MyDialog;
-import com.rongfeng.speedclient.dynamic.GlobalSearchActivity;
 import com.rongfeng.speedclient.entity.BaseDataModel;
 
 import java.util.List;
@@ -40,8 +40,6 @@ import co.mbiwise.materialintro.animation.MaterialIntroListener;
 import co.mbiwise.materialintro.shape.Focus;
 import co.mbiwise.materialintro.shape.FocusGravity;
 import co.mbiwise.materialintro.view.MaterialIntroView;
-
-import static com.rongfeng.speedclient.common.Constant.ADD_CLIENT_INDEX;
 
 /**
  * 语音
@@ -227,16 +225,16 @@ public class VoiceFragment extends BaseFragment implements MaterialIntroListener
                             .putExtra("customerId", proIndex.getDictionaryId())
                             .putExtra("customerName", proIndex.getDictionaryName())
                             .putExtra("content", contentEt.getText().toString()));
-
                     break;
                 case Constant.SEARCH_CLIENT_INDEX:
-                    startActivity(new Intent(getActivity(), GlobalSearchActivity.class));
+                    startActivityForResult(new Intent(getActivity(), ClientSearchActivity.class)
+                            .putExtra("voiceConent", contentEt.getText().toString()), Constant.SEARCH_CLIENT_INDEX);
                     break;
                 case Constant.ADD_CLIENT_INDEX:
-                    startActivityForResult(new Intent(getActivity(), ClientRegisterActivity.class), ADD_CLIENT_INDEX);
+                    startActivityForResult(new Intent(getActivity(), ClientRegisterActivity.class)
+                            .putExtra("voiceConent", contentEt.getText().toString()), Constant.ADD_CLIENT_INDEX);
                     break;
                 case Constant.CONFIRMDIALOG:
-
                     startActivity(new Intent(getActivity(), VoiceNoteActivity.class));
                     break;
             }
@@ -277,30 +275,26 @@ public class VoiceFragment extends BaseFragment implements MaterialIntroListener
         ButterKnife.unbind(this);
     }
 
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (data != null) {
-            switch (requestCode) {
-                case Constant.ADD_CLIENT_INDEX:
-                    AddClientTransModel transModel = (AddClientTransModel) data.getSerializableExtra("model");
+            AddClientTransModel transModel = (AddClientTransModel) data.getSerializableExtra("model");
 
-                    switch (currentIndex) {
-                        case SEARCH_CLIENT_INDEX://查找
-                            startActivity(new Intent(getActivity(), ClientPersonaActivity.class)
-                                    .putExtra("customerId", transModel.getCsrId())
-                                    .putExtra("customerName", transModel.getCustomerName()));
-                            break;
-                        case PROGRESS_CLIENT_INDEX://拜访
-                            startActivity(new Intent(getActivity(), ClientVisitActivity.class)
-                                    .putExtra("customerId", transModel.getCsrId())
-                                    .putExtra("customerName", transModel.getCustomerName())
-                                    .putExtra("content", contentEt.getText().toString()));
+            if (currentIndex == SEARCH_CLIENT_INDEX) {//查找客户
+                startActivity(new Intent(getActivity(), ClientPersonaActivity.class)
+                        .putExtra("customerId", transModel.getCsrId())
+                        .putExtra("customerName", transModel.getCustomerName()));
+            } else {//客户跟进
+                startActivity(new Intent(getActivity(), ClientVisitActivity.class)
+                        .putExtra("customerId", transModel.getCsrId())
+                        .putExtra("customerName", transModel.getCustomerName())
+                        .putExtra("content", contentEt.getText().toString()));
 
-                            break;
-                    }
-                    break;
             }
+
         }
     }
+
 }
