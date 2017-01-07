@@ -8,10 +8,8 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
-import android.view.MotionEvent;
 import android.view.WindowManager;
 
-import com.bugtags.library.Bugtags;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 import com.rongfeng.speedclient.R;
 import com.rongfeng.speedclient.common.utils.AppTools;
@@ -78,7 +76,6 @@ public class BaseActivity extends FragmentActivity implements ICommonAction {
     @Override
     protected void onResume() {
         super.onResume();
-        Bugtags.onResume(this);
 
         if (!isActive) {
             isActive = true;
@@ -101,17 +98,4 @@ public class BaseActivity extends FragmentActivity implements ICommonAction {
     public void obtainData(Object data, String methodIndex, int status) {
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        //注：回调 2
-        Bugtags.onPause(this);
-    }
-
-    @Override
-    public boolean dispatchTouchEvent(MotionEvent event) {
-        //注：回调 3
-        Bugtags.onDispatchTouchEvent(this, event);
-        return super.dispatchTouchEvent(event);
-    }
 }

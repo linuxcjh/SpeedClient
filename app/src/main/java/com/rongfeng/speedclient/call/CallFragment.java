@@ -145,7 +145,7 @@ public class CallFragment extends BaseFragment implements View.OnTouchListener {
         SpannableString ss = new SpannableString(tipTv.getText().toString());
         int pos = tipTv.getText().toString().indexOf(getArguments().getString("clientName") + " " + getArguments().getString("contactName"));
         if (pos != -1) {
-            ss.setSpan(new ForegroundColorSpan(ContextCompat.getColor(AppConfig.getContext(), R.color.btg_global_black)), pos, pos + (getArguments().getString("clientName") + " " + getArguments().getString("contactName")).length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            ss.setSpan(new ForegroundColorSpan(ContextCompat.getColor(AppConfig.getContext(), R.color.colorListName)), pos, pos + (getArguments().getString("clientName") + " " + getArguments().getString("contactName")).length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             tipTv.setText(ss);
         }
 

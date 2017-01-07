@@ -99,7 +99,12 @@ public class AnimationFactory {
         scaleY.setRepeatMode(ValueAnimator.REVERSE);
         scaleY.setDuration(1000);
 
-        animatorSet.playTogether(scaleX, scaleY);
+        ValueAnimator alpha = ObjectAnimator.ofFloat(view, View.ALPHA, 0.6f);
+        scaleX.setRepeatCount(ValueAnimator.INFINITE);
+        scaleX.setRepeatMode(ValueAnimator.REVERSE);
+        scaleX.setDuration(1000);
+
+        animatorSet.playTogether(scaleX, scaleY,alpha);
         animatorSet.start();
     }
 
