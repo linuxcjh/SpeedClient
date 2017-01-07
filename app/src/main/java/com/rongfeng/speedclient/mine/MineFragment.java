@@ -1,6 +1,8 @@
 package com.rongfeng.speedclient.mine;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Process;
 import android.support.annotation.Nullable;
@@ -8,6 +10,8 @@ import android.telephony.SmsManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -57,6 +61,7 @@ public class MineFragment extends BaseFragment {
     @Bind(R.id.target_layout)
     RelativeLayout targetLayout;
 
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -67,6 +72,7 @@ public class MineFragment extends BaseFragment {
     }
 
     private void init() {
+        AppTools.setImageViewPicture(getActivity(), AppTools.getUser().getUserImageUrl(), contactAvatarIv);
         mineFirstName.setText(AppTools.getUser().getUserName());
     }
 
@@ -100,23 +106,25 @@ public class MineFragment extends BaseFragment {
 
                 break;
             case R.id.performance_layout:
+                final ProgressDialog dialog = new ProgressDialog(getActivity());
+                dialog.show();
+                WebView webView = new WebView(getActivity());
+                webView.getSettings().setJavaScriptEnabled(true);
+                webView.loadUrl("http://q.url.cn/s/SuW45Vm");
+                webView.setWebViewClient(new WebViewClient() {
+                    public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                        if (url.startsWith("http:") || url.startsWith("https:")) {
+                            return false;
+                        }
+                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                        startActivity(intent);
+                        dialog.dismiss();
+                        return true;
+                    }
+                });
 
-//                WebView webView = new WebView(getActivity());
-//                webView.getSettings().setJavaScriptEnabled(true);
-//                webView.loadUrl("http://q.url.cn/s/SuW45Vm");
-//                webView.setWebViewClient(new WebViewClient(){
-//                    public boolean shouldOverrideUrlLoading(WebView view, String url) {
-//                        if (url.startsWith("http:") || url.startsWith("https:")) {
-//                            return false;
-//                        }
-//                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-//                        startActivity(intent);
-//                        return true;
-//                    }
-//                });
 
-
-                startActivity(new Intent(getActivity(), RebackActivity.class));
+//                startActivity(new Intent(getActivity(), RebackActivity.class));
                 break;
             case R.id.target_layout:
 

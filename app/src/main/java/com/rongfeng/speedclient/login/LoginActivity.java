@@ -94,8 +94,14 @@ public class LoginActivity extends BaseActivity implements ICommonAction {
 
                 }
             }
-            startActivity(new Intent(this, MainTableActivity.class));
-            finish();
+
+            if (!TextUtils.isEmpty(AppTools.getUser().getUserName())) {
+                startActivity(new Intent(this, PersonSetActivity.class));
+            } else {
+                startActivity(new Intent(this, MainTableActivity.class));
+                finish();
+            }
+
         }
 
     }

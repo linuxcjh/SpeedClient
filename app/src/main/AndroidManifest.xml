@@ -274,6 +274,9 @@
         <activity android:name=".dynamic.NoticeDetailActivity" />
         <activity android:name=".voice.VoiceNoteSearchActivity" />
         <activity android:name=".client.ClientSearchActivity" />
+
+        <service android:name=".version.UpdateService" />
+        <activity android:name=".login.PersonSetActivity" />
     </application>
 
 </manifest>

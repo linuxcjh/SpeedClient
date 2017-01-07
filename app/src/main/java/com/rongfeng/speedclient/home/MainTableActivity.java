@@ -38,6 +38,7 @@ import com.rongfeng.speedclient.common.ConstantPermission;
 import com.rongfeng.speedclient.common.utils.AppConfig;
 import com.rongfeng.speedclient.common.utils.AppTools;
 import com.rongfeng.speedclient.common.utils.Utils;
+import com.rongfeng.speedclient.components.ExamineMainPresenter;
 import com.rongfeng.speedclient.dynamic.DynamicFragment;
 import com.rongfeng.speedclient.login.Enterprise;
 import com.rongfeng.speedclient.login.LoginModel;
@@ -118,6 +119,7 @@ public class MainTableActivity extends BaseActivity {
     private List<Fragment> fragments = new ArrayList<>();
 
     public VoiceRecord voiceRecord;
+    private ExamineMainPresenter examineMainPresenter;
 
 
     @Override
@@ -153,6 +155,9 @@ public class MainTableActivity extends BaseActivity {
     }
 
     private void init() {
+        examineMainPresenter = new ExamineMainPresenter(this);
+        examineMainPresenter.initRegisterBroadCast();
+        examineMainPresenter.getPhoneVersion();
 
         fragmentManager = getSupportFragmentManager();
         if (PermissionsChecker.getPermissionsChecker().lacksPermissions(ConstantPermission.PERMISSIONS_LOGIN)) {
@@ -488,6 +493,8 @@ public class MainTableActivity extends BaseActivity {
     protected void onDestroy() {
         super.onDestroy();
         voiceRecord.stopPlay();
+        examineMainPresenter.unRegisterBroadCast();
+
     }
 
 

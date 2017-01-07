@@ -56,6 +56,26 @@ public class TransDataModel extends BaseTransModel {
     private String targetYear;
 
 
+    private String fileId;//图像ID
+    private String userName;
+
+
+    public String getFileId() {
+        return fileId;
+    }
+
+    public void setFileId(String fileId) {
+        this.fileId = fileId;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
     public String getTargetYear() {
         return targetYear;
     }

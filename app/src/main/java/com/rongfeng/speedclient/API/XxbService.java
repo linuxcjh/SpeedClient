@@ -660,7 +660,7 @@ public interface XxbService {
 
     String SEARCHCSR = "searchCsr";
 
-    String SEARCHCSRDATA="searchCsrData";
+    String SEARCHCSRDATA = "searchCsrData";
 
     String GETCSRBYID = "getCsrById";
 
@@ -688,74 +688,75 @@ public interface XxbService {
 
     String INSERTNOTE = "insertNote";
 
-    String SEARCHFOLLOWUP="searchFollowup";
+    String SEARCHFOLLOWUP = "searchFollowup";
 
-    String SEARCHCSRCOUNTSTATISTICSDOWN="searchCsrCountStatisticsDown";
+    String SEARCHCSRCOUNTSTATISTICSDOWN = "searchCsrCountStatisticsDown";
 
-    String SEARCHCSRCOUNTSTATISTICSTOP="searchCsrCountStatisticsTop";
+    String SEARCHCSRCOUNTSTATISTICSTOP = "searchCsrCountStatisticsTop";
 
-    String UPDATECSR="updateCsr";
+    String UPDATECSR = "updateCsr";
 
-    String UPDATECSRBUSINESS="updateCsrBusiness";
+    String UPDATECSRBUSINESS = "updateCsrBusiness";
 
-    String SEARCHCSRCONBYID="searchCsrConById";
+    String SEARCHCSRCONBYID = "searchCsrConById";
 
-    String SEARCHDEPARTMENTBYALLSK="searchDepartmentByAllSk";
+    String SEARCHDEPARTMENTBYALLSK = "searchDepartmentByAllSk";
 
-    String PULLTHEUSER="pullTheUser";
+    String PULLTHEUSER = "pullTheUser";
 
-    String INSERTDEPARTMENT="insertDepartment";
+    String INSERTDEPARTMENT = "insertDepartment";
 
-    String UPDATECSRATTENTION="updateCsrAttention";
+    String UPDATECSRATTENTION = "updateCsrAttention";
 
-    String UPDATEDEPARTMENT="updateDepartment";
+    String UPDATEDEPARTMENT = "updateDepartment";
 
-    String SETPERMISSIONASSIGNMENT="setPermissionAssignment";
+    String SETPERMISSIONASSIGNMENT = "setPermissionAssignment";
 
-    String SEARCHMYDEPARTMENTBYALL="searchMyDepartmentByAll";
+    String SEARCHMYDEPARTMENTBYALL = "searchMyDepartmentByAll";
 
-    String INSERTCSRCONTACT="insertCsrContact";
+    String INSERTCSRCONTACT = "insertCsrContact";
 
-    String SEARCHCSRCONTACTBYCSRCONTACTID="searchCsrContactByCsrContactId";
+    String SEARCHCSRCONTACTBYCSRCONTACTID = "searchCsrContactByCsrContactId";
 
-    String UPDATECSRCONTACT="updateCsrContact";
+    String UPDATECSRCONTACT = "updateCsrContact";
 
-    String SEARCHCSRGATHERING="searchCsrGathering";
+    String SEARCHCSRGATHERING = "searchCsrGathering";
 
-    String  SEARCHHOMEPAGEDYNAMIC="searchHomePageDynamic";
+    String SEARCHHOMEPAGEDYNAMIC = "searchHomePageDynamic";
 
-    String INSERTRELATEDPOSITION="insertRelatedPosition";
+    String INSERTRELATEDPOSITION = "insertRelatedPosition";
 
-    String INSERTINVITER="insertInviter";
+    String INSERTINVITER = "insertInviter";
 
-    String SEARCHINVITER="searchInviter";
+    String SEARCHINVITER = "searchInviter";
 
-    String SEARCHRELATEDPOSITION="searchRelatedPosition";
+    String SEARCHRELATEDPOSITION = "searchRelatedPosition";
 
-    String  SEARCHUSERSYSTEM="searchUserSystem";
+    String SEARCHUSERSYSTEM = "searchUserSystem";
 
-    String SEARCHUSERSYSTEMFOLLOWUP="searchUserSystemFollowup";
+    String SEARCHUSERSYSTEMFOLLOWUP = "searchUserSystemFollowup";
 
-    String SEARCHUSERSYSTEMCSRBUSINESS="searchUserSystemCsrBusiness";
+    String SEARCHUSERSYSTEMCSRBUSINESS = "searchUserSystemCsrBusiness";
 
-    String SEARCHUSERSYSTEMCSRCON="searchUserSystemCsrCon";
+    String SEARCHUSERSYSTEMCSRCON = "searchUserSystemCsrCon";
 
-    String SEARCHPERFORMANCEOBJECTIVES="searchPerformanceObjectives";
+    String SEARCHPERFORMANCEOBJECTIVES = "searchPerformanceObjectives";
 
-    String SETPERFORMANCEOBJECTIVES="setPerformanceObjectives";
+    String SETPERFORMANCEOBJECTIVES = "setPerformanceObjectives";
 
 
-    String SEARCHPUSHNOTIFICATIONS="searchPushNotifications";
+    String SEARCHPUSHNOTIFICATIONS = "searchPushNotifications";
 
-    String  SEARCHPRODUCT="searchProduct";
+    String SEARCHPRODUCT = "searchProduct";
 
-    String INSERTPRODUCT="insertProduct";
+    String INSERTPRODUCT = "insertProduct";
 
-    String SEARCHPUSHNOTIFICATIONSCOUNT="searchPushNotificationsCount";
+    String SEARCHPUSHNOTIFICATIONSCOUNT = "searchPushNotificationsCount";
 
-    String GLOBALSEARCH="globalSearch";
+    String GLOBALSEARCH = "globalSearch";
 
-    String SEARCHSELLINGSTAGE="searchSellingStage";
+    String SEARCHSELLINGSTAGE = "searchSellingStage";
 
-    String SEARCHCSRBUSINESSBYID="searchCsrBusinessById";
+    String SEARCHCSRBUSINESSBYID = "searchCsrBusinessById";
+
 }

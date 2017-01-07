@@ -19,7 +19,7 @@
             android:paddingLeft="15dp"
             android:paddingRight="15dp"
             android:singleLine="true"
-            android:text="查找更多"
+            android:text="查看更多"
             android:textColor="@color/colorVoiceInput"
             android:textSize="13sp" />
     </LinearLayout>
