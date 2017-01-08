@@ -309,12 +309,20 @@ public class MineInviteActivity extends BaseActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (data != null) {
             if (requestCode == 0x11) {
-                List<SortModel> results = BasePresenter.gson.fromJson(data.getStringExtra("list"), new TypeToken<List<SortModel>>() {
-                }.getType());
+//                List<SortModel> results = BasePresenter.gson.fromJson(data.getSerializableExtra("list"), new TypeToken<List<SortModel>>() {
+//                }.getType());
+                List<SortModel> results = (List<SortModel>) data.getSerializableExtra("list");
                 if (results.size() > 0) {
+                    noLayout.setVisibility(View.GONE);
                     mAllContactsList.addAll(results);
                     Collections.sort(mAllContactsList, pinyinComparator);// 根据a-z进行排序源数据
-                    adapter.updateListView(mAllContactsList);
+
+                    if (adapter != null) {
+                        adapter.updateListView(mAllContactsList);
+                    } else {
+                        adapter = new InviteSortAdapter(this, mAllContactsList);
+                        mListView.setAdapter(adapter);
+                    }
                 }
             }
         }

@@ -27,6 +27,7 @@ import com.rongfeng.speedclient.client.entry.AddClientTransModel;
 import com.rongfeng.speedclient.common.BaseActivity;
 import com.rongfeng.speedclient.common.utils.AppConfig;
 import com.rongfeng.speedclient.common.utils.SingleClickBt;
+import com.rongfeng.speedclient.voice.VoiceAnalysisTools;
 import com.rongfeng.speedclient.voice.model.SyncClientInfoModel;
 
 import java.util.ArrayList;
@@ -206,6 +207,10 @@ public class ContactsBatchActivity extends BaseActivity {
                     i++;
                     toast.setText("导入成功");
                     toast.show();
+                    List<SyncClientInfoModel> list = new ArrayList<>();
+                    SyncClientInfoModel m = (SyncClientInfoModel) data;
+                    list.add(m);
+                    VoiceAnalysisTools.getInstance().analysisData(list);//新增客户插入数据库
                     if (i == adapter.getSelectedList().size()) {
                         finish();
                     }

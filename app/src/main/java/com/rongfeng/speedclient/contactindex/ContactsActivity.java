@@ -28,11 +28,11 @@ import com.google.gson.reflect.TypeToken;
 import com.rongfeng.speedclient.API.XxbService;
 import com.rongfeng.speedclient.R;
 import com.rongfeng.speedclient.common.BaseActivity;
-import com.rongfeng.speedclient.common.BasePresenter;
 import com.rongfeng.speedclient.common.Constant;
 import com.rongfeng.speedclient.common.utils.AppTools;
 import com.rongfeng.speedclient.organization.model.TransOrganizationModel;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -395,13 +395,13 @@ public class ContactsActivity extends BaseActivity {
     @OnClick(R.id.cancel_tv)
     public void onClick() {
 
-        setResult(RESULT_OK, new Intent().putExtra("list", BasePresenter.gson.toJson(invitedList)));
+        setResult(RESULT_OK, new Intent().putExtra("list", (Serializable) invitedList));
         finish();
     }
 
     @Override
     public void onBackPressed() {
-        setResult(RESULT_OK, new Intent().putExtra("list", BasePresenter.gson.toJson(invitedList)));
+        setResult(RESULT_OK, new Intent().putExtra("list",  (Serializable) invitedList));
         super.onBackPressed();
     }
 }

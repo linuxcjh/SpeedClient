@@ -428,7 +428,7 @@ public class VoiceAnalysisTools {
             if (error != null) {
 //                Log.d(TAG, error.toString());
             } else {
-                AppTools.getToast("联系人上传成功");
+//                AppTools.getToast("联系人上传成功");
             }
         }
     };

@@ -23,7 +23,7 @@ public class RadarChartView extends View {
     private float radius;                   //网格最大半径
     private int centerX;                  //中心X
     private int centerY;                  //中心Y
-    private double[] data = {1, 1, 1, 1, 1}; //各维度分值
+    private double[] data = {0, 0, 0, 0, 0}; //各维度分值
     private float maxValue = 5;             //数据最大值
     private Paint mainPaint;
     //网格区画笔
