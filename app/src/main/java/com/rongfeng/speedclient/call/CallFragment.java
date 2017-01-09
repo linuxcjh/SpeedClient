@@ -139,13 +139,20 @@ public class CallFragment extends BaseFragment implements View.OnTouchListener {
 
 
     public void init() {
-        tipTv.setText("录入客户\" " + getArguments().getString("clientName") + " " + getArguments().getString("contactName") + " \"的跟进内容：");
+
+        String name;
+        if (!TextUtils.isEmpty(getArguments().getString("contactName"))) {
+            name = getArguments().getString("clientName") + " " + getArguments().getString("contactName");
+        } else {
+            name = getArguments().getString("clientName");
+        }
+        tipTv.setText("录入客户\" " + name + " \"的跟进内容：");
         voiceBt.setOnTouchListener(this);
 
         SpannableString ss = new SpannableString(tipTv.getText().toString());
-        int pos = tipTv.getText().toString().indexOf(getArguments().getString("clientName") + " " + getArguments().getString("contactName"));
+        int pos = tipTv.getText().toString().indexOf(name);
         if (pos != -1) {
-            ss.setSpan(new ForegroundColorSpan(ContextCompat.getColor(AppConfig.getContext(), R.color.colorListName)), pos, pos + (getArguments().getString("clientName") + " " + getArguments().getString("contactName")).length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            ss.setSpan(new ForegroundColorSpan(ContextCompat.getColor(AppConfig.getContext(), R.color.colorListName)), pos, pos + name.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             tipTv.setText(ss);
         }
 
