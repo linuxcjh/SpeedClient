@@ -93,6 +93,12 @@ public class ClientFragment extends BaseFragment implements AdapterView.OnItemCl
     private List<Double> radarData = new ArrayList<>();
 
 
+//    private AnalysisClientModel leftModel;
+//    private AnalysisClientModel rightModel;
+
+//    , rightModel;
+
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -124,18 +130,27 @@ public class ClientFragment extends BaseFragment implements AdapterView.OnItemCl
 
                 if (i == R.id.pass_record) {
                     passRecord.setTextColor(ContextCompat.getColor(getActivity(), R.color.colorWhite));
-                    passRecord.setBackgroundResource(R.drawable.client_top_left_fouces);
+                    passRecord.setBackgroundResource(R.drawable.cust_tab_l_active);
                     futureRecord.setTextColor(ContextCompat.getColor(getActivity(), R.color.colorBlue));
-                    futureRecord.setBackgroundResource(R.drawable.client_top_right_normal);
+                    futureRecord.setBackgroundResource(R.drawable.cust_tab_r);
                     transDataModel.setRadarType("0");
+//                    if (leftModel == null) {
                     invokeStatistics();
+//                    }else{
+//                        setRadarViewData(leftModel);
+//                    }
                 } else {
                     futureRecord.setTextColor(ContextCompat.getColor(getActivity(), R.color.colorWhite));
-                    futureRecord.setBackgroundResource(R.drawable.client_top_right_fouces);
-                    passRecord.setBackgroundResource(R.drawable.client_top_left_normal);
+                    futureRecord.setBackgroundResource(R.drawable.cust_tab_r_active);
+                    passRecord.setBackgroundResource(R.drawable.cust_tab_l);
                     passRecord.setTextColor(ContextCompat.getColor(getActivity(), R.color.colorBlue));
                     transDataModel.setRadarType("1");
+//                    if (rightModel == null) {
                     invokeStatistics();
+//                    }else{
+//                        setRadarViewData(rightModel);
+//
+//                    }
                 }
             }
         });
@@ -180,6 +195,11 @@ public class ClientFragment extends BaseFragment implements AdapterView.OnItemCl
                 if (data != null) {
 
                     model = (AnalysisClientModel) data;
+//                    if (transDataModel.getRadarType().equals("1")) {
+//                        rightModel = model;
+//                    } else {
+//                        leftModel = model;
+//                    }
 
                     newClientTv.setText(model.getAnalysisNewClient());
                     focusClientTv.setText(model.getAnalysisFocusClient());
@@ -236,6 +256,8 @@ public class ClientFragment extends BaseFragment implements AdapterView.OnItemCl
         super.onResume();
         invoke();
         invokeStatistics();
+//        leftModel = null;
+//        rightModel = null;
     }
 
     @Override

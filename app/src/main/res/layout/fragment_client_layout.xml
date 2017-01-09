@@ -66,7 +66,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/nav_bg_down" />
 
-        <ScrollView
+        <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginBottom="1dp"
@@ -101,7 +101,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:background="@drawable/client_top_left_fouces"
+                            android:background="@drawable/cust_tab_l_active"
                             android:button="@null"
                             android:checked="true"
                             android:gravity="center"
@@ -114,7 +114,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:background="@drawable/client_top_right_normal"
+                            android:background="@drawable/cust_tab_r"
                             android:button="@null"
                             android:gravity="center"
                             android:text="未来7日跟进提醒"
@@ -303,7 +303,7 @@
                     android:numColumns="2"
                     android:verticalSpacing="10dp" />
             </LinearLayout>
-        </ScrollView>
+        </android.support.v4.widget.NestedScrollView>
 
     </FrameLayout>
 

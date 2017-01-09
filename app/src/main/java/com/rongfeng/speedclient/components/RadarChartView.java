@@ -92,7 +92,7 @@ public class RadarChartView extends View {
     public void setValue(double[] data) {
 
         this.data = data;
-        invalidate();
+        postInvalidate();
     }
 
 
@@ -108,7 +108,7 @@ public class RadarChartView extends View {
         drawPolygon(canvas);
         drawLines(canvas);
 
-//        drawText(canvas);
+//      drawText(canvas);
         drawRegion(canvas);
     }
 
@@ -118,8 +118,11 @@ public class RadarChartView extends View {
     /**
      * 绘制正多边形
      */
+    Path path = new Path();
+
     private void drawPolygon(Canvas canvas) {
-        Path path = new Path();
+        path.reset();
+
         float r = radius / (count - 1);//r是蜘蛛丝之间的间距
         for (int i = 1; i <= count; i++) {//中心点不用绘制
             float curR = r * i;//当前半径
@@ -160,7 +163,7 @@ public class RadarChartView extends View {
      * 绘制直线
      */
     private void drawLines(Canvas canvas) {
-        Path path = new Path();
+//        Path path = new Path();
         path.reset();
         float r = radius / (count - 1);//r是蜘蛛丝之间的间距
         float curR = r * 5;//当前半径
@@ -227,7 +230,9 @@ public class RadarChartView extends View {
      * @param canvas
      */
     private void drawRegion(Canvas canvas) {
-        Path path = new Path();
+//        Path path = new Path();
+        path.reset();
+
         valuePaint.setAlpha(230);
         float r = radius / (count - 1);//r是蜘蛛丝之间的间距
         double percent1;
