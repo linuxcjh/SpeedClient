@@ -1,5 +1,6 @@
 package com.rongfeng.speedclient.login;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -38,6 +39,8 @@ public class LoginActivity extends BaseActivity implements ICommonAction {
     private CommonPresenter commonPresenter = new CommonPresenter(this);
     private LoginModel transModel = new LoginModel();
 
+    ProgressDialog progressDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +50,7 @@ public class LoginActivity extends BaseActivity implements ICommonAction {
     }
 
     private void init() {
+        progressDialog = new ProgressDialog(this);
         isLogin();
     }
 
@@ -74,6 +78,7 @@ public class LoginActivity extends BaseActivity implements ICommonAction {
 
     @Override
     public void obtainData(Object data, String methodIndex, int status) {
+        progressDialog.dismiss();
         if (status == 1) {
             AppConfig.setStringConfig("userName", inputPhoneEt.getText().toString());
 
@@ -112,6 +117,7 @@ public class LoginActivity extends BaseActivity implements ICommonAction {
         switch (v.getId()) {
             case R.id.login_bt:
                 if (verificationLogin()) {
+                    progressDialog.show();
                     transModel.setUserAccount(inputPhoneEt.getText().toString());
 //                    transModel.setPassword(new MD5().GetMD5Code(userPwd.getText().toString()));
                     commonPresenter.invokeInterfaceObtainData(XxbService.LOGINPHONE, transModel, new TypeToken<Enterprise>() {

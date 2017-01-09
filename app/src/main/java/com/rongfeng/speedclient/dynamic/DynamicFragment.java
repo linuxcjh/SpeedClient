@@ -284,7 +284,7 @@ public class DynamicFragment extends BaseFragment implements ICommonPaginationAc
                         transDataModel.setLongitude(poiInfo.getLatLonPoint().getLongitude() + "");
                         transDataModel.setLatitude(poiInfo.getLatLonPoint().getLatitude() + "");
                         transDataModel.setType("0");
-                        commonPaginationPresenter.invokeInterfaceObtainData(XxbService.INSERTRELATEDPOSITION, transDataModel, new TypeToken<BaseDataModel>() {
+                        commonPresenter.invokeInterfaceObtainData(XxbService.INSERTRELATEDPOSITION, transDataModel, new TypeToken<BaseDataModel>() {
                         });
                     }
                     break;

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
+import android.os.Vibrator;
 import android.util.Log;
 import android.widget.TextView;
 
@@ -16,7 +17,6 @@ import com.iflytek.cloud.RecognizerResult;
 import com.iflytek.cloud.SpeechConstant;
 import com.iflytek.cloud.SpeechError;
 import com.iflytek.cloud.SpeechRecognizer;
-import com.rongfeng.speedclient.R;
 import com.rongfeng.speedclient.common.utils.AppConfig;
 import com.rongfeng.speedclient.common.utils.Utils;
 import com.rongfeng.speedclient.utils.JsonParser;
@@ -62,6 +62,9 @@ public class VoiceRecord {
 
     public Handler transHandler;
 
+    public Vibrator vibrator;
+    public long[] pattern = {50, 50};   // 停止 开启 停止 开启
+
 
     public VoiceRecord(Context context, WaveView waveView, TextView timeSecondTv, Handler handler) {
         this.mContext = context;
@@ -78,7 +81,7 @@ public class VoiceRecord {
         // 初始化识别无UI识别对象
         // 使用SpeechRecognizer对象，可根据回调消息自定义界面；
         mIat = SpeechRecognizer.createRecognizer(mContext, mInitListener);
-
+        vibrator = (Vibrator) mContext.getSystemService(Context.VIBRATOR_SERVICE);
     }
 
 
@@ -101,8 +104,10 @@ public class VoiceRecord {
                     mIat.stopListening();
 
                     if (timeNum > 1) { //录音时长大于1秒开始解析
-                        mediaPlayer = MediaPlayer.create(mContext, R.raw.qrcode_completed);
-                        mediaPlayer.start();
+//                        mediaPlayer = MediaPlayer.create(mContext, R.raw.qrcode_completed);
+//                        mediaPlayer.start();
+                        vibrator.vibrate(pattern, 1);
+
                     }
 
                     timeNum = 0;
@@ -238,8 +243,10 @@ public class VoiceRecord {
      * 开始听写
      */
     public void startPlay() {
-        mediaPlayer = MediaPlayer.create(mContext, R.raw.talkroom_begin);
-        mediaPlayer.start();
+
+        vibrator.vibrate(pattern, 1);
+//        mediaPlayer = MediaPlayer.create(mContext, R.raw.talkroom_begin);
+//        mediaPlayer.start();
         // 设置参数
         setParam();
         // 不显示听写对话框
@@ -258,12 +265,15 @@ public class VoiceRecord {
      * 释放资源
      */
     public void stopPlay() {
-        if (mediaPlayer != null) {
-            if (mediaPlayer.isPlaying()) {
-                mediaPlayer.stop();
-            }
-            mediaPlayer.release();//释放资源
-        }
+//        if (mediaPlayer != null) {
+//            if (mediaPlayer.isPlaying()) {
+//                mediaPlayer.stop();
+//            }
+//            mediaPlayer.release();//释放资源
+//
+//        }
+        vibrator.cancel();
+
     }
 
 
