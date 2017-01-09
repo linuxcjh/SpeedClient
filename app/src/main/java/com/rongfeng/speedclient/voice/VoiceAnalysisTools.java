@@ -102,26 +102,26 @@ public class VoiceAnalysisTools {
     /**
      * 添加数据到数据库
      */
-    public void insertClientDataToDB(List<SyncClientInfoModel> data) {
-
-        List<ClientModel> persons = new ArrayList<>();
-        for (int i = 0; i < data.size(); i++) {
-            ClientModel m = new ClientModel();
-            m.setClient_name(data.get(i).getCustomerName());
-            m.setClient_info(data.get(i).getClientNameWordsSplit());
-            m.setClient_id(data.get(i).getCsrId());
-            persons.add(m);
-        }
-
-        DBManager dbManager = new DBManager(AppConfig.getContext());
-        dbManager.truncate();
-        if (persons.size() > 0) {
-            dbManager.addClient(persons);
-        }
-
-        dbManager.closeDB();
-
-    }
+//    public void insertClientDataToDB(List<SyncClientInfoModel> data) {
+//
+//        List<ClientModel> persons = new ArrayList<>();
+//        for (int i = 0; i < data.size(); i++) {
+//            ClientModel m = new ClientModel();
+//            m.setClient_name(data.get(i).getCustomerName());
+//            m.setClient_info(data.get(i).getClientNameWordsSplit());
+//            m.setClient_id(data.get(i).getCsrId());
+//            persons.add(m);
+//        }
+//
+//        DBManager dbManager = new DBManager(AppConfig.getContext());
+//        dbManager.truncate();
+//        if (persons.size() > 0) {
+//            dbManager.addClient(persons);
+//        }
+//
+//        dbManager.closeDB();
+//
+//    }
 
 
     /**
@@ -143,6 +143,7 @@ public class VoiceAnalysisTools {
         m.setClient_name(data.getCustomerName());
         m.setClient_id(data.getCsrId());
         m.setClient_update_time(data.getUpdateTime());
+        m.setClient_phone(data.getCustomerTel());
         m.setContact_name(BasePresenter.gson.toJson(data.getCsrContactJSONArray()));
 
         dbManager.addClient(m);
@@ -160,6 +161,8 @@ public class VoiceAnalysisTools {
         m.setClient_id(data.getCsrId());
         m.setClient_update_time(data.getUpdateTime());
         m.setClient_name(data.getCustomerName());
+        m.setClient_phone(data.getCustomerTel());
+
 
         dbManager.updateClient(m);
 
@@ -179,6 +182,7 @@ public class VoiceAnalysisTools {
         m.setClient_name(data.getCustomerName());
         m.setClient_id(data.getCsrId());
         m.setClient_update_time(data.getUpdateTime());
+        m.setClient_phone(data.getCustomerTel());
         m.setContact_name(BasePresenter.gson.toJson(data.getCsrContactJSONArray()));
 
         dbManager.updateClientContact(m);

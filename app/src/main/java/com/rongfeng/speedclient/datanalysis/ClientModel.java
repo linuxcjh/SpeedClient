@@ -5,6 +5,7 @@ public class ClientModel {
 
     public String client_name;
     public String client_id;
+    public String client_phone;
     public String client_info;//分词信息
     public String client_update_time;//分词信息
 
@@ -35,6 +36,14 @@ public class ClientModel {
         this.client_info = client_info;
     }
 
+
+    public String getClient_phone() {
+        return client_phone;
+    }
+
+    public void setClient_phone(String client_phone) {
+        this.client_phone = client_phone;
+    }
 
     public String getClient_update_time() {
         return client_update_time;

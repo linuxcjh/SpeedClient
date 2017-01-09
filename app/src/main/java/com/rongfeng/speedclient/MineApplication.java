@@ -20,6 +20,7 @@ public class MineApplication extends Application {
         AppConfig.setContext(this);
         Stetho.initializeWithDefaults(this);
         SpeechUtility.createUtility(this, SpeechConstant.APPID + "=5814610b");
+        AppConfig.getBooleanConfig("isShow", true);//来电弹屏
 
     }
 }

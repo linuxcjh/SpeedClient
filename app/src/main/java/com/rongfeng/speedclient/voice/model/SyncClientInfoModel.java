@@ -9,6 +9,7 @@ public class SyncClientInfoModel {
     private ArrayList<CsrContactJSONArray> csrContactJSONArray;
     private String updateTime;
     private String customerName;
+    private String customerTel;
     private String clientNameWordsSplit; //分词
     private boolean isUpdate;//是否要更新
 
@@ -33,6 +34,13 @@ public class SyncClientInfoModel {
 
     }
 
+    public String getCustomerTel() {
+        return customerTel;
+    }
+
+    public void setCustomerTel(String customerTel) {
+        this.customerTel = customerTel;
+    }
 
     public String getCustomerType() {
         return this.customerType;

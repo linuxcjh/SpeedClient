@@ -189,6 +189,9 @@ public class ContactsBatchActivity extends BaseActivity {
         transModel.setCustomerType("2");//客户类型【1企业客户；2个人客户】
         transModel.setCustomerName(selectModel.name);
         transModel.setCustomerTel(selectModel.number);
+        if (!TextUtils.isEmpty(selectModel.number) && selectModel.number.contains(" ")) {
+            transModel.setCustomerTel(selectModel.number.replace(" ", ""));
+        }
         commonPresenter.invokeInterfaceObtainData(XxbService.INSERTCSR, transModel,
                 new TypeToken<SyncClientInfoModel>() {
                 });
@@ -394,6 +397,7 @@ public class ContactsBatchActivity extends BaseActivity {
                 break;
             case commit_tv:
                 for (SortModel m : adapter.getSelectedList()) {
+
                     invoke(m);
                 }
                 break;

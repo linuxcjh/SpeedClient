@@ -22,7 +22,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String CLIENT_ID = "client_id";
     public static final String CLIENT_INFO = "client_info";
     public static final String CLIENT_UPDATE_TIME = "client_update_time";
-
+    public static final String CLIENT_PHONE = "client_phone";
 
 
     public static final String CONTACT_NAME = "contact_name";
@@ -34,6 +34,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             + _ID + " INTEGER PRIMARY KEY,"
             + CLIENT_ID + " VARCHAR(100),"
             + CLIENT_NAME + " TEXT,"
+            + CLIENT_PHONE + " VARCHAR(50),"
             + CLIENT_INFO + " TEXT,"
             + CLIENT_UPDATE_TIME + " VARCHAR(50),"
             + CONTACT_ID + " VARCHAR(100),"

@@ -63,7 +63,6 @@ public class SetActivity extends BaseActivity {
 
 
     private void initView() {
-        regConfirmTb.setChecked(true);
         regConfirmTb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {

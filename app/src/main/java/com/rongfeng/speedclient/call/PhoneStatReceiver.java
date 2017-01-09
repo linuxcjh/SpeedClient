@@ -90,10 +90,17 @@ public class PhoneStatReceiver extends BroadcastReceiver {
             return;
         }
         AppConfig.setStringConfig(NUMBER, "");
-
         List<ClientModel> clientModels = VoiceAnalysisTools.getInstance().queryClientDataToDB();
         for (int i = 0; i < clientModels.size(); i++) {
-            if (clientModels.get(i).getContact_name().contains(phoneNum)) {
+
+            if (clientModels.get(i).getClient_phone().equals(phoneNum)) {//客户电话
+
+                Intent intent = new Intent(AppConfig.getContext(), AlertActivity.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.putExtra("clientName", clientModels.get(i).getClient_name());
+                intent.putExtra("clientId", clientModels.get(i).getClient_id());
+                AppConfig.getContext().startActivity(intent);
+
+            } else if (clientModels.get(i).getContact_name().contains(phoneNum)) {//联系人电话
 
                 ArrayList<CsrContactJSONArray> contactModels = BasePresenter.gson.fromJson(clientModels.get(i).getContact_name(), new TypeToken<List<CsrContactJSONArray>>() {
                 }.getType());

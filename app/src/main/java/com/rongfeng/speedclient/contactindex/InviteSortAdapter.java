@@ -123,8 +123,9 @@ public class InviteSortAdapter extends BaseAdapter implements SectionIndexer {
             public void onClick(View v) {
                 SortModel model = (SortModel) v.getTag();
                 if (!TextUtils.isEmpty(model.number)) {
-
-                    AppTools.sendSMS(mContext, model.number);
+                    AppTools.doSendSMSTo(mContext, model.number, AppTools.getUser().getUserName() + "邀请您体验【快脑】" +
+                            "邀请码:" + model.number +
+                            "，欢迎体验。App下载：http://t.cn/Rf8OoAJ");
                 } else {
                     AppTools.getToast("暂无电话号码");
                 }
@@ -137,9 +138,7 @@ public class InviteSortAdapter extends BaseAdapter implements SectionIndexer {
                 SortModel model = (SortModel) v.getTag();
 
                 if (!TextUtils.isEmpty(model.number)) {
-                    AppTools.doSendSMSTo(mContext, model.number, AppTools.getUser().getUserName() + "邀请您体验【快脑】" +
-                            "邀请码:" + model.number +
-                            "，欢迎体验。App下载：http://t.cn/Rf8OoAJ");
+                    AppTools.callPhone(mContext, model.number);
                 } else {
                     AppTools.getToast("暂无电话号码");
                 }
