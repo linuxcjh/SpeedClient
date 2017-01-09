@@ -94,14 +94,14 @@ public class LoginActivity extends BaseActivity implements ICommonAction {
 
                 }
             }
-
-            if (TextUtils.isEmpty(AppTools.getUser().getUserName())) {
+            if (AppTools.getUser().getIsForbidden().equals("2") || TextUtils.isEmpty(AppTools.getUser().getUserName())) {
                 startActivity(new Intent(this, PersonSetActivity.class));
                 finish();
             } else {
                 startActivity(new Intent(this, MainTableActivity.class));
                 finish();
             }
+
 
         }
 

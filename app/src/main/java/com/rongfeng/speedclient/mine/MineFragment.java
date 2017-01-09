@@ -110,7 +110,7 @@ public class MineFragment extends BaseFragment {
                 dialog.show();
                 WebView webView = new WebView(getActivity());
                 webView.getSettings().setJavaScriptEnabled(true);
-                webView.loadUrl("http://q.url.cn/s/SuW45Vm");
+                webView.loadUrl("http://q.url.cn/s/IIpYHXm");
                 webView.setWebViewClient(new WebViewClient() {
                     public boolean shouldOverrideUrlLoading(WebView view, String url) {
                         if (url.startsWith("http:") || url.startsWith("https:")) {

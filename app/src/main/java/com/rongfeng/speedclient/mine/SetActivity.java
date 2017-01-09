@@ -12,11 +12,12 @@ import android.widget.ToggleButton;
 
 import com.rongfeng.speedclient.R;
 import com.rongfeng.speedclient.common.BaseActivity;
+import com.rongfeng.speedclient.common.utils.AppConfig;
+import com.rongfeng.speedclient.login.PersonSetActivity;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import co.mbiwise.materialintro.prefs.PreferencesManager;
 
 /**
  * 账号与安全
@@ -49,6 +50,8 @@ public class SetActivity extends BaseActivity {
     RelativeLayout netMacLayout;
     @Bind(R.id.account_security_exit_bt)
     Button accountSecurityExitBt;
+    @Bind(R.id.person_set_layout)
+    RelativeLayout personSetLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,21 +63,21 @@ public class SetActivity extends BaseActivity {
 
 
     private void initView() {
+        regConfirmTb.setChecked(true);
         regConfirmTb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (b) {
-//                    model.setIsPolicymaker("1");
-                    ;//isPolicymaker;// 是否决策人（0不是决策 人1是决策 人）
+                    AppConfig.setBooleanConfig("isShow", true);
                 } else {
-//                    model.setIsPolicymaker("0");
+                    AppConfig.setBooleanConfig("isShow", false);
                 }
             }
         });
     }
 
 
-    @OnClick({R.id.cancel_tv, R.id.account_security_phone_tv, R.id.account_security_exit_bt, R.id.about_layout})
+    @OnClick({R.id.cancel_tv, R.id.account_security_phone_tv, R.id.account_security_exit_bt, R.id.about_layout, R.id.person_set_layout})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.cancel_tv:
@@ -89,8 +92,12 @@ public class SetActivity extends BaseActivity {
 
                 break;
             case R.id.about_layout:
-                new PreferencesManager(getApplicationContext()).resetAll();
-//                startActivity(new Intent(this, AboutActivity.class));
+//                new PreferencesManager(getApplicationContext()).resetAll();
+                startActivity(new Intent(this, AboutActivity.class));
+
+                break;
+            case R.id.person_set_layout:
+                startActivity(new Intent(this, PersonSetActivity.class).putExtra("isEdit", true));
 
                 break;
         }

@@ -46,6 +46,8 @@ public class PersonSetActivity extends BaseActivity implements IUpLoadPictureAct
     EditText inputNameEt;
     @Bind(R.id.confirm_bt)
     Button confirmBt;
+    @Bind(R.id.title_tv)
+    TextView titleTv;
 
     private UpLoadPicturePresenter upLoadPicturePresenter;
 
@@ -59,6 +61,20 @@ public class PersonSetActivity extends BaseActivity implements IUpLoadPictureAct
 
     private void init() {
         upLoadPicturePresenter = new UpLoadPicturePresenter(this, this);
+
+        if (!TextUtils.isEmpty(AppTools.getUser().getUserImageUrl())) {
+            AppTools.setImageViewPicture(this, AppTools.getUser().getUserImageUrl(), avatarIv);
+        }
+
+        if (!TextUtils.isEmpty(AppTools.getUser().getUserName())) {
+            inputNameEt.setText(AppTools.getUser().getUserName());
+            inputNameEt.setSelection(AppTools.getUser().getUserName().length());
+        }
+
+        if (getIntent().getBooleanExtra("isEdit", false)) {
+            titleTv.setText("信息编辑");
+            confirmBt.setText("确定");
+        }
 
 
     }

@@ -70,9 +70,10 @@ public class PhoneStatReceiver extends BroadcastReceiver {
 //                        judgeIsExist(AppConfig.getStringConfig(NUMBER, ""));
 //                    }
 
-                    judgeIsExist(AppConfig.getStringConfig(NUMBER, ""));
+                    if (AppConfig.getBooleanConfig("isShow", false)) { //是否弹屏
+                        judgeIsExist(AppConfig.getStringConfig(NUMBER, ""));
+                    }
 
-//                    setAlarActivity();
 
                     break;
             }

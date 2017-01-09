@@ -28,6 +28,15 @@ public class User {
     private String helpUrl;
     private String userAccessionTime;//入职时间
     private String userNum;
+    private String  isForbidden;
+
+    public String getIsForbidden() {
+        return isForbidden;
+    }
+
+    public void setIsForbidden(String isForbidden) {
+        this.isForbidden = isForbidden;
+    }
 
     public String getUserNum() {
         return userNum;

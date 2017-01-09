@@ -288,6 +288,7 @@ public class GlobalSearchActivity extends BaseActivity {
                 searchEt.setText("");
                 break;
             case R.id.cancel_bt:
+                AppTools.hideKeyboard(searchEt);
                 finish();
                 break;
         }
@@ -300,5 +301,11 @@ public class GlobalSearchActivity extends BaseActivity {
         } else {
             AppTools.getToast("搜索关键字不能为空！");
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        AppTools.hideKeyboard(searchEt);
+        super.onBackPressed();
     }
 }

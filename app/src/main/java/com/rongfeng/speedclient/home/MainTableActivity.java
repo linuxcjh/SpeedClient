@@ -42,6 +42,7 @@ import com.rongfeng.speedclient.components.ExamineMainPresenter;
 import com.rongfeng.speedclient.dynamic.DynamicFragment;
 import com.rongfeng.speedclient.login.Enterprise;
 import com.rongfeng.speedclient.login.LoginModel;
+import com.rongfeng.speedclient.login.PersonSetActivity;
 import com.rongfeng.speedclient.login.User;
 import com.rongfeng.speedclient.manage.ManageFragment;
 import com.rongfeng.speedclient.mine.MineFragment;
@@ -410,6 +411,10 @@ public class MainTableActivity extends BaseActivity {
                         }
 
                     }
+                }
+
+                if (AppTools.getUser().getIsForbidden().equals("2") || TextUtils.isEmpty(AppTools.getUser().getUserName())) {
+                    startActivity(new Intent(this, PersonSetActivity.class));
                 }
                 break;
         }
