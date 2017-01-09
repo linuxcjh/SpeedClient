@@ -32,6 +32,8 @@ public class RadarChartView extends View {
     private Paint coverPaint;               //覆盖区域画笔
 
 
+    private boolean isFirst;
+
 
     private float circleRadius = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2.6f, getResources().getDisplayMetrics());
 
@@ -106,10 +108,9 @@ public class RadarChartView extends View {
         centerY = getWidth() / 2;
 
         drawPolygon(canvas);
-        drawLines(canvas);
-
+//        drawLines(canvas);
 //      drawText(canvas);
-        drawRegion(canvas);
+//        drawRegion(canvas);
     }
 
 
@@ -154,6 +155,8 @@ public class RadarChartView extends View {
             path.close();//闭合路径
             canvas.drawPath(path, mainPaint);
         }
+
+        drawLines(canvas);
     }
 
 //    3、绘制从中心到末端的直线
@@ -189,6 +192,9 @@ public class RadarChartView extends View {
         path.lineTo(centerX, centerY);
         path.close();
         canvas.drawPath(path, mainPaint);
+
+
+        drawRegion(canvas);
     }
     /**
      * 绘制文字
