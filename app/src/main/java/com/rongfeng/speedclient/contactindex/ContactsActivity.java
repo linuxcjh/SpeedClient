@@ -3,10 +3,12 @@ package com.rongfeng.speedclient.contactindex;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.ContactsContract.CommonDataKinds.Phone;
+import android.telephony.PhoneNumberUtils;
 import android.telephony.SmsManager;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -182,15 +184,25 @@ public class ContactsActivity extends BaseActivity {
 
                 case Constant.CONFIRMDIALOG:
                     selectModel = (SortModel) msg.obj;
-                    sendSMS(selectModel.number, AppTools.getUser().getUserName() + "邀请您体验【快脑】" +
-                            "邀请码:" + selectModel.number +
-                            "，App下载：http://t.cn/Rf8OoAJ" + "，欢迎体验。");//发送短信
                     invoke(selectModel);
+
+                    doSendSMSTo(selectModel.number, AppTools.getUser().getUserName() + "邀请您体验【快脑】" +
+                            "邀请码:" + selectModel.number +
+                            "，欢迎体验。App下载：http://t.cn/Rf8OoAJ");//发送短信
+
                     break;
             }
         }
 
     };
+
+    public void doSendSMSTo(String phoneNumber, String message) {
+        if (PhoneNumberUtils.isGlobalPhoneNumber(phoneNumber)) {
+            Intent intent = new Intent(Intent.ACTION_SENDTO, Uri.parse("smsto:" + phoneNumber));
+            intent.putExtra("sms_body", message);
+            startActivity(intent);
+        }
+    }
 
     public void sendSMS(String phoneNumber, String message) {
         //获取短信管理器
@@ -401,7 +413,9 @@ public class ContactsActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-        setResult(RESULT_OK, new Intent().putExtra("list",  (Serializable) invitedList));
+        setResult(RESULT_OK, new Intent().putExtra("list", (Serializable) invitedList));
         super.onBackPressed();
     }
+
+
 }

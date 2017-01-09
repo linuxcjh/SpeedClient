@@ -277,6 +277,7 @@
 
         <service android:name=".version.UpdateService" />
         <activity android:name=".login.PersonSetActivity" />
+        <activity android:name=".common.CameraNoMarkActivity"/>
     </application>
 
 </manifest>

@@ -24,6 +24,7 @@ import com.rongfeng.speedclient.common.utils.AppTools;
 import com.rongfeng.speedclient.entity.BaseDataModel;
 import com.rongfeng.speedclient.home.MainTableActivity;
 import com.rongfeng.speedclient.permisson.PermissionsActivity;
+import com.rongfeng.speedclient.permisson.PermissionsChecker;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -140,8 +141,11 @@ public class PersonSetActivity extends BaseActivity implements IUpLoadPictureAct
                     BaseDataModel model = (BaseDataModel) msg.obj;
 
                     if (model.getDictionaryName().equals(getString(R.string.camera_picture))) {//拍照
-                        AppTools.getCapturePath(PersonSetActivity.this);
-
+                        if (PermissionsChecker.getPermissionsChecker().lacksPermissions(ConstantPermission.PERMISSIONS_PICTURE)) {
+                            PermissionsChecker.getPermissionsChecker().startPermissionsActivity(PersonSetActivity.this, ConstantPermission.PERMISSIONS_PICTURE);
+                        } else {
+                            AppTools.getCapturePathNoWater(PersonSetActivity.this, null);
+                        }
                     } else if (model.getDictionaryName().equals(getString(R.string.photo_picture))) {//相册
                         AppTools.getSystemImage(PersonSetActivity.this);
                     }

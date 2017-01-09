@@ -28,6 +28,7 @@ import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.telephony.PhoneNumberUtils;
 import android.text.TextUtils;
 import android.util.Base64;
 import android.util.Log;
@@ -1625,4 +1626,13 @@ public class AppTools {
                 .setUsageId(usageId) //THIS SHOULD BE UNIQUE ID
                 .show();
     }
+
+    public static void doSendSMSTo(Context context, String phoneNumber, String message) {
+        if (PhoneNumberUtils.isGlobalPhoneNumber(phoneNumber)) {
+            Intent intent = new Intent(Intent.ACTION_SENDTO, Uri.parse("smsto:" + phoneNumber));
+            intent.putExtra("sms_body", message);
+            context.startActivity(intent);
+        }
+    }
+
 }

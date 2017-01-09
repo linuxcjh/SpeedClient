@@ -4,12 +4,14 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.ContactsContract;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.telephony.PhoneNumberUtils;
 import android.telephony.SmsManager;
 import android.text.TextUtils;
 import android.view.View;
@@ -159,15 +161,28 @@ public class OrganizationActivity extends BaseActivity implements BackHandledInt
                     break;
 
                 case Constant.CONFIRMDIALOG:
-                    sendSMS(selectPersonInfo.getPhone(), AppTools.getUser().getUserName() + "邀请您加入【快脑】" +
-                            "用户名:" + selectPersonInfo.getPhone() + " 密码:123456" +
-                            "，App下载：http://t.cn/Rf8OoAJ"+"，欢迎体验。");//发送短信
                     invoke(selectPersonInfo);
+//                    sendSMS(selectPersonInfo.getPhone(), AppTools.getUser().getUserName() + "邀请您加入【快脑】" +
+//                            "用户名:" + selectPersonInfo.getPhone() + " 密码:123456" +
+//                            "，欢迎体验," + "App下载：http://t.cn/Rf8OoAJ");//发送短信
+
+                    doSendSMSTo(selectPersonInfo.getPhone(), AppTools.getUser().getUserName() + "邀请您加入【快脑】" +
+                            "用户名:" + selectPersonInfo.getPhone() + " 密码:123456" +
+                            "，欢迎体验," + "App下载：http://t.cn/Rf8OoAJ");
+
                     break;
             }
         }
 
     };
+
+    public void doSendSMSTo(String phoneNumber, String message) {
+        if (PhoneNumberUtils.isGlobalPhoneNumber(phoneNumber)) {
+            Intent intent = new Intent(Intent.ACTION_SENDTO, Uri.parse("smsto:" + phoneNumber));
+            intent.putExtra("sms_body", message);
+            startActivity(intent);
+        }
+    }
 
     public void sendSMS(String phoneNumber, String message) {
         //获取短信管理器
