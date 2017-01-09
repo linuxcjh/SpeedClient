@@ -21,6 +21,7 @@ import com.rongfeng.speedclient.common.utils.AppTools;
 import com.rongfeng.speedclient.common.utils.DateUtil;
 import com.rongfeng.speedclient.components.AddVisitGridLayoutDisplayView;
 import com.rongfeng.speedclient.dynamic.model.DynamicModel;
+import com.rongfeng.speedclient.voice.VoiceNoteActivity;
 import com.rongfeng.speedclient.xrecyclerview.BaseRecyclerAdapter;
 import com.rongfeng.speedclient.xrecyclerview.ViewHolder;
 
@@ -287,6 +288,10 @@ public class DynamicAdapter extends BaseRecyclerAdapter<DynamicModel> {
                         break;
                     case 2://跟进客户
                         context.startActivity(new Intent(context, ClientRecordsActivity.class).putExtra("customerId", model.getCsrId()).putExtra("customerName", model.getCustomerName()));
+                        break;
+                    case 3:
+                        context.startActivity(new Intent(context, VoiceNoteActivity.class));
+
                         break;
                     case 5:
                         context.startActivity(new Intent(context, ClientPersonaActivity.class).putExtra("customerId", model.getCsrId()).putExtra("customerName", model.getCustomerName()));

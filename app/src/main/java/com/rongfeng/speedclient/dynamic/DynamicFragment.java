@@ -188,7 +188,6 @@ public class DynamicFragment extends BaseFragment implements ICommonPaginationAc
     @Override
     public void onItemClick(int position, Object object) {
 
-
     }
 
 
@@ -198,8 +197,6 @@ public class DynamicFragment extends BaseFragment implements ICommonPaginationAc
             case R.id.shortcut_camera_tv:
                 AppTools.getCapturePath(getActivity(), this);
                 endAnimation();
-
-
                 break;
             case R.id.shortcut_position_tv:
                 Intent intentMap = new Intent(getActivity(), ClientDotOverlayMapNewActivity.class);
