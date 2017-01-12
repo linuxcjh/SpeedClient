@@ -163,7 +163,6 @@ public class GlobalSearchActivity extends BaseActivity {
     public void obtainData(Object data, String methodIndex, int status) {
         super.obtainData(data, methodIndex, status);
 
-        AppTools.hideKeyboard(searchEt);
         if (data != null) {
             setDataToLayout((GlobalSearchModel) data);
         }

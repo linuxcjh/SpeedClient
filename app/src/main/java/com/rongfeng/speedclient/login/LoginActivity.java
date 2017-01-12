@@ -46,6 +46,14 @@ public class LoginActivity extends BaseActivity implements ICommonAction {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_layout);
         ButterKnife.bind(this);
+        if (!isTaskRoot()) { //解决在线更新产生多实例的问题
+            Intent intent = getIntent();
+            String action = intent.getAction();
+            if (intent.hasCategory(Intent.CATEGORY_LAUNCHER) && action != null && action.equals(Intent.ACTION_MAIN)) {
+                finish();
+                return;
+            }
+        }
         init();
     }
 

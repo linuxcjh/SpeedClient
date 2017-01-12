@@ -83,7 +83,9 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".login.LoginActivity">
+        <activity
+            android:name=".login.LoginActivity"
+            android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -93,6 +95,7 @@
         <activity android:name=".WordsActivity" />
         <activity
             android:name=".home.MainTableActivity"
+            android:launchMode="singleTask"
             android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity
             android:name=".client.ClientRegisterActivity"
@@ -272,12 +275,14 @@
 
         <activity android:name=".mine.RebackActivity" />
         <activity android:name=".dynamic.NoticeDetailActivity" />
-        <activity android:name=".voice.VoiceNoteSearchActivity" />
+        <activity android:name=".voice.VoiceNoteSearchActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity android:name=".client.ClientSearchActivity" />
 
         <service android:name=".version.UpdateService" />
+
         <activity android:name=".login.PersonSetActivity" />
-        <activity android:name=".common.CameraNoMarkActivity"/>
+        <activity android:name=".common.CameraNoMarkActivity" />
     </application>
 
 </manifest>

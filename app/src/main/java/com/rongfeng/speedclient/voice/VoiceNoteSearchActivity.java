@@ -62,6 +62,8 @@ public class VoiceNoteSearchActivity extends BaseActivity implements ICommonPagi
     private List<VoiceNoteModel> data = new ArrayList<>();
     private CommonPaginationPresenter commonPaginationPresenter = new CommonPaginationPresenter(this);
 
+    private String searchResult;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,13 +89,14 @@ public class VoiceNoteSearchActivity extends BaseActivity implements ICommonPagi
 
 
         if (!TextUtils.isEmpty(getIntent().getStringExtra("content"))) {
-            searchEt.setText(getIntent().getStringExtra("content"));
-            searchEt.setSelection(searchEt.getText().toString().length());
-            clearBt.setVisibility(View.VISIBLE);
+            searchResult = getIntent().getStringExtra("content");
             onRefresh();
-
+        } else {
+            openKeyboard(new Handler(), 200);
         }
+
     }
+
 
     private void initViewsAndData() {
         searchEt.setImeOptions(EditorInfo.IME_ACTION_SEARCH);
@@ -102,7 +105,7 @@ public class VoiceNoteSearchActivity extends BaseActivity implements ICommonPagi
             @Override
             public boolean onEditorAction(TextView arg0, int arg1, KeyEvent arg2) {
                 if (arg1 == EditorInfo.IME_ACTION_SEARCH) {//搜索调接口
-                    invoke();
+                    invoke(searchResult);
                 }
                 return false;
             }
@@ -126,13 +129,13 @@ public class VoiceNoteSearchActivity extends BaseActivity implements ICommonPagi
                 if (!TextUtils.isEmpty(s.toString())) {
                     clearBt.setVisibility(View.VISIBLE);
                     mAdapter.setKeyWords(s.toString());
+                    searchResult = s.toString();
                     onRefresh();
                 } else {
                     clearBt.setVisibility(View.GONE);
                 }
             }
         });
-//        openKeyboard(new Handler(), 200);
     }
 
 
@@ -152,10 +155,10 @@ public class VoiceNoteSearchActivity extends BaseActivity implements ICommonPagi
         }, s);
     }
 
-    private void invoke() {
-        if (!TextUtils.isEmpty(searchEt.getText().toString())) {
+    private void invoke(String searchResult) {
+        if (!TextUtils.isEmpty(searchResult)) {
             transDataModel.setRows("20");
-            transDataModel.setKeyword(searchEt.getText().toString());
+            transDataModel.setKeyword(searchResult);
             transDataModel.setPage(String.valueOf(commonPaginationPresenter.page));
             commonPaginationPresenter.invokeInterfaceObtainData(XxbService.SEARCHNOTE, transDataModel, new TypeToken<List<VoiceNoteModel>>() {
             });
@@ -168,7 +171,6 @@ public class VoiceNoteSearchActivity extends BaseActivity implements ICommonPagi
     @Override
     public void obtainData(Object data, String methodIndex, int status) {
 
-        AppTools.hideKeyboard(searchEt);
         if (data != null) {
             mAdapter.setData((List<VoiceNoteModel>) data);
             if (commonPaginationPresenter.data != null && commonPaginationPresenter.data.size() == 0) {
@@ -207,7 +209,7 @@ public class VoiceNoteSearchActivity extends BaseActivity implements ICommonPagi
         commonPaginationPresenter.isShowProgressDialog = false;
         commonPaginationPresenter.isRefresh = true;
         commonPaginationPresenter.page = 0;
-        invoke();
+        invoke(searchResult);
 
     }
 
@@ -215,7 +217,7 @@ public class VoiceNoteSearchActivity extends BaseActivity implements ICommonPagi
     public void onLoadMore() {
         commonPaginationPresenter.isRefresh = false;
         commonPaginationPresenter.page++;
-        invoke();
+        invoke(searchResult);
 
     }
 
@@ -231,10 +233,15 @@ public class VoiceNoteSearchActivity extends BaseActivity implements ICommonPagi
                 searchEt.setText("");
                 break;
             case R.id.cancel_bt:
+                AppTools.hideKeyboard(searchEt);
                 finish();
                 break;
         }
     }
 
-
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        AppTools.hideKeyboard(searchEt);
+    }
 }

@@ -117,7 +117,7 @@
                             android:background="@drawable/cust_tab_r"
                             android:button="@null"
                             android:gravity="center"
-                            android:text="未来7日跟进提醒"
+                            android:text="未来7日跟进计划"
                             android:textColor="@color/colorBlue"
                             android:textSize="13sp" />
                     </RadioGroup>

@@ -229,7 +229,7 @@
                 android:drawablePadding="14dp"
                 android:drawableTop="@drawable/me_followup"
                 android:gravity="center"
-                android:text="跟进提醒"
+                android:text="跟进计划"
                 android:textColor="@color/colorListName"
                 android:textSize="14sp" />
 

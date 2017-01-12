@@ -16,7 +16,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="25dp"
-        android:text="目前还没有日程"
+        android:text="空 的 哦~"
         android:textColor="@color/colorListName" />
 
     <TextView

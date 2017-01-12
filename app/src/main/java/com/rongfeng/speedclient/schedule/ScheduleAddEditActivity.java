@@ -54,6 +54,8 @@ public class ScheduleAddEditActivity extends BaseActivity {
     TextView clientNameTv;
     @Bind(R.id.client_name_layout)
     LinearLayout clientNameLayout;
+    @Bind(R.id.date_tv)
+    TextView dateTv;
     private List<BaseDataModel> dataLabel = new ArrayList<>();
     private AddRemindModel addRemindModel = new AddRemindModel();
 
@@ -66,12 +68,13 @@ public class ScheduleAddEditActivity extends BaseActivity {
     }
 
     private void init() {
-        addRemindModel.setRemindDate(getIntent().getStringExtra("dateString"));
+        dateTv.setText(getIntent().getStringExtra("dateString"));
         dataLabel.add(new BaseDataModel("0", "+ 关联客户"));
         generationLabels(this, dataLabel, flowLayoutLayout);
     }
 
     private void invoke() {
+        addRemindModel.setRemindDate(dateTv.getText().toString());
         addRemindModel.setRemindContent(contentEt.getText().toString());
         addRemindModel.setRemindHour(timeTv.getText().toString());
         commonPresenter.invokeInterfaceObtainData(XxbService.INSERTSKREMIND, addRemindModel, new TypeToken<List<BaseDataModel>>() {
@@ -90,13 +93,18 @@ public class ScheduleAddEditActivity extends BaseActivity {
         }
     }
 
-    @OnClick({R.id.cancel, R.id.commit_tv, R.id.time_tv, R.id.client_name_layout})
+    @OnClick({R.id.cancel, R.id.commit_tv, R.id.time_tv, R.id.client_name_layout, R.id.date_tv})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.cancel:
                 finish();
                 break;
             case R.id.commit_tv:
+                if (TextUtils.isEmpty(contentEt.getText().toString())) {
+                    AppTools.getToast("请选择日期");
+                    return;
+                }
+
                 if (!TextUtils.isEmpty(contentEt.getText().toString())) {
                     invoke();
                 } else {
@@ -106,6 +114,10 @@ public class ScheduleAddEditActivity extends BaseActivity {
 
             case R.id.time_tv:
                 AppTools.obtainTime(this, timeTv);
+                break;
+            case R.id.date_tv:
+                AppTools.obtainData(this, dateTv);
+
                 break;
             case R.id.client_name_layout:
                 startActivityForResult(new Intent(ScheduleAddEditActivity.this, ClientSelectActivity.class), 0x11);
