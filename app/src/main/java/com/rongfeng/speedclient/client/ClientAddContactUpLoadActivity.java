@@ -188,8 +188,9 @@ public class ClientAddContactUpLoadActivity extends BaseActivity implements IUpL
                     AppTools.getToast("添加成功");
 
                     CsrContactJSONArray csrContact = (CsrContactJSONArray) data;
-
-
+                    if(!TextUtils.isEmpty(resPhoneEt.getText().toString())){
+                        csrContact.setPhone(resPhoneEt.getText().toString());
+                    }
                     DBManager dbManager = new DBManager(AppConfig.getContext());
                     ClientModel clientModel = dbManager.queryTheClient(model.getCsrId());//查询联系人所属的客户信息
                     dbManager.closeDB();
@@ -264,7 +265,6 @@ public class ClientAddContactUpLoadActivity extends BaseActivity implements IUpL
                             ContactsContract.Contacts.CONTENT_URI);
                     startActivityForResult(intent, Constant.CONTACT_SELECT_RESULT);
                 }
-
                 break;
         }
     }

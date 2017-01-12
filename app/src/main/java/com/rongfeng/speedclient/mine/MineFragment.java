@@ -113,17 +113,17 @@ public class MineFragment extends BaseFragment {
                 webView.loadUrl("http://q.url.cn/s/IIpYHXm");
                 webView.setWebViewClient(new WebViewClient() { //mqqwpa
                     public boolean shouldOverrideUrlLoading(WebView view, String url) {
-//                        if (url.startsWith("http:") || url.startsWith("https:")) {
-//                            return false;
-//                        }
-
-                        if (url.startsWith("mqqwpa")) {
-                            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-                            startActivity(intent);
-                            dialog.dismiss();
-                        } else {
+                        if (url.startsWith("http:") || url.startsWith("https:")) {
                             return false;
                         }
+
+//                        if (url.startsWith("mqqwpa")) {
+                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                        startActivity(intent);
+                        dialog.dismiss();
+//                        } else {
+//                            return false;
+//                        }
 
                         return true;
                     }
