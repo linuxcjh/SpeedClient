@@ -37,6 +37,7 @@ import com.rongfeng.speedclient.common.utils.AppConfig;
 import com.rongfeng.speedclient.common.utils.AppTools;
 import com.rongfeng.speedclient.dynamic.model.GlobalSearchItemModel;
 import com.rongfeng.speedclient.dynamic.model.GlobalSearchModel;
+import com.rongfeng.speedclient.voice.VoiceNoteSearchActivity;
 
 import java.util.List;
 
@@ -161,6 +162,8 @@ public class GlobalSearchActivity extends BaseActivity {
     @Override
     public void obtainData(Object data, String methodIndex, int status) {
         super.obtainData(data, methodIndex, status);
+
+        AppTools.hideKeyboard(searchEt);
         if (data != null) {
             setDataToLayout((GlobalSearchModel) data);
         }
@@ -249,7 +252,7 @@ public class GlobalSearchActivity extends BaseActivity {
                                 startActivity(new Intent(GlobalSearchActivity.this, ClientRecordsActivity.class).putExtra("customerId", m.getCsrId()).putExtra("customerName", m.getTitle()));
                                 break;
                             case "6"://日志
-                                startActivity(new Intent(GlobalSearchActivity.this, NoticeDetailActivity.class)
+                                startActivity(new Intent(GlobalSearchActivity.this, VoiceNoteSearchActivity.class)
                                         .putExtra("content", m.getTitle()));
                                 break;
                         }

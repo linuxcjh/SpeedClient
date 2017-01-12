@@ -38,10 +38,10 @@
                 android:layout_centerVertical="true"
                 android:layout_toRightOf="@id/left_icon"
                 android:background="@null"
-                android:hint="搜索"
-                android:maxLength="10"
+                android:hint="输入内容关键字搜索"
                 android:maxLines="1"
                 android:paddingLeft="5dp"
+                android:paddingRight="30dp"
                 android:singleLine="true"
                 android:textColor="#333333"
                 android:textSize="13sp" />

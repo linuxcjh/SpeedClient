@@ -20,7 +20,15 @@ public class MineApplication extends Application {
         AppConfig.setContext(this);
         Stetho.initializeWithDefaults(this);
         SpeechUtility.createUtility(this, SpeechConstant.APPID + "=5814610b");
-        AppConfig.getBooleanConfig("isShow", true);//来电弹屏
+        AppConfig.setBooleanConfig("isShow", true);//来电弹屏
 
+//        if (!AppConfig.getBooleanConfig("isDrop", false)) {
+//            if (VersionTools.getVersionCode() == 3) {
+//                AppConfig.getBooleanConfig("isDrop", true);
+//                VoiceAnalysisTools.getInstance().clearForm();
+//                new DBManager(AppConfig.getContext());
+//                AppTools.getToast("DROP");
+//            }
+//        }
     }
 }

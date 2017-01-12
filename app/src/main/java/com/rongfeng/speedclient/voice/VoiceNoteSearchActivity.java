@@ -84,6 +84,15 @@ public class VoiceNoteSearchActivity extends BaseActivity implements ICommonPagi
         mAdapter = new VoiceNoteAdapter(this, R.layout.voice_note_item, data);
         mAdapter.setOnRecyclerViewListener(this);
         mRecyclerView.setAdapter(mAdapter);
+
+
+        if (!TextUtils.isEmpty(getIntent().getStringExtra("content"))) {
+            searchEt.setText(getIntent().getStringExtra("content"));
+            searchEt.setSelection(searchEt.getText().toString().length());
+            clearBt.setVisibility(View.VISIBLE);
+            onRefresh();
+
+        }
     }
 
     private void initViewsAndData() {
@@ -123,7 +132,7 @@ public class VoiceNoteSearchActivity extends BaseActivity implements ICommonPagi
                 }
             }
         });
-        openKeyboard(new Handler(), 200);
+//        openKeyboard(new Handler(), 200);
     }
 
 
@@ -159,6 +168,7 @@ public class VoiceNoteSearchActivity extends BaseActivity implements ICommonPagi
     @Override
     public void obtainData(Object data, String methodIndex, int status) {
 
+        AppTools.hideKeyboard(searchEt);
         if (data != null) {
             mAdapter.setData((List<VoiceNoteModel>) data);
             if (commonPaginationPresenter.data != null && commonPaginationPresenter.data.size() == 0) {

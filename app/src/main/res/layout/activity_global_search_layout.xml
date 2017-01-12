@@ -38,7 +38,7 @@
                 android:layout_centerVertical="true"
                 android:layout_toRightOf="@id/left_icon"
                 android:background="@null"
-                android:hint="搜索"
+                android:hint="输入关键字搜索"
                 android:maxLength="10"
                 android:maxLines="1"
                 android:paddingLeft="5dp"
@@ -101,12 +101,12 @@
                 android:id="@+id/contact_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@color/colorWhite"
                 android:divider="@drawable/divider"
                 android:dividerPadding="15dp"
                 android:orientation="vertical"
                 android:showDividers="middle"
-                android:layout_marginTop="10dp"
-                android:background="@color/colorWhite"
                 android:visibility="gone">
 
             </LinearLayout>
@@ -115,10 +115,10 @@
                 android:id="@+id/business_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:divider="@drawable/divider"
-                android:dividerPadding="15dp"
                 android:layout_marginTop="10dp"
                 android:background="@color/colorWhite"
+                android:divider="@drawable/divider"
+                android:dividerPadding="15dp"
                 android:orientation="vertical"
                 android:showDividers="middle"
                 android:visibility="gone">
@@ -129,24 +129,25 @@
                 android:id="@+id/bargain_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:divider="@drawable/divider"
                 android:layout_marginTop="10dp"
                 android:background="@color/colorWhite"
+                android:divider="@drawable/divider"
                 android:dividerPadding="15dp"
+                android:orientation="vertical"
                 android:showDividers="middle"
                 android:visibility="gone">
 
             </LinearLayout>
+
             <LinearLayout
                 android:id="@+id/follow_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:divider="@drawable/divider"
                 android:layout_marginTop="10dp"
                 android:background="@color/colorWhite"
+                android:divider="@drawable/divider"
                 android:dividerPadding="15dp"
+                android:orientation="vertical"
                 android:showDividers="middle"
                 android:visibility="gone">
 
@@ -156,11 +157,11 @@
                 android:id="@+id/note_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@color/colorWhite"
                 android:divider="@drawable/divider"
                 android:dividerPadding="15dp"
                 android:orientation="vertical"
-                android:layout_marginTop="10dp"
-                android:background="@color/colorWhite"
                 android:showDividers="middle"
                 android:visibility="gone">
 

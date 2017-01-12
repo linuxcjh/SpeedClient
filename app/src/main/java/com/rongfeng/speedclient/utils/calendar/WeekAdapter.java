@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Handler;
 import android.os.Message;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -55,7 +56,12 @@ public class WeekAdapter extends BaseAdapter implements OnClickListener {
         try {
             hashMap.clear();
             for (CalendarModel model : list) {
-                hashMap.put(Integer.valueOf(model.getDate()), model.getState());
+//                hashMap.put(Integer.valueOf(model.getDate()), model.getState());
+
+                if(!TextUtils.isEmpty(model.getRemindTime())){
+                    hashMap.put(Integer.valueOf(model.getRemindTime()), "1");
+
+                }
             }
             notifyDataSetChanged();
         } catch (Exception e) {

@@ -33,7 +33,7 @@ public class DBManager {
         db.beginTransaction();  //开始事务
         try {
             for (ClientModel person : persons) {
-                db.execSQL("INSERT INTO notes VALUES(null,?,?,?,?,?,?,?,?)", new Object[]{person.client_id, person.client_name,person.client_phone, person.client_info, person.client_update_time, person.contact_id, person.contact_name, person.contact_phone});
+                db.execSQL("INSERT INTO notes VALUES(null,?,?,?,?,?,?,?,?)", new Object[]{person.client_id, person.client_name, person.client_phone, person.client_info, person.client_update_time, person.contact_id, person.contact_name, person.contact_phone});
             }
             db.setTransactionSuccessful();  //设置事务成功完成
         } finally {
@@ -49,7 +49,7 @@ public class DBManager {
     public void addClient(ClientModel person) {
         db.beginTransaction();  //开始事务
         try {
-            db.execSQL("INSERT INTO notes VALUES(null,?,?,?,?,?,?,?,?)", new Object[]{person.client_id, person.client_name,person.client_phone, person.client_info, person.client_update_time, person.contact_id, person.contact_name, person.contact_phone});
+            db.execSQL("INSERT INTO notes VALUES(null,?,?,?,?,?,?,?,?)", new Object[]{person.client_id, person.client_name, person.client_phone, person.client_info, person.client_update_time, person.contact_id, person.contact_name, person.contact_phone});
             db.setTransactionSuccessful();  //设置事务成功完成
         } finally {
             db.endTransaction();    //结束事务
@@ -106,7 +106,8 @@ public class DBManager {
         try {
 //            delete from TableName;  //清空数据
 //            update sqlite_sequence SET seq = 0 where name ='TableName';//自增长ID为0
-            db.execSQL("DELETE FROM  notes;");
+//            db.execSQL("DELETE FROM  notes;");//清空表数据
+            db.execSQL("DROP TABLE notes;");
             db.setTransactionSuccessful();  //设置事务成功完成
         } finally {
             db.endTransaction();    //结束事务

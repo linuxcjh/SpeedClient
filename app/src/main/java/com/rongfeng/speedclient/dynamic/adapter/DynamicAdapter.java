@@ -21,7 +21,7 @@ import com.rongfeng.speedclient.common.utils.AppTools;
 import com.rongfeng.speedclient.common.utils.DateUtil;
 import com.rongfeng.speedclient.components.AddVisitGridLayoutDisplayView;
 import com.rongfeng.speedclient.dynamic.model.DynamicModel;
-import com.rongfeng.speedclient.voice.VoiceNoteActivity;
+import com.rongfeng.speedclient.voice.VoiceNoteSearchActivity;
 import com.rongfeng.speedclient.xrecyclerview.BaseRecyclerAdapter;
 import com.rongfeng.speedclient.xrecyclerview.ViewHolder;
 
@@ -140,16 +140,18 @@ public class DynamicAdapter extends BaseRecyclerAdapter<DynamicModel> {
                 }
                 break;
             case 3:
-                type_user_image.setVisibility(View.VISIBLE);
-                user_image.setVisibility(View.GONE);
-                userLayout.setVisibility(View.VISIBLE);
-                typeLayout.setVisibility(View.GONE);
+//                type_user_image.setVisibility(View.VISIBLE);
+//                user_image.setVisibility(View.GONE);
+//                userLayout.setVisibility(View.VISIBLE);
+                userLayout.setVisibility(View.GONE);
+                typeLayout.setVisibility(View.VISIBLE);
+                holder.setText(R.id.content_tv, model.getDynamicVal());
                 holder.setText(R.id.user_entry_tv, model.getDynamicTypeName());
                 if (isToday) {
 
-                    type_user_image.setImageResource(R.drawable.dynamic_log);
+                    type_image.setImageResource(R.drawable.dynamic_log);
                 } else {
-                    type_user_image.setImageResource(R.drawable.dynamic_log_h);
+                    type_image.setImageResource(R.drawable.dynamic_log_h);
                 }
                 break;
             case 4:
@@ -290,7 +292,7 @@ public class DynamicAdapter extends BaseRecyclerAdapter<DynamicModel> {
                         context.startActivity(new Intent(context, ClientRecordsActivity.class).putExtra("customerId", model.getCsrId()).putExtra("customerName", model.getCustomerName()));
                         break;
                     case 3:
-                        context.startActivity(new Intent(context, VoiceNoteActivity.class));
+                        context.startActivity(new Intent(context, VoiceNoteSearchActivity.class).putExtra("content", model.getDynamicVal()));
 
                         break;
                     case 5:

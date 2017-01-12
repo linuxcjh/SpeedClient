@@ -19,13 +19,13 @@ public class VersionTools {
 
         return AppTools.getFileSavePath(context) + "/xxb.apk";
     }
+
     /**
-     *
      * @param context
      */
     public static void installAPKFile(Context context) {
         Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setDataAndType(Uri.fromFile(new File(context.getFilesDir().getPath(),UpdateService.FILE_NAME)),
+        intent.setDataAndType(Uri.fromFile(new File(context.getFilesDir().getPath(), UpdateService.FILE_NAME)),
                 "application/vnd.android.package-archive");
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK); // 4.0以后的系统必须有这句，否则安装完成直接退出不显示安装成功界面
         context.startActivity(intent);
@@ -45,6 +45,8 @@ public class VersionTools {
         try {
             verCode = AppConfig.getContext().getPackageManager()
                     .getPackageInfo(AppConfig.getContext().getPackageName(), 0).versionCode;
+
+
         } catch (NameNotFoundException e) {
         }
         return verCode;

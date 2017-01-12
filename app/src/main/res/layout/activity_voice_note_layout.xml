@@ -36,8 +36,7 @@
             android:layout_centerVertical="true"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
-            android:src="@drawable/nav_search"
-            android:visibility="gone" />
+            android:src="@drawable/nav_search" />
     </RelativeLayout>
 
     <FrameLayout

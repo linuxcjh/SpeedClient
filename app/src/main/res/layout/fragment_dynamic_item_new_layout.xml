@@ -127,7 +127,10 @@
             android:layout_alignLeft="@+id/type_name_tv"
             android:layout_below="@+id/type_name_tv"
             android:layout_marginTop="6dp"
-            android:text="客户名称：三一重工项目"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:paddingRight="10dp"
+            android:text="客户名称：水电费水电费"
             android:textColor="@color/colorAssist"
             android:textSize="13sp" />
 
