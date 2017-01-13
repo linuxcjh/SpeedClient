@@ -94,7 +94,12 @@ public class VoiceRecord {
         // 初始化识别无UI识别对象
         // 使用SpeechRecognizer对象，可根据回调消息自定义界面；
         mIat = SpeechRecognizer.createRecognizer(mContext, mInitListener);
+
+        // 设置参数
+        setParam();
+        // 不显示听写对话框
         vibrator = (Vibrator) mContext.getSystemService(Context.VIBRATOR_SERVICE);
+
     }
 
 
@@ -272,10 +277,8 @@ public class VoiceRecord {
         vibrator.vibrate(pattern, 1);
 //        mediaPlayer = MediaPlayer.create(mContext, R.raw.talkroom_begin);
 //        mediaPlayer.start();
-        // 设置参数
-        setParam();
-        // 不显示听写对话框
         mIat.startListening(mRecognizerListener);
+
         timerTask = new TimerTask() {
 
             @Override
