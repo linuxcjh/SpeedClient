@@ -64,7 +64,7 @@ import butterknife.OnClick;
  * AUTHOR: Alex
  * DATE: 21/10/2015 19:16
  */
-public class MainTableActivity extends BaseActivity {
+public class MainTableActivity extends BaseActivity implements IVoiceData {
 
     public static final int VOICE_RECORD_START_INDEX = 0;//录音开始
     public static final int VOICE_RECORD_END_INDEX = 1;//录音结束
@@ -171,6 +171,8 @@ public class MainTableActivity extends BaseActivity {
 
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
+                        displayVoiceFragment();
+
                         if (waveView == null) {
                             waveView = new WaveView(MainTableActivity.this);
                             waveLayout.addView(waveView);
@@ -181,9 +183,9 @@ public class MainTableActivity extends BaseActivity {
                         }
 
                         voiceRecord = new VoiceRecord(MainTableActivity.this, waveView, timeSecondTv, mHandler);
+                        voiceRecord.setIVoiceData(MainTableActivity.this);
                         waveLayout.setVisibility(View.VISIBLE);
 
-                        displayVoiceFragment();
                         tabPlusIv.setImageResource(R.drawable.tabbar_voice_active);
                         voiceRecord.startPlay();
                         break;
@@ -343,6 +345,15 @@ public class MainTableActivity extends BaseActivity {
         transaction.commit();
     }
 
+
+    @Override
+    public void voiceParseData(String parseData) {
+        if (voiceFragment != null && voiceFragment.contentEt != null) {
+            voiceFragment.contentEt.setText(voiceFragment.contentEt.getText().toString() +
+                    parseData);
+            voiceFragment.contentEt.setSelection(voiceFragment.contentEt.getText().toString().length());
+        }
+    }
 
     Handler mHandler = new Handler() {
         @Override

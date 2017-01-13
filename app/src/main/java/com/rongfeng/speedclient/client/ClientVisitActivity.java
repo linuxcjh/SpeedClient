@@ -111,7 +111,7 @@ public class ClientVisitActivity extends BaseActivity implements IUpLoadPictureA
                     sendBroadcast(new Intent(Constant.CLIENT_REFRESH_PERSONA));
 
                     MyDialog dialog = new MyDialog(ClientVisitActivity.this, mHandler);
-                    dialog.buildDialog().setTitle("设置下次跟进提醒").setCancelText("取消").setConfirm("确定").setMessage("添加成功，是否设置下次跟进提醒时间?");
+                    dialog.buildDialog().setTitle("添加下次跟进计划").setCancelText("取消").setConfirm("确定").setMessage("添加成功，是否添加下次跟进跟进事件?");
 
                 }
 

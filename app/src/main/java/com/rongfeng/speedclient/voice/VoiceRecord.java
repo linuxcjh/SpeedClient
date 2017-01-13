@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.os.Vibrator;
 import android.util.Log;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.iflytek.cloud.ErrorCode;
@@ -19,6 +20,7 @@ import com.iflytek.cloud.SpeechError;
 import com.iflytek.cloud.SpeechRecognizer;
 import com.rongfeng.speedclient.common.utils.AppConfig;
 import com.rongfeng.speedclient.common.utils.Utils;
+import com.rongfeng.speedclient.home.IVoiceData;
 import com.rongfeng.speedclient.utils.JsonParser;
 import com.rongfeng.speedclient.wave.WaveView;
 
@@ -65,12 +67,23 @@ public class VoiceRecord {
     public Vibrator vibrator;
     public long[] pattern = {50, 50};   // 停止 开启 停止 开启
 
+    public EditText editText;
+
 
     public VoiceRecord(Context context, WaveView waveView, TextView timeSecondTv, Handler handler) {
         this.mContext = context;
         this.timeSecondTv = timeSecondTv;
         this.waveView = waveView;
         this.transHandler = handler;
+        initVoice();
+    }
+
+    public VoiceRecord(Context context, WaveView waveView, TextView timeSecondTv, Handler handler, EditText editText) {
+        this.mContext = context;
+        this.timeSecondTv = timeSecondTv;
+        this.waveView = waveView;
+        this.transHandler = handler;
+        this.editText = editText;
         initVoice();
     }
 
@@ -96,8 +109,12 @@ public class VoiceRecord {
                     } else if (timeNum < 59) {
                         timeSecondTv.setText("00:" + timeNum++);
                     } else {
-                        timeSecondTv.setText("01:0" + timeNum++ % 60);
+//                        timeSecondTv.setText("01:0" + timeNum++ % 60);
+                        timeSecondTv.setText("01:00");
+                        mHandler.sendEmptyMessage(VOICE_RECORD_END_INDEX);//最长一分钟
+
                     }
+
                     break;
                 case VOICE_RECORD_END_INDEX:
 
@@ -175,9 +192,17 @@ public class VoiceRecord {
     }
 
 
+    IVoiceData iVoiceData;
+
+
+    public void setIVoiceData(IVoiceData iVoiceData) {
+        this.iVoiceData = iVoiceData;
+    }
+
     public void printResult(RecognizerResult results) {
         String text = JsonParser.parseIatResult(results.getResultString());
-        transHandler.sendMessage(transHandler.obtainMessage(VOICE_RECORD_SEND_RESULT_INDEX, text));
+
+        iVoiceData.voiceParseData(text);
 
     }
 
