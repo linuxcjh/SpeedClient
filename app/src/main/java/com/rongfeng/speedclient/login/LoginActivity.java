@@ -88,9 +88,12 @@ public class LoginActivity extends BaseActivity implements ICommonAction {
     public void obtainData(Object data, String methodIndex, int status) {
         progressDialog.dismiss();
         if (status == 1) {
+
+
             AppConfig.setStringConfig("userName", inputPhoneEt.getText().toString());
 
             Enterprise model = (Enterprise) data;
+
             AppTools.saveEnterpriseModel(model);
             List<User> arr = model.getArr();
 

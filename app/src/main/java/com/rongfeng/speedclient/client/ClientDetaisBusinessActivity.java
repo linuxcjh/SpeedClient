@@ -289,7 +289,7 @@ public class ClientDetaisBusinessActivity extends BaseActivity {
                 break;
 
             case R.id.add_contract_bt:
-                startActivity(new Intent(this, ClientAddContractActivity.class).putExtra("busId", transModel.getBusinessId()).putExtra("customerId", transModel.getCsrId()).putExtra("model", transModel));
+                startActivity(new Intent(this, ClientAddContractActivity.class).putExtra("busId", transModel.getBusinessId()).putExtra("customerId", getIntent().getStringExtra("customerId")).putExtra("model", transModel));
                 break;
 
 

@@ -5,6 +5,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.rongfeng.speedclient.common.utils.AppTools;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -106,8 +108,9 @@ public class DBManager {
         try {
 //            delete from TableName;  //清空数据
 //            update sqlite_sequence SET seq = 0 where name ='TableName';//自增长ID为0
-//            db.execSQL("DELETE FROM  notes;");//清空表数据
-            db.execSQL("DROP TABLE notes;");
+            db.execSQL("DELETE FROM  notes;");//清空表数据
+            AppTools.getToast("DELETE");
+//            db.execSQL("DROP TABLE notes;");
             db.setTransactionSuccessful();  //设置事务成功完成
         } finally {
             db.endTransaction();    //结束事务

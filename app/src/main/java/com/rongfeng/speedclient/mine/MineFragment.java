@@ -17,6 +17,7 @@ import com.rongfeng.speedclient.common.BaseFragment;
 import com.rongfeng.speedclient.common.utils.AppConfig;
 import com.rongfeng.speedclient.common.utils.AppTools;
 import com.rongfeng.speedclient.schedule.ScheduleActivity;
+import com.rongfeng.speedclient.voice.VoiceAnalysisTools;
 import com.rongfeng.speedclient.voice.VoiceNoteActivity;
 
 import java.util.List;
@@ -153,6 +154,7 @@ public class MineFragment extends BaseFragment {
         if (data != null) {
             AppConfig.setStringConfig("userModel", "");
             AppConfig.setStringConfig("login", "0"); //启动页面
+            VoiceAnalysisTools.getInstance().clearForm();
             getActivity().finish();
             Process.killProcess(Process.myPid());
             System.exit(0);

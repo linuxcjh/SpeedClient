@@ -69,6 +69,7 @@ import com.rongfeng.speedclient.permisson.PermissionsChecker;
 import com.rongfeng.speedclient.utils.DensityUtil;
 import com.rongfeng.speedclient.utils.FlowLayout;
 import com.rongfeng.speedclient.voice.AreaDBManager;
+import com.rongfeng.speedclient.voice.VoiceAnalysisTools;
 import com.rongfeng.speedclient.voice.model.AreaModel;
 
 import net.sourceforge.pinyin4j.PinyinHelper;

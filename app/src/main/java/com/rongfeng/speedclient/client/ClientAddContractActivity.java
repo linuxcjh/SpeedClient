@@ -215,6 +215,7 @@ public class ClientAddContractActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.commit_tv:
+
                 if (TextUtils.isEmpty(contractNameTv.getText().toString())) {
                     AppTools.getToast("请填写成交名称");
                     return;
