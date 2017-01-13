@@ -1165,8 +1165,10 @@ public class AppTools {
         int w = newOpts.outWidth;
         int h = newOpts.outHeight;
         //现在主流手机比较多是800*480分辨率，所以高和宽我们设置为
-        float hh = 800f;//这里设置高度为800f
-        float ww = 480f;//这里设置宽度为480f
+//        float hh = 800f;//这里设置高度为800f
+//        float ww = 480f;//这里设置宽度为480f
+        float hh = 1280f;//这里设置高度为800f
+        float ww = 720f;//这里设置宽度为480f
         //缩放比。由于是固定比例缩放，只用高或者宽其中一个数据进行计算即可
         int be = 1;//be=1表示不缩放
         if (w > h && w > ww) {//如果宽度大的话根据宽度固定大小缩放
@@ -1202,7 +1204,7 @@ public class AppTools {
         String path = getFileSavePath(AppConfig.getContext()) + "/" + (Math.random() * 9000 + 1000) + ".png";
         try {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            image.compress(Bitmap.CompressFormat.PNG, 50, baos);//质量压缩方法，这里100表示不压缩，把压缩后的数据存放到baos中
+            image.compress(Bitmap.CompressFormat.PNG, 100, baos);//质量压缩方法，这里100表示不压缩，把压缩后的数据存放到baos中
 //        int options = 30;
 //        while (baos.toByteArray().length / 1024 > 100) {  //循环判断如果压缩后图片是否大于100kb,大于继续压缩
 //            baos.reset();//重置baos即清空baos
@@ -1215,7 +1217,7 @@ public class AppTools {
             ByteArrayInputStream isBm = new ByteArrayInputStream(baos.toByteArray());//把压缩后的数据baos存放到ByteArrayInputStream中
             Bitmap bitmap = BitmapFactory.decodeStream(isBm, null, null);//把ByteArrayInputStream数据生成图片
             FileOutputStream stream = new FileOutputStream(path);
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 80, stream);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
             return null;

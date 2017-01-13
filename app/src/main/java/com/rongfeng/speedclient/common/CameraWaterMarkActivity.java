@@ -103,7 +103,7 @@ public class CameraWaterMarkActivity extends Activity implements
 
     private void setParameter() {
         LayoutParams lp = (LayoutParams) frameLayout.getLayoutParams();
-        imageH = lp.height = 640 * W / 480;
+        imageH = lp.height = 1280 * W / 960;
         lp.width = W;
         frameLayout.setLayoutParams(lp);
 
@@ -116,8 +116,9 @@ public class CameraWaterMarkActivity extends Activity implements
 
                 Camera.Parameters params = camera.getParameters();
                 params.setPictureFormat(PixelFormat.JPEG);
-                params.setPictureSize(640, 480);// 设置保存图片大小
-                params.setPreviewSize(640, 480);// 设置预览图片大小
+                params.setPictureSize(1280, 960);// 设置保存图片大小
+                params.setPreviewSize(1280, 960);// 设置预览图片大小
+                params.setJpegQuality(80);
                 setParameter();
                 camera.setParameters(params);
                 camera.setDisplayOrientation(90);

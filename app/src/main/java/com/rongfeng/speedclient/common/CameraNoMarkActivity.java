@@ -84,7 +84,7 @@ public class CameraNoMarkActivity extends Activity implements
 
     private void setParameter() {
         LayoutParams lp = (LayoutParams) frameLayout.getLayoutParams();
-        imageH = lp.height = 640 * W / 480;
+        imageH = lp.height = 1280 * W / 960;
         lp.width = W;
         frameLayout.setLayoutParams(lp);
 
@@ -93,14 +93,20 @@ public class CameraNoMarkActivity extends Activity implements
     @Override
     public void surfaceChanged(SurfaceHolder arg0, int arg1, int arg2, int arg3) {
         try {
-            Camera.Parameters params = camera.getParameters();
-            params.setPictureFormat(PixelFormat.JPEG);
-            params.setPictureSize(640, 480);// 设置保存图片大小
-            params.setPreviewSize(640, 480);// 设置预览图片大小
-            setParameter();
-            camera.setParameters(params);
-            camera.setDisplayOrientation(90);
-            camera.startPreview();
+            if(camera!=null) {
+
+                Camera.Parameters params = camera.getParameters();
+                params.setPictureFormat(PixelFormat.JPEG);
+                params.setPictureSize(1280, 960);// 设置保存图片大小
+                params.setPreviewSize(1280, 960);// 设置预览图片大小
+                params.setJpegQuality(80);
+                setParameter();
+                camera.setParameters(params);
+                camera.setDisplayOrientation(90);
+                camera.startPreview();
+            }else{
+//                Toast.makeText(AppConfig.getContext(),"请在 设置->应用管理->行销宝->权限管理 中开启拍照权限", Toast.LENGTH_LONG).show();
+            }
         } catch (NullPointerException e) {
 //            AppTools.showNoSetDlg(this, "您好，摄像头权限未开启！");
         } catch (Exception e) {

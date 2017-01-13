@@ -12,14 +12,17 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import com.google.gson.reflect.TypeToken;
 import com.rongfeng.speedclient.API.XxbService;
 import com.rongfeng.speedclient.R;
+import com.rongfeng.speedclient.client.entry.AddBusinessTransModel;
 import com.rongfeng.speedclient.client.entry.AddContractTransModel;
 import com.rongfeng.speedclient.common.BaseActivity;
 import com.rongfeng.speedclient.common.Constant;
@@ -77,6 +80,8 @@ public class ClientAddContractActivity extends BaseActivity {
     LinearLayout productLayout;
     @Bind(R.id.contact_bargain_time_layout)
     LinearLayout contactBargainTimeLayout;
+    @Bind(R.id.reg_confirm_tb)
+    ToggleButton regConfirmTb;
 
     private List<BaseDataModel> dataLabel = new ArrayList<>();
 
@@ -91,7 +96,18 @@ public class ClientAddContractActivity extends BaseActivity {
     }
 
     private void initViews() {
-        dataLabel.add(new BaseDataModel("0", "+ 添加首付款"));
+
+        if (getIntent().getSerializableExtra("model") != null) {
+            AddBusinessTransModel model = (AddBusinessTransModel) getIntent().getSerializableExtra("model");
+            contractNameTv.setText(model.getBusinessName());
+            resValueTv.setText(model.getPredictMoney());
+            contactBargainTimeTv.setText(model.getPredictTime());
+            contractProductTv.setText(model.getProductName());
+            transModel.setProductId(model.getProductId());
+
+        }
+
+        dataLabel.add(new BaseDataModel("0", "+ 添加备注"));
         generationLabels(this, dataLabel, flowLayoutLayout);
 
         resValueTv.addTextChangedListener(new TextWatcher() {
@@ -132,9 +148,24 @@ public class ClientAddContractActivity extends BaseActivity {
                 }
             }
         });
+
+        regConfirmTb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (b) {
+                    contactRebackLayout.setVisibility(View.GONE);
+                    contractDebtLayout.setVisibility(View.GONE);
+                } else {
+                    contactRebackLayout.setVisibility(View.VISIBLE);
+                    contractDebtLayout.setVisibility(View.VISIBLE);
+                }
+            }
+        });
     }
 
     private void invoke() {
+
+
         transModel.setBusinessId(getIntent().getStringExtra("busId"));
         transModel.setCsrId(getIntent().getStringExtra("customerId"));
         transModel.setConName(contractNameTv.getText().toString());

@@ -78,7 +78,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/examine_approve_margin_left_right"
                         android:text="成交名称"
-                        android:textColor="@android:color/holo_red_light"/>
+                        android:textColor="@android:color/holo_red_light" />
 
                     <EditText
                         android:id="@+id/contract_name_tv"
@@ -92,6 +92,32 @@
 
                 </LinearLayout>
 
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/examine_approve_item"
+                    android:gravity="center_vertical"
+                    android:paddingRight="16dp">
+
+                    <TextView
+                        style="@style/register_client_left_text_style"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/examine_approve_margin_left_right"
+                        android:text="成交金额(元)" />
+
+                    <EditText
+                        android:id="@+id/res_value_tv"
+                        style="@style/register_edit_view_style"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical|right"
+                        android:hint="输入成交总额"
+                        android:inputType="numberDecimal" />
+
+
+                </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/product_layout"
@@ -123,33 +149,6 @@
                         android:layout_alignParentRight="true"
                         android:layout_marginRight="@dimen/examine_approve_margin_left_right"
                         android:src="@drawable/list_arrow" />
-
-                </LinearLayout>
-
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/examine_approve_item"
-                    android:gravity="center_vertical"
-                    android:paddingRight="16dp">
-
-                    <TextView
-                        style="@style/register_client_left_text_style"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/examine_approve_margin_left_right"
-                        android:text="成交金额(元)" />
-
-                    <EditText
-                        android:id="@+id/res_value_tv"
-                        style="@style/register_edit_view_style"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:gravity="center_vertical|right"
-                        android:hint="输入成交总额"
-                        android:inputType="numberDecimal" />
-
 
                 </LinearLayout>
 
@@ -186,7 +185,32 @@
 
                 </LinearLayout>
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
 
+                    <TextView
+                        style="@style/register_client_left_text_style"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:layout_weight="1"
+                        android:text="全额付款" />
+
+                    <ToggleButton
+                        android:id="@+id/reg_confirm_tb"
+                        android:layout_width="48dp"
+                        android:layout_height="26dp"
+                        android:layout_marginRight="20dp"
+                        android:background="@drawable/decide_check"
+                        android:checked="true"
+                        android:textOff=""
+                        android:textOn="" />
+
+
+                </LinearLayout>
                 <LinearLayout
                     android:id="@+id/contact_reback_layout"
                     android:layout_width="match_parent"
@@ -208,9 +232,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:inputType="numberDecimal"
                         android:gravity="center_vertical|right"
-                        android:hint="输入首付金额" />
+                        android:hint="输入首付金额"
+                        android:inputType="numberDecimal" />
 
 
                 </LinearLayout>

@@ -82,7 +82,7 @@ public class DynamicAdapter extends BaseRecyclerAdapter<DynamicModel> {
                 Drawable drawable = context.getResources().getDrawable(R.drawable.main_notice_left_item);
                 drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
                 ((TextView) holder.getView(R.id.data_tv)).setCompoundDrawables(drawable, null, null, null);
-                holder.setText(R.id.data_tv, model.getCreateTime().split(" ")[0] + " " + DateUtil.getWeekByNow());
+                holder.setText(R.id.data_tv, model.getCreateTime().split(" ")[0] + " 星期" + DateUtil.getDayOfWeek(DateUtil.convertStringToDate(model.getCreateTime().split(" ")[0])));
                 holder.setTextColor(R.id.data_tv, ContextCompat.getColor(context, R.color.colorWhite));
                 holder.setBackgroundRes(R.id.top_content_layout, R.drawable.main_notice_gray_item);
                 top_layout.setVisibility(View.VISIBLE);
@@ -334,7 +334,12 @@ public class DynamicAdapter extends BaseRecyclerAdapter<DynamicModel> {
                         break;
                     case 11:
 
-                        context.startActivity(new Intent(context, ClientPersonaActivity.class).putExtra("customerId", model.getCsrId()).putExtra("customerName", model.getCustomerName()));
+                        context.startActivity(new Intent(context, ClientPersonaActivity.class)
+                                .putExtra("customerId", model.getCsrId())
+                                .putExtra("customerName", model.getCustomerName())
+                                .putExtra("flag", 3)
+                        );
+
 
                         break;
                     case 12:

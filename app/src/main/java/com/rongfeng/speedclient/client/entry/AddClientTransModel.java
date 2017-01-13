@@ -36,11 +36,30 @@ public class AddClientTransModel implements Serializable {
     private String ownerUserName;//归属人
 //    private String createTime;//创建时间
 
+    private String debtMoney;//欠款金额
+    private String sumDebtMoney;//欠款总金额
+
 
     private String fixationJsonArray;
 
     private String clientNameWordsSplit; //分词
 
+
+    public String getDebtMoney() {
+        return debtMoney;
+    }
+
+    public void setDebtMoney(String debtMoney) {
+        this.debtMoney = debtMoney;
+    }
+
+    public String getSumDebtMoney() {
+        return sumDebtMoney;
+    }
+
+    public void setSumDebtMoney(String sumDebtMoney) {
+        this.sumDebtMoney = sumDebtMoney;
+    }
 
     public String getRemindTime() {
         return remindTime;
