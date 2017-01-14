@@ -153,8 +153,8 @@ public class MineFragment extends BaseFragment {
         super.onActivityResult(requestCode, resultCode, data);
         if (data != null) {
             AppConfig.setStringConfig("userModel", "");
-            AppConfig.setStringConfig("login", "0"); //启动页面
-            VoiceAnalysisTools.getInstance().clearForm();
+            AppConfig.setStringConfig("login", "0");
+            VoiceAnalysisTools.getInstance().clearForm();//
             getActivity().finish();
             Process.killProcess(Process.myPid());
             System.exit(0);

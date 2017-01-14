@@ -7,7 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.GridView;
+import android.widget.ListView;
 
 import com.google.gson.reflect.TypeToken;
 import com.rongfeng.speedclient.API.XxbService;
@@ -30,7 +30,7 @@ public class ClientPersonaDebtFragment extends BaseFragment implements AdapterVi
 
 
     @Bind(R.id.grid_view)
-    GridView gridView;
+    ListView gridView;
 
     private ClientPersonaBargainAdapter adapter;
     List<AddContractTransModel> models = new ArrayList<>();

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,7 @@ import com.rongfeng.speedclient.client.entry.AddClientTransModel;
 import com.rongfeng.speedclient.common.BaseFragment;
 import com.rongfeng.speedclient.common.CommonPaginationPresenter;
 import com.rongfeng.speedclient.common.ICommonPaginationAction;
+import com.rongfeng.speedclient.common.utils.AppTools;
 import com.rongfeng.speedclient.login.TransDataModel;
 import com.rongfeng.speedclient.xrecyclerview.OnItemClickViewListener;
 import com.rongfeng.speedclient.xrecyclerview.ProgressStyle;
@@ -45,6 +47,12 @@ public class ClientListFragment extends BaseFragment implements ICommonPaginatio
     TextView addDataTv;
     @Bind(R.id.no_data_layout)
     LinearLayout noDataLayout;
+    @Bind(R.id.debt_count_tv)
+    TextView debtCountTv;
+    @Bind(R.id.debt_total_tv)
+    TextView debtTotalTv;
+    @Bind(R.id.debt_layout)
+    LinearLayout debtLayout;
 
 
     public ClientAdapter mAdapter;
@@ -52,6 +60,8 @@ public class ClientListFragment extends BaseFragment implements ICommonPaginatio
     public TransDataModel transDataModel = new TransDataModel();
 
     public CommonPaginationPresenter commonPaginationPresenter = new CommonPaginationPresenter(this);
+
+    public String clientType;
 
     public static ClientListFragment newInstance(String clientType) {
 
@@ -75,6 +85,14 @@ public class ClientListFragment extends BaseFragment implements ICommonPaginatio
 
     private void initViews() {
 
+        clientType = getArguments().getString("clientType");
+        if (!TextUtils.isEmpty(clientType)
+                && (clientType.equals("4") || clientType.equals("10") || clientType.equals("15"))) {//欠款列表
+            debtLayout.setVisibility(View.VISIBLE);
+            debtCountTv.setText("" + "个欠款客户");
+        }
+
+
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(layoutManager);
@@ -82,7 +100,7 @@ public class ClientListFragment extends BaseFragment implements ICommonPaginatio
         mRecyclerView.setLaodingMoreProgressStyle(ProgressStyle.Pacman);
         mRecyclerView.setArrowImageView(R.drawable.refresh_pulldown);
         mRecyclerView.setLoadingListener(this);
-        mAdapter = new ClientAdapter(getActivity(), R.layout.fragment_client_item_other_layout,getArguments().getString("clientType"));
+        mAdapter = new ClientAdapter(getActivity(), R.layout.fragment_client_item_other_layout, getArguments().getString("clientType"));
         mAdapter.setOnRecyclerViewListener(this);
         mRecyclerView.setAdapter(mAdapter);
 
@@ -92,10 +110,18 @@ public class ClientListFragment extends BaseFragment implements ICommonPaginatio
     public void obtainData(Object data, String methodIndex, int status) {
 
         if (data != null) {
-            mAdapter.setData((List<AddClientTransModel>) data);
+
+            List<AddClientTransModel> result = (List<AddClientTransModel>) data;
+            mAdapter.setData(result);
+            if (!TextUtils.isEmpty(clientType)
+                    && (clientType.equals("4") || clientType.equals("10") || clientType.equals("15"))) {//欠款列表
+                if (result != null && result.size() > 0) {
+                    debtTotalTv.setText(AppTools.getNumKbDot(result.get(0).getSumDebtMoney()) + "元");
+                }
+            }
+
             if (commonPaginationPresenter.data != null && commonPaginationPresenter.data.size() == 0) {
                 noDataLayout.setVisibility(View.VISIBLE);
-
             } else {
                 noDataLayout.setVisibility(View.GONE);
             }
@@ -191,7 +217,7 @@ public class ClientListFragment extends BaseFragment implements ICommonPaginatio
             case "3":
             case "8":
             case "13":
-                 intent.putExtra("flag", ClientPersonaActivity.CLIENT_BUSINESS_INDEX);
+                intent.putExtra("flag", ClientPersonaActivity.CLIENT_BUSINESS_INDEX);
                 break;
             case "4":
             case "10":

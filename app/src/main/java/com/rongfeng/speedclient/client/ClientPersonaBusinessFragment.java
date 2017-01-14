@@ -7,7 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.GridView;
+import android.widget.ListView;
+import android.widget.TextView;
 
 import com.google.gson.reflect.TypeToken;
 import com.rongfeng.speedclient.API.XxbService;
@@ -29,7 +30,7 @@ import butterknife.ButterKnife;
 public class ClientPersonaBusinessFragment extends BaseFragment implements AdapterView.OnItemClickListener {
 
     @Bind(R.id.grid_view)
-    GridView gridView;
+    ListView listView;
 
     private ClientPersonaBusinessAdapter adapter;
     List<AddBusinessTransModel> models = new ArrayList<>();
@@ -55,9 +56,25 @@ public class ClientPersonaBusinessFragment extends BaseFragment implements Adapt
 
 
     private void init() {
-        gridView.setOnItemClickListener(this);
+        addHeadView();
+        listView.setOnItemClickListener(this);
         adapter = new ClientPersonaBusinessAdapter(getActivity(), R.layout.client_persona_business_item, models);
-        gridView.setAdapter(adapter);
+        listView.setAdapter(adapter);
+
+    }
+
+
+    private void addHeadView() {
+        View headView = getActivity().getLayoutInflater().inflate(R.layout.persona_head_view, null);
+        TextView contentTv = (TextView) headView.findViewById(R.id.content_tv);
+        contentTv.setText("+ 添加商机");
+        headView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), ClientAddBusinessActivity.class).putExtra("customerId", getArguments().getString("customerId", "")));
+            }
+        });
+        listView.addHeaderView(headView);
 
     }
 
@@ -69,7 +86,7 @@ public class ClientPersonaBusinessFragment extends BaseFragment implements Adapt
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        startActivity(new Intent(getActivity(), ClientDetaisBusinessActivity.class).putExtra("model", models.get(i)).putExtra("customerId",getArguments().getString("customerId", "")));
+        startActivity(new Intent(getActivity(), ClientDetaisBusinessActivity.class).putExtra("model", models.get(i)).putExtra("customerId", getArguments().getString("customerId", "")));
     }
 
     @Override

@@ -7,7 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.GridView;
+import android.widget.ListView;
+import android.widget.TextView;
 
 import com.google.gson.reflect.TypeToken;
 import com.rongfeng.speedclient.API.XxbService;
@@ -30,7 +31,7 @@ public class ClientPersonaBargainFragment extends BaseFragment implements Adapte
 
 
     @Bind(R.id.grid_view)
-    GridView gridView;
+    ListView listView;
 
     private ClientPersonaBargainAdapter adapter;
     List<AddContractTransModel> models = new ArrayList<>();
@@ -58,12 +59,26 @@ public class ClientPersonaBargainFragment extends BaseFragment implements Adapte
 
 
     private void init() {
-        gridView.setOnItemClickListener(this);
-        adapter = new ClientPersonaBargainAdapter(getActivity(), R.layout.client_persona_bargain_item, models,getArguments().getString("customerId", ""));
-        gridView.setAdapter(adapter);
+        addHeadView();
+        listView.setOnItemClickListener(this);
+        adapter = new ClientPersonaBargainAdapter(getActivity(), R.layout.client_persona_bargain_item, models, getArguments().getString("customerId", ""));
+        listView.setAdapter(adapter);
 
     }
 
+    private void addHeadView() {
+        View headView = getActivity().getLayoutInflater().inflate(R.layout.persona_head_view, null);
+        TextView contentTv = (TextView) headView.findViewById(R.id.content_tv);
+        contentTv.setText("+ 添加成交");
+        headView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), ClientAddContractActivity.class).putExtra("customerId", getArguments().getString("customerId", "")));
+            }
+        });
+        listView.addHeaderView(headView);
+
+    }
 
 
     public void invoke() {
@@ -89,7 +104,7 @@ public class ClientPersonaBargainFragment extends BaseFragment implements Adapte
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        startActivity(new Intent(getActivity(),ClientDetailsContractActivity.class).putExtra("model",models.get(i)).putExtra("customerId",getArguments().getString("customerId", "")));
+        startActivity(new Intent(getActivity(), ClientDetailsContractActivity.class).putExtra("model", models.get(i)).putExtra("customerId", getArguments().getString("customerId", "")));
     }
 
     @Override

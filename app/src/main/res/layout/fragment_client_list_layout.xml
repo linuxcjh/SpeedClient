@@ -12,6 +12,54 @@
 
     <!--<include layout="@layout/filter_search_layout" />-->
 
+    <LinearLayout
+        android:id="@+id/debt_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="14dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/debt_count_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text=""
+            android:textColor="@color/colorAssist"
+            android:textSize="13sp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|center_vertical"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="欠款总额："
+                android:textColor="@color/colorAssist"
+                android:textSize="13sp" />
+
+            <TextView
+                android:id="@+id/debt_total_tv"
+                android:layout_width="wrap_content"
+                android:minWidth="60dp"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textColor="@color/colorBlue"
+                android:textSize="13sp" />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -21,7 +69,6 @@
             android:id="@+id/client_listView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="4dp"
             android:scrollbars="vertical" />
 
         <LinearLayout

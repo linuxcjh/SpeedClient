@@ -164,7 +164,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="67dp"
-            android:layout_marginTop="15dp">
+            android:layout_marginTop="10dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
