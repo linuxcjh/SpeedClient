@@ -86,12 +86,6 @@ public class ClientListFragment extends BaseFragment implements ICommonPaginatio
     private void initViews() {
 
         clientType = getArguments().getString("clientType");
-        if (!TextUtils.isEmpty(clientType)
-                && (clientType.equals("4") || clientType.equals("10") || clientType.equals("15"))) {//欠款列表
-            debtLayout.setVisibility(View.VISIBLE);
-            debtCountTv.setText("" + "个欠款客户");
-        }
-
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -115,13 +109,16 @@ public class ClientListFragment extends BaseFragment implements ICommonPaginatio
             mAdapter.setData(result);
             if (!TextUtils.isEmpty(clientType)
                     && (clientType.equals("4") || clientType.equals("10") || clientType.equals("15"))) {//欠款列表
+                debtLayout.setVisibility(View.VISIBLE);
                 if (result != null && result.size() > 0) {
                     debtTotalTv.setText(AppTools.getNumKbDot(result.get(0).getSumDebtMoney()) + "元");
+                    debtCountTv.setText(result.get(0).getSumDebtMoneyCount() + "个欠款客户");
                 }
             }
 
             if (commonPaginationPresenter.data != null && commonPaginationPresenter.data.size() == 0) {
                 noDataLayout.setVisibility(View.VISIBLE);
+                debtLayout.setVisibility(View.GONE);
             } else {
                 noDataLayout.setVisibility(View.GONE);
             }

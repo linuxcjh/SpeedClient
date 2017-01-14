@@ -38,12 +38,23 @@ public class AddClientTransModel implements Serializable {
 
     private String debtMoney;//欠款金额
     private String sumDebtMoney;//欠款总金额
+    private String sumDebtMoneyCount;//欠款客户数
+
+
 
 
     private String fixationJsonArray;
 
     private String clientNameWordsSplit; //分词
 
+
+    public String getSumDebtMoneyCount() {
+        return sumDebtMoneyCount;
+    }
+
+    public void setSumDebtMoneyCount(String sumDebtMoneyCount) {
+        this.sumDebtMoneyCount = sumDebtMoneyCount;
+    }
 
     public String getDebtMoney() {
         return debtMoney;

@@ -11,7 +11,6 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -51,7 +50,7 @@ public class VoiceNoteSearchActivity extends BaseActivity implements ICommonPagi
     @Bind(R.id.clear_bt)
     ImageView clearBt;
     @Bind(R.id.cancel_bt)
-    Button cancelBt;
+    ImageView cancelBt;
     @Bind(R.id.search_layout)
     LinearLayout searchLayout;
     @Bind(R.id.client_listView)

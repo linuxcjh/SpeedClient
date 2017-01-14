@@ -275,7 +275,8 @@
 
         <activity android:name=".mine.RebackActivity" />
         <activity android:name=".dynamic.NoticeDetailActivity" />
-        <activity android:name=".voice.VoiceNoteSearchActivity"
+        <activity
+            android:name=".voice.VoiceNoteSearchActivity"
             android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity android:name=".client.ClientSearchActivity" />
 
@@ -283,6 +284,7 @@
 
         <activity android:name=".login.PersonSetActivity" />
         <activity android:name=".common.CameraNoMarkActivity" />
+        <activity android:name=".voice.VoiceNoteSearchFromOtherActivity" />
     </application>
 
 </manifest>

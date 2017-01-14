@@ -47,7 +47,7 @@ public class ClientAdapter extends BaseRecyclerAdapter<AddClientTransModel> {
         } else if (!TextUtils.isEmpty(clientType)
                 && (clientType.equals("4") || clientType.equals("10") || clientType.equals("15"))) {//欠款列表
             holder.setText(R.id.client_visited_count_tv, "欠款 " + AppTools.getNumKbDot(model.getDebtMoney()) + "元");
-            Drawable drawable = context.getResources().getDrawable(R.drawable.cust_debt);
+            Drawable drawable = context.getResources().getDrawable(R.drawable.cust_arrears);
             drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
             ((TextView) holder.getView(R.id.client_visited_count_tv)).setCompoundDrawables(drawable, null, null, null);
 

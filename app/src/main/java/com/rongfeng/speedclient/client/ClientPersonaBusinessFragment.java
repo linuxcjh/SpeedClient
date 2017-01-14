@@ -86,7 +86,7 @@ public class ClientPersonaBusinessFragment extends BaseFragment implements Adapt
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        startActivity(new Intent(getActivity(), ClientDetaisBusinessActivity.class).putExtra("model", models.get(i)).putExtra("customerId", getArguments().getString("customerId", "")));
+        startActivity(new Intent(getActivity(), ClientDetaisBusinessActivity.class).putExtra("model", models.get(i-1)).putExtra("customerId", getArguments().getString("customerId", "")));
     }
 
     @Override

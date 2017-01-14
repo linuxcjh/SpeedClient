@@ -5,26 +5,31 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.jaeger.ninegridimageview.ItemImageClickListener;
+import com.jaeger.ninegridimageview.NineGridImageView;
+import com.jaeger.ninegridimageview.NineGridImageViewAdapter;
 import com.rongfeng.speedclient.R;
 import com.rongfeng.speedclient.client.ClientDistributeActivity;
 import com.rongfeng.speedclient.client.ClientPersonaActivity;
 import com.rongfeng.speedclient.client.ClientRecordsActivity;
 import com.rongfeng.speedclient.client.entry.ImageListModel;
 import com.rongfeng.speedclient.client.entry.RecievedClientTransModel;
+import com.rongfeng.speedclient.common.displayimage.ShowWebImageActivity;
 import com.rongfeng.speedclient.common.utils.AppTools;
 import com.rongfeng.speedclient.common.utils.DateUtil;
-import com.rongfeng.speedclient.components.AddVisitGridLayoutDisplayView;
 import com.rongfeng.speedclient.dynamic.model.DynamicModel;
 import com.rongfeng.speedclient.voice.VoiceNoteSearchActivity;
 import com.rongfeng.speedclient.xrecyclerview.BaseRecyclerAdapter;
 import com.rongfeng.speedclient.xrecyclerview.ViewHolder;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -39,13 +44,22 @@ public class DynamicAdapter extends BaseRecyclerAdapter<DynamicModel> {
         super(context, layoutResId, data);
     }
 
+
     public DynamicAdapter(Context context, int layoutResId) {
         super(context, layoutResId, null);
     }
 
+
+    public List<DynamicModel> getData() {
+        if (data == null) {
+            data = new ArrayList<>();
+        }
+        return data;
+    }
+
     @Override
     protected void convert(final ViewHolder holder, DynamicModel model, int position) {
-        AddVisitGridLayoutDisplayView addPicLayout = holder.getView(R.id.add_pic_layout);
+        final NineGridImageView addPicLayout = holder.getView(R.id.nine_grid_image_view);
         addPicLayout.setVisibility(View.GONE);
         holder.setVisible(R.id.content_tv, true);
         LinearLayout userLayout = holder.getView(R.id.user_layout);
@@ -256,18 +270,35 @@ public class DynamicAdapter extends BaseRecyclerAdapter<DynamicModel> {
                 } else {
                     type_image.setImageResource(R.drawable.dynamic_position_h);
                 }
+
+
                 if (model.getJsonArrayPositionImg() != null && model.getJsonArrayPositionImg().size() > 0) {
                     addPicLayout.setVisibility(View.VISIBLE);
                     List<String> pathsUrl = new ArrayList<>();
                     List<String> pathsMinUrl = new ArrayList<>();
-
+//
                     for (ImageListModel picm : model.getJsonArrayPositionImg()) {
                         pathsUrl.add(picm.getFileUrl());
                         pathsMinUrl.add(picm.getMinUrl());
                     }
-                    addPicLayout.setColumn(4);
-                    addPicLayout.setWidth(addPicLayout.getWidth());
-                    addPicLayout.setImageLayout(pathsUrl, pathsMinUrl, true);
+//                    addPicLayout.setColumn(4);
+//                    addPicLayout.setWidth(addPicLayout.getWidth());
+//                    addPicLayout.setImageLayout(pathsUrl, pathsMinUrl, true);
+
+                    addPicLayout.setAdapter(mAdapter);
+                    addPicLayout.setTag(pathsUrl);
+                    addPicLayout.setItemImageClickListener(new ItemImageClickListener<String>() {
+                        @Override
+                        public void onItemImageClick(Context context, ImageView imageView, int index, List<String> list) {
+                            Log.d("onItemImageClick", list.get(index));
+                            Intent intent = new Intent(context, ShowWebImageActivity.class);
+                            intent.putExtra(ShowWebImageActivity.IMAGE_URLS, (Serializable) ((List<String>) addPicLayout.getTag()));
+                            intent.putExtra(ShowWebImageActivity.POSITION, index);
+                            context.startActivity(intent);
+                        }
+                    });
+
+                    addPicLayout.setImagesData(pathsMinUrl);
 
                 } else {
                     addPicLayout.setVisibility(View.GONE);
@@ -358,5 +389,24 @@ public class DynamicAdapter extends BaseRecyclerAdapter<DynamicModel> {
             }
         });
     }
+
+
+    private NineGridImageViewAdapter<String> mAdapter = new NineGridImageViewAdapter<String>() {
+        @Override
+        protected void onDisplayImage(Context context, ImageView imageView, String photo) {
+            AppTools.setImageViewClub(context, photo, imageView);
+        }
+
+        @Override
+        protected ImageView generateImageView(Context context) {
+            return super.generateImageView(context);
+        }
+
+        @Override
+        protected void onItemImageClick(Context context, ImageView imageView, int index, List<String> photoList) {
+
+        }
+    };
+
 
 }

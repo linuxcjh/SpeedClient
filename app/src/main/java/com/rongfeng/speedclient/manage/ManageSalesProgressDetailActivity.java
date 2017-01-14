@@ -2,6 +2,7 @@ package com.rongfeng.speedclient.manage;
 
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +22,7 @@ import com.rongfeng.speedclient.xrecyclerview.OnItemClickViewListener;
 import com.rongfeng.speedclient.xrecyclerview.ProgressStyle;
 import com.rongfeng.speedclient.xrecyclerview.XRecyclerView;
 
+import java.text.DecimalFormat;
 import java.util.Calendar;
 
 import butterknife.Bind;
@@ -56,6 +58,7 @@ public class ManageSalesProgressDetailActivity extends BaseActivity implements X
     SalesProgressDepartmentDetailListAdapter mAdapter;
     @Bind(R.id.title_tv)
     TextView titleTv;
+    private DecimalFormat format = new DecimalFormat("######0.00");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +70,7 @@ public class ManageSalesProgressDetailActivity extends BaseActivity implements X
     }
 
     private void initViews() {
+
 
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
@@ -94,7 +98,7 @@ public class ManageSalesProgressDetailActivity extends BaseActivity implements X
         view.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 
         mRecyclerView.addHeaderView(view);
-
+        AppTools.setImageViewPicture(this, AppTools.getUser().getUserImageUrl(), contactAvatarIv);
         contactNameTv.setText(AppTools.getUser().getUserName());
         yearTv.setText(Calendar.getInstance().get(Calendar.YEAR) + "年 销售进展");
 
@@ -122,8 +126,16 @@ public class ManageSalesProgressDetailActivity extends BaseActivity implements X
 
         SalesProgressDepDetailModel resultModel = (SalesProgressDepDetailModel) data;
         targetTv.setText(AppTools.getNumKb(resultModel.getTargetMoney()));
-        rateTv.setText(resultModel.getRateMoney() + "%");
         completeTv.setText(AppTools.getNumKb(resultModel.getCompleteMoney()));
+
+        if (!TextUtils.isEmpty(resultModel.getTargetMoney()) && !TextUtils.isEmpty(resultModel.getCompleteMoney())) {
+
+            if (Float.parseFloat(resultModel.getTargetMoney()) == 0) {
+                rateTv.setText("0.0%");
+            } else {
+                rateTv.setText((format.format(Float.parseFloat(resultModel.getCompleteMoney()) / Float.parseFloat(resultModel.getTargetMoney()) * 100)) + "%");
+            }
+        }
 
         String[] month = getResources().getStringArray(R.array.progress_month_en_);
         for (int i = 0; i < resultModel.getCompleteTargetJSONArray().size(); i++) {

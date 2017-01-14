@@ -22,6 +22,7 @@ import com.rongfeng.speedclient.API.XxbService;
 import com.rongfeng.speedclient.R;
 import com.rongfeng.speedclient.client.ClientDotOverlayMapNewActivity;
 import com.rongfeng.speedclient.common.BaseFragment;
+import com.rongfeng.speedclient.common.BasePresenter;
 import com.rongfeng.speedclient.common.CommonPaginationPresenter;
 import com.rongfeng.speedclient.common.Constant;
 import com.rongfeng.speedclient.common.ICommonPaginationAction;
@@ -35,6 +36,7 @@ import com.rongfeng.speedclient.xrecyclerview.OnItemClickViewListener;
 import com.rongfeng.speedclient.xrecyclerview.ProgressStyle;
 import com.rongfeng.speedclient.xrecyclerview.XRecyclerView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
@@ -69,6 +71,8 @@ public class DynamicFragment extends BaseFragment implements ICommonPaginationAc
     public TransDataModel transDataModel = new TransDataModel();
 
     private CommonPaginationPresenter commonPaginationPresenter = new CommonPaginationPresenter(this);
+
+    private List<DynamicModel> historyData = new ArrayList<>();
 
     @Nullable
     @Override
@@ -108,7 +112,11 @@ public class DynamicFragment extends BaseFragment implements ICommonPaginationAc
         if (data != null) {
             switch (methodIndex) {
                 case XxbService.SEARCHHOMEPAGEDYNAMIC:
-                    mAdapter.setData((List<DynamicModel>) data);
+                    if (!BasePresenter.gson.toJson((List<DynamicModel>) data).equals(BasePresenter.gson.toJson(historyData))) {
+                        historyData.clear();
+                        historyData.addAll(((List<DynamicModel>) data));
+                        mAdapter.setData((List<DynamicModel>) data);
+                    }
 
                     break;
                 case XxbService.INSERTRELATEDPOSITION:
@@ -191,7 +199,7 @@ public class DynamicFragment extends BaseFragment implements ICommonPaginationAc
     }
 
 
-    @OnClick({R.id.shortcut_camera_tv, R.id.shortcut_position_tv, R.id.plus_ib, R.id.notice_tv,R.id.search_tv})
+    @OnClick({R.id.shortcut_camera_tv, R.id.shortcut_position_tv, R.id.plus_ib, R.id.notice_tv, R.id.search_tv})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.shortcut_camera_tv:

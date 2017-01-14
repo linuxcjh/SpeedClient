@@ -84,4 +84,5 @@ dependencies {
     compile 'com.github.sd6352051.niftydialogeffects:niftydialogeffects:1.0.0@aar'
     compile files('libs/pushservice-5.5.0.50.jar')
     compile project(':materialintro')
+    compile 'com.jaeger.ninegridimageview:library:1.1.0'
 }

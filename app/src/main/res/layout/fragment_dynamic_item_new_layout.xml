@@ -119,28 +119,36 @@
             android:textColor="@color/colorAssist"
             android:textSize="12sp" />
 
-
-        <TextView
-            android:id="@+id/content_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/type_name_tv"
-            android:layout_below="@+id/type_name_tv"
-            android:layout_marginTop="6dp"
-            android:ellipsize="end"
-            android:maxLines="2"
-            android:paddingRight="10dp"
-            android:text="客户名称：水电费水电费"
-            android:textColor="@color/colorAssist"
-            android:textSize="13sp" />
-
-        <com.rongfeng.speedclient.components.AddVisitGridLayoutDisplayView
-            android:id="@+id/add_pic_layout"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignLeft="@+id/type_name_tv"
-            android:layout_below="@+id/content_tv"
-            android:visibility="gone" />
+            android:layout_below="@+id/type_name_tv"
+            android:orientation="vertical">
+
+            <com.jaeger.ninegridimageview.NineGridImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/nine_grid_image_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:visibility="gone"
+                app:imgGap="3dp"
+                app:showStyle="fill"
+                app:singleImgSize="120dp" />
+
+            <TextView
+                android:id="@+id/content_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:paddingRight="10dp"
+                android:text="客户名称：水电费水电费"
+                android:textColor="@color/colorAssist"
+                android:textSize="13sp" />
+        </LinearLayout>
+
 
         <TextView
             android:id="@+id/position_tv"

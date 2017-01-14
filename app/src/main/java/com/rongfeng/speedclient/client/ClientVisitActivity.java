@@ -85,6 +85,7 @@ public class ClientVisitActivity extends BaseActivity implements IUpLoadPictureA
     private void invoke() {
         visitRecordModel.setCsrId(getIntent().getStringExtra("customerId"));
         visitRecordModel.setContent(remarkEt.getText().toString());
+        visitRecordModel.setVisitTime(timeTv.getText().toString());
         commonPresenter.invokeInterfaceObtainData(XxbService.INSERTFOLLOWUP, visitRecordModel, new TypeToken<BaseDataModel>() {
         });
     }

@@ -18,6 +18,7 @@ import com.rongfeng.speedclient.common.utils.AppTools;
 import com.rongfeng.speedclient.manage.model.SalesProgressDepDetailModel;
 import com.rongfeng.speedclient.xrecyclerview.OnItemClickViewListener;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 /**
@@ -27,6 +28,7 @@ import java.util.List;
  */
 public class SalesProgressDepartmentDetailListAdapter extends RecyclerView.Adapter<SalesProgressDepartmentDetailListAdapter.ViewHolder> {
 
+    private DecimalFormat format = new DecimalFormat("######0.00");
 
     private Context mContext;
     private List<SalesProgressDepDetailModel.SalesProgressDepDetailList> mData;
@@ -79,7 +81,7 @@ public class SalesProgressDepartmentDetailListAdapter extends RecyclerView.Adapt
             if (Float.parseFloat(model.getTargetMoney()) == 0) {
                 holder.rateTv.setText("0.0%");
             } else {
-                holder.rateTv.setText((Float.parseFloat(model.getContractMoney()) / Float.parseFloat(model.getTargetMoney()) * 100) + "%");
+                holder.rateTv.setText((format.format(Float.parseFloat(model.getContractMoney()) / Float.parseFloat(model.getTargetMoney()) * 100)) + "%");
             }
         }
         holder.monthTv.setText(model.getMonthNumber());
