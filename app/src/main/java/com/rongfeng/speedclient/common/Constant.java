@@ -298,7 +298,6 @@ public interface Constant {
     String TAB_CLIENT_TIPS_TAG = "tab_client_tips_tag";
     String TAB_CLIENT_ADD_TIPS_TAG = "tab_client_add_tips_tag";
 
-
-
+    String CHANGE_PICTURE_FLAG = "change_picture_flag";
 
 }

@@ -3,39 +3,30 @@ package com.rongfeng.speedclient.common;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Bitmap.Config;
 import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Matrix;
-import android.graphics.Paint;
-import android.graphics.PaintFlagsDrawFilter;
 import android.graphics.PixelFormat;
-import android.graphics.Typeface;
 import android.hardware.Camera;
 import android.hardware.Camera.AutoFocusCallback;
 import android.hardware.Camera.PictureCallback;
 import android.hardware.Camera.ShutterCallback;
 import android.os.Bundle;
-import android.text.Layout;
-import android.text.TextPaint;
-import android.text.TextUtils;
-import android.text.format.Time;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceHolder.Callback;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.FrameLayout;
 import android.widget.ImageButton;
-import android.widget.LinearLayout.LayoutParams;
-import android.widget.TextView;
+import android.widget.RelativeLayout;
 
 import com.rongfeng.speedclient.R;
-import com.rongfeng.speedclient.utils.DensityUtil;
 
 import java.io.FileOutputStream;
+import java.util.List;
+
+import static com.rongfeng.speedclient.push.PushUtils.TAG;
 
 /**
  * @FILE : CameraWaterMarkActivity.java
@@ -49,12 +40,8 @@ public class CameraNoMarkActivity extends Activity implements
     private ImageButton button;
     private SurfaceHolder holder;
     private Camera camera;
-    private TextView addr_tv, time_tv;
-    private FrameLayout frameLayout;
-    private String timeTitle;
-    private Time t;
-    private boolean isPhotograph;
-    private int W, H, imageH;
+    private int width, height;
+    private float imageH;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,61 +52,83 @@ public class CameraNoMarkActivity extends Activity implements
     }
 
     private void init() {
+
         button = (ImageButton) findViewById(R.id.button1);
         button.setOnClickListener(this);
-        addr_tv = (TextView) findViewById(R.id.camer_addr);
-        time_tv = (TextView) findViewById(R.id.camer_time);
-        frameLayout = (FrameLayout) findViewById(R.id.framelayout);
         surfaceView = (SurfaceView) findViewById(R.id.surfaceView1);
         holder = surfaceView.getHolder();
         holder.addCallback(this);
         holder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);// 设置类型
-        t = new Time();
         DisplayMetrics mDisplayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(mDisplayMetrics);
-        W = mDisplayMetrics.widthPixels;
-        H = mDisplayMetrics.heightPixels;
+        width = mDisplayMetrics.widthPixels;
+        height = mDisplayMetrics.heightPixels;
 
     }
 
-    private void setParameter() {
-        LayoutParams lp = (LayoutParams) frameLayout.getLayoutParams();
-        imageH = lp.height = 1280 * W / 960;
-        lp.width = W;
-        frameLayout.setLayoutParams(lp);
-
-    }
 
     @Override
     public void surfaceChanged(SurfaceHolder arg0, int arg1, int arg2, int arg3) {
         try {
-            if(camera!=null) {
+            if (camera != null) {
 
-                Camera.Parameters params = camera.getParameters();
-                params.setPictureFormat(PixelFormat.JPEG);
-                params.setPictureSize(1280, 960);// 设置保存图片大小
-                params.setPreviewSize(1280, 960);// 设置预览图片大小
-                params.setJpegQuality(80);
-                setParameter();
-                camera.setParameters(params);
+                camera.setParameters(setCameraParameters());
                 camera.setDisplayOrientation(90);
                 camera.startPreview();
-            }else{
-//                Toast.makeText(AppConfig.getContext(),"请在 设置->应用管理->行销宝->权限管理 中开启拍照权限", Toast.LENGTH_LONG).show();
+            } else {
             }
         } catch (NullPointerException e) {
-//            AppTools.showNoSetDlg(this, "您好，摄像头权限未开启！");
         } catch (Exception e) {
-            if (e.getMessage().contains("android.permission.CAMERA")) {
-//                AppTools.showNoSetDlg(this, "您好，摄像头权限未开启！");
-            }
         }
+    }
+
+
+    /**
+     * 相机参数
+     */
+    private Camera.Parameters setCameraParameters() {
+        Camera.Parameters parameters = camera.getParameters();
+
+        parameters.setPictureFormat(PixelFormat.JPEG);
+        List<Camera.Size> pictureSizeList = parameters.getSupportedPictureSizes();
+        for (Camera.Size size : pictureSizeList) {
+            Log.i(TAG, "pictureSizeList size.width=" + size.width + "  size.height=" + size.height);
+        }
+        /**从列表中选取合适的分辨率*/
+        Camera.Size picSize = getProperSize(pictureSizeList, ((float) height / width));
+        if (null == picSize) {
+            Log.i(TAG, "null == picSize");
+            picSize = parameters.getPictureSize();
+        }
+        Log.i(TAG, "picSize.width=" + picSize.width + "  picSize.height=" + picSize.height);
+        // 根据选出的PictureSize重新设置SurfaceView大小
+        float w = picSize.width;
+        float h = picSize.height;
+        imageH = 4 / 3f * width;
+        parameters.setPictureSize(picSize.width, picSize.height);
+        surfaceView.setLayoutParams(new RelativeLayout.LayoutParams((int) (height * (h / w)), height));
+
+        // 获取摄像头支持的PreviewSize列表
+        List<Camera.Size> previewSizeList = parameters.getSupportedPreviewSizes();
+
+        for (Camera.Size size : previewSizeList) {
+            Log.i(TAG, "previewSizeList size.width=" + size.width + "  size.height=" + size.height);
+        }
+        Camera.Size preSize = getProperSize(previewSizeList, ((float) height) / width);
+        if (null != preSize) {
+            Log.i(TAG, "preSize.width=" + preSize.width + "  preSize.height=" + preSize.height);
+            parameters.setPreviewSize(preSize.width, preSize.height);
+        }
+
+        parameters.setJpegQuality(80);
+
+        return parameters;
     }
 
     @Override
     public void surfaceCreated(SurfaceHolder arg0) {
         try {
-            camera = Camera.open();
+            camera = Camera.open();//这个0或者1 是camera 驱动注册时候 系统赋予 前置后置的
             camera.setPreviewDisplay(holder);
         } catch (Exception e) {
             CameraNoMarkActivity.this.finish();
@@ -158,7 +167,6 @@ public class CameraNoMarkActivity extends Activity implements
             bm = Bitmap.createBitmap(bm, 0, 0, bm.getWidth(), bm.getHeight(),
                     matrix, true);
             String pathName = getIntent().getStringExtra("path");
-            isPhotograph = true;
             addWaterMarkBitmap(bm, pathName);
             setResult(RESULT_OK, new Intent());
             finish();
@@ -166,50 +174,8 @@ public class CameraNoMarkActivity extends Activity implements
 
     };
 
-    public void addWaterMarkBitmap(Bitmap bm, String pathName) {
-        int h = bm.getHeight();
-        int w = bm.getWidth();
-        Bitmap bitmap = Bitmap.createBitmap(w, h, Config.ARGB_8888);
-        Canvas canvas = new Canvas(bitmap);
-        Paint p = new Paint();
-        String familyName = "宋体";
-        Typeface font = Typeface.create(familyName, Typeface.NORMAL);
-        p.setColor(Color.WHITE);
-        p.setTypeface(font);
-        float bi = (float) h / (float) imageH;
-        p.setTextSize(addr_tv.getTextSize() * bi);
-        canvas.setDrawFilter(new PaintFlagsDrawFilter(0, Paint.ANTI_ALIAS_FLAG
-                | Paint.FILTER_BITMAP_FLAG));
-        canvas.drawBitmap(bm, 0, 0, p);
-        if (!TextUtils.isEmpty(addr_tv.getText())) {
-            if (addr_tv.getLineCount() == 2) {
-                Layout layout = addr_tv.getLayout();
-                int aLineOfWords = layout.getLineEnd(0);// 0第一行
-                // 返回指定行中最后一个字在整个字符串中的位置
-                String str1 = addr_tv.getText().toString()
-                        .substring(0, aLineOfWords);
-                String str2 = addr_tv.getText().toString()
-                        .substring(aLineOfWords);
-                canvas.drawText(str1, addr_tv.getLeft() * bi,
-                        (addr_tv.getTop() + addr_tv.getTextSize()) * bi, p);
-                canvas.drawText(
-                        str2,
-                        addr_tv.getLeft() * bi,
-                        (addr_tv.getTop() + 2 * addr_tv.getTextSize() + addr_tv
-                                .getTextSize() / 5) * bi, p);
-            } else {
-                canvas.drawText(addr_tv.getText().toString(), addr_tv.getLeft()
-                                * bi, (addr_tv.getTop() + addr_tv.getTextSize()) * bi,
-                        p);
-            }
+    public void addWaterMarkBitmap(Bitmap bitmap, String pathName) {
 
-        }
-        if (!TextUtils.isEmpty(time_tv.getText())) {
-            canvas.drawText(time_tv.getText().toString(), time_tv.getLeft()
-                    * bi, (time_tv.getTop() + time_tv.getTextSize()) * bi, p);
-        }
-        canvas.save(Canvas.ALL_SAVE_FLAG);
-        canvas.restore();
         FileOutputStream stream = null;
         try {
             stream = new FileOutputStream(pathName);
@@ -247,27 +213,44 @@ public class CameraNoMarkActivity extends Activity implements
 
 
 
-    /**
-     * 动态计算字体大小
-     */
-    private void setPaintByMeasureText() {
-        TextPaint mTextPaint = addr_tv.getPaint();
-        String text = addr_tv.getText().toString();
-        float textWidth = mTextPaint.measureText(text);
-        int maxTextWidth = W - 2 * DensityUtil.dip2px(this, 10);
-        if (textWidth > maxTextWidth) {
-            int length = text.length();
-            int wordWidth = 2 * maxTextWidth / length;
-            int sp = DensityUtil.px2sp(CameraNoMarkActivity.this, wordWidth);
-            sp = sp > 15 ? 15 : sp;
-            addr_tv.setTextSize(sp);
-            time_tv.setTextSize(sp);
-        }
-    }
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
+    }
+
+
+    /**
+     * 从列表中选取合适的分辨率
+     * 默认w:h = 4:3
+     * <p>注意：这里的w对应屏幕的height
+     * h对应屏幕的width<p/>
+     */
+    private Camera.Size getProperSize(List<Camera.Size> pictureSizeList, float screenRatio) {
+        Log.i(TAG, "screenRatio=" + screenRatio);
+        Camera.Size result = null;
+        for (Camera.Size size : pictureSizeList) {
+
+            if (size.width > width || size.height > height) {//如果大于屏幕尺寸直接抛弃
+                continue;
+            }
+            float currentRatio = ((float) size.width) / size.height;
+            if (currentRatio - screenRatio == 0) {
+                result = size;
+                break;
+            }
+        }
+
+        if (null == result) {
+            for (Camera.Size size : pictureSizeList) {
+                float curRatio = ((float) size.width) / size.height;
+                if (curRatio == 4f / 3) {// 默认w:h = 4:3
+                    result = size;
+                    break;
+                }
+            }
+        }
+
+        return result;
     }
 
 }

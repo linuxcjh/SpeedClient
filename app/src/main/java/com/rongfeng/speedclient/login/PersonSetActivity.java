@@ -22,7 +22,6 @@ import com.rongfeng.speedclient.common.UpLoadPicturePresenter;
 import com.rongfeng.speedclient.common.utils.AppConfig;
 import com.rongfeng.speedclient.common.utils.AppTools;
 import com.rongfeng.speedclient.entity.BaseDataModel;
-import com.rongfeng.speedclient.home.MainTableActivity;
 import com.rongfeng.speedclient.permisson.PermissionsActivity;
 import com.rongfeng.speedclient.permisson.PermissionsChecker;
 
@@ -49,6 +48,7 @@ public class PersonSetActivity extends BaseActivity implements IUpLoadPictureAct
     Button confirmBt;
     @Bind(R.id.title_tv)
     TextView titleTv;
+    String cmPath;
 
     private UpLoadPicturePresenter upLoadPicturePresenter;
 
@@ -97,7 +97,11 @@ public class PersonSetActivity extends BaseActivity implements IUpLoadPictureAct
     @Override
     public void obtainData(Object data, String methodIndex, int status) {
         if (status == 1) {
-            startActivity(new Intent(this, MainTableActivity.class));
+            if (!TextUtils.isEmpty(cmPath)) {
+                sendBroadcast(new Intent(Constant.CHANGE_PICTURE_FLAG).putExtra("path",cmPath));
+            }
+            AppTools.getToast("修改成功");
+//            startActivity(new Intent(this, MainTableActivity.class));
             finish();
         }
 
@@ -163,15 +167,15 @@ public class PersonSetActivity extends BaseActivity implements IUpLoadPictureAct
             switch (requestCode) {
 
                 case Constant.SELECT_PICTURE: //图片
-                    String imagePath = AppTools.getAbsolutePath(this, data.getData());
-                    if (!TextUtils.isEmpty(imagePath)) {
+                    cmPath = AppTools.getAbsolutePath(this, data.getData());
+                    if (!TextUtils.isEmpty(cmPath)) {
                         upLoadPicturePresenter.paths.clear();
-                        upLoadPicturePresenter.paths.add(imagePath);
-                        AppTools.setImageViewPicture(this, imagePath, avatarIv);
+                        upLoadPicturePresenter.paths.add(cmPath);
+                        AppTools.setImageViewPicture(this, cmPath, avatarIv);
                     }
                     break;
                 case Constant.CAMERA_REQUEST_CODE: //拍照
-                    String cmPath = AppConfig.getStringConfig("cameraPath", "");
+                    cmPath = AppConfig.getStringConfig("cameraPath", "");
                     if (!TextUtils.isEmpty(cmPath)) {
                         upLoadPicturePresenter.paths.clear();
                         upLoadPicturePresenter.paths.add(cmPath);

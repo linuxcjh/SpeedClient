@@ -109,33 +109,36 @@ public class DynamicFragment extends BaseFragment implements ICommonPaginationAc
     @Override
     public void obtainData(Object data, String methodIndex, int status) {
 
-        if (data != null) {
-            switch (methodIndex) {
-                case XxbService.SEARCHHOMEPAGEDYNAMIC:
+
+        switch (methodIndex) {
+            case XxbService.SEARCHHOMEPAGEDYNAMIC:
+                if (data != null) {
                     if (!BasePresenter.gson.toJson((List<DynamicModel>) data).equals(BasePresenter.gson.toJson(historyData))) {
                         historyData.clear();
                         historyData.addAll(((List<DynamicModel>) data));
                         mAdapter.setData((List<DynamicModel>) data);
                     }
+                }
 
-                    break;
-                case XxbService.INSERTRELATEDPOSITION:
-                    if (status == 1) {
-                        AppTools.getToast("位置记录成功");
-                        onRefresh();
-                    }
-                    break;
-                case XxbService.SEARCHPUSHNOTIFICATIONSCOUNT:
-
+                break;
+            case XxbService.INSERTRELATEDPOSITION:
+                if (status == 1) {
+                    AppTools.getToast("位置记录成功");
+                    onRefresh();
+                }
+                break;
+            case XxbService.SEARCHPUSHNOTIFICATIONSCOUNT:
+                if (data != null) {
                     DynamicModel m = (DynamicModel) data;
                     if (!m.getPushNotificationsCount().equals("0")) {
                         noticeTv.setText(m.getPushNotificationsCount());
                     } else {
                         noticeTv.setText("");
                     }
-                    break;
-            }
+                }
+                break;
         }
+
     }
 
     @Override

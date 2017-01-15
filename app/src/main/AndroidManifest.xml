@@ -284,7 +284,8 @@
 
         <activity android:name=".login.PersonSetActivity" />
         <activity android:name=".common.CameraNoMarkActivity" />
-        <activity android:name=".voice.VoiceNoteSearchFromOtherActivity" />
+        <activity android:name=".wave.CameraActivity"/>
+
     </application>
 
 </manifest>

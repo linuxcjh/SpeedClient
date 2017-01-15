@@ -1,6 +1,9 @@
 package com.rongfeng.speedclient.mine;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Process;
 import android.support.annotation.Nullable;
@@ -14,6 +17,7 @@ import android.widget.TextView;
 
 import com.rongfeng.speedclient.R;
 import com.rongfeng.speedclient.common.BaseFragment;
+import com.rongfeng.speedclient.common.Constant;
 import com.rongfeng.speedclient.common.utils.AppConfig;
 import com.rongfeng.speedclient.common.utils.AppTools;
 import com.rongfeng.speedclient.schedule.ScheduleActivity;
@@ -58,6 +62,7 @@ public class MineFragment extends BaseFragment {
     @Bind(R.id.target_layout)
     RelativeLayout targetLayout;
 
+    ChangePictureReceiver receiver = new ChangePictureReceiver();
 
     @Nullable
     @Override
@@ -71,12 +76,17 @@ public class MineFragment extends BaseFragment {
     private void init() {
         AppTools.setImageViewPicture(getActivity(), AppTools.getUser().getUserImageUrl(), contactAvatarIv);
         mineFirstName.setText(AppTools.getUser().getUserName());
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(Constant.CHANGE_PICTURE_FLAG);
+        getActivity().registerReceiver(receiver, filter);
+
     }
 
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        getActivity().unregisterReceiver(receiver);
         ButterKnife.unbind(this);
     }
 
@@ -160,5 +170,20 @@ public class MineFragment extends BaseFragment {
             System.exit(0);
         }
 
+    }
+
+
+    public class ChangePictureReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+            if (intent.getAction().equals(Constant.CHANGE_PICTURE_FLAG)) {
+
+                String path = intent.getStringExtra("path");
+                AppTools.setImageViewPicture(getActivity(), path, contactAvatarIv);
+
+            }
+        }
     }
 }
