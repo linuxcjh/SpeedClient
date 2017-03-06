@@ -25,7 +25,6 @@ import com.rongfeng.speedclient.common.utils.DateUtil;
 import com.rongfeng.speedclient.components.ClientSalesPerView;
 import com.rongfeng.speedclient.components.ClientSalesProgressTextSurface;
 import com.rongfeng.speedclient.manage.model.ReceivedManageModel;
-import com.rongfeng.speedclient.wave.CameraActivity;
 
 import java.text.DecimalFormat;
 import java.util.Date;
@@ -310,9 +309,9 @@ public class ManageFragment extends BaseFragment implements SwipeRefreshLayout.O
                         .putExtra("endDate", transDataModel.getEndDate()));
                 break;
             case R.id.sales_progress_check_layout:
-//                startActivity(new Intent(getActivity(), ManageSalesProgressDetailActivity.class));
+                startActivity(new Intent(getActivity(), ManageSalesProgressDetailActivity.class));
 
-                startActivity(new Intent(getActivity(), CameraActivity.class));
+//                startActivity(new Intent(getActivity(), CameraActivity.class));//自定义相机
 
                 break;
         }

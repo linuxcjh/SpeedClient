@@ -35,7 +35,7 @@ public class ClientPersonaBusinessAdapter extends QuickAdapter<AddBusinessTransM
 
         switch (item.getBusinessStageName()) {
 
-            case "意向":
+            case "意向"://TODO
                 setReset(helper);
                 ((TextView) helper.getView(R.id.stage_one_tv)).setTextSize(TypedValue.COMPLEX_UNIT_SP, 13);
                 helper.setTextColor(R.id.stage_one_tv, ContextCompat.getColor(context, R.color.colorBlue));
