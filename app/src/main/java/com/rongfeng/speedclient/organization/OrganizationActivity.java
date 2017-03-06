@@ -67,6 +67,7 @@ public class OrganizationActivity extends BaseActivity implements BackHandledInt
 
     private RefreshBroadCastReceiver refreshBroadCastReceiver;
 
+
 //    String SMSContent = "您的好友陈建化邀请您加入【语音快脑】\n用户名：2342342343  密码：123456 。\n快去体验吧，手机App下载地址：http://www.3swin.com/download";
 
     @Override
